@@ -22,6 +22,8 @@ desktop.ini
 *.elf
 *.bin
 *.map
+*.bip
+
 
 # Ignorar carpetas comunes de backup
 __pycache__/
