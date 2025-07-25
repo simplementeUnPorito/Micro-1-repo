@@ -1,13 +1,29 @@
-# Ignorar archivos generados por PSoC Creator
+# Ignorar archivos de sistema / temporales
+*.blend1
+*.zip
+*.log
+Thumbs.db
+desktop.ini
+~$*
+
+# Ignorar archivos de PSoC Creator
 *.rpt
 *.cycdx
 *.cywrk
 *.cydsn/Generated_Source/
 *.cydsn/codegentemp/
 *.cydsn/backup/
-# Ignorar temporales de OneDrive y Windows
-*.blend1
-*.zip
-Thumbs.db
-desktop.ini
-~$*
+
+# Ignorar archivos de compilación y binarios
+*.exe
+*.out
+*.hex
+*.obj
+*.elf
+*.bin
+*.map
+
+# Ignorar carpetas comunes de backup
+__pycache__/
+*.bak
+*.tmp
