@@ -1,0 +1,44 @@
+ARM GAS  prime_A.s 			page 1
+
+
+   1              	
+   2              	
+   3              	    .syntax unified
+   4              	    .text
+   5              	
+   6              	    .global prime_A
+   7              	    .func prime_A, prime_A
+   8              	    .thumb_func
+   9              	prime_A:
+  10 0000 0128     	    cmp r0,#1 //es N igual o menor a 1?
+  11 0002 16D9     	    bls prime_A_not
+  12 0004 0228     	    cmp r0,#2 //es N igual a 2?
+  13 0006 11D0     	    beq prime_A_yes
+  14              	    //ands r3,r0,#1 //es N par? 
+  15 0008 10F0010F 	    tst r0,#1 //TST hacia lo mismo hace un and sin guardar
+  16 000c 11D0     	    beq prime_A_not
+  17              	    
+  18 000e 0146     	    mov r1,r0
+  19 0010 4FEA5101 	    lsr r1,#1 //r1 = N/2 = limit
+  20 0014 4FF00302 	    mov r2,#3 //i = 3
+  21              	    prime_A_loop:
+  22              	        
+  23              	    
+  24 0018 B0FBF2F3 	        udiv r3,r0,r2 //r3=N/i
+  25 001c A3FB023C 	        umull r3,r12,r3,r2 //r3=r3*r2 = (N/i)*i = N, descartamos R12
+  26 0020 9842     	        cmp r0,r3 //Resto = r0-r3
+  27 0022 06D0     	        beq prime_A_not //si el resto es 0 es divisible
+  28 0024 02F10202 	        add r2,#2 
+  29              	        
+  30 0028 8A42     	        cmp r2, r1
+  31 002a F5D9     	        bls prime_A_loop //aun no llegamos a limit
+  32              	        /*si no, terminamos el loop sin encontrar
+  33              	        ningun multiplo, por lo qu es primo*/
+  34              	    prime_A_yes:
+  35 002c 4FF00100 	        mov r0,#1
+  36 0030 01E0     	        b prime_A_fin
+  37              	    prime_A_not:
+  38 0032 4FF00000 	        mov r0,#0
+  39              	    prime_A_fin:
+  40 0036 7047     	        BX lr
+  41              	 

@@ -1,0 +1,2819 @@
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"rgb_lcd.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	_displayfunction,1,1
+  20              		.comm	_displaycontrol,1,1
+  21              		.comm	_displaymode,1,1
+  22              		.comm	_numlines,1,1
+  23              		.comm	_currline,1,1
+  24              		.comm	rgb_chip_addr,1,1
+  25              		.section	.text.LCD_begin,"ax",%progbits
+  26              		.align	2
+  27              		.global	LCD_begin
+  28              		.thumb
+  29              		.thumb_func
+  30              		.type	LCD_begin, %function
+  31              	LCD_begin:
+  32              	.LFB63:
+  33              		.file 1 "rgb_lcd.c"
+   1:rgb_lcd.c     **** #include "rgb_lcd.h"
+   2:rgb_lcd.c     **** #include "project.h"
+   3:rgb_lcd.c     **** 
+   4:rgb_lcd.c     **** uint8_t _displayfunction;
+   5:rgb_lcd.c     **** uint8_t _displaycontrol;
+   6:rgb_lcd.c     **** uint8_t _displaymode;
+   7:rgb_lcd.c     **** uint8_t _numlines;
+   8:rgb_lcd.c     **** uint8_t _currline;
+   9:rgb_lcd.c     **** 
+  10:rgb_lcd.c     **** uint8_t rgb_chip_addr; // Declaración global de rgb_chip_addr
+  11:rgb_lcd.c     **** 
+  12:rgb_lcd.c     **** // Inicialización del LCD
+  13:rgb_lcd.c     **** void LCD_begin(uint8_t cols, uint8_t rows, uint8_t charsize) {
+  34              		.loc 1 13 0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 8
+  37              		@ frame_needed = 1, uses_anonymous_args = 0
+  38 0000 80B5     		push	{r7, lr}
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 7, -8
+  41              		.cfi_offset 14, -4
+  42 0002 82B0     		sub	sp, sp, #8
+  43              		.cfi_def_cfa_offset 16
+  44 0004 00AF     		add	r7, sp, #0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 2
+
+
+  45              		.cfi_def_cfa_register 7
+  46 0006 0346     		mov	r3, r0
+  47 0008 FB71     		strb	r3, [r7, #7]
+  48 000a 0B46     		mov	r3, r1
+  49 000c BB71     		strb	r3, [r7, #6]
+  50 000e 1346     		mov	r3, r2
+  51 0010 7B71     		strb	r3, [r7, #5]
+  14:rgb_lcd.c     ****     if (rows > 1) {
+  52              		.loc 1 14 0
+  53 0012 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+  54 0014 012B     		cmp	r3, #1
+  55 0016 06D9     		bls	.L2
+  15:rgb_lcd.c     ****         _displayfunction |= LCD_2LINE;
+  56              		.loc 1 15 0
+  57 0018 284B     		ldr	r3, .L3
+  58 001a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  59 001c 43F00803 		orr	r3, r3, #8
+  60 0020 DAB2     		uxtb	r2, r3
+  61 0022 264B     		ldr	r3, .L3
+  62 0024 1A70     		strb	r2, [r3]
+  63              	.L2:
+  16:rgb_lcd.c     ****     }
+  17:rgb_lcd.c     ****     _numlines = rows;
+  64              		.loc 1 17 0
+  65 0026 264A     		ldr	r2, .L3+4
+  66 0028 BB79     		ldrb	r3, [r7, #6]
+  67 002a 1370     		strb	r3, [r2]
+  18:rgb_lcd.c     ****     _currline = 0;
+  68              		.loc 1 18 0
+  69 002c 254B     		ldr	r3, .L3+8
+  70 002e 0022     		movs	r2, #0
+  71 0030 1A70     		strb	r2, [r3]
+  19:rgb_lcd.c     **** 
+  20:rgb_lcd.c     ****     I2C_LCD_Start();
+  72              		.loc 1 20 0
+  73 0032 FFF7FEFF 		bl	I2C_LCD_Start
+  21:rgb_lcd.c     **** 
+  22:rgb_lcd.c     ****     CyDelay(50);
+  74              		.loc 1 22 0
+  75 0036 3220     		movs	r0, #50
+  76 0038 FFF7FEFF 		bl	CyDelay
+  23:rgb_lcd.c     **** 
+  24:rgb_lcd.c     ****     LCD_command(LCD_FUNCTIONSET | _displayfunction);
+  77              		.loc 1 24 0
+  78 003c 1F4B     		ldr	r3, .L3
+  79 003e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  80 0040 43F02003 		orr	r3, r3, #32
+  81 0044 DBB2     		uxtb	r3, r3
+  82 0046 1846     		mov	r0, r3
+  83 0048 FFF7FEFF 		bl	LCD_command
+  25:rgb_lcd.c     ****     CyDelay(5);
+  84              		.loc 1 25 0
+  85 004c 0520     		movs	r0, #5
+  86 004e FFF7FEFF 		bl	CyDelay
+  26:rgb_lcd.c     ****     LCD_command(LCD_FUNCTIONSET | _displayfunction);
+  87              		.loc 1 26 0
+  88 0052 1A4B     		ldr	r3, .L3
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 3
+
+
+  89 0054 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  90 0056 43F02003 		orr	r3, r3, #32
+  91 005a DBB2     		uxtb	r3, r3
+  92 005c 1846     		mov	r0, r3
+  93 005e FFF7FEFF 		bl	LCD_command
+  27:rgb_lcd.c     ****     CyDelay(1);
+  94              		.loc 1 27 0
+  95 0062 0120     		movs	r0, #1
+  96 0064 FFF7FEFF 		bl	CyDelay
+  28:rgb_lcd.c     ****     LCD_command(LCD_FUNCTIONSET | _displayfunction);
+  97              		.loc 1 28 0
+  98 0068 144B     		ldr	r3, .L3
+  99 006a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 100 006c 43F02003 		orr	r3, r3, #32
+ 101 0070 DBB2     		uxtb	r3, r3
+ 102 0072 1846     		mov	r0, r3
+ 103 0074 FFF7FEFF 		bl	LCD_command
+  29:rgb_lcd.c     **** 
+  30:rgb_lcd.c     ****     _displaycontrol = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
+ 104              		.loc 1 30 0
+ 105 0078 134B     		ldr	r3, .L3+12
+ 106 007a 0422     		movs	r2, #4
+ 107 007c 1A70     		strb	r2, [r3]
+  31:rgb_lcd.c     ****     LCD_display();
+ 108              		.loc 1 31 0
+ 109 007e FFF7FEFF 		bl	LCD_display
+  32:rgb_lcd.c     **** 
+  33:rgb_lcd.c     ****     LCD_clear();
+ 110              		.loc 1 33 0
+ 111 0082 FFF7FEFF 		bl	LCD_clear
+  34:rgb_lcd.c     ****     _displaymode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
+ 112              		.loc 1 34 0
+ 113 0086 114B     		ldr	r3, .L3+16
+ 114 0088 0222     		movs	r2, #2
+ 115 008a 1A70     		strb	r2, [r3]
+  35:rgb_lcd.c     ****     LCD_command(LCD_ENTRYMODESET | _displaymode);
+ 116              		.loc 1 35 0
+ 117 008c 0F4B     		ldr	r3, .L3+16
+ 118 008e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 119 0090 43F00403 		orr	r3, r3, #4
+ 120 0094 DBB2     		uxtb	r3, r3
+ 121 0096 1846     		mov	r0, r3
+ 122 0098 FFF7FEFF 		bl	LCD_command
+  36:rgb_lcd.c     **** 
+  37:rgb_lcd.c     ****     LCD_setReg(0x00, 0x00);
+ 123              		.loc 1 37 0
+ 124 009c 0021     		movs	r1, #0
+ 125 009e 0020     		movs	r0, #0
+ 126 00a0 FFF7FEFF 		bl	LCD_setReg
+  38:rgb_lcd.c     ****     LCD_setReg(0x01, 0x00);
+ 127              		.loc 1 38 0
+ 128 00a4 0021     		movs	r1, #0
+ 129 00a6 0120     		movs	r0, #1
+ 130 00a8 FFF7FEFF 		bl	LCD_setReg
+  39:rgb_lcd.c     ****     LCD_setReg(0x08, 0xAA);
+ 131              		.loc 1 39 0
+ 132 00ac AA21     		movs	r1, #170
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 4
+
+
+ 133 00ae 0820     		movs	r0, #8
+ 134 00b0 FFF7FEFF 		bl	LCD_setReg
+  40:rgb_lcd.c     **** }
+ 135              		.loc 1 40 0
+ 136 00b4 00BF     		nop
+ 137 00b6 0837     		adds	r7, r7, #8
+ 138              		.cfi_def_cfa_offset 8
+ 139 00b8 BD46     		mov	sp, r7
+ 140              		.cfi_def_cfa_register 13
+ 141              		@ sp needed
+ 142 00ba 80BD     		pop	{r7, pc}
+ 143              	.L4:
+ 144              		.align	2
+ 145              	.L3:
+ 146 00bc 00000000 		.word	_displayfunction
+ 147 00c0 00000000 		.word	_numlines
+ 148 00c4 00000000 		.word	_currline
+ 149 00c8 00000000 		.word	_displaycontrol
+ 150 00cc 00000000 		.word	_displaymode
+ 151              		.cfi_endproc
+ 152              	.LFE63:
+ 153              		.size	LCD_begin, .-LCD_begin
+ 154              		.section	.text.LCD_command,"ax",%progbits
+ 155              		.align	2
+ 156              		.global	LCD_command
+ 157              		.thumb
+ 158              		.thumb_func
+ 159              		.type	LCD_command, %function
+ 160              	LCD_command:
+ 161              	.LFB64:
+  41:rgb_lcd.c     **** 
+  42:rgb_lcd.c     **** // Enviar comando al LCD
+  43:rgb_lcd.c     **** void LCD_command(uint8_t value) {
+ 162              		.loc 1 43 0
+ 163              		.cfi_startproc
+ 164              		@ args = 0, pretend = 0, frame = 16
+ 165              		@ frame_needed = 1, uses_anonymous_args = 0
+ 166 0000 80B5     		push	{r7, lr}
+ 167              		.cfi_def_cfa_offset 8
+ 168              		.cfi_offset 7, -8
+ 169              		.cfi_offset 14, -4
+ 170 0002 84B0     		sub	sp, sp, #16
+ 171              		.cfi_def_cfa_offset 24
+ 172 0004 00AF     		add	r7, sp, #0
+ 173              		.cfi_def_cfa_register 7
+ 174 0006 0346     		mov	r3, r0
+ 175 0008 FB71     		strb	r3, [r7, #7]
+  44:rgb_lcd.c     ****     uint8_t data[2] = {0x80, value};
+ 176              		.loc 1 44 0
+ 177 000a 8023     		movs	r3, #128
+ 178 000c 3B73     		strb	r3, [r7, #12]
+ 179 000e FB79     		ldrb	r3, [r7, #7]
+ 180 0010 7B73     		strb	r3, [r7, #13]
+  45:rgb_lcd.c     ****     i2c_send_byteS(data, 2);
+ 181              		.loc 1 45 0
+ 182 0012 07F10C03 		add	r3, r7, #12
+ 183 0016 0221     		movs	r1, #2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 5
+
+
+ 184 0018 1846     		mov	r0, r3
+ 185 001a FFF7FEFF 		bl	i2c_send_byteS
+  46:rgb_lcd.c     **** }
+ 186              		.loc 1 46 0
+ 187 001e 00BF     		nop
+ 188 0020 1037     		adds	r7, r7, #16
+ 189              		.cfi_def_cfa_offset 8
+ 190 0022 BD46     		mov	sp, r7
+ 191              		.cfi_def_cfa_register 13
+ 192              		@ sp needed
+ 193 0024 80BD     		pop	{r7, pc}
+ 194              		.cfi_endproc
+ 195              	.LFE64:
+ 196              		.size	LCD_command, .-LCD_command
+ 197 0026 00BF     		.section	.text.LCD_write,"ax",%progbits
+ 198              		.align	2
+ 199              		.global	LCD_write
+ 200              		.thumb
+ 201              		.thumb_func
+ 202              		.type	LCD_write, %function
+ 203              	LCD_write:
+ 204              	.LFB65:
+  47:rgb_lcd.c     **** 
+  48:rgb_lcd.c     **** // Escribir un valor en el LCD
+  49:rgb_lcd.c     **** void LCD_write(uint8_t value) {
+ 205              		.loc 1 49 0
+ 206              		.cfi_startproc
+ 207              		@ args = 0, pretend = 0, frame = 16
+ 208              		@ frame_needed = 1, uses_anonymous_args = 0
+ 209 0000 80B5     		push	{r7, lr}
+ 210              		.cfi_def_cfa_offset 8
+ 211              		.cfi_offset 7, -8
+ 212              		.cfi_offset 14, -4
+ 213 0002 84B0     		sub	sp, sp, #16
+ 214              		.cfi_def_cfa_offset 24
+ 215 0004 00AF     		add	r7, sp, #0
+ 216              		.cfi_def_cfa_register 7
+ 217 0006 0346     		mov	r3, r0
+ 218 0008 FB71     		strb	r3, [r7, #7]
+  50:rgb_lcd.c     ****     uint8_t data[2] = {0x40, value};
+ 219              		.loc 1 50 0
+ 220 000a 4023     		movs	r3, #64
+ 221 000c 3B73     		strb	r3, [r7, #12]
+ 222 000e FB79     		ldrb	r3, [r7, #7]
+ 223 0010 7B73     		strb	r3, [r7, #13]
+  51:rgb_lcd.c     ****     i2c_send_byteS(data, 2);
+ 224              		.loc 1 51 0
+ 225 0012 07F10C03 		add	r3, r7, #12
+ 226 0016 0221     		movs	r1, #2
+ 227 0018 1846     		mov	r0, r3
+ 228 001a FFF7FEFF 		bl	i2c_send_byteS
+  52:rgb_lcd.c     **** }
+ 229              		.loc 1 52 0
+ 230 001e 00BF     		nop
+ 231 0020 1037     		adds	r7, r7, #16
+ 232              		.cfi_def_cfa_offset 8
+ 233 0022 BD46     		mov	sp, r7
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 6
+
+
+ 234              		.cfi_def_cfa_register 13
+ 235              		@ sp needed
+ 236 0024 80BD     		pop	{r7, pc}
+ 237              		.cfi_endproc
+ 238              	.LFE65:
+ 239              		.size	LCD_write, .-LCD_write
+ 240 0026 00BF     		.section	.text.LCD_clear,"ax",%progbits
+ 241              		.align	2
+ 242              		.global	LCD_clear
+ 243              		.thumb
+ 244              		.thumb_func
+ 245              		.type	LCD_clear, %function
+ 246              	LCD_clear:
+ 247              	.LFB66:
+  53:rgb_lcd.c     **** 
+  54:rgb_lcd.c     **** // Limpiar la pantalla del LCD
+  55:rgb_lcd.c     **** void LCD_clear() {
+ 248              		.loc 1 55 0
+ 249              		.cfi_startproc
+ 250              		@ args = 0, pretend = 0, frame = 0
+ 251              		@ frame_needed = 1, uses_anonymous_args = 0
+ 252 0000 80B5     		push	{r7, lr}
+ 253              		.cfi_def_cfa_offset 8
+ 254              		.cfi_offset 7, -8
+ 255              		.cfi_offset 14, -4
+ 256 0002 00AF     		add	r7, sp, #0
+ 257              		.cfi_def_cfa_register 7
+  56:rgb_lcd.c     ****     LCD_command(LCD_CLEARDISPLAY);
+ 258              		.loc 1 56 0
+ 259 0004 0120     		movs	r0, #1
+ 260 0006 FFF7FEFF 		bl	LCD_command
+  57:rgb_lcd.c     ****     CyDelay(2);
+ 261              		.loc 1 57 0
+ 262 000a 0220     		movs	r0, #2
+ 263 000c FFF7FEFF 		bl	CyDelay
+  58:rgb_lcd.c     **** }
+ 264              		.loc 1 58 0
+ 265 0010 00BF     		nop
+ 266 0012 80BD     		pop	{r7, pc}
+ 267              		.cfi_endproc
+ 268              	.LFE66:
+ 269              		.size	LCD_clear, .-LCD_clear
+ 270              		.section	.text.LCD_setCursor,"ax",%progbits
+ 271              		.align	2
+ 272              		.global	LCD_setCursor
+ 273              		.thumb
+ 274              		.thumb_func
+ 275              		.type	LCD_setCursor, %function
+ 276              	LCD_setCursor:
+ 277              	.LFB67:
+  59:rgb_lcd.c     **** 
+  60:rgb_lcd.c     **** // Configurar el cursor
+  61:rgb_lcd.c     **** void LCD_setCursor(uint8_t col, uint8_t row) {
+ 278              		.loc 1 61 0
+ 279              		.cfi_startproc
+ 280              		@ args = 0, pretend = 0, frame = 16
+ 281              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 7
+
+
+ 282 0000 80B5     		push	{r7, lr}
+ 283              		.cfi_def_cfa_offset 8
+ 284              		.cfi_offset 7, -8
+ 285              		.cfi_offset 14, -4
+ 286 0002 84B0     		sub	sp, sp, #16
+ 287              		.cfi_def_cfa_offset 24
+ 288 0004 00AF     		add	r7, sp, #0
+ 289              		.cfi_def_cfa_register 7
+ 290 0006 0346     		mov	r3, r0
+ 291 0008 0A46     		mov	r2, r1
+ 292 000a FB71     		strb	r3, [r7, #7]
+ 293 000c 1346     		mov	r3, r2
+ 294 000e BB71     		strb	r3, [r7, #6]
+  62:rgb_lcd.c     ****     col = (row == 0 ? col | 0x80 : col | 0xc0);
+ 295              		.loc 1 62 0
+ 296 0010 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 297 0012 002B     		cmp	r3, #0
+ 298 0014 04D1     		bne	.L9
+ 299              		.loc 1 62 0 is_stmt 0 discriminator 1
+ 300 0016 FB79     		ldrb	r3, [r7, #7]
+ 301 0018 63F07F03 		orn	r3, r3, #127
+ 302 001c DBB2     		uxtb	r3, r3
+ 303 001e 03E0     		b	.L10
+ 304              	.L9:
+ 305              		.loc 1 62 0 discriminator 2
+ 306 0020 FB79     		ldrb	r3, [r7, #7]
+ 307 0022 63F03F03 		orn	r3, r3, #63
+ 308 0026 DBB2     		uxtb	r3, r3
+ 309              	.L10:
+ 310              		.loc 1 62 0 discriminator 4
+ 311 0028 FB71     		strb	r3, [r7, #7]
+  63:rgb_lcd.c     ****     uint8_t data[2] = {0x80, col};
+ 312              		.loc 1 63 0 is_stmt 1 discriminator 4
+ 313 002a 8023     		movs	r3, #128
+ 314 002c 3B73     		strb	r3, [r7, #12]
+ 315 002e FB79     		ldrb	r3, [r7, #7]
+ 316 0030 7B73     		strb	r3, [r7, #13]
+  64:rgb_lcd.c     ****     i2c_send_byteS(data, 2);
+ 317              		.loc 1 64 0 discriminator 4
+ 318 0032 07F10C03 		add	r3, r7, #12
+ 319 0036 0221     		movs	r1, #2
+ 320 0038 1846     		mov	r0, r3
+ 321 003a FFF7FEFF 		bl	i2c_send_byteS
+  65:rgb_lcd.c     **** }
+ 322              		.loc 1 65 0 discriminator 4
+ 323 003e 00BF     		nop
+ 324 0040 1037     		adds	r7, r7, #16
+ 325              		.cfi_def_cfa_offset 8
+ 326 0042 BD46     		mov	sp, r7
+ 327              		.cfi_def_cfa_register 13
+ 328              		@ sp needed
+ 329 0044 80BD     		pop	{r7, pc}
+ 330              		.cfi_endproc
+ 331              	.LFE67:
+ 332              		.size	LCD_setCursor, .-LCD_setCursor
+ 333 0046 00BF     		.section	.text.LCD_display,"ax",%progbits
+ 334              		.align	2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 8
+
+
+ 335              		.global	LCD_display
+ 336              		.thumb
+ 337              		.thumb_func
+ 338              		.type	LCD_display, %function
+ 339              	LCD_display:
+ 340              	.LFB68:
+  66:rgb_lcd.c     **** 
+  67:rgb_lcd.c     **** // Activar el display
+  68:rgb_lcd.c     **** void LCD_display() {
+ 341              		.loc 1 68 0
+ 342              		.cfi_startproc
+ 343              		@ args = 0, pretend = 0, frame = 0
+ 344              		@ frame_needed = 1, uses_anonymous_args = 0
+ 345 0000 80B5     		push	{r7, lr}
+ 346              		.cfi_def_cfa_offset 8
+ 347              		.cfi_offset 7, -8
+ 348              		.cfi_offset 14, -4
+ 349 0002 00AF     		add	r7, sp, #0
+ 350              		.cfi_def_cfa_register 7
+  69:rgb_lcd.c     ****     _displaycontrol |= LCD_DISPLAYON;
+ 351              		.loc 1 69 0
+ 352 0004 084B     		ldr	r3, .L12
+ 353 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 354 0008 43F00403 		orr	r3, r3, #4
+ 355 000c DAB2     		uxtb	r2, r3
+ 356 000e 064B     		ldr	r3, .L12
+ 357 0010 1A70     		strb	r2, [r3]
+  70:rgb_lcd.c     ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ 358              		.loc 1 70 0
+ 359 0012 054B     		ldr	r3, .L12
+ 360 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 361 0016 43F00803 		orr	r3, r3, #8
+ 362 001a DBB2     		uxtb	r3, r3
+ 363 001c 1846     		mov	r0, r3
+ 364 001e FFF7FEFF 		bl	LCD_command
+  71:rgb_lcd.c     **** }
+ 365              		.loc 1 71 0
+ 366 0022 00BF     		nop
+ 367 0024 80BD     		pop	{r7, pc}
+ 368              	.L13:
+ 369 0026 00BF     		.align	2
+ 370              	.L12:
+ 371 0028 00000000 		.word	_displaycontrol
+ 372              		.cfi_endproc
+ 373              	.LFE68:
+ 374              		.size	LCD_display, .-LCD_display
+ 375              		.section	.text.LCD_noDisplay,"ax",%progbits
+ 376              		.align	2
+ 377              		.global	LCD_noDisplay
+ 378              		.thumb
+ 379              		.thumb_func
+ 380              		.type	LCD_noDisplay, %function
+ 381              	LCD_noDisplay:
+ 382              	.LFB69:
+  72:rgb_lcd.c     **** 
+  73:rgb_lcd.c     **** // Apagar el display
+  74:rgb_lcd.c     **** void LCD_noDisplay() {
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 9
+
+
+ 383              		.loc 1 74 0
+ 384              		.cfi_startproc
+ 385              		@ args = 0, pretend = 0, frame = 0
+ 386              		@ frame_needed = 1, uses_anonymous_args = 0
+ 387 0000 80B5     		push	{r7, lr}
+ 388              		.cfi_def_cfa_offset 8
+ 389              		.cfi_offset 7, -8
+ 390              		.cfi_offset 14, -4
+ 391 0002 00AF     		add	r7, sp, #0
+ 392              		.cfi_def_cfa_register 7
+  75:rgb_lcd.c     ****     _displaycontrol &= ~LCD_DISPLAYON;
+ 393              		.loc 1 75 0
+ 394 0004 084B     		ldr	r3, .L15
+ 395 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 396 0008 23F00403 		bic	r3, r3, #4
+ 397 000c DAB2     		uxtb	r2, r3
+ 398 000e 064B     		ldr	r3, .L15
+ 399 0010 1A70     		strb	r2, [r3]
+  76:rgb_lcd.c     ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ 400              		.loc 1 76 0
+ 401 0012 054B     		ldr	r3, .L15
+ 402 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 403 0016 43F00803 		orr	r3, r3, #8
+ 404 001a DBB2     		uxtb	r3, r3
+ 405 001c 1846     		mov	r0, r3
+ 406 001e FFF7FEFF 		bl	LCD_command
+  77:rgb_lcd.c     **** }
+ 407              		.loc 1 77 0
+ 408 0022 00BF     		nop
+ 409 0024 80BD     		pop	{r7, pc}
+ 410              	.L16:
+ 411 0026 00BF     		.align	2
+ 412              	.L15:
+ 413 0028 00000000 		.word	_displaycontrol
+ 414              		.cfi_endproc
+ 415              	.LFE69:
+ 416              		.size	LCD_noDisplay, .-LCD_noDisplay
+ 417              		.section	.text.LCD_print,"ax",%progbits
+ 418              		.align	2
+ 419              		.global	LCD_print
+ 420              		.thumb
+ 421              		.thumb_func
+ 422              		.type	LCD_print, %function
+ 423              	LCD_print:
+ 424              	.LFB70:
+  78:rgb_lcd.c     **** 
+  79:rgb_lcd.c     **** // Imprimir texto en el LCD
+  80:rgb_lcd.c     **** void LCD_print(char* data, uint8_t size) {
+ 425              		.loc 1 80 0
+ 426              		.cfi_startproc
+ 427              		@ args = 0, pretend = 0, frame = 16
+ 428              		@ frame_needed = 1, uses_anonymous_args = 0
+ 429 0000 80B5     		push	{r7, lr}
+ 430              		.cfi_def_cfa_offset 8
+ 431              		.cfi_offset 7, -8
+ 432              		.cfi_offset 14, -4
+ 433 0002 84B0     		sub	sp, sp, #16
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 10
+
+
+ 434              		.cfi_def_cfa_offset 24
+ 435 0004 00AF     		add	r7, sp, #0
+ 436              		.cfi_def_cfa_register 7
+ 437 0006 7860     		str	r0, [r7, #4]
+ 438 0008 0B46     		mov	r3, r1
+ 439 000a FB70     		strb	r3, [r7, #3]
+ 440              	.LBB2:
+  81:rgb_lcd.c     ****     for (uint8_t i = 0; i < size; i++) {
+ 441              		.loc 1 81 0
+ 442 000c 0023     		movs	r3, #0
+ 443 000e FB73     		strb	r3, [r7, #15]
+ 444 0010 09E0     		b	.L18
+ 445              	.L19:
+  82:rgb_lcd.c     ****         LCD_write(data[i]);
+ 446              		.loc 1 82 0 discriminator 3
+ 447 0012 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 448 0014 7A68     		ldr	r2, [r7, #4]
+ 449 0016 1344     		add	r3, r3, r2
+ 450 0018 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 451 001a 1846     		mov	r0, r3
+ 452 001c FFF7FEFF 		bl	LCD_write
+  81:rgb_lcd.c     ****     for (uint8_t i = 0; i < size; i++) {
+ 453              		.loc 1 81 0 discriminator 3
+ 454 0020 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 455 0022 0133     		adds	r3, r3, #1
+ 456 0024 FB73     		strb	r3, [r7, #15]
+ 457              	.L18:
+  81:rgb_lcd.c     ****     for (uint8_t i = 0; i < size; i++) {
+ 458              		.loc 1 81 0 is_stmt 0 discriminator 1
+ 459 0026 FA7B     		ldrb	r2, [r7, #15]	@ zero_extendqisi2
+ 460 0028 FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 461 002a 9A42     		cmp	r2, r3
+ 462 002c F1D3     		bcc	.L19
+ 463              	.LBE2:
+  83:rgb_lcd.c     ****     }
+  84:rgb_lcd.c     **** }
+ 464              		.loc 1 84 0 is_stmt 1
+ 465 002e 00BF     		nop
+ 466 0030 1037     		adds	r7, r7, #16
+ 467              		.cfi_def_cfa_offset 8
+ 468 0032 BD46     		mov	sp, r7
+ 469              		.cfi_def_cfa_register 13
+ 470              		@ sp needed
+ 471 0034 80BD     		pop	{r7, pc}
+ 472              		.cfi_endproc
+ 473              	.LFE70:
+ 474              		.size	LCD_print, .-LCD_print
+ 475 0036 00BF     		.section	.text.LCD_setRGB,"ax",%progbits
+ 476              		.align	2
+ 477              		.global	LCD_setRGB
+ 478              		.thumb
+ 479              		.thumb_func
+ 480              		.type	LCD_setRGB, %function
+ 481              	LCD_setRGB:
+ 482              	.LFB71:
+  85:rgb_lcd.c     **** 
+  86:rgb_lcd.c     **** // Controlar el color del backlight RGB
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 11
+
+
+  87:rgb_lcd.c     **** void LCD_setRGB(unsigned char r, unsigned char g, unsigned char b) {
+ 483              		.loc 1 87 0
+ 484              		.cfi_startproc
+ 485              		@ args = 0, pretend = 0, frame = 8
+ 486              		@ frame_needed = 1, uses_anonymous_args = 0
+ 487 0000 80B5     		push	{r7, lr}
+ 488              		.cfi_def_cfa_offset 8
+ 489              		.cfi_offset 7, -8
+ 490              		.cfi_offset 14, -4
+ 491 0002 82B0     		sub	sp, sp, #8
+ 492              		.cfi_def_cfa_offset 16
+ 493 0004 00AF     		add	r7, sp, #0
+ 494              		.cfi_def_cfa_register 7
+ 495 0006 0346     		mov	r3, r0
+ 496 0008 FB71     		strb	r3, [r7, #7]
+ 497 000a 0B46     		mov	r3, r1
+ 498 000c BB71     		strb	r3, [r7, #6]
+ 499 000e 1346     		mov	r3, r2
+ 500 0010 7B71     		strb	r3, [r7, #5]
+  88:rgb_lcd.c     ****     LCD_setReg(REG_RED, r);
+ 501              		.loc 1 88 0
+ 502 0012 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 503 0014 1946     		mov	r1, r3
+ 504 0016 0420     		movs	r0, #4
+ 505 0018 FFF7FEFF 		bl	LCD_setReg
+  89:rgb_lcd.c     ****     LCD_setReg(REG_GREEN, g);
+ 506              		.loc 1 89 0
+ 507 001c BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 508 001e 1946     		mov	r1, r3
+ 509 0020 0320     		movs	r0, #3
+ 510 0022 FFF7FEFF 		bl	LCD_setReg
+  90:rgb_lcd.c     ****     LCD_setReg(REG_BLUE, b);
+ 511              		.loc 1 90 0
+ 512 0026 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
+ 513 0028 1946     		mov	r1, r3
+ 514 002a 0220     		movs	r0, #2
+ 515 002c FFF7FEFF 		bl	LCD_setReg
+  91:rgb_lcd.c     **** }
+ 516              		.loc 1 91 0
+ 517 0030 00BF     		nop
+ 518 0032 0837     		adds	r7, r7, #8
+ 519              		.cfi_def_cfa_offset 8
+ 520 0034 BD46     		mov	sp, r7
+ 521              		.cfi_def_cfa_register 13
+ 522              		@ sp needed
+ 523 0036 80BD     		pop	{r7, pc}
+ 524              		.cfi_endproc
+ 525              	.LFE71:
+ 526              		.size	LCD_setRGB, .-LCD_setRGB
+ 527              		.section	.text.LCD_setReg,"ax",%progbits
+ 528              		.align	2
+ 529              		.global	LCD_setReg
+ 530              		.thumb
+ 531              		.thumb_func
+ 532              		.type	LCD_setReg, %function
+ 533              	LCD_setReg:
+ 534              	.LFB72:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 12
+
+
+  92:rgb_lcd.c     **** 
+  93:rgb_lcd.c     **** // Enviar datos al backlight
+  94:rgb_lcd.c     **** void LCD_setReg(unsigned char addr, unsigned char dta) {
+ 535              		.loc 1 94 0
+ 536              		.cfi_startproc
+ 537              		@ args = 0, pretend = 0, frame = 16
+ 538              		@ frame_needed = 1, uses_anonymous_args = 0
+ 539 0000 80B5     		push	{r7, lr}
+ 540              		.cfi_def_cfa_offset 8
+ 541              		.cfi_offset 7, -8
+ 542              		.cfi_offset 14, -4
+ 543 0002 84B0     		sub	sp, sp, #16
+ 544              		.cfi_def_cfa_offset 24
+ 545 0004 00AF     		add	r7, sp, #0
+ 546              		.cfi_def_cfa_register 7
+ 547 0006 0346     		mov	r3, r0
+ 548 0008 0A46     		mov	r2, r1
+ 549 000a FB71     		strb	r3, [r7, #7]
+ 550 000c 1346     		mov	r3, r2
+ 551 000e BB71     		strb	r3, [r7, #6]
+  95:rgb_lcd.c     ****     uint8_t buffer[2] = {addr, dta};
+ 552              		.loc 1 95 0
+ 553 0010 FB79     		ldrb	r3, [r7, #7]
+ 554 0012 3B73     		strb	r3, [r7, #12]
+ 555 0014 BB79     		ldrb	r3, [r7, #6]
+ 556 0016 7B73     		strb	r3, [r7, #13]
+  96:rgb_lcd.c     ****     I2C_LCD_MasterWriteBuf(I2C_RGB_ADDR >> 1, buffer, 2, I2C_LCD_MODE_COMPLETE_XFER);
+ 557              		.loc 1 96 0
+ 558 0018 07F10C01 		add	r1, r7, #12
+ 559 001c 0023     		movs	r3, #0
+ 560 001e 0222     		movs	r2, #2
+ 561 0020 6220     		movs	r0, #98
+ 562 0022 FFF7FEFF 		bl	I2C_LCD_MasterWriteBuf
+  97:rgb_lcd.c     ****     while (I2C_LCD_MasterStatus() & I2C_LCD_MSTAT_XFER_INP);
+ 563              		.loc 1 97 0
+ 564 0026 00BF     		nop
+ 565              	.L22:
+ 566              		.loc 1 97 0 is_stmt 0 discriminator 1
+ 567 0028 FFF7FEFF 		bl	I2C_LCD_MasterStatus
+ 568 002c 0346     		mov	r3, r0
+ 569 002e 03F00403 		and	r3, r3, #4
+ 570 0032 002B     		cmp	r3, #0
+ 571 0034 F8D1     		bne	.L22
+  98:rgb_lcd.c     **** }
+ 572              		.loc 1 98 0 is_stmt 1
+ 573 0036 00BF     		nop
+ 574 0038 1037     		adds	r7, r7, #16
+ 575              		.cfi_def_cfa_offset 8
+ 576 003a BD46     		mov	sp, r7
+ 577              		.cfi_def_cfa_register 13
+ 578              		@ sp needed
+ 579 003c 80BD     		pop	{r7, pc}
+ 580              		.cfi_endproc
+ 581              	.LFE72:
+ 582              		.size	LCD_setReg, .-LCD_setReg
+ 583 003e 00BF     		.section	.text.i2c_send_byteS,"ax",%progbits
+ 584              		.align	2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 13
+
+
+ 585              		.global	i2c_send_byteS
+ 586              		.thumb
+ 587              		.thumb_func
+ 588              		.type	i2c_send_byteS, %function
+ 589              	i2c_send_byteS:
+ 590              	.LFB73:
+  99:rgb_lcd.c     **** 
+ 100:rgb_lcd.c     **** // Enviar datos a través de I2C
+ 101:rgb_lcd.c     **** void i2c_send_byteS(unsigned char* dta, unsigned char len) {
+ 591              		.loc 1 101 0
+ 592              		.cfi_startproc
+ 593              		@ args = 0, pretend = 0, frame = 8
+ 594              		@ frame_needed = 1, uses_anonymous_args = 0
+ 595 0000 80B5     		push	{r7, lr}
+ 596              		.cfi_def_cfa_offset 8
+ 597              		.cfi_offset 7, -8
+ 598              		.cfi_offset 14, -4
+ 599 0002 82B0     		sub	sp, sp, #8
+ 600              		.cfi_def_cfa_offset 16
+ 601 0004 00AF     		add	r7, sp, #0
+ 602              		.cfi_def_cfa_register 7
+ 603 0006 7860     		str	r0, [r7, #4]
+ 604 0008 0B46     		mov	r3, r1
+ 605 000a FB70     		strb	r3, [r7, #3]
+ 102:rgb_lcd.c     ****     I2C_LCD_MasterWriteBuf(I2C_LCD_ADDR >> 1, dta, len, I2C_LCD_MODE_COMPLETE_XFER);
+ 606              		.loc 1 102 0
+ 607 000c FA78     		ldrb	r2, [r7, #3]	@ zero_extendqisi2
+ 608 000e 0023     		movs	r3, #0
+ 609 0010 7968     		ldr	r1, [r7, #4]
+ 610 0012 3E20     		movs	r0, #62
+ 611 0014 FFF7FEFF 		bl	I2C_LCD_MasterWriteBuf
+ 103:rgb_lcd.c     ****     while (I2C_LCD_MasterStatus() & I2C_LCD_MSTAT_XFER_INP);
+ 612              		.loc 1 103 0
+ 613 0018 00BF     		nop
+ 614              	.L24:
+ 615              		.loc 1 103 0 is_stmt 0 discriminator 1
+ 616 001a FFF7FEFF 		bl	I2C_LCD_MasterStatus
+ 617 001e 0346     		mov	r3, r0
+ 618 0020 03F00403 		and	r3, r3, #4
+ 619 0024 002B     		cmp	r3, #0
+ 620 0026 F8D1     		bne	.L24
+ 104:rgb_lcd.c     **** }
+ 621              		.loc 1 104 0 is_stmt 1
+ 622 0028 00BF     		nop
+ 623 002a 0837     		adds	r7, r7, #8
+ 624              		.cfi_def_cfa_offset 8
+ 625 002c BD46     		mov	sp, r7
+ 626              		.cfi_def_cfa_register 13
+ 627              		@ sp needed
+ 628 002e 80BD     		pop	{r7, pc}
+ 629              		.cfi_endproc
+ 630              	.LFE73:
+ 631              		.size	i2c_send_byteS, .-i2c_send_byteS
+ 632              		.section	.text.LCD_createChar,"ax",%progbits
+ 633              		.align	2
+ 634              		.global	LCD_createChar
+ 635              		.thumb
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 14
+
+
+ 636              		.thumb_func
+ 637              		.type	LCD_createChar, %function
+ 638              	LCD_createChar:
+ 639              	.LFB74:
+ 105:rgb_lcd.c     **** 
+ 106:rgb_lcd.c     **** void LCD_createChar(uint8_t location, uint8_t charmap[]) {
+ 640              		.loc 1 106 0
+ 641              		.cfi_startproc
+ 642              		@ args = 0, pretend = 0, frame = 24
+ 643              		@ frame_needed = 1, uses_anonymous_args = 0
+ 644 0000 80B5     		push	{r7, lr}
+ 645              		.cfi_def_cfa_offset 8
+ 646              		.cfi_offset 7, -8
+ 647              		.cfi_offset 14, -4
+ 648 0002 86B0     		sub	sp, sp, #24
+ 649              		.cfi_def_cfa_offset 32
+ 650 0004 00AF     		add	r7, sp, #0
+ 651              		.cfi_def_cfa_register 7
+ 652 0006 0346     		mov	r3, r0
+ 653 0008 3960     		str	r1, [r7]
+ 654 000a FB71     		strb	r3, [r7, #7]
+ 107:rgb_lcd.c     ****     location &= 0x7; // Solo tenemos 8 ubicaciones 0-7 en CGRAM
+ 655              		.loc 1 107 0
+ 656 000c FB79     		ldrb	r3, [r7, #7]
+ 657 000e 03F00703 		and	r3, r3, #7
+ 658 0012 FB71     		strb	r3, [r7, #7]
+ 108:rgb_lcd.c     ****     LCD_command(LCD_SETCGRAMADDR | (location << 3));
+ 659              		.loc 1 108 0
+ 660 0014 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 661 0016 DB00     		lsls	r3, r3, #3
+ 662 0018 5BB2     		sxtb	r3, r3
+ 663 001a 43F04003 		orr	r3, r3, #64
+ 664 001e 5BB2     		sxtb	r3, r3
+ 665 0020 DBB2     		uxtb	r3, r3
+ 666 0022 1846     		mov	r0, r3
+ 667 0024 FFF7FEFF 		bl	LCD_command
+ 109:rgb_lcd.c     **** 
+ 110:rgb_lcd.c     ****     uint8_t data[9];
+ 111:rgb_lcd.c     ****     data[0] = 0x40;  // Definir la dirección para los datos
+ 668              		.loc 1 111 0
+ 669 0028 4023     		movs	r3, #64
+ 670 002a 3B72     		strb	r3, [r7, #8]
+ 671              	.LBB3:
+ 112:rgb_lcd.c     ****     for (int i = 0; i < 8; i++) {
+ 672              		.loc 1 112 0
+ 673 002c 0023     		movs	r3, #0
+ 674 002e 7B61     		str	r3, [r7, #20]
+ 675 0030 0DE0     		b	.L26
+ 676              	.L27:
+ 113:rgb_lcd.c     ****         data[i + 1] = charmap[i];
+ 677              		.loc 1 113 0 discriminator 3
+ 678 0032 7B69     		ldr	r3, [r7, #20]
+ 679 0034 0133     		adds	r3, r3, #1
+ 680 0036 7A69     		ldr	r2, [r7, #20]
+ 681 0038 3968     		ldr	r1, [r7]
+ 682 003a 0A44     		add	r2, r2, r1
+ 683 003c 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 15
+
+
+ 684 003e 07F11801 		add	r1, r7, #24
+ 685 0042 0B44     		add	r3, r3, r1
+ 686 0044 03F8102C 		strb	r2, [r3, #-16]
+ 112:rgb_lcd.c     ****     for (int i = 0; i < 8; i++) {
+ 687              		.loc 1 112 0 discriminator 3
+ 688 0048 7B69     		ldr	r3, [r7, #20]
+ 689 004a 0133     		adds	r3, r3, #1
+ 690 004c 7B61     		str	r3, [r7, #20]
+ 691              	.L26:
+ 112:rgb_lcd.c     ****     for (int i = 0; i < 8; i++) {
+ 692              		.loc 1 112 0 is_stmt 0 discriminator 1
+ 693 004e 7B69     		ldr	r3, [r7, #20]
+ 694 0050 072B     		cmp	r3, #7
+ 695 0052 EEDD     		ble	.L27
+ 696              	.LBE3:
+ 114:rgb_lcd.c     ****     }
+ 115:rgb_lcd.c     ****     i2c_send_byteS(data, 9);
+ 697              		.loc 1 115 0 is_stmt 1
+ 698 0054 07F10803 		add	r3, r7, #8
+ 699 0058 0921     		movs	r1, #9
+ 700 005a 1846     		mov	r0, r3
+ 701 005c FFF7FEFF 		bl	i2c_send_byteS
+ 116:rgb_lcd.c     **** }
+ 702              		.loc 1 116 0
+ 703 0060 00BF     		nop
+ 704 0062 1837     		adds	r7, r7, #24
+ 705              		.cfi_def_cfa_offset 8
+ 706 0064 BD46     		mov	sp, r7
+ 707              		.cfi_def_cfa_register 13
+ 708              		@ sp needed
+ 709 0066 80BD     		pop	{r7, pc}
+ 710              		.cfi_endproc
+ 711              	.LFE74:
+ 712              		.size	LCD_createChar, .-LCD_createChar
+ 713              		.section	.text.LCD_autoscroll,"ax",%progbits
+ 714              		.align	2
+ 715              		.global	LCD_autoscroll
+ 716              		.thumb
+ 717              		.thumb_func
+ 718              		.type	LCD_autoscroll, %function
+ 719              	LCD_autoscroll:
+ 720              	.LFB75:
+ 117:rgb_lcd.c     **** 
+ 118:rgb_lcd.c     **** // Habilitar el autodesplazamiento (justificar a la derecha)
+ 119:rgb_lcd.c     **** void LCD_autoscroll(void) {
+ 721              		.loc 1 119 0
+ 722              		.cfi_startproc
+ 723              		@ args = 0, pretend = 0, frame = 0
+ 724              		@ frame_needed = 1, uses_anonymous_args = 0
+ 725 0000 80B5     		push	{r7, lr}
+ 726              		.cfi_def_cfa_offset 8
+ 727              		.cfi_offset 7, -8
+ 728              		.cfi_offset 14, -4
+ 729 0002 00AF     		add	r7, sp, #0
+ 730              		.cfi_def_cfa_register 7
+ 120:rgb_lcd.c     ****     _displaymode |= LCD_ENTRYSHIFTINCREMENT;
+ 731              		.loc 1 120 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 16
+
+
+ 732 0004 084B     		ldr	r3, .L29
+ 733 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 734 0008 43F00103 		orr	r3, r3, #1
+ 735 000c DAB2     		uxtb	r2, r3
+ 736 000e 064B     		ldr	r3, .L29
+ 737 0010 1A70     		strb	r2, [r3]
+ 121:rgb_lcd.c     ****     LCD_command(LCD_ENTRYMODESET | _displaymode);
+ 738              		.loc 1 121 0
+ 739 0012 054B     		ldr	r3, .L29
+ 740 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 741 0016 43F00403 		orr	r3, r3, #4
+ 742 001a DBB2     		uxtb	r3, r3
+ 743 001c 1846     		mov	r0, r3
+ 744 001e FFF7FEFF 		bl	LCD_command
+ 122:rgb_lcd.c     **** }
+ 745              		.loc 1 122 0
+ 746 0022 00BF     		nop
+ 747 0024 80BD     		pop	{r7, pc}
+ 748              	.L30:
+ 749 0026 00BF     		.align	2
+ 750              	.L29:
+ 751 0028 00000000 		.word	_displaymode
+ 752              		.cfi_endproc
+ 753              	.LFE75:
+ 754              		.size	LCD_autoscroll, .-LCD_autoscroll
+ 755              		.section	.text.LCD_noAutoscroll,"ax",%progbits
+ 756              		.align	2
+ 757              		.global	LCD_noAutoscroll
+ 758              		.thumb
+ 759              		.thumb_func
+ 760              		.type	LCD_noAutoscroll, %function
+ 761              	LCD_noAutoscroll:
+ 762              	.LFB76:
+ 123:rgb_lcd.c     **** 
+ 124:rgb_lcd.c     **** // Deshabilitar el autodesplazamiento (justificar a la izquierda)
+ 125:rgb_lcd.c     **** void LCD_noAutoscroll(void) {
+ 763              		.loc 1 125 0
+ 764              		.cfi_startproc
+ 765              		@ args = 0, pretend = 0, frame = 0
+ 766              		@ frame_needed = 1, uses_anonymous_args = 0
+ 767 0000 80B5     		push	{r7, lr}
+ 768              		.cfi_def_cfa_offset 8
+ 769              		.cfi_offset 7, -8
+ 770              		.cfi_offset 14, -4
+ 771 0002 00AF     		add	r7, sp, #0
+ 772              		.cfi_def_cfa_register 7
+ 126:rgb_lcd.c     ****     _displaymode &= ~LCD_ENTRYSHIFTINCREMENT;
+ 773              		.loc 1 126 0
+ 774 0004 084B     		ldr	r3, .L32
+ 775 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 776 0008 23F00103 		bic	r3, r3, #1
+ 777 000c DAB2     		uxtb	r2, r3
+ 778 000e 064B     		ldr	r3, .L32
+ 779 0010 1A70     		strb	r2, [r3]
+ 127:rgb_lcd.c     ****     LCD_command(LCD_ENTRYMODESET | _displaymode);
+ 780              		.loc 1 127 0
+ 781 0012 054B     		ldr	r3, .L32
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 17
+
+
+ 782 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 783 0016 43F00403 		orr	r3, r3, #4
+ 784 001a DBB2     		uxtb	r3, r3
+ 785 001c 1846     		mov	r0, r3
+ 786 001e FFF7FEFF 		bl	LCD_command
+ 128:rgb_lcd.c     **** }
+ 787              		.loc 1 128 0
+ 788 0022 00BF     		nop
+ 789 0024 80BD     		pop	{r7, pc}
+ 790              	.L33:
+ 791 0026 00BF     		.align	2
+ 792              	.L32:
+ 793 0028 00000000 		.word	_displaymode
+ 794              		.cfi_endproc
+ 795              	.LFE76:
+ 796              		.size	LCD_noAutoscroll, .-LCD_noAutoscroll
+ 797              		.section	.text.LCD_scrollDisplayLeft,"ax",%progbits
+ 798              		.align	2
+ 799              		.global	LCD_scrollDisplayLeft
+ 800              		.thumb
+ 801              		.thumb_func
+ 802              		.type	LCD_scrollDisplayLeft, %function
+ 803              	LCD_scrollDisplayLeft:
+ 804              	.LFB77:
+ 129:rgb_lcd.c     **** 
+ 130:rgb_lcd.c     **** 
+ 131:rgb_lcd.c     **** // Desplazar el contenido de la pantalla a la izquierda sin cambiar la RAM
+ 132:rgb_lcd.c     **** void LCD_scrollDisplayLeft(void) {
+ 805              		.loc 1 132 0
+ 806              		.cfi_startproc
+ 807              		@ args = 0, pretend = 0, frame = 0
+ 808              		@ frame_needed = 1, uses_anonymous_args = 0
+ 809 0000 80B5     		push	{r7, lr}
+ 810              		.cfi_def_cfa_offset 8
+ 811              		.cfi_offset 7, -8
+ 812              		.cfi_offset 14, -4
+ 813 0002 00AF     		add	r7, sp, #0
+ 814              		.cfi_def_cfa_register 7
+ 133:rgb_lcd.c     ****     LCD_command(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVELEFT);
+ 815              		.loc 1 133 0
+ 816 0004 1820     		movs	r0, #24
+ 817 0006 FFF7FEFF 		bl	LCD_command
+ 134:rgb_lcd.c     **** }
+ 818              		.loc 1 134 0
+ 819 000a 00BF     		nop
+ 820 000c 80BD     		pop	{r7, pc}
+ 821              		.cfi_endproc
+ 822              	.LFE77:
+ 823              		.size	LCD_scrollDisplayLeft, .-LCD_scrollDisplayLeft
+ 824 000e 00BF     		.section	.text.LCD_scrollDisplayRight,"ax",%progbits
+ 825              		.align	2
+ 826              		.global	LCD_scrollDisplayRight
+ 827              		.thumb
+ 828              		.thumb_func
+ 829              		.type	LCD_scrollDisplayRight, %function
+ 830              	LCD_scrollDisplayRight:
+ 831              	.LFB78:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 18
+
+
+ 135:rgb_lcd.c     **** 
+ 136:rgb_lcd.c     **** // Desplazar el contenido de la pantalla a la derecha sin cambiar la RAM
+ 137:rgb_lcd.c     **** void LCD_scrollDisplayRight(void) {
+ 832              		.loc 1 137 0
+ 833              		.cfi_startproc
+ 834              		@ args = 0, pretend = 0, frame = 0
+ 835              		@ frame_needed = 1, uses_anonymous_args = 0
+ 836 0000 80B5     		push	{r7, lr}
+ 837              		.cfi_def_cfa_offset 8
+ 838              		.cfi_offset 7, -8
+ 839              		.cfi_offset 14, -4
+ 840 0002 00AF     		add	r7, sp, #0
+ 841              		.cfi_def_cfa_register 7
+ 138:rgb_lcd.c     ****     LCD_command(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVERIGHT);
+ 842              		.loc 1 138 0
+ 843 0004 1C20     		movs	r0, #28
+ 844 0006 FFF7FEFF 		bl	LCD_command
+ 139:rgb_lcd.c     **** }
+ 845              		.loc 1 139 0
+ 846 000a 00BF     		nop
+ 847 000c 80BD     		pop	{r7, pc}
+ 848              		.cfi_endproc
+ 849              	.LFE78:
+ 850              		.size	LCD_scrollDisplayRight, .-LCD_scrollDisplayRight
+ 851 000e 00BF     		.section	.text.LCD_leftToRight,"ax",%progbits
+ 852              		.align	2
+ 853              		.global	LCD_leftToRight
+ 854              		.thumb
+ 855              		.thumb_func
+ 856              		.type	LCD_leftToRight, %function
+ 857              	LCD_leftToRight:
+ 858              	.LFB79:
+ 140:rgb_lcd.c     **** 
+ 141:rgb_lcd.c     **** // Configurar la dirección del texto de izquierda a derecha
+ 142:rgb_lcd.c     **** void LCD_leftToRight(void) {
+ 859              		.loc 1 142 0
+ 860              		.cfi_startproc
+ 861              		@ args = 0, pretend = 0, frame = 0
+ 862              		@ frame_needed = 1, uses_anonymous_args = 0
+ 863 0000 80B5     		push	{r7, lr}
+ 864              		.cfi_def_cfa_offset 8
+ 865              		.cfi_offset 7, -8
+ 866              		.cfi_offset 14, -4
+ 867 0002 00AF     		add	r7, sp, #0
+ 868              		.cfi_def_cfa_register 7
+ 143:rgb_lcd.c     ****     _displaymode |= LCD_ENTRYLEFT;
+ 869              		.loc 1 143 0
+ 870 0004 084B     		ldr	r3, .L37
+ 871 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 872 0008 43F00203 		orr	r3, r3, #2
+ 873 000c DAB2     		uxtb	r2, r3
+ 874 000e 064B     		ldr	r3, .L37
+ 875 0010 1A70     		strb	r2, [r3]
+ 144:rgb_lcd.c     ****     LCD_command(LCD_ENTRYMODESET | _displaymode);
+ 876              		.loc 1 144 0
+ 877 0012 054B     		ldr	r3, .L37
+ 878 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 19
+
+
+ 879 0016 43F00403 		orr	r3, r3, #4
+ 880 001a DBB2     		uxtb	r3, r3
+ 881 001c 1846     		mov	r0, r3
+ 882 001e FFF7FEFF 		bl	LCD_command
+ 145:rgb_lcd.c     **** }
+ 883              		.loc 1 145 0
+ 884 0022 00BF     		nop
+ 885 0024 80BD     		pop	{r7, pc}
+ 886              	.L38:
+ 887 0026 00BF     		.align	2
+ 888              	.L37:
+ 889 0028 00000000 		.word	_displaymode
+ 890              		.cfi_endproc
+ 891              	.LFE79:
+ 892              		.size	LCD_leftToRight, .-LCD_leftToRight
+ 893              		.section	.text.LCD_rightToLeft,"ax",%progbits
+ 894              		.align	2
+ 895              		.global	LCD_rightToLeft
+ 896              		.thumb
+ 897              		.thumb_func
+ 898              		.type	LCD_rightToLeft, %function
+ 899              	LCD_rightToLeft:
+ 900              	.LFB80:
+ 146:rgb_lcd.c     **** 
+ 147:rgb_lcd.c     **** // Configurar la dirección del texto de derecha a izquierda
+ 148:rgb_lcd.c     **** void LCD_rightToLeft(void) {
+ 901              		.loc 1 148 0
+ 902              		.cfi_startproc
+ 903              		@ args = 0, pretend = 0, frame = 0
+ 904              		@ frame_needed = 1, uses_anonymous_args = 0
+ 905 0000 80B5     		push	{r7, lr}
+ 906              		.cfi_def_cfa_offset 8
+ 907              		.cfi_offset 7, -8
+ 908              		.cfi_offset 14, -4
+ 909 0002 00AF     		add	r7, sp, #0
+ 910              		.cfi_def_cfa_register 7
+ 149:rgb_lcd.c     ****     _displaymode &= ~LCD_ENTRYLEFT;
+ 911              		.loc 1 149 0
+ 912 0004 084B     		ldr	r3, .L40
+ 913 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 914 0008 23F00203 		bic	r3, r3, #2
+ 915 000c DAB2     		uxtb	r2, r3
+ 916 000e 064B     		ldr	r3, .L40
+ 917 0010 1A70     		strb	r2, [r3]
+ 150:rgb_lcd.c     ****     LCD_command(LCD_ENTRYMODESET | _displaymode);
+ 918              		.loc 1 150 0
+ 919 0012 054B     		ldr	r3, .L40
+ 920 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 921 0016 43F00403 		orr	r3, r3, #4
+ 922 001a DBB2     		uxtb	r3, r3
+ 923 001c 1846     		mov	r0, r3
+ 924 001e FFF7FEFF 		bl	LCD_command
+ 151:rgb_lcd.c     **** }
+ 925              		.loc 1 151 0
+ 926 0022 00BF     		nop
+ 927 0024 80BD     		pop	{r7, pc}
+ 928              	.L41:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 20
+
+
+ 929 0026 00BF     		.align	2
+ 930              	.L40:
+ 931 0028 00000000 		.word	_displaymode
+ 932              		.cfi_endproc
+ 933              	.LFE80:
+ 934              		.size	LCD_rightToLeft, .-LCD_rightToLeft
+ 935              		.section	.text.LCD_blinkLED,"ax",%progbits
+ 936              		.align	2
+ 937              		.global	LCD_blinkLED
+ 938              		.thumb
+ 939              		.thumb_func
+ 940              		.type	LCD_blinkLED, %function
+ 941              	LCD_blinkLED:
+ 942              	.LFB81:
+ 152:rgb_lcd.c     **** 
+ 153:rgb_lcd.c     **** void LCD_blinkLED(void) {
+ 943              		.loc 1 153 0
+ 944              		.cfi_startproc
+ 945              		@ args = 0, pretend = 0, frame = 0
+ 946              		@ frame_needed = 1, uses_anonymous_args = 0
+ 947 0000 80B5     		push	{r7, lr}
+ 948              		.cfi_def_cfa_offset 8
+ 949              		.cfi_offset 7, -8
+ 950              		.cfi_offset 14, -4
+ 951 0002 00AF     		add	r7, sp, #0
+ 952              		.cfi_def_cfa_register 7
+ 154:rgb_lcd.c     ****     if (rgb_chip_addr == RGB_ADDRESS_V5) {
+ 953              		.loc 1 154 0
+ 954 0004 0D4B     		ldr	r3, .L46
+ 955 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 956 0008 302B     		cmp	r3, #48
+ 957 000a 0CD1     		bne	.L43
+ 155:rgb_lcd.c     ****         // Adjuntar todos los LED a pwm1
+ 156:rgb_lcd.c     ****         // El período de parpadeo en segundos = (<reg 1> + 2) * 0.128s
+ 157:rgb_lcd.c     ****         // Relación encendido/apagado del pwm1 = <reg 2> / 256
+ 158:rgb_lcd.c     ****         LCD_setReg(0x04, 0x2a);  // 0010 1010
+ 958              		.loc 1 158 0
+ 959 000c 2A21     		movs	r1, #42
+ 960 000e 0420     		movs	r0, #4
+ 961 0010 FFF7FEFF 		bl	LCD_setReg
+ 159:rgb_lcd.c     ****         LCD_setReg(0x01, 0x06);  // parpadeo cada segundo
+ 962              		.loc 1 159 0
+ 963 0014 0621     		movs	r1, #6
+ 964 0016 0120     		movs	r0, #1
+ 965 0018 FFF7FEFF 		bl	LCD_setReg
+ 160:rgb_lcd.c     ****         LCD_setReg(0x02, 0x7f);  // encendido la mitad del tiempo, apagado la otra mitad
+ 966              		.loc 1 160 0
+ 967 001c 7F21     		movs	r1, #127
+ 968 001e 0220     		movs	r0, #2
+ 969 0020 FFF7FEFF 		bl	LCD_setReg
+ 161:rgb_lcd.c     ****     } else {
+ 162:rgb_lcd.c     ****         // El período de parpadeo en segundos = (<reg 7> + 1) / 24
+ 163:rgb_lcd.c     ****         // Relación encendido/apagado = <reg 6> / 256
+ 164:rgb_lcd.c     ****         LCD_setReg(0x07, 0x17);  // parpadeo cada segundo
+ 165:rgb_lcd.c     ****         LCD_setReg(0x06, 0x7f);  // encendido la mitad del tiempo, apagado la otra mitad
+ 166:rgb_lcd.c     ****     }
+ 167:rgb_lcd.c     **** }
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 21
+
+
+ 970              		.loc 1 167 0
+ 971 0024 07E0     		b	.L45
+ 972              	.L43:
+ 164:rgb_lcd.c     ****         LCD_setReg(0x06, 0x7f);  // encendido la mitad del tiempo, apagado la otra mitad
+ 973              		.loc 1 164 0
+ 974 0026 1721     		movs	r1, #23
+ 975 0028 0720     		movs	r0, #7
+ 976 002a FFF7FEFF 		bl	LCD_setReg
+ 165:rgb_lcd.c     ****     }
+ 977              		.loc 1 165 0
+ 978 002e 7F21     		movs	r1, #127
+ 979 0030 0620     		movs	r0, #6
+ 980 0032 FFF7FEFF 		bl	LCD_setReg
+ 981              	.L45:
+ 982              		.loc 1 167 0
+ 983 0036 00BF     		nop
+ 984 0038 80BD     		pop	{r7, pc}
+ 985              	.L47:
+ 986 003a 00BF     		.align	2
+ 987              	.L46:
+ 988 003c 00000000 		.word	rgb_chip_addr
+ 989              		.cfi_endproc
+ 990              	.LFE81:
+ 991              		.size	LCD_blinkLED, .-LCD_blinkLED
+ 992              		.section	.text.LCD_noBlinkLED,"ax",%progbits
+ 993              		.align	2
+ 994              		.global	LCD_noBlinkLED
+ 995              		.thumb
+ 996              		.thumb_func
+ 997              		.type	LCD_noBlinkLED, %function
+ 998              	LCD_noBlinkLED:
+ 999              	.LFB82:
+ 168:rgb_lcd.c     **** 
+ 169:rgb_lcd.c     **** // Desactivar el parpadeo del LED de la retroiluminación
+ 170:rgb_lcd.c     **** void LCD_noBlinkLED(void) {
+ 1000              		.loc 1 170 0
+ 1001              		.cfi_startproc
+ 1002              		@ args = 0, pretend = 0, frame = 0
+ 1003              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1004 0000 80B5     		push	{r7, lr}
+ 1005              		.cfi_def_cfa_offset 8
+ 1006              		.cfi_offset 7, -8
+ 1007              		.cfi_offset 14, -4
+ 1008 0002 00AF     		add	r7, sp, #0
+ 1009              		.cfi_def_cfa_register 7
+ 171:rgb_lcd.c     ****     if (rgb_chip_addr == RGB_ADDRESS_V5) {
+ 1010              		.loc 1 171 0
+ 1011 0004 094B     		ldr	r3, .L52
+ 1012 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1013 0008 302B     		cmp	r3, #48
+ 1014 000a 04D1     		bne	.L49
+ 172:rgb_lcd.c     ****         LCD_setReg(0x04, 0x15);  // 0001 0101
+ 1015              		.loc 1 172 0
+ 1016 000c 1521     		movs	r1, #21
+ 1017 000e 0420     		movs	r0, #4
+ 1018 0010 FFF7FEFF 		bl	LCD_setReg
+ 173:rgb_lcd.c     ****     } else {
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 22
+
+
+ 174:rgb_lcd.c     ****         LCD_setReg(0x07, 0x00);  // Desactivar el parpadeo
+ 175:rgb_lcd.c     ****         LCD_setReg(0x06, 0xff);  // Encendido total
+ 176:rgb_lcd.c     ****     }
+ 177:rgb_lcd.c     **** }
+ 1019              		.loc 1 177 0
+ 1020 0014 07E0     		b	.L51
+ 1021              	.L49:
+ 174:rgb_lcd.c     ****         LCD_setReg(0x06, 0xff);  // Encendido total
+ 1022              		.loc 1 174 0
+ 1023 0016 0021     		movs	r1, #0
+ 1024 0018 0720     		movs	r0, #7
+ 1025 001a FFF7FEFF 		bl	LCD_setReg
+ 175:rgb_lcd.c     ****     }
+ 1026              		.loc 1 175 0
+ 1027 001e FF21     		movs	r1, #255
+ 1028 0020 0620     		movs	r0, #6
+ 1029 0022 FFF7FEFF 		bl	LCD_setReg
+ 1030              	.L51:
+ 1031              		.loc 1 177 0
+ 1032 0026 00BF     		nop
+ 1033 0028 80BD     		pop	{r7, pc}
+ 1034              	.L53:
+ 1035 002a 00BF     		.align	2
+ 1036              	.L52:
+ 1037 002c 00000000 		.word	rgb_chip_addr
+ 1038              		.cfi_endproc
+ 1039              	.LFE82:
+ 1040              		.size	LCD_noBlinkLED, .-LCD_noBlinkLED
+ 1041              		.section	.text.LCD_noCursor,"ax",%progbits
+ 1042              		.align	2
+ 1043              		.global	LCD_noCursor
+ 1044              		.thumb
+ 1045              		.thumb_func
+ 1046              		.type	LCD_noCursor, %function
+ 1047              	LCD_noCursor:
+ 1048              	.LFB83:
+ 178:rgb_lcd.c     **** // Ocultar el cursor
+ 179:rgb_lcd.c     **** void LCD_noCursor(void) {
+ 1049              		.loc 1 179 0
+ 1050              		.cfi_startproc
+ 1051              		@ args = 0, pretend = 0, frame = 0
+ 1052              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1053 0000 80B5     		push	{r7, lr}
+ 1054              		.cfi_def_cfa_offset 8
+ 1055              		.cfi_offset 7, -8
+ 1056              		.cfi_offset 14, -4
+ 1057 0002 00AF     		add	r7, sp, #0
+ 1058              		.cfi_def_cfa_register 7
+ 180:rgb_lcd.c     ****     _displaycontrol &= ~LCD_CURSORON;
+ 1059              		.loc 1 180 0
+ 1060 0004 084B     		ldr	r3, .L55
+ 1061 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1062 0008 23F00203 		bic	r3, r3, #2
+ 1063 000c DAB2     		uxtb	r2, r3
+ 1064 000e 064B     		ldr	r3, .L55
+ 1065 0010 1A70     		strb	r2, [r3]
+ 181:rgb_lcd.c     ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 23
+
+
+ 1066              		.loc 1 181 0
+ 1067 0012 054B     		ldr	r3, .L55
+ 1068 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1069 0016 43F00803 		orr	r3, r3, #8
+ 1070 001a DBB2     		uxtb	r3, r3
+ 1071 001c 1846     		mov	r0, r3
+ 1072 001e FFF7FEFF 		bl	LCD_command
+ 182:rgb_lcd.c     **** }
+ 1073              		.loc 1 182 0
+ 1074 0022 00BF     		nop
+ 1075 0024 80BD     		pop	{r7, pc}
+ 1076              	.L56:
+ 1077 0026 00BF     		.align	2
+ 1078              	.L55:
+ 1079 0028 00000000 		.word	_displaycontrol
+ 1080              		.cfi_endproc
+ 1081              	.LFE83:
+ 1082              		.size	LCD_noCursor, .-LCD_noCursor
+ 1083              		.section	.text.LCD_cursor,"ax",%progbits
+ 1084              		.align	2
+ 1085              		.global	LCD_cursor
+ 1086              		.thumb
+ 1087              		.thumb_func
+ 1088              		.type	LCD_cursor, %function
+ 1089              	LCD_cursor:
+ 1090              	.LFB84:
+ 183:rgb_lcd.c     **** 
+ 184:rgb_lcd.c     **** // Mostrar el cursor
+ 185:rgb_lcd.c     **** void LCD_cursor(void) {
+ 1091              		.loc 1 185 0
+ 1092              		.cfi_startproc
+ 1093              		@ args = 0, pretend = 0, frame = 0
+ 1094              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1095 0000 80B5     		push	{r7, lr}
+ 1096              		.cfi_def_cfa_offset 8
+ 1097              		.cfi_offset 7, -8
+ 1098              		.cfi_offset 14, -4
+ 1099 0002 00AF     		add	r7, sp, #0
+ 1100              		.cfi_def_cfa_register 7
+ 186:rgb_lcd.c     ****     _displaycontrol |= LCD_CURSORON;
+ 1101              		.loc 1 186 0
+ 1102 0004 084B     		ldr	r3, .L58
+ 1103 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1104 0008 43F00203 		orr	r3, r3, #2
+ 1105 000c DAB2     		uxtb	r2, r3
+ 1106 000e 064B     		ldr	r3, .L58
+ 1107 0010 1A70     		strb	r2, [r3]
+ 187:rgb_lcd.c     ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ 1108              		.loc 1 187 0
+ 1109 0012 054B     		ldr	r3, .L58
+ 1110 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1111 0016 43F00803 		orr	r3, r3, #8
+ 1112 001a DBB2     		uxtb	r3, r3
+ 1113 001c 1846     		mov	r0, r3
+ 1114 001e FFF7FEFF 		bl	LCD_command
+ 188:rgb_lcd.c     **** }
+ 1115              		.loc 1 188 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 24
+
+
+ 1116 0022 00BF     		nop
+ 1117 0024 80BD     		pop	{r7, pc}
+ 1118              	.L59:
+ 1119 0026 00BF     		.align	2
+ 1120              	.L58:
+ 1121 0028 00000000 		.word	_displaycontrol
+ 1122              		.cfi_endproc
+ 1123              	.LFE84:
+ 1124              		.size	LCD_cursor, .-LCD_cursor
+ 1125              		.section	.text.LCD_noBlink,"ax",%progbits
+ 1126              		.align	2
+ 1127              		.global	LCD_noBlink
+ 1128              		.thumb
+ 1129              		.thumb_func
+ 1130              		.type	LCD_noBlink, %function
+ 1131              	LCD_noBlink:
+ 1132              	.LFB85:
+ 189:rgb_lcd.c     **** 
+ 190:rgb_lcd.c     **** // Apagar el parpadeo del cursor
+ 191:rgb_lcd.c     **** void LCD_noBlink(void) {
+ 1133              		.loc 1 191 0
+ 1134              		.cfi_startproc
+ 1135              		@ args = 0, pretend = 0, frame = 0
+ 1136              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1137 0000 80B5     		push	{r7, lr}
+ 1138              		.cfi_def_cfa_offset 8
+ 1139              		.cfi_offset 7, -8
+ 1140              		.cfi_offset 14, -4
+ 1141 0002 00AF     		add	r7, sp, #0
+ 1142              		.cfi_def_cfa_register 7
+ 192:rgb_lcd.c     ****     _displaycontrol &= ~LCD_BLINKON;
+ 1143              		.loc 1 192 0
+ 1144 0004 084B     		ldr	r3, .L61
+ 1145 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1146 0008 23F00103 		bic	r3, r3, #1
+ 1147 000c DAB2     		uxtb	r2, r3
+ 1148 000e 064B     		ldr	r3, .L61
+ 1149 0010 1A70     		strb	r2, [r3]
+ 193:rgb_lcd.c     ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ 1150              		.loc 1 193 0
+ 1151 0012 054B     		ldr	r3, .L61
+ 1152 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1153 0016 43F00803 		orr	r3, r3, #8
+ 1154 001a DBB2     		uxtb	r3, r3
+ 1155 001c 1846     		mov	r0, r3
+ 1156 001e FFF7FEFF 		bl	LCD_command
+ 194:rgb_lcd.c     **** }
+ 1157              		.loc 1 194 0
+ 1158 0022 00BF     		nop
+ 1159 0024 80BD     		pop	{r7, pc}
+ 1160              	.L62:
+ 1161 0026 00BF     		.align	2
+ 1162              	.L61:
+ 1163 0028 00000000 		.word	_displaycontrol
+ 1164              		.cfi_endproc
+ 1165              	.LFE85:
+ 1166              		.size	LCD_noBlink, .-LCD_noBlink
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 25
+
+
+ 1167              		.section	.text.LCD_blink,"ax",%progbits
+ 1168              		.align	2
+ 1169              		.global	LCD_blink
+ 1170              		.thumb
+ 1171              		.thumb_func
+ 1172              		.type	LCD_blink, %function
+ 1173              	LCD_blink:
+ 1174              	.LFB86:
+ 195:rgb_lcd.c     **** 
+ 196:rgb_lcd.c     **** // Encender el parpadeo del cursor
+ 197:rgb_lcd.c     **** void LCD_blink(void) {
+ 1175              		.loc 1 197 0
+ 1176              		.cfi_startproc
+ 1177              		@ args = 0, pretend = 0, frame = 0
+ 1178              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1179 0000 80B5     		push	{r7, lr}
+ 1180              		.cfi_def_cfa_offset 8
+ 1181              		.cfi_offset 7, -8
+ 1182              		.cfi_offset 14, -4
+ 1183 0002 00AF     		add	r7, sp, #0
+ 1184              		.cfi_def_cfa_register 7
+ 198:rgb_lcd.c     ****     _displaycontrol |= LCD_BLINKON;
+ 1185              		.loc 1 198 0
+ 1186 0004 084B     		ldr	r3, .L64
+ 1187 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1188 0008 43F00103 		orr	r3, r3, #1
+ 1189 000c DAB2     		uxtb	r2, r3
+ 1190 000e 064B     		ldr	r3, .L64
+ 1191 0010 1A70     		strb	r2, [r3]
+ 199:rgb_lcd.c     ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ 1192              		.loc 1 199 0
+ 1193 0012 054B     		ldr	r3, .L64
+ 1194 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1195 0016 43F00803 		orr	r3, r3, #8
+ 1196 001a DBB2     		uxtb	r3, r3
+ 1197 001c 1846     		mov	r0, r3
+ 1198 001e FFF7FEFF 		bl	LCD_command
+ 200:rgb_lcd.c     **** }...
+ 1199              		.loc 1 200 0
+ 1200 0022 00BF     		nop
+ 1201 0024 80BD     		pop	{r7, pc}
+ 1202              	.L65:
+ 1203 0026 00BF     		.align	2
+ 1204              	.L64:
+ 1205 0028 00000000 		.word	_displaycontrol
+ 1206              		.cfi_endproc
+ 1207              	.LFE86:
+ 1208              		.size	LCD_blink, .-LCD_blink
+ 1209              		.text
+ 1210              	.Letext0:
+ 1211              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1212              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1213              		.file 4 "Generated_Source\\PSoC5/core_cm3.h"
+ 1214              		.section	.debug_info,"",%progbits
+ 1215              	.Ldebug_info0:
+ 1216 0000 8D040000 		.4byte	0x48d
+ 1217 0004 0400     		.2byte	0x4
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 26
+
+
+ 1218 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1219 000a 04       		.byte	0x4
+ 1220 000b 01       		.uleb128 0x1
+ 1221 000c 5E000000 		.4byte	.LASF58
+ 1222 0010 0C       		.byte	0xc
+ 1223 0011 F6020000 		.4byte	.LASF59
+ 1224 0015 21020000 		.4byte	.LASF60
+ 1225 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1226 001d 00000000 		.4byte	0
+ 1227 0021 00000000 		.4byte	.Ldebug_line0
+ 1228 0025 02       		.uleb128 0x2
+ 1229 0026 01       		.byte	0x1
+ 1230 0027 06       		.byte	0x6
+ 1231 0028 E1010000 		.4byte	.LASF0
+ 1232 002c 03       		.uleb128 0x3
+ 1233 002d 88010000 		.4byte	.LASF4
+ 1234 0031 02       		.byte	0x2
+ 1235 0032 1D       		.byte	0x1d
+ 1236 0033 37000000 		.4byte	0x37
+ 1237 0037 02       		.uleb128 0x2
+ 1238 0038 01       		.byte	0x1
+ 1239 0039 08       		.byte	0x8
+ 1240 003a 92010000 		.4byte	.LASF1
+ 1241 003e 02       		.uleb128 0x2
+ 1242 003f 02       		.byte	0x2
+ 1243 0040 05       		.byte	0x5
+ 1244 0041 33000000 		.4byte	.LASF2
+ 1245 0045 02       		.uleb128 0x2
+ 1246 0046 02       		.byte	0x2
+ 1247 0047 07       		.byte	0x7
+ 1248 0048 B6020000 		.4byte	.LASF3
+ 1249 004c 03       		.uleb128 0x3
+ 1250 004d 42030000 		.4byte	.LASF5
+ 1251 0051 02       		.byte	0x2
+ 1252 0052 3F       		.byte	0x3f
+ 1253 0053 57000000 		.4byte	0x57
+ 1254 0057 02       		.uleb128 0x2
+ 1255 0058 04       		.byte	0x4
+ 1256 0059 05       		.byte	0x5
+ 1257 005a 5D010000 		.4byte	.LASF6
+ 1258 005e 02       		.uleb128 0x2
+ 1259 005f 04       		.byte	0x4
+ 1260 0060 07       		.byte	0x7
+ 1261 0061 E4020000 		.4byte	.LASF7
+ 1262 0065 02       		.uleb128 0x2
+ 1263 0066 08       		.byte	0x8
+ 1264 0067 05       		.byte	0x5
+ 1265 0068 45010000 		.4byte	.LASF8
+ 1266 006c 02       		.uleb128 0x2
+ 1267 006d 08       		.byte	0x8
+ 1268 006e 07       		.byte	0x7
+ 1269 006f ED010000 		.4byte	.LASF9
+ 1270 0073 04       		.uleb128 0x4
+ 1271 0074 04       		.byte	0x4
+ 1272 0075 05       		.byte	0x5
+ 1273 0076 696E7400 		.ascii	"int\000"
+ 1274 007a 02       		.uleb128 0x2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 27
+
+
+ 1275 007b 04       		.byte	0x4
+ 1276 007c 07       		.byte	0x7
+ 1277 007d 04020000 		.4byte	.LASF10
+ 1278 0081 03       		.uleb128 0x3
+ 1279 0082 16010000 		.4byte	.LASF11
+ 1280 0086 03       		.byte	0x3
+ 1281 0087 18       		.byte	0x18
+ 1282 0088 2C000000 		.4byte	0x2c
+ 1283 008c 03       		.uleb128 0x3
+ 1284 008d AE020000 		.4byte	.LASF12
+ 1285 0091 03       		.byte	0x3
+ 1286 0092 2C       		.byte	0x2c
+ 1287 0093 4C000000 		.4byte	0x4c
+ 1288 0097 02       		.uleb128 0x2
+ 1289 0098 04       		.byte	0x4
+ 1290 0099 04       		.byte	0x4
+ 1291 009a 35010000 		.4byte	.LASF13
+ 1292 009e 02       		.uleb128 0x2
+ 1293 009f 08       		.byte	0x8
+ 1294 00a0 04       		.byte	0x4
+ 1295 00a1 6D030000 		.4byte	.LASF14
+ 1296 00a5 02       		.uleb128 0x2
+ 1297 00a6 01       		.byte	0x1
+ 1298 00a7 08       		.byte	0x8
+ 1299 00a8 9E020000 		.4byte	.LASF15
+ 1300 00ac 02       		.uleb128 0x2
+ 1301 00ad 08       		.byte	0x8
+ 1302 00ae 04       		.byte	0x4
+ 1303 00af A0010000 		.4byte	.LASF16
+ 1304 00b3 02       		.uleb128 0x2
+ 1305 00b4 04       		.byte	0x4
+ 1306 00b5 07       		.byte	0x7
+ 1307 00b6 42000000 		.4byte	.LASF17
+ 1308 00ba 05       		.uleb128 0x5
+ 1309 00bb 04       		.byte	0x4
+ 1310 00bc A5000000 		.4byte	0xa5
+ 1311 00c0 05       		.uleb128 0x5
+ 1312 00c1 04       		.byte	0x4
+ 1313 00c2 37000000 		.4byte	0x37
+ 1314 00c6 06       		.uleb128 0x6
+ 1315 00c7 FB000000 		.4byte	.LASF21
+ 1316 00cb 01       		.byte	0x1
+ 1317 00cc 0D       		.byte	0xd
+ 1318 00cd 00000000 		.4byte	.LFB63
+ 1319 00d1 D0000000 		.4byte	.LFE63-.LFB63
+ 1320 00d5 01       		.uleb128 0x1
+ 1321 00d6 9C       		.byte	0x9c
+ 1322 00d7 06010000 		.4byte	0x106
+ 1323 00db 07       		.uleb128 0x7
+ 1324 00dc 00030000 		.4byte	.LASF18
+ 1325 00e0 01       		.byte	0x1
+ 1326 00e1 0D       		.byte	0xd
+ 1327 00e2 81000000 		.4byte	0x81
+ 1328 00e6 02       		.uleb128 0x2
+ 1329 00e7 91       		.byte	0x91
+ 1330 00e8 77       		.sleb128 -9
+ 1331 00e9 07       		.uleb128 0x7
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 28
+
+
+ 1332 00ea 3D000000 		.4byte	.LASF19
+ 1333 00ee 01       		.byte	0x1
+ 1334 00ef 0D       		.byte	0xd
+ 1335 00f0 81000000 		.4byte	0x81
+ 1336 00f4 02       		.uleb128 0x2
+ 1337 00f5 91       		.byte	0x91
+ 1338 00f6 76       		.sleb128 -10
+ 1339 00f7 07       		.uleb128 0x7
+ 1340 00f8 55000000 		.4byte	.LASF20
+ 1341 00fc 01       		.byte	0x1
+ 1342 00fd 0D       		.byte	0xd
+ 1343 00fe 81000000 		.4byte	0x81
+ 1344 0102 02       		.uleb128 0x2
+ 1345 0103 91       		.byte	0x91
+ 1346 0104 75       		.sleb128 -11
+ 1347 0105 00       		.byte	0
+ 1348 0106 06       		.uleb128 0x6
+ 1349 0107 29010000 		.4byte	.LASF22
+ 1350 010b 01       		.byte	0x1
+ 1351 010c 2B       		.byte	0x2b
+ 1352 010d 00000000 		.4byte	.LFB64
+ 1353 0111 26000000 		.4byte	.LFE64-.LFB64
+ 1354 0115 01       		.uleb128 0x1
+ 1355 0116 9C       		.byte	0x9c
+ 1356 0117 38010000 		.4byte	0x138
+ 1357 011b 07       		.uleb128 0x7
+ 1358 011c 81030000 		.4byte	.LASF23
+ 1359 0120 01       		.byte	0x1
+ 1360 0121 2B       		.byte	0x2b
+ 1361 0122 81000000 		.4byte	0x81
+ 1362 0126 02       		.uleb128 0x2
+ 1363 0127 91       		.byte	0x91
+ 1364 0128 6F       		.sleb128 -17
+ 1365 0129 08       		.uleb128 0x8
+ 1366 012a D8020000 		.4byte	.LASF25
+ 1367 012e 01       		.byte	0x1
+ 1368 012f 2C       		.byte	0x2c
+ 1369 0130 38010000 		.4byte	0x138
+ 1370 0134 02       		.uleb128 0x2
+ 1371 0135 91       		.byte	0x91
+ 1372 0136 74       		.sleb128 -12
+ 1373 0137 00       		.byte	0
+ 1374 0138 09       		.uleb128 0x9
+ 1375 0139 81000000 		.4byte	0x81
+ 1376 013d 48010000 		.4byte	0x148
+ 1377 0141 0A       		.uleb128 0xa
+ 1378 0142 B3000000 		.4byte	0xb3
+ 1379 0146 01       		.byte	0x1
+ 1380 0147 00       		.byte	0
+ 1381 0148 06       		.uleb128 0x6
+ 1382 0149 85020000 		.4byte	.LASF24
+ 1383 014d 01       		.byte	0x1
+ 1384 014e 31       		.byte	0x31
+ 1385 014f 00000000 		.4byte	.LFB65
+ 1386 0153 26000000 		.4byte	.LFE65-.LFB65
+ 1387 0157 01       		.uleb128 0x1
+ 1388 0158 9C       		.byte	0x9c
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 29
+
+
+ 1389 0159 7A010000 		.4byte	0x17a
+ 1390 015d 07       		.uleb128 0x7
+ 1391 015e 81030000 		.4byte	.LASF23
+ 1392 0162 01       		.byte	0x1
+ 1393 0163 31       		.byte	0x31
+ 1394 0164 81000000 		.4byte	0x81
+ 1395 0168 02       		.uleb128 0x2
+ 1396 0169 91       		.byte	0x91
+ 1397 016a 6F       		.sleb128 -17
+ 1398 016b 08       		.uleb128 0x8
+ 1399 016c D8020000 		.4byte	.LASF25
+ 1400 0170 01       		.byte	0x1
+ 1401 0171 32       		.byte	0x32
+ 1402 0172 38010000 		.4byte	0x138
+ 1403 0176 02       		.uleb128 0x2
+ 1404 0177 91       		.byte	0x91
+ 1405 0178 74       		.sleb128 -12
+ 1406 0179 00       		.byte	0
+ 1407 017a 0B       		.uleb128 0xb
+ 1408 017b 53010000 		.4byte	.LASF27
+ 1409 017f 01       		.byte	0x1
+ 1410 0180 37       		.byte	0x37
+ 1411 0181 00000000 		.4byte	.LFB66
+ 1412 0185 14000000 		.4byte	.LFE66-.LFB66
+ 1413 0189 01       		.uleb128 0x1
+ 1414 018a 9C       		.byte	0x9c
+ 1415 018b 06       		.uleb128 0x6
+ 1416 018c BC010000 		.4byte	.LASF26
+ 1417 0190 01       		.byte	0x1
+ 1418 0191 3D       		.byte	0x3d
+ 1419 0192 00000000 		.4byte	.LFB67
+ 1420 0196 46000000 		.4byte	.LFE67-.LFB67
+ 1421 019a 01       		.uleb128 0x1
+ 1422 019b 9C       		.byte	0x9c
+ 1423 019c CB010000 		.4byte	0x1cb
+ 1424 01a0 0C       		.uleb128 0xc
+ 1425 01a1 636F6C00 		.ascii	"col\000"
+ 1426 01a5 01       		.byte	0x1
+ 1427 01a6 3D       		.byte	0x3d
+ 1428 01a7 81000000 		.4byte	0x81
+ 1429 01ab 02       		.uleb128 0x2
+ 1430 01ac 91       		.byte	0x91
+ 1431 01ad 6F       		.sleb128 -17
+ 1432 01ae 0C       		.uleb128 0xc
+ 1433 01af 726F7700 		.ascii	"row\000"
+ 1434 01b3 01       		.byte	0x1
+ 1435 01b4 3D       		.byte	0x3d
+ 1436 01b5 81000000 		.4byte	0x81
+ 1437 01b9 02       		.uleb128 0x2
+ 1438 01ba 91       		.byte	0x91
+ 1439 01bb 6E       		.sleb128 -18
+ 1440 01bc 08       		.uleb128 0x8
+ 1441 01bd D8020000 		.4byte	.LASF25
+ 1442 01c1 01       		.byte	0x1
+ 1443 01c2 3F       		.byte	0x3f
+ 1444 01c3 38010000 		.4byte	0x138
+ 1445 01c7 02       		.uleb128 0x2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 30
+
+
+ 1446 01c8 91       		.byte	0x91
+ 1447 01c9 74       		.sleb128 -12
+ 1448 01ca 00       		.byte	0
+ 1449 01cb 0B       		.uleb128 0xb
+ 1450 01cc 79020000 		.4byte	.LASF28
+ 1451 01d0 01       		.byte	0x1
+ 1452 01d1 44       		.byte	0x44
+ 1453 01d2 00000000 		.4byte	.LFB68
+ 1454 01d6 2C000000 		.4byte	.LFE68-.LFB68
+ 1455 01da 01       		.uleb128 0x1
+ 1456 01db 9C       		.byte	0x9c
+ 1457 01dc 0D       		.uleb128 0xd
+ 1458 01dd 5F030000 		.4byte	.LASF61
+ 1459 01e1 01       		.byte	0x1
+ 1460 01e2 4A       		.byte	0x4a
+ 1461 01e3 00000000 		.4byte	.LFB69
+ 1462 01e7 2C000000 		.4byte	.LFE69-.LFB69
+ 1463 01eb 01       		.uleb128 0x1
+ 1464 01ec 9C       		.byte	0x9c
+ 1465 01ed 06       		.uleb128 0x6
+ 1466 01ee 8F020000 		.4byte	.LASF29
+ 1467 01f2 01       		.byte	0x1
+ 1468 01f3 50       		.byte	0x50
+ 1469 01f4 00000000 		.4byte	.LFB70
+ 1470 01f8 36000000 		.4byte	.LFE70-.LFB70
+ 1471 01fc 01       		.uleb128 0x1
+ 1472 01fd 9C       		.byte	0x9c
+ 1473 01fe 35020000 		.4byte	0x235
+ 1474 0202 07       		.uleb128 0x7
+ 1475 0203 D8020000 		.4byte	.LASF25
+ 1476 0207 01       		.byte	0x1
+ 1477 0208 50       		.byte	0x50
+ 1478 0209 BA000000 		.4byte	0xba
+ 1479 020d 02       		.uleb128 0x2
+ 1480 020e 91       		.byte	0x91
+ 1481 020f 6C       		.sleb128 -20
+ 1482 0210 07       		.uleb128 0x7
+ 1483 0211 99020000 		.4byte	.LASF30
+ 1484 0215 01       		.byte	0x1
+ 1485 0216 50       		.byte	0x50
+ 1486 0217 81000000 		.4byte	0x81
+ 1487 021b 02       		.uleb128 0x2
+ 1488 021c 91       		.byte	0x91
+ 1489 021d 6B       		.sleb128 -21
+ 1490 021e 0E       		.uleb128 0xe
+ 1491 021f 0C000000 		.4byte	.LBB2
+ 1492 0223 22000000 		.4byte	.LBE2-.LBB2
+ 1493 0227 0F       		.uleb128 0xf
+ 1494 0228 6900     		.ascii	"i\000"
+ 1495 022a 01       		.byte	0x1
+ 1496 022b 51       		.byte	0x51
+ 1497 022c 81000000 		.4byte	0x81
+ 1498 0230 02       		.uleb128 0x2
+ 1499 0231 91       		.byte	0x91
+ 1500 0232 77       		.sleb128 -9
+ 1501 0233 00       		.byte	0
+ 1502 0234 00       		.byte	0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 31
+
+
+ 1503 0235 06       		.uleb128 0x6
+ 1504 0236 CA010000 		.4byte	.LASF31
+ 1505 023a 01       		.byte	0x1
+ 1506 023b 57       		.byte	0x57
+ 1507 023c 00000000 		.4byte	.LFB71
+ 1508 0240 38000000 		.4byte	.LFE71-.LFB71
+ 1509 0244 01       		.uleb128 0x1
+ 1510 0245 9C       		.byte	0x9c
+ 1511 0246 6F020000 		.4byte	0x26f
+ 1512 024a 0C       		.uleb128 0xc
+ 1513 024b 7200     		.ascii	"r\000"
+ 1514 024d 01       		.byte	0x1
+ 1515 024e 57       		.byte	0x57
+ 1516 024f 37000000 		.4byte	0x37
+ 1517 0253 02       		.uleb128 0x2
+ 1518 0254 91       		.byte	0x91
+ 1519 0255 77       		.sleb128 -9
+ 1520 0256 0C       		.uleb128 0xc
+ 1521 0257 6700     		.ascii	"g\000"
+ 1522 0259 01       		.byte	0x1
+ 1523 025a 57       		.byte	0x57
+ 1524 025b 37000000 		.4byte	0x37
+ 1525 025f 02       		.uleb128 0x2
+ 1526 0260 91       		.byte	0x91
+ 1527 0261 76       		.sleb128 -10
+ 1528 0262 0C       		.uleb128 0xc
+ 1529 0263 6200     		.ascii	"b\000"
+ 1530 0265 01       		.byte	0x1
+ 1531 0266 57       		.byte	0x57
+ 1532 0267 37000000 		.4byte	0x37
+ 1533 026b 02       		.uleb128 0x2
+ 1534 026c 91       		.byte	0x91
+ 1535 026d 75       		.sleb128 -11
+ 1536 026e 00       		.byte	0
+ 1537 026f 06       		.uleb128 0x6
+ 1538 0270 A3020000 		.4byte	.LASF32
+ 1539 0274 01       		.byte	0x1
+ 1540 0275 5E       		.byte	0x5e
+ 1541 0276 00000000 		.4byte	.LFB72
+ 1542 027a 3E000000 		.4byte	.LFE72-.LFB72
+ 1543 027e 01       		.uleb128 0x1
+ 1544 027f 9C       		.byte	0x9c
+ 1545 0280 AF020000 		.4byte	0x2af
+ 1546 0284 07       		.uleb128 0x7
+ 1547 0285 66010000 		.4byte	.LASF33
+ 1548 0289 01       		.byte	0x1
+ 1549 028a 5E       		.byte	0x5e
+ 1550 028b 37000000 		.4byte	0x37
+ 1551 028f 02       		.uleb128 0x2
+ 1552 0290 91       		.byte	0x91
+ 1553 0291 6F       		.sleb128 -17
+ 1554 0292 0C       		.uleb128 0xc
+ 1555 0293 64746100 		.ascii	"dta\000"
+ 1556 0297 01       		.byte	0x1
+ 1557 0298 5E       		.byte	0x5e
+ 1558 0299 37000000 		.4byte	0x37
+ 1559 029d 02       		.uleb128 0x2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 32
+
+
+ 1560 029e 91       		.byte	0x91
+ 1561 029f 6E       		.sleb128 -18
+ 1562 02a0 08       		.uleb128 0x8
+ 1563 02a1 DD020000 		.4byte	.LASF34
+ 1564 02a5 01       		.byte	0x1
+ 1565 02a6 5F       		.byte	0x5f
+ 1566 02a7 38010000 		.4byte	0x138
+ 1567 02ab 02       		.uleb128 0x2
+ 1568 02ac 91       		.byte	0x91
+ 1569 02ad 74       		.sleb128 -12
+ 1570 02ae 00       		.byte	0
+ 1571 02af 06       		.uleb128 0x6
+ 1572 02b0 C9020000 		.4byte	.LASF35
+ 1573 02b4 01       		.byte	0x1
+ 1574 02b5 65       		.byte	0x65
+ 1575 02b6 00000000 		.4byte	.LFB73
+ 1576 02ba 30000000 		.4byte	.LFE73-.LFB73
+ 1577 02be 01       		.uleb128 0x1
+ 1578 02bf 9C       		.byte	0x9c
+ 1579 02c0 E1020000 		.4byte	0x2e1
+ 1580 02c4 0C       		.uleb128 0xc
+ 1581 02c5 64746100 		.ascii	"dta\000"
+ 1582 02c9 01       		.byte	0x1
+ 1583 02ca 65       		.byte	0x65
+ 1584 02cb C0000000 		.4byte	0xc0
+ 1585 02cf 02       		.uleb128 0x2
+ 1586 02d0 91       		.byte	0x91
+ 1587 02d1 74       		.sleb128 -12
+ 1588 02d2 0C       		.uleb128 0xc
+ 1589 02d3 6C656E00 		.ascii	"len\000"
+ 1590 02d7 01       		.byte	0x1
+ 1591 02d8 65       		.byte	0x65
+ 1592 02d9 37000000 		.4byte	0x37
+ 1593 02dd 02       		.uleb128 0x2
+ 1594 02de 91       		.byte	0x91
+ 1595 02df 73       		.sleb128 -13
+ 1596 02e0 00       		.byte	0
+ 1597 02e1 06       		.uleb128 0x6
+ 1598 02e2 0D000000 		.4byte	.LASF36
+ 1599 02e6 01       		.byte	0x1
+ 1600 02e7 6A       		.byte	0x6a
+ 1601 02e8 00000000 		.4byte	.LFB74
+ 1602 02ec 68000000 		.4byte	.LFE74-.LFB74
+ 1603 02f0 01       		.uleb128 0x1
+ 1604 02f1 9C       		.byte	0x9c
+ 1605 02f2 37030000 		.4byte	0x337
+ 1606 02f6 07       		.uleb128 0x7
+ 1607 02f7 4C030000 		.4byte	.LASF37
+ 1608 02fb 01       		.byte	0x1
+ 1609 02fc 6A       		.byte	0x6a
+ 1610 02fd 81000000 		.4byte	0x81
+ 1611 0301 02       		.uleb128 0x2
+ 1612 0302 91       		.byte	0x91
+ 1613 0303 67       		.sleb128 -25
+ 1614 0304 07       		.uleb128 0x7
+ 1615 0305 3A030000 		.4byte	.LASF38
+ 1616 0309 01       		.byte	0x1
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 33
+
+
+ 1617 030a 6A       		.byte	0x6a
+ 1618 030b 37030000 		.4byte	0x337
+ 1619 030f 02       		.uleb128 0x2
+ 1620 0310 91       		.byte	0x91
+ 1621 0311 60       		.sleb128 -32
+ 1622 0312 08       		.uleb128 0x8
+ 1623 0313 D8020000 		.4byte	.LASF25
+ 1624 0317 01       		.byte	0x1
+ 1625 0318 6E       		.byte	0x6e
+ 1626 0319 3D030000 		.4byte	0x33d
+ 1627 031d 02       		.uleb128 0x2
+ 1628 031e 91       		.byte	0x91
+ 1629 031f 68       		.sleb128 -24
+ 1630 0320 0E       		.uleb128 0xe
+ 1631 0321 2C000000 		.4byte	.LBB3
+ 1632 0325 28000000 		.4byte	.LBE3-.LBB3
+ 1633 0329 0F       		.uleb128 0xf
+ 1634 032a 6900     		.ascii	"i\000"
+ 1635 032c 01       		.byte	0x1
+ 1636 032d 70       		.byte	0x70
+ 1637 032e 73000000 		.4byte	0x73
+ 1638 0332 02       		.uleb128 0x2
+ 1639 0333 91       		.byte	0x91
+ 1640 0334 74       		.sleb128 -12
+ 1641 0335 00       		.byte	0
+ 1642 0336 00       		.byte	0
+ 1643 0337 05       		.uleb128 0x5
+ 1644 0338 04       		.byte	0x4
+ 1645 0339 81000000 		.4byte	0x81
+ 1646 033d 09       		.uleb128 0x9
+ 1647 033e 81000000 		.4byte	0x81
+ 1648 0342 4D030000 		.4byte	0x34d
+ 1649 0346 0A       		.uleb128 0xa
+ 1650 0347 B3000000 		.4byte	0xb3
+ 1651 034b 08       		.byte	0x8
+ 1652 034c 00       		.byte	0
+ 1653 034d 0B       		.uleb128 0xb
+ 1654 034e EC000000 		.4byte	.LASF39
+ 1655 0352 01       		.byte	0x1
+ 1656 0353 77       		.byte	0x77
+ 1657 0354 00000000 		.4byte	.LFB75
+ 1658 0358 2C000000 		.4byte	.LFE75-.LFB75
+ 1659 035c 01       		.uleb128 0x1
+ 1660 035d 9C       		.byte	0x9c
+ 1661 035e 0B       		.uleb128 0xb
+ 1662 035f 05030000 		.4byte	.LASF40
+ 1663 0363 01       		.byte	0x1
+ 1664 0364 7D       		.byte	0x7d
+ 1665 0365 00000000 		.4byte	.LFB76
+ 1666 0369 2C000000 		.4byte	.LFE76-.LFB76
+ 1667 036d 01       		.uleb128 0x1
+ 1668 036e 9C       		.byte	0x9c
+ 1669 036f 0B       		.uleb128 0xb
+ 1670 0370 16030000 		.4byte	.LASF41
+ 1671 0374 01       		.byte	0x1
+ 1672 0375 84       		.byte	0x84
+ 1673 0376 00000000 		.4byte	.LFB77
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 34
+
+
+ 1674 037a 0E000000 		.4byte	.LFE77-.LFB77
+ 1675 037e 01       		.uleb128 0x1
+ 1676 037f 9C       		.byte	0x9c
+ 1677 0380 0B       		.uleb128 0xb
+ 1678 0381 1C000000 		.4byte	.LASF42
+ 1679 0385 01       		.byte	0x1
+ 1680 0386 89       		.byte	0x89
+ 1681 0387 00000000 		.4byte	.LFB78
+ 1682 038b 0E000000 		.4byte	.LFE78-.LFB78
+ 1683 038f 01       		.uleb128 0x1
+ 1684 0390 9C       		.byte	0x9c
+ 1685 0391 0B       		.uleb128 0xb
+ 1686 0392 11020000 		.4byte	.LASF43
+ 1687 0396 01       		.byte	0x1
+ 1688 0397 8E       		.byte	0x8e
+ 1689 0398 00000000 		.4byte	.LFB79
+ 1690 039c 2C000000 		.4byte	.LFE79-.LFB79
+ 1691 03a0 01       		.uleb128 0x1
+ 1692 03a1 9C       		.byte	0x9c
+ 1693 03a2 0B       		.uleb128 0xb
+ 1694 03a3 6B010000 		.4byte	.LASF44
+ 1695 03a7 01       		.byte	0x1
+ 1696 03a8 94       		.byte	0x94
+ 1697 03a9 00000000 		.4byte	.LFB80
+ 1698 03ad 2C000000 		.4byte	.LFE80-.LFB80
+ 1699 03b1 01       		.uleb128 0x1
+ 1700 03b2 9C       		.byte	0x9c
+ 1701 03b3 0B       		.uleb128 0xb
+ 1702 03b4 7B010000 		.4byte	.LASF45
+ 1703 03b8 01       		.byte	0x1
+ 1704 03b9 99       		.byte	0x99
+ 1705 03ba 00000000 		.4byte	.LFB81
+ 1706 03be 40000000 		.4byte	.LFE81-.LFB81
+ 1707 03c2 01       		.uleb128 0x1
+ 1708 03c3 9C       		.byte	0x9c
+ 1709 03c4 0B       		.uleb128 0xb
+ 1710 03c5 87030000 		.4byte	.LASF46
+ 1711 03c9 01       		.byte	0x1
+ 1712 03ca AA       		.byte	0xaa
+ 1713 03cb 00000000 		.4byte	.LFB82
+ 1714 03cf 30000000 		.4byte	.LFE82-.LFB82
+ 1715 03d3 01       		.uleb128 0x1
+ 1716 03d4 9C       		.byte	0x9c
+ 1717 03d5 0B       		.uleb128 0xb
+ 1718 03d6 6C020000 		.4byte	.LASF47
+ 1719 03da 01       		.byte	0x1
+ 1720 03db B3       		.byte	0xb3
+ 1721 03dc 00000000 		.4byte	.LFB83
+ 1722 03e0 2C000000 		.4byte	.LFE83-.LFB83
+ 1723 03e4 01       		.uleb128 0x1
+ 1724 03e5 9C       		.byte	0x9c
+ 1725 03e6 0B       		.uleb128 0xb
+ 1726 03e7 1E010000 		.4byte	.LASF48
+ 1727 03eb 01       		.byte	0x1
+ 1728 03ec B9       		.byte	0xb9
+ 1729 03ed 00000000 		.4byte	.LFB84
+ 1730 03f1 2C000000 		.4byte	.LFE84-.LFB84
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 35
+
+
+ 1731 03f5 01       		.uleb128 0x1
+ 1732 03f6 9C       		.byte	0x9c
+ 1733 03f7 0B       		.uleb128 0xb
+ 1734 03f8 D5010000 		.4byte	.LASF49
+ 1735 03fc 01       		.byte	0x1
+ 1736 03fd BF       		.byte	0xbf
+ 1737 03fe 00000000 		.4byte	.LFB85
+ 1738 0402 2C000000 		.4byte	.LFE85-.LFB85
+ 1739 0406 01       		.uleb128 0x1
+ 1740 0407 9C       		.byte	0x9c
+ 1741 0408 0B       		.uleb128 0xb
+ 1742 0409 4B000000 		.4byte	.LASF50
+ 1743 040d 01       		.byte	0x1
+ 1744 040e C5       		.byte	0xc5
+ 1745 040f 00000000 		.4byte	.LFB86
+ 1746 0413 2C000000 		.4byte	.LFE86-.LFB86
+ 1747 0417 01       		.uleb128 0x1
+ 1748 0418 9C       		.byte	0x9c
+ 1749 0419 10       		.uleb128 0x10
+ 1750 041a 74030000 		.4byte	.LASF51
+ 1751 041e 04       		.byte	0x4
+ 1752 041f 1207     		.2byte	0x712
+ 1753 0421 25040000 		.4byte	0x425
+ 1754 0425 11       		.uleb128 0x11
+ 1755 0426 8C000000 		.4byte	0x8c
+ 1756 042a 12       		.uleb128 0x12
+ 1757 042b 2C030000 		.4byte	.LASF52
+ 1758 042f 01       		.byte	0x1
+ 1759 0430 0A       		.byte	0xa
+ 1760 0431 81000000 		.4byte	0x81
+ 1761 0435 05       		.uleb128 0x5
+ 1762 0436 03       		.byte	0x3
+ 1763 0437 00000000 		.4byte	rgb_chip_addr
+ 1764 043b 12       		.uleb128 0x12
+ 1765 043c 05010000 		.4byte	.LASF53
+ 1766 0440 01       		.byte	0x1
+ 1767 0441 04       		.byte	0x4
+ 1768 0442 81000000 		.4byte	0x81
+ 1769 0446 05       		.uleb128 0x5
+ 1770 0447 03       		.byte	0x3
+ 1771 0448 00000000 		.4byte	_displayfunction
+ 1772 044c 12       		.uleb128 0x12
+ 1773 044d AC010000 		.4byte	.LASF54
+ 1774 0451 01       		.byte	0x1
+ 1775 0452 05       		.byte	0x5
+ 1776 0453 81000000 		.4byte	0x81
+ 1777 0457 05       		.uleb128 0x5
+ 1778 0458 03       		.byte	0x3
+ 1779 0459 00000000 		.4byte	_displaycontrol
+ 1780 045d 12       		.uleb128 0x12
+ 1781 045e 00000000 		.4byte	.LASF55
+ 1782 0462 01       		.byte	0x1
+ 1783 0463 06       		.byte	0x6
+ 1784 0464 81000000 		.4byte	0x81
+ 1785 0468 05       		.uleb128 0x5
+ 1786 0469 03       		.byte	0x3
+ 1787 046a 00000000 		.4byte	_displaymode
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 36
+
+
+ 1788 046e 12       		.uleb128 0x12
+ 1789 046f 55030000 		.4byte	.LASF56
+ 1790 0473 01       		.byte	0x1
+ 1791 0474 07       		.byte	0x7
+ 1792 0475 81000000 		.4byte	0x81
+ 1793 0479 05       		.uleb128 0x5
+ 1794 047a 03       		.byte	0x3
+ 1795 047b 00000000 		.4byte	_numlines
+ 1796 047f 12       		.uleb128 0x12
+ 1797 0480 3B010000 		.4byte	.LASF57
+ 1798 0484 01       		.byte	0x1
+ 1799 0485 08       		.byte	0x8
+ 1800 0486 81000000 		.4byte	0x81
+ 1801 048a 05       		.uleb128 0x5
+ 1802 048b 03       		.byte	0x3
+ 1803 048c 00000000 		.4byte	_currline
+ 1804 0490 00       		.byte	0
+ 1805              		.section	.debug_abbrev,"",%progbits
+ 1806              	.Ldebug_abbrev0:
+ 1807 0000 01       		.uleb128 0x1
+ 1808 0001 11       		.uleb128 0x11
+ 1809 0002 01       		.byte	0x1
+ 1810 0003 25       		.uleb128 0x25
+ 1811 0004 0E       		.uleb128 0xe
+ 1812 0005 13       		.uleb128 0x13
+ 1813 0006 0B       		.uleb128 0xb
+ 1814 0007 03       		.uleb128 0x3
+ 1815 0008 0E       		.uleb128 0xe
+ 1816 0009 1B       		.uleb128 0x1b
+ 1817 000a 0E       		.uleb128 0xe
+ 1818 000b 55       		.uleb128 0x55
+ 1819 000c 17       		.uleb128 0x17
+ 1820 000d 11       		.uleb128 0x11
+ 1821 000e 01       		.uleb128 0x1
+ 1822 000f 10       		.uleb128 0x10
+ 1823 0010 17       		.uleb128 0x17
+ 1824 0011 00       		.byte	0
+ 1825 0012 00       		.byte	0
+ 1826 0013 02       		.uleb128 0x2
+ 1827 0014 24       		.uleb128 0x24
+ 1828 0015 00       		.byte	0
+ 1829 0016 0B       		.uleb128 0xb
+ 1830 0017 0B       		.uleb128 0xb
+ 1831 0018 3E       		.uleb128 0x3e
+ 1832 0019 0B       		.uleb128 0xb
+ 1833 001a 03       		.uleb128 0x3
+ 1834 001b 0E       		.uleb128 0xe
+ 1835 001c 00       		.byte	0
+ 1836 001d 00       		.byte	0
+ 1837 001e 03       		.uleb128 0x3
+ 1838 001f 16       		.uleb128 0x16
+ 1839 0020 00       		.byte	0
+ 1840 0021 03       		.uleb128 0x3
+ 1841 0022 0E       		.uleb128 0xe
+ 1842 0023 3A       		.uleb128 0x3a
+ 1843 0024 0B       		.uleb128 0xb
+ 1844 0025 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 37
+
+
+ 1845 0026 0B       		.uleb128 0xb
+ 1846 0027 49       		.uleb128 0x49
+ 1847 0028 13       		.uleb128 0x13
+ 1848 0029 00       		.byte	0
+ 1849 002a 00       		.byte	0
+ 1850 002b 04       		.uleb128 0x4
+ 1851 002c 24       		.uleb128 0x24
+ 1852 002d 00       		.byte	0
+ 1853 002e 0B       		.uleb128 0xb
+ 1854 002f 0B       		.uleb128 0xb
+ 1855 0030 3E       		.uleb128 0x3e
+ 1856 0031 0B       		.uleb128 0xb
+ 1857 0032 03       		.uleb128 0x3
+ 1858 0033 08       		.uleb128 0x8
+ 1859 0034 00       		.byte	0
+ 1860 0035 00       		.byte	0
+ 1861 0036 05       		.uleb128 0x5
+ 1862 0037 0F       		.uleb128 0xf
+ 1863 0038 00       		.byte	0
+ 1864 0039 0B       		.uleb128 0xb
+ 1865 003a 0B       		.uleb128 0xb
+ 1866 003b 49       		.uleb128 0x49
+ 1867 003c 13       		.uleb128 0x13
+ 1868 003d 00       		.byte	0
+ 1869 003e 00       		.byte	0
+ 1870 003f 06       		.uleb128 0x6
+ 1871 0040 2E       		.uleb128 0x2e
+ 1872 0041 01       		.byte	0x1
+ 1873 0042 3F       		.uleb128 0x3f
+ 1874 0043 19       		.uleb128 0x19
+ 1875 0044 03       		.uleb128 0x3
+ 1876 0045 0E       		.uleb128 0xe
+ 1877 0046 3A       		.uleb128 0x3a
+ 1878 0047 0B       		.uleb128 0xb
+ 1879 0048 3B       		.uleb128 0x3b
+ 1880 0049 0B       		.uleb128 0xb
+ 1881 004a 27       		.uleb128 0x27
+ 1882 004b 19       		.uleb128 0x19
+ 1883 004c 11       		.uleb128 0x11
+ 1884 004d 01       		.uleb128 0x1
+ 1885 004e 12       		.uleb128 0x12
+ 1886 004f 06       		.uleb128 0x6
+ 1887 0050 40       		.uleb128 0x40
+ 1888 0051 18       		.uleb128 0x18
+ 1889 0052 9642     		.uleb128 0x2116
+ 1890 0054 19       		.uleb128 0x19
+ 1891 0055 01       		.uleb128 0x1
+ 1892 0056 13       		.uleb128 0x13
+ 1893 0057 00       		.byte	0
+ 1894 0058 00       		.byte	0
+ 1895 0059 07       		.uleb128 0x7
+ 1896 005a 05       		.uleb128 0x5
+ 1897 005b 00       		.byte	0
+ 1898 005c 03       		.uleb128 0x3
+ 1899 005d 0E       		.uleb128 0xe
+ 1900 005e 3A       		.uleb128 0x3a
+ 1901 005f 0B       		.uleb128 0xb
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 38
+
+
+ 1902 0060 3B       		.uleb128 0x3b
+ 1903 0061 0B       		.uleb128 0xb
+ 1904 0062 49       		.uleb128 0x49
+ 1905 0063 13       		.uleb128 0x13
+ 1906 0064 02       		.uleb128 0x2
+ 1907 0065 18       		.uleb128 0x18
+ 1908 0066 00       		.byte	0
+ 1909 0067 00       		.byte	0
+ 1910 0068 08       		.uleb128 0x8
+ 1911 0069 34       		.uleb128 0x34
+ 1912 006a 00       		.byte	0
+ 1913 006b 03       		.uleb128 0x3
+ 1914 006c 0E       		.uleb128 0xe
+ 1915 006d 3A       		.uleb128 0x3a
+ 1916 006e 0B       		.uleb128 0xb
+ 1917 006f 3B       		.uleb128 0x3b
+ 1918 0070 0B       		.uleb128 0xb
+ 1919 0071 49       		.uleb128 0x49
+ 1920 0072 13       		.uleb128 0x13
+ 1921 0073 02       		.uleb128 0x2
+ 1922 0074 18       		.uleb128 0x18
+ 1923 0075 00       		.byte	0
+ 1924 0076 00       		.byte	0
+ 1925 0077 09       		.uleb128 0x9
+ 1926 0078 01       		.uleb128 0x1
+ 1927 0079 01       		.byte	0x1
+ 1928 007a 49       		.uleb128 0x49
+ 1929 007b 13       		.uleb128 0x13
+ 1930 007c 01       		.uleb128 0x1
+ 1931 007d 13       		.uleb128 0x13
+ 1932 007e 00       		.byte	0
+ 1933 007f 00       		.byte	0
+ 1934 0080 0A       		.uleb128 0xa
+ 1935 0081 21       		.uleb128 0x21
+ 1936 0082 00       		.byte	0
+ 1937 0083 49       		.uleb128 0x49
+ 1938 0084 13       		.uleb128 0x13
+ 1939 0085 2F       		.uleb128 0x2f
+ 1940 0086 0B       		.uleb128 0xb
+ 1941 0087 00       		.byte	0
+ 1942 0088 00       		.byte	0
+ 1943 0089 0B       		.uleb128 0xb
+ 1944 008a 2E       		.uleb128 0x2e
+ 1945 008b 00       		.byte	0
+ 1946 008c 3F       		.uleb128 0x3f
+ 1947 008d 19       		.uleb128 0x19
+ 1948 008e 03       		.uleb128 0x3
+ 1949 008f 0E       		.uleb128 0xe
+ 1950 0090 3A       		.uleb128 0x3a
+ 1951 0091 0B       		.uleb128 0xb
+ 1952 0092 3B       		.uleb128 0x3b
+ 1953 0093 0B       		.uleb128 0xb
+ 1954 0094 27       		.uleb128 0x27
+ 1955 0095 19       		.uleb128 0x19
+ 1956 0096 11       		.uleb128 0x11
+ 1957 0097 01       		.uleb128 0x1
+ 1958 0098 12       		.uleb128 0x12
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 39
+
+
+ 1959 0099 06       		.uleb128 0x6
+ 1960 009a 40       		.uleb128 0x40
+ 1961 009b 18       		.uleb128 0x18
+ 1962 009c 9642     		.uleb128 0x2116
+ 1963 009e 19       		.uleb128 0x19
+ 1964 009f 00       		.byte	0
+ 1965 00a0 00       		.byte	0
+ 1966 00a1 0C       		.uleb128 0xc
+ 1967 00a2 05       		.uleb128 0x5
+ 1968 00a3 00       		.byte	0
+ 1969 00a4 03       		.uleb128 0x3
+ 1970 00a5 08       		.uleb128 0x8
+ 1971 00a6 3A       		.uleb128 0x3a
+ 1972 00a7 0B       		.uleb128 0xb
+ 1973 00a8 3B       		.uleb128 0x3b
+ 1974 00a9 0B       		.uleb128 0xb
+ 1975 00aa 49       		.uleb128 0x49
+ 1976 00ab 13       		.uleb128 0x13
+ 1977 00ac 02       		.uleb128 0x2
+ 1978 00ad 18       		.uleb128 0x18
+ 1979 00ae 00       		.byte	0
+ 1980 00af 00       		.byte	0
+ 1981 00b0 0D       		.uleb128 0xd
+ 1982 00b1 2E       		.uleb128 0x2e
+ 1983 00b2 00       		.byte	0
+ 1984 00b3 3F       		.uleb128 0x3f
+ 1985 00b4 19       		.uleb128 0x19
+ 1986 00b5 03       		.uleb128 0x3
+ 1987 00b6 0E       		.uleb128 0xe
+ 1988 00b7 3A       		.uleb128 0x3a
+ 1989 00b8 0B       		.uleb128 0xb
+ 1990 00b9 3B       		.uleb128 0x3b
+ 1991 00ba 0B       		.uleb128 0xb
+ 1992 00bb 11       		.uleb128 0x11
+ 1993 00bc 01       		.uleb128 0x1
+ 1994 00bd 12       		.uleb128 0x12
+ 1995 00be 06       		.uleb128 0x6
+ 1996 00bf 40       		.uleb128 0x40
+ 1997 00c0 18       		.uleb128 0x18
+ 1998 00c1 9642     		.uleb128 0x2116
+ 1999 00c3 19       		.uleb128 0x19
+ 2000 00c4 00       		.byte	0
+ 2001 00c5 00       		.byte	0
+ 2002 00c6 0E       		.uleb128 0xe
+ 2003 00c7 0B       		.uleb128 0xb
+ 2004 00c8 01       		.byte	0x1
+ 2005 00c9 11       		.uleb128 0x11
+ 2006 00ca 01       		.uleb128 0x1
+ 2007 00cb 12       		.uleb128 0x12
+ 2008 00cc 06       		.uleb128 0x6
+ 2009 00cd 00       		.byte	0
+ 2010 00ce 00       		.byte	0
+ 2011 00cf 0F       		.uleb128 0xf
+ 2012 00d0 34       		.uleb128 0x34
+ 2013 00d1 00       		.byte	0
+ 2014 00d2 03       		.uleb128 0x3
+ 2015 00d3 08       		.uleb128 0x8
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 40
+
+
+ 2016 00d4 3A       		.uleb128 0x3a
+ 2017 00d5 0B       		.uleb128 0xb
+ 2018 00d6 3B       		.uleb128 0x3b
+ 2019 00d7 0B       		.uleb128 0xb
+ 2020 00d8 49       		.uleb128 0x49
+ 2021 00d9 13       		.uleb128 0x13
+ 2022 00da 02       		.uleb128 0x2
+ 2023 00db 18       		.uleb128 0x18
+ 2024 00dc 00       		.byte	0
+ 2025 00dd 00       		.byte	0
+ 2026 00de 10       		.uleb128 0x10
+ 2027 00df 34       		.uleb128 0x34
+ 2028 00e0 00       		.byte	0
+ 2029 00e1 03       		.uleb128 0x3
+ 2030 00e2 0E       		.uleb128 0xe
+ 2031 00e3 3A       		.uleb128 0x3a
+ 2032 00e4 0B       		.uleb128 0xb
+ 2033 00e5 3B       		.uleb128 0x3b
+ 2034 00e6 05       		.uleb128 0x5
+ 2035 00e7 49       		.uleb128 0x49
+ 2036 00e8 13       		.uleb128 0x13
+ 2037 00e9 3F       		.uleb128 0x3f
+ 2038 00ea 19       		.uleb128 0x19
+ 2039 00eb 3C       		.uleb128 0x3c
+ 2040 00ec 19       		.uleb128 0x19
+ 2041 00ed 00       		.byte	0
+ 2042 00ee 00       		.byte	0
+ 2043 00ef 11       		.uleb128 0x11
+ 2044 00f0 35       		.uleb128 0x35
+ 2045 00f1 00       		.byte	0
+ 2046 00f2 49       		.uleb128 0x49
+ 2047 00f3 13       		.uleb128 0x13
+ 2048 00f4 00       		.byte	0
+ 2049 00f5 00       		.byte	0
+ 2050 00f6 12       		.uleb128 0x12
+ 2051 00f7 34       		.uleb128 0x34
+ 2052 00f8 00       		.byte	0
+ 2053 00f9 03       		.uleb128 0x3
+ 2054 00fa 0E       		.uleb128 0xe
+ 2055 00fb 3A       		.uleb128 0x3a
+ 2056 00fc 0B       		.uleb128 0xb
+ 2057 00fd 3B       		.uleb128 0x3b
+ 2058 00fe 0B       		.uleb128 0xb
+ 2059 00ff 49       		.uleb128 0x49
+ 2060 0100 13       		.uleb128 0x13
+ 2061 0101 3F       		.uleb128 0x3f
+ 2062 0102 19       		.uleb128 0x19
+ 2063 0103 02       		.uleb128 0x2
+ 2064 0104 18       		.uleb128 0x18
+ 2065 0105 00       		.byte	0
+ 2066 0106 00       		.byte	0
+ 2067 0107 00       		.byte	0
+ 2068              		.section	.debug_aranges,"",%progbits
+ 2069 0000 D4000000 		.4byte	0xd4
+ 2070 0004 0200     		.2byte	0x2
+ 2071 0006 00000000 		.4byte	.Ldebug_info0
+ 2072 000a 04       		.byte	0x4
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 41
+
+
+ 2073 000b 00       		.byte	0
+ 2074 000c 0000     		.2byte	0
+ 2075 000e 0000     		.2byte	0
+ 2076 0010 00000000 		.4byte	.LFB63
+ 2077 0014 D0000000 		.4byte	.LFE63-.LFB63
+ 2078 0018 00000000 		.4byte	.LFB64
+ 2079 001c 26000000 		.4byte	.LFE64-.LFB64
+ 2080 0020 00000000 		.4byte	.LFB65
+ 2081 0024 26000000 		.4byte	.LFE65-.LFB65
+ 2082 0028 00000000 		.4byte	.LFB66
+ 2083 002c 14000000 		.4byte	.LFE66-.LFB66
+ 2084 0030 00000000 		.4byte	.LFB67
+ 2085 0034 46000000 		.4byte	.LFE67-.LFB67
+ 2086 0038 00000000 		.4byte	.LFB68
+ 2087 003c 2C000000 		.4byte	.LFE68-.LFB68
+ 2088 0040 00000000 		.4byte	.LFB69
+ 2089 0044 2C000000 		.4byte	.LFE69-.LFB69
+ 2090 0048 00000000 		.4byte	.LFB70
+ 2091 004c 36000000 		.4byte	.LFE70-.LFB70
+ 2092 0050 00000000 		.4byte	.LFB71
+ 2093 0054 38000000 		.4byte	.LFE71-.LFB71
+ 2094 0058 00000000 		.4byte	.LFB72
+ 2095 005c 3E000000 		.4byte	.LFE72-.LFB72
+ 2096 0060 00000000 		.4byte	.LFB73
+ 2097 0064 30000000 		.4byte	.LFE73-.LFB73
+ 2098 0068 00000000 		.4byte	.LFB74
+ 2099 006c 68000000 		.4byte	.LFE74-.LFB74
+ 2100 0070 00000000 		.4byte	.LFB75
+ 2101 0074 2C000000 		.4byte	.LFE75-.LFB75
+ 2102 0078 00000000 		.4byte	.LFB76
+ 2103 007c 2C000000 		.4byte	.LFE76-.LFB76
+ 2104 0080 00000000 		.4byte	.LFB77
+ 2105 0084 0E000000 		.4byte	.LFE77-.LFB77
+ 2106 0088 00000000 		.4byte	.LFB78
+ 2107 008c 0E000000 		.4byte	.LFE78-.LFB78
+ 2108 0090 00000000 		.4byte	.LFB79
+ 2109 0094 2C000000 		.4byte	.LFE79-.LFB79
+ 2110 0098 00000000 		.4byte	.LFB80
+ 2111 009c 2C000000 		.4byte	.LFE80-.LFB80
+ 2112 00a0 00000000 		.4byte	.LFB81
+ 2113 00a4 40000000 		.4byte	.LFE81-.LFB81
+ 2114 00a8 00000000 		.4byte	.LFB82
+ 2115 00ac 30000000 		.4byte	.LFE82-.LFB82
+ 2116 00b0 00000000 		.4byte	.LFB83
+ 2117 00b4 2C000000 		.4byte	.LFE83-.LFB83
+ 2118 00b8 00000000 		.4byte	.LFB84
+ 2119 00bc 2C000000 		.4byte	.LFE84-.LFB84
+ 2120 00c0 00000000 		.4byte	.LFB85
+ 2121 00c4 2C000000 		.4byte	.LFE85-.LFB85
+ 2122 00c8 00000000 		.4byte	.LFB86
+ 2123 00cc 2C000000 		.4byte	.LFE86-.LFB86
+ 2124 00d0 00000000 		.4byte	0
+ 2125 00d4 00000000 		.4byte	0
+ 2126              		.section	.debug_ranges,"",%progbits
+ 2127              	.Ldebug_ranges0:
+ 2128 0000 00000000 		.4byte	.LFB63
+ 2129 0004 D0000000 		.4byte	.LFE63
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 42
+
+
+ 2130 0008 00000000 		.4byte	.LFB64
+ 2131 000c 26000000 		.4byte	.LFE64
+ 2132 0010 00000000 		.4byte	.LFB65
+ 2133 0014 26000000 		.4byte	.LFE65
+ 2134 0018 00000000 		.4byte	.LFB66
+ 2135 001c 14000000 		.4byte	.LFE66
+ 2136 0020 00000000 		.4byte	.LFB67
+ 2137 0024 46000000 		.4byte	.LFE67
+ 2138 0028 00000000 		.4byte	.LFB68
+ 2139 002c 2C000000 		.4byte	.LFE68
+ 2140 0030 00000000 		.4byte	.LFB69
+ 2141 0034 2C000000 		.4byte	.LFE69
+ 2142 0038 00000000 		.4byte	.LFB70
+ 2143 003c 36000000 		.4byte	.LFE70
+ 2144 0040 00000000 		.4byte	.LFB71
+ 2145 0044 38000000 		.4byte	.LFE71
+ 2146 0048 00000000 		.4byte	.LFB72
+ 2147 004c 3E000000 		.4byte	.LFE72
+ 2148 0050 00000000 		.4byte	.LFB73
+ 2149 0054 30000000 		.4byte	.LFE73
+ 2150 0058 00000000 		.4byte	.LFB74
+ 2151 005c 68000000 		.4byte	.LFE74
+ 2152 0060 00000000 		.4byte	.LFB75
+ 2153 0064 2C000000 		.4byte	.LFE75
+ 2154 0068 00000000 		.4byte	.LFB76
+ 2155 006c 2C000000 		.4byte	.LFE76
+ 2156 0070 00000000 		.4byte	.LFB77
+ 2157 0074 0E000000 		.4byte	.LFE77
+ 2158 0078 00000000 		.4byte	.LFB78
+ 2159 007c 0E000000 		.4byte	.LFE78
+ 2160 0080 00000000 		.4byte	.LFB79
+ 2161 0084 2C000000 		.4byte	.LFE79
+ 2162 0088 00000000 		.4byte	.LFB80
+ 2163 008c 2C000000 		.4byte	.LFE80
+ 2164 0090 00000000 		.4byte	.LFB81
+ 2165 0094 40000000 		.4byte	.LFE81
+ 2166 0098 00000000 		.4byte	.LFB82
+ 2167 009c 30000000 		.4byte	.LFE82
+ 2168 00a0 00000000 		.4byte	.LFB83
+ 2169 00a4 2C000000 		.4byte	.LFE83
+ 2170 00a8 00000000 		.4byte	.LFB84
+ 2171 00ac 2C000000 		.4byte	.LFE84
+ 2172 00b0 00000000 		.4byte	.LFB85
+ 2173 00b4 2C000000 		.4byte	.LFE85
+ 2174 00b8 00000000 		.4byte	.LFB86
+ 2175 00bc 2C000000 		.4byte	.LFE86
+ 2176 00c0 00000000 		.4byte	0
+ 2177 00c4 00000000 		.4byte	0
+ 2178              		.section	.debug_line,"",%progbits
+ 2179              	.Ldebug_line0:
+ 2180 0000 74030000 		.section	.debug_str,"MS",%progbits,1
+ 2180      02004201 
+ 2180      00000201 
+ 2180      FB0E0D00 
+ 2180      01010101 
+ 2181              	.LASF55:
+ 2182 0000 5F646973 		.ascii	"_displaymode\000"
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 43
+
+
+ 2182      706C6179 
+ 2182      6D6F6465 
+ 2182      00
+ 2183              	.LASF36:
+ 2184 000d 4C43445F 		.ascii	"LCD_createChar\000"
+ 2184      63726561 
+ 2184      74654368 
+ 2184      617200
+ 2185              	.LASF42:
+ 2186 001c 4C43445F 		.ascii	"LCD_scrollDisplayRight\000"
+ 2186      7363726F 
+ 2186      6C6C4469 
+ 2186      73706C61 
+ 2186      79526967 
+ 2187              	.LASF2:
+ 2188 0033 73686F72 		.ascii	"short int\000"
+ 2188      7420696E 
+ 2188      7400
+ 2189              	.LASF19:
+ 2190 003d 726F7773 		.ascii	"rows\000"
+ 2190      00
+ 2191              	.LASF17:
+ 2192 0042 73697A65 		.ascii	"sizetype\000"
+ 2192      74797065 
+ 2192      00
+ 2193              	.LASF50:
+ 2194 004b 4C43445F 		.ascii	"LCD_blink\000"
+ 2194      626C696E 
+ 2194      6B00
+ 2195              	.LASF20:
+ 2196 0055 63686172 		.ascii	"charsize\000"
+ 2196      73697A65 
+ 2196      00
+ 2197              	.LASF58:
+ 2198 005e 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2198      43313120 
+ 2198      352E342E 
+ 2198      31203230 
+ 2198      31363036 
+ 2199 0091 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2199      20726576 
+ 2199      6973696F 
+ 2199      6E203233 
+ 2199      37373135 
+ 2200 00c4 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 2200      66756E63 
+ 2200      74696F6E 
+ 2200      2D736563 
+ 2200      74696F6E 
+ 2201              	.LASF39:
+ 2202 00ec 4C43445F 		.ascii	"LCD_autoscroll\000"
+ 2202      6175746F 
+ 2202      7363726F 
+ 2202      6C6C00
+ 2203              	.LASF21:
+ 2204 00fb 4C43445F 		.ascii	"LCD_begin\000"
+ 2204      62656769 
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 44
+
+
+ 2204      6E00
+ 2205              	.LASF53:
+ 2206 0105 5F646973 		.ascii	"_displayfunction\000"
+ 2206      706C6179 
+ 2206      66756E63 
+ 2206      74696F6E 
+ 2206      00
+ 2207              	.LASF11:
+ 2208 0116 75696E74 		.ascii	"uint8_t\000"
+ 2208      385F7400 
+ 2209              	.LASF48:
+ 2210 011e 4C43445F 		.ascii	"LCD_cursor\000"
+ 2210      63757273 
+ 2210      6F7200
+ 2211              	.LASF22:
+ 2212 0129 4C43445F 		.ascii	"LCD_command\000"
+ 2212      636F6D6D 
+ 2212      616E6400 
+ 2213              	.LASF13:
+ 2214 0135 666C6F61 		.ascii	"float\000"
+ 2214      7400
+ 2215              	.LASF57:
+ 2216 013b 5F637572 		.ascii	"_currline\000"
+ 2216      726C696E 
+ 2216      6500
+ 2217              	.LASF8:
+ 2218 0145 6C6F6E67 		.ascii	"long long int\000"
+ 2218      206C6F6E 
+ 2218      6720696E 
+ 2218      7400
+ 2219              	.LASF27:
+ 2220 0153 4C43445F 		.ascii	"LCD_clear\000"
+ 2220      636C6561 
+ 2220      7200
+ 2221              	.LASF6:
+ 2222 015d 6C6F6E67 		.ascii	"long int\000"
+ 2222      20696E74 
+ 2222      00
+ 2223              	.LASF33:
+ 2224 0166 61646472 		.ascii	"addr\000"
+ 2224      00
+ 2225              	.LASF44:
+ 2226 016b 4C43445F 		.ascii	"LCD_rightToLeft\000"
+ 2226      72696768 
+ 2226      74546F4C 
+ 2226      65667400 
+ 2227              	.LASF45:
+ 2228 017b 4C43445F 		.ascii	"LCD_blinkLED\000"
+ 2228      626C696E 
+ 2228      6B4C4544 
+ 2228      00
+ 2229              	.LASF4:
+ 2230 0188 5F5F7569 		.ascii	"__uint8_t\000"
+ 2230      6E74385F 
+ 2230      7400
+ 2231              	.LASF1:
+ 2232 0192 756E7369 		.ascii	"unsigned char\000"
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 45
+
+
+ 2232      676E6564 
+ 2232      20636861 
+ 2232      7200
+ 2233              	.LASF16:
+ 2234 01a0 6C6F6E67 		.ascii	"long double\000"
+ 2234      20646F75 
+ 2234      626C6500 
+ 2235              	.LASF54:
+ 2236 01ac 5F646973 		.ascii	"_displaycontrol\000"
+ 2236      706C6179 
+ 2236      636F6E74 
+ 2236      726F6C00 
+ 2237              	.LASF26:
+ 2238 01bc 4C43445F 		.ascii	"LCD_setCursor\000"
+ 2238      73657443 
+ 2238      7572736F 
+ 2238      7200
+ 2239              	.LASF31:
+ 2240 01ca 4C43445F 		.ascii	"LCD_setRGB\000"
+ 2240      73657452 
+ 2240      474200
+ 2241              	.LASF49:
+ 2242 01d5 4C43445F 		.ascii	"LCD_noBlink\000"
+ 2242      6E6F426C 
+ 2242      696E6B00 
+ 2243              	.LASF0:
+ 2244 01e1 7369676E 		.ascii	"signed char\000"
+ 2244      65642063 
+ 2244      68617200 
+ 2245              	.LASF9:
+ 2246 01ed 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2246      206C6F6E 
+ 2246      6720756E 
+ 2246      7369676E 
+ 2246      65642069 
+ 2247              	.LASF10:
+ 2248 0204 756E7369 		.ascii	"unsigned int\000"
+ 2248      676E6564 
+ 2248      20696E74 
+ 2248      00
+ 2249              	.LASF43:
+ 2250 0211 4C43445F 		.ascii	"LCD_leftToRight\000"
+ 2250      6C656674 
+ 2250      546F5269 
+ 2250      67687400 
+ 2251              	.LASF60:
+ 2252 0221 433A5C55 		.ascii	"C:\\Users\\elias\\OneDrive\\Documents\\Documentos\\"
+ 2252      73657273 
+ 2252      5C656C69 
+ 2252      61735C4F 
+ 2252      6E654472 
+ 2253 024e 50536F43 		.ascii	"PSoC Creator\\TPF\\Micro1.cydsn\000"
+ 2253      20437265 
+ 2253      61746F72 
+ 2253      5C545046 
+ 2253      5C4D6963 
+ 2254              	.LASF47:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 46
+
+
+ 2255 026c 4C43445F 		.ascii	"LCD_noCursor\000"
+ 2255      6E6F4375 
+ 2255      72736F72 
+ 2255      00
+ 2256              	.LASF28:
+ 2257 0279 4C43445F 		.ascii	"LCD_display\000"
+ 2257      64697370 
+ 2257      6C617900 
+ 2258              	.LASF24:
+ 2259 0285 4C43445F 		.ascii	"LCD_write\000"
+ 2259      77726974 
+ 2259      6500
+ 2260              	.LASF29:
+ 2261 028f 4C43445F 		.ascii	"LCD_print\000"
+ 2261      7072696E 
+ 2261      7400
+ 2262              	.LASF30:
+ 2263 0299 73697A65 		.ascii	"size\000"
+ 2263      00
+ 2264              	.LASF15:
+ 2265 029e 63686172 		.ascii	"char\000"
+ 2265      00
+ 2266              	.LASF32:
+ 2267 02a3 4C43445F 		.ascii	"LCD_setReg\000"
+ 2267      73657452 
+ 2267      656700
+ 2268              	.LASF12:
+ 2269 02ae 696E7433 		.ascii	"int32_t\000"
+ 2269      325F7400 
+ 2270              	.LASF3:
+ 2271 02b6 73686F72 		.ascii	"short unsigned int\000"
+ 2271      7420756E 
+ 2271      7369676E 
+ 2271      65642069 
+ 2271      6E7400
+ 2272              	.LASF35:
+ 2273 02c9 6932635F 		.ascii	"i2c_send_byteS\000"
+ 2273      73656E64 
+ 2273      5F627974 
+ 2273      655300
+ 2274              	.LASF25:
+ 2275 02d8 64617461 		.ascii	"data\000"
+ 2275      00
+ 2276              	.LASF34:
+ 2277 02dd 62756666 		.ascii	"buffer\000"
+ 2277      657200
+ 2278              	.LASF7:
+ 2279 02e4 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2279      20756E73 
+ 2279      69676E65 
+ 2279      6420696E 
+ 2279      7400
+ 2280              	.LASF59:
+ 2281 02f6 7267625F 		.ascii	"rgb_lcd.c\000"
+ 2281      6C63642E 
+ 2281      6300
+ 2282              	.LASF18:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccHgsDKk.s 			page 47
+
+
+ 2283 0300 636F6C73 		.ascii	"cols\000"
+ 2283      00
+ 2284              	.LASF40:
+ 2285 0305 4C43445F 		.ascii	"LCD_noAutoscroll\000"
+ 2285      6E6F4175 
+ 2285      746F7363 
+ 2285      726F6C6C 
+ 2285      00
+ 2286              	.LASF41:
+ 2287 0316 4C43445F 		.ascii	"LCD_scrollDisplayLeft\000"
+ 2287      7363726F 
+ 2287      6C6C4469 
+ 2287      73706C61 
+ 2287      794C6566 
+ 2288              	.LASF52:
+ 2289 032c 7267625F 		.ascii	"rgb_chip_addr\000"
+ 2289      63686970 
+ 2289      5F616464 
+ 2289      7200
+ 2290              	.LASF38:
+ 2291 033a 63686172 		.ascii	"charmap\000"
+ 2291      6D617000 
+ 2292              	.LASF5:
+ 2293 0342 5F5F696E 		.ascii	"__int32_t\000"
+ 2293      7433325F 
+ 2293      7400
+ 2294              	.LASF37:
+ 2295 034c 6C6F6361 		.ascii	"location\000"
+ 2295      74696F6E 
+ 2295      00
+ 2296              	.LASF56:
+ 2297 0355 5F6E756D 		.ascii	"_numlines\000"
+ 2297      6C696E65 
+ 2297      7300
+ 2298              	.LASF61:
+ 2299 035f 4C43445F 		.ascii	"LCD_noDisplay\000"
+ 2299      6E6F4469 
+ 2299      73706C61 
+ 2299      7900
+ 2300              	.LASF14:
+ 2301 036d 646F7562 		.ascii	"double\000"
+ 2301      6C6500
+ 2302              	.LASF51:
+ 2303 0374 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2303      52784275 
+ 2303      66666572 
+ 2303      00
+ 2304              	.LASF23:
+ 2305 0381 76616C75 		.ascii	"value\000"
+ 2305      6500
+ 2306              	.LASF46:
+ 2307 0387 4C43445F 		.ascii	"LCD_noBlinkLED\000"
+ 2307      6E6F426C 
+ 2307      696E6B4C 
+ 2307      454400
+ 2308              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

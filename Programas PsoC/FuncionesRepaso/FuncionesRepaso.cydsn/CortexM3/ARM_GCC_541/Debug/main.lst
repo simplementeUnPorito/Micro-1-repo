@@ -1,0 +1,2829 @@
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.getLine,"ax",%progbits
+  20              		.align	2
+  21              		.global	getLine
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	getLine, %function
+  25              	getLine:
+  26              	.LFB64:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include "project.h"
+  13:main.c        **** #include <stdio.h>
+  14:main.c        **** 
+  15:main.c        **** 
+  16:main.c        **** void getLine (char *buf, int tamBuf, uint8_t (*getcharl)(), void (*putcharl)(uint8_t)) {
+  28              		.loc 1 16 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+  34              		.cfi_def_cfa_offset 32
+  35              		.cfi_offset 3, -32
+  36              		.cfi_offset 4, -28
+  37              		.cfi_offset 5, -24
+  38              		.cfi_offset 6, -20
+  39              		.cfi_offset 7, -16
+  40              		.cfi_offset 8, -12
+  41              		.cfi_offset 9, -8
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 2
+
+
+  42              		.cfi_offset 14, -4
+  43 0004 8146     		mov	r9, r0
+  44 0006 0E46     		mov	r6, r1
+  45 0008 1746     		mov	r7, r2
+  46 000a 9846     		mov	r8, r3
+  47              	.LVL1:
+  17:main.c        ****     int i;
+  18:main.c        ****     uint8 c;
+  19:main.c        ****    
+  20:main.c        ****     for (i = 0; i < tamBuf -1; ) {
+  48              		.loc 1 20 0
+  49 000c 0024     		movs	r4, #0
+  50 000e 08E0     		b	.L3
+  51              	.LVL2:
+  52              	.L5:
+  21:main.c        ****         if ((c = getcharl()) != 0){
+  53              		.loc 1 21 0
+  54 0010 B847     		blx	r7
+  55              	.LVL3:
+  56 0012 0546     		mov	r5, r0
+  57 0014 28B1     		cbz	r0, .L3
+  22:main.c        ****             putcharl(c);
+  58              		.loc 1 22 0
+  59 0016 C047     		blx	r8
+  60              	.LVL4:
+  23:main.c        ****             if (c == '\r') break;   // salimos si recibimos un enter
+  61              		.loc 1 23 0
+  62 0018 0D2D     		cmp	r5, #13
+  63 001a 05D0     		beq	.L4
+  64              	.LVL5:
+  24:main.c        ****             buf[i++] = c;
+  65              		.loc 1 24 0
+  66 001c 09F80450 		strb	r5, [r9, r4]
+  67 0020 0134     		adds	r4, r4, #1
+  68              	.LVL6:
+  69              	.L3:
+  20:main.c        ****         if ((c = getcharl()) != 0){
+  70              		.loc 1 20 0 discriminator 1
+  71 0022 731E     		subs	r3, r6, #1
+  72 0024 9C42     		cmp	r4, r3
+  73 0026 F3DB     		blt	.L5
+  74              	.L4:
+  25:main.c        ****         }
+  26:main.c        ****     }
+  27:main.c        ****     buf[i] = '\0';
+  75              		.loc 1 27 0
+  76 0028 0023     		movs	r3, #0
+  77 002a 09F80430 		strb	r3, [r9, r4]
+  28:main.c        ****     putcharl('\n');
+  78              		.loc 1 28 0
+  79 002e 0A20     		movs	r0, #10
+  80 0030 C047     		blx	r8
+  81              	.LVL7:
+  82 0032 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+  83              		.cfi_endproc
+  84              	.LFE64:
+  85              		.size	getLine, .-getLine
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 3
+
+
+  86 0036 00BF     		.section	.text.fibonacciN,"ax",%progbits
+  87              		.align	2
+  88              		.global	fibonacciN
+  89              		.thumb
+  90              		.thumb_func
+  91              		.type	fibonacciN, %function
+  92              	fibonacciN:
+  93              	.LFB65:
+  29:main.c        **** }
+  30:main.c        **** 
+  31:main.c        **** 
+  32:main.c        **** extern u_int32_t fibonacciN_A(u_int16_t );
+  33:main.c        **** 
+  34:main.c        **** 
+  35:main.c        **** 
+  36:main.c        **** u_int32_t fibonacciN(u_int16_t N)
+  37:main.c        **** {
+  94              		.loc 1 37 0
+  95              		.cfi_startproc
+  96              		@ args = 0, pretend = 0, frame = 0
+  97              		@ frame_needed = 0, uses_anonymous_args = 0
+  98              		@ link register save eliminated.
+  99              	.LVL8:
+  38:main.c        ****   if(N == 1 || N == 2)
+ 100              		.loc 1 38 0
+ 101 0000 431E     		subs	r3, r0, #1
+ 102 0002 9BB2     		uxth	r3, r3
+ 103 0004 012B     		cmp	r3, #1
+ 104 0006 0DD9     		bls	.L11
+  37:main.c        ****   if(N == 1 || N == 2)
+ 105              		.loc 1 37 0
+ 106 0008 10B4     		push	{r4}
+ 107              		.cfi_def_cfa_offset 4
+ 108              		.cfi_offset 4, -4
+ 109 000a 0323     		movs	r3, #3
+ 110 000c 0122     		movs	r2, #1
+ 111 000e 1146     		mov	r1, r2
+ 112 0010 04E0     		b	.L9
+ 113              	.LVL9:
+ 114              	.L10:
+ 115              	.LBB2:
+  39:main.c        ****     return 1;
+  40:main.c        ****     
+  41:main.c        ****   u_int32_t n1 = 1,n2 = 1,aux;
+  42:main.c        ****   for(u_int16_t i = 3; i<=N;i++)
+  43:main.c        ****   {
+  44:main.c        ****       aux = n1;
+  45:main.c        ****       n1 = n2;
+  46:main.c        ****       n2 = n2+aux;
+ 116              		.loc 1 46 0 discriminator 3
+ 117 0012 8C18     		adds	r4, r1, r2
+ 118              	.LVL10:
+  42:main.c        ****   {
+ 119              		.loc 1 42 0 discriminator 3
+ 120 0014 0133     		adds	r3, r3, #1
+ 121              	.LVL11:
+ 122 0016 9BB2     		uxth	r3, r3
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 4
+
+
+ 123              	.LVL12:
+  45:main.c        ****       n2 = n2+aux;
+ 124              		.loc 1 45 0 discriminator 3
+ 125 0018 1146     		mov	r1, r2
+ 126              	.LVL13:
+ 127              		.loc 1 46 0 discriminator 3
+ 128 001a 2246     		mov	r2, r4
+ 129              	.LVL14:
+ 130              	.L9:
+  42:main.c        ****   {
+ 131              		.loc 1 42 0 discriminator 1
+ 132 001c 8342     		cmp	r3, r0
+ 133 001e F8D9     		bls	.L10
+ 134              	.LBE2:
+  47:main.c        ****   }
+  48:main.c        ****   return n2;
+ 135              		.loc 1 48 0
+ 136 0020 1046     		mov	r0, r2
+ 137              	.LVL15:
+ 138              	.LBB3:
+ 139 0022 01E0     		b	.L8
+ 140              	.LVL16:
+ 141              	.L11:
+ 142              		.cfi_def_cfa_offset 0
+ 143              		.cfi_restore 4
+ 144              	.LBE3:
+  39:main.c        ****     
+ 145              		.loc 1 39 0
+ 146 0024 0120     		movs	r0, #1
+ 147              	.LVL17:
+ 148 0026 7047     		bx	lr
+ 149              	.LVL18:
+ 150              	.L8:
+ 151              		.cfi_def_cfa_offset 4
+ 152              		.cfi_offset 4, -4
+  49:main.c        **** }
+ 153              		.loc 1 49 0
+ 154 0028 10BC     		pop	{r4}
+ 155              		.cfi_restore 4
+ 156              		.cfi_def_cfa_offset 0
+ 157 002a 7047     		bx	lr
+ 158              		.cfi_endproc
+ 159              	.LFE65:
+ 160              		.size	fibonacciN, .-fibonacciN
+ 161              		.section	.text.contVocal,"ax",%progbits
+ 162              		.align	2
+ 163              		.global	contVocal
+ 164              		.thumb
+ 165              		.thumb_func
+ 166              		.type	contVocal, %function
+ 167              	contVocal:
+ 168              	.LFB66:
+  50:main.c        **** 
+  51:main.c        **** u_int16_t contVocal_A(char*);
+  52:main.c        **** 
+  53:main.c        **** u_int16_t contVocal(char *v)
+  54:main.c        **** {
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 5
+
+
+ 169              		.loc 1 54 0
+ 170              		.cfi_startproc
+ 171              		@ args = 0, pretend = 0, frame = 0
+ 172              		@ frame_needed = 0, uses_anonymous_args = 0
+ 173              		@ link register save eliminated.
+ 174              	.LVL19:
+  55:main.c        ****     u_int16_t N = 0;
+  56:main.c        ****     char letter=*v++;
+ 175              		.loc 1 56 0
+ 176 0000 421C     		adds	r2, r0, #1
+ 177              	.LVL20:
+ 178 0002 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+ 179              	.LVL21:
+  55:main.c        ****     u_int16_t N = 0;
+ 180              		.loc 1 55 0
+ 181 0004 0020     		movs	r0, #0
+  57:main.c        ****     while(letter!='\0')
+ 182              		.loc 1 57 0
+ 183 0006 23E0     		b	.L15
+ 184              	.LVL22:
+ 185              	.L19:
+  58:main.c        ****     {
+  59:main.c        ****         switch(letter)
+ 186              		.loc 1 59 0
+ 187 0008 413B     		subs	r3, r3, #65
+ 188              	.LVL23:
+ 189 000a 342B     		cmp	r3, #52
+ 190 000c 1ED8     		bhi	.L16
+ 191 000e DFE803F0 		tbb	[pc, r3]
+ 192              	.L18:
+ 193 0012 1B       		.byte	(.L17-.L18)/2
+ 194 0013 1D       		.byte	(.L16-.L18)/2
+ 195 0014 1D       		.byte	(.L16-.L18)/2
+ 196 0015 1D       		.byte	(.L16-.L18)/2
+ 197 0016 1B       		.byte	(.L17-.L18)/2
+ 198 0017 1D       		.byte	(.L16-.L18)/2
+ 199 0018 1D       		.byte	(.L16-.L18)/2
+ 200 0019 1D       		.byte	(.L16-.L18)/2
+ 201 001a 1B       		.byte	(.L17-.L18)/2
+ 202 001b 1D       		.byte	(.L16-.L18)/2
+ 203 001c 1D       		.byte	(.L16-.L18)/2
+ 204 001d 1D       		.byte	(.L16-.L18)/2
+ 205 001e 1D       		.byte	(.L16-.L18)/2
+ 206 001f 1D       		.byte	(.L16-.L18)/2
+ 207 0020 1B       		.byte	(.L17-.L18)/2
+ 208 0021 1D       		.byte	(.L16-.L18)/2
+ 209 0022 1D       		.byte	(.L16-.L18)/2
+ 210 0023 1D       		.byte	(.L16-.L18)/2
+ 211 0024 1D       		.byte	(.L16-.L18)/2
+ 212 0025 1D       		.byte	(.L16-.L18)/2
+ 213 0026 1B       		.byte	(.L17-.L18)/2
+ 214 0027 1D       		.byte	(.L16-.L18)/2
+ 215 0028 1D       		.byte	(.L16-.L18)/2
+ 216 0029 1D       		.byte	(.L16-.L18)/2
+ 217 002a 1D       		.byte	(.L16-.L18)/2
+ 218 002b 1D       		.byte	(.L16-.L18)/2
+ 219 002c 1D       		.byte	(.L16-.L18)/2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 6
+
+
+ 220 002d 1D       		.byte	(.L16-.L18)/2
+ 221 002e 1D       		.byte	(.L16-.L18)/2
+ 222 002f 1D       		.byte	(.L16-.L18)/2
+ 223 0030 1D       		.byte	(.L16-.L18)/2
+ 224 0031 1D       		.byte	(.L16-.L18)/2
+ 225 0032 1B       		.byte	(.L17-.L18)/2
+ 226 0033 1D       		.byte	(.L16-.L18)/2
+ 227 0034 1D       		.byte	(.L16-.L18)/2
+ 228 0035 1D       		.byte	(.L16-.L18)/2
+ 229 0036 1B       		.byte	(.L17-.L18)/2
+ 230 0037 1D       		.byte	(.L16-.L18)/2
+ 231 0038 1D       		.byte	(.L16-.L18)/2
+ 232 0039 1D       		.byte	(.L16-.L18)/2
+ 233 003a 1B       		.byte	(.L17-.L18)/2
+ 234 003b 1D       		.byte	(.L16-.L18)/2
+ 235 003c 1D       		.byte	(.L16-.L18)/2
+ 236 003d 1D       		.byte	(.L16-.L18)/2
+ 237 003e 1D       		.byte	(.L16-.L18)/2
+ 238 003f 1D       		.byte	(.L16-.L18)/2
+ 239 0040 1B       		.byte	(.L17-.L18)/2
+ 240 0041 1D       		.byte	(.L16-.L18)/2
+ 241 0042 1D       		.byte	(.L16-.L18)/2
+ 242 0043 1D       		.byte	(.L16-.L18)/2
+ 243 0044 1D       		.byte	(.L16-.L18)/2
+ 244 0045 1D       		.byte	(.L16-.L18)/2
+ 245 0046 1B       		.byte	(.L17-.L18)/2
+ 246 0047 00       		.p2align 1
+ 247              	.L17:
+  60:main.c        ****         {
+  61:main.c        ****             case 'a':case 'A':
+  62:main.c        ****             case 'e':case 'E':
+  63:main.c        ****             case 'i':case 'I':
+  64:main.c        ****             case 'o':case 'O':
+  65:main.c        ****             case 'u':case 'U':
+  66:main.c        ****                 N++;
+ 248              		.loc 1 66 0
+ 249 0048 0130     		adds	r0, r0, #1
+ 250              	.LVL24:
+ 251 004a 80B2     		uxth	r0, r0
+ 252              	.LVL25:
+ 253              	.L16:
+  67:main.c        ****             default:
+  68:main.c        ****                 break;
+  69:main.c        ****             
+  70:main.c        ****         }
+  71:main.c        ****         letter=*v++;
+ 254              		.loc 1 71 0
+ 255 004c 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 256              	.LVL26:
+ 257 004e 0132     		adds	r2, r2, #1
+ 258              	.LVL27:
+ 259              	.L15:
+  57:main.c        ****     {
+ 260              		.loc 1 57 0
+ 261 0050 002B     		cmp	r3, #0
+ 262 0052 D9D1     		bne	.L19
+  72:main.c        ****     }
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 7
+
+
+  73:main.c        ****     return N;
+  74:main.c        **** }
+ 263              		.loc 1 74 0
+ 264 0054 7047     		bx	lr
+ 265              		.cfi_endproc
+ 266              	.LFE66:
+ 267              		.size	contVocal, .-contVocal
+ 268 0056 00BF     		.section	.text.prime,"ax",%progbits
+ 269              		.align	2
+ 270              		.global	prime
+ 271              		.thumb
+ 272              		.thumb_func
+ 273              		.type	prime, %function
+ 274              	prime:
+ 275              	.LFB67:
+  75:main.c        **** 
+  76:main.c        **** u_int32_t prime_A(u_int16_t N);
+  77:main.c        **** 
+  78:main.c        **** u_int32_t prime(u_int16_t N)
+  79:main.c        **** {
+ 276              		.loc 1 79 0
+ 277              		.cfi_startproc
+ 278              		@ args = 0, pretend = 0, frame = 0
+ 279              		@ frame_needed = 0, uses_anonymous_args = 0
+ 280              		@ link register save eliminated.
+ 281              	.LVL28:
+  80:main.c        ****     if(N<=1) //verificamos caso trivial 1,0 y numeros negativos
+ 282              		.loc 1 80 0
+ 283 0000 0128     		cmp	r0, #1
+ 284 0002 13D9     		bls	.L24
+  81:main.c        ****         return 0;
+  82:main.c        ****     if(N == 2) //verificamos caso trivial 2
+ 285              		.loc 1 82 0
+ 286 0004 0228     		cmp	r0, #2
+ 287 0006 13D0     		beq	.L25
+  83:main.c        ****         return 1;
+  84:main.c        ****     else if(N%2 == 0) //verificamos si es impar, ya que 2 es el unico numero par primo
+ 288              		.loc 1 84 0
+ 289 0008 10F0010F 		tst	r0, #1
+ 290 000c 12D0     		beq	.L26
+  85:main.c        ****         return 0;
+  86:main.c        ****     u_int16_t limit = N>>1; //Un numero no puede ser multiplo de otro que sea mayor a su mitad
+ 291              		.loc 1 86 0
+ 292 000e 4108     		lsrs	r1, r0, #1
+ 293              	.LVL29:
+ 294              	.LBB4:
+  87:main.c        ****     for(u_int16_t i = 3;i<=limit;i+=2) //si no es multiplo de 2 no es de ningun numero par
+ 295              		.loc 1 87 0
+ 296 0010 0323     		movs	r3, #3
+ 297 0012 07E0     		b	.L22
+ 298              	.LVL30:
+ 299              	.L23:
+  88:main.c        ****         if(N%i == 0)
+ 300              		.loc 1 88 0
+ 301 0014 B0FBF3F2 		udiv	r2, r0, r3
+ 302 0018 03FB1202 		mls	r2, r3, r2, r0
+ 303 001c 92B2     		uxth	r2, r2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 8
+
+
+ 304 001e 5AB1     		cbz	r2, .L27
+  87:main.c        ****     for(u_int16_t i = 3;i<=limit;i+=2) //si no es multiplo de 2 no es de ningun numero par
+ 305              		.loc 1 87 0 discriminator 2
+ 306 0020 0233     		adds	r3, r3, #2
+ 307              	.LVL31:
+ 308 0022 9BB2     		uxth	r3, r3
+ 309              	.LVL32:
+ 310              	.L22:
+  87:main.c        ****     for(u_int16_t i = 3;i<=limit;i+=2) //si no es multiplo de 2 no es de ningun numero par
+ 311              		.loc 1 87 0 is_stmt 0 discriminator 1
+ 312 0024 8B42     		cmp	r3, r1
+ 313 0026 F5D9     		bls	.L23
+ 314              	.LBE4:
+  89:main.c        ****             return 0;
+  90:main.c        ****     return 1;
+ 315              		.loc 1 90 0 is_stmt 1
+ 316 0028 0120     		movs	r0, #1
+ 317              	.LVL33:
+ 318              	.LBB5:
+ 319 002a 7047     		bx	lr
+ 320              	.LVL34:
+ 321              	.L24:
+ 322              	.LBE5:
+  81:main.c        ****     if(N == 2) //verificamos caso trivial 2
+ 323              		.loc 1 81 0
+ 324 002c 0020     		movs	r0, #0
+ 325              	.LVL35:
+ 326 002e 7047     		bx	lr
+ 327              	.LVL36:
+ 328              	.L25:
+  83:main.c        ****     else if(N%2 == 0) //verificamos si es impar, ya que 2 es el unico numero par primo
+ 329              		.loc 1 83 0
+ 330 0030 0120     		movs	r0, #1
+ 331              	.LVL37:
+ 332 0032 7047     		bx	lr
+ 333              	.LVL38:
+ 334              	.L26:
+  85:main.c        ****     u_int16_t limit = N>>1; //Un numero no puede ser multiplo de otro que sea mayor a su mitad
+ 335              		.loc 1 85 0
+ 336 0034 0020     		movs	r0, #0
+ 337              	.LVL39:
+ 338 0036 7047     		bx	lr
+ 339              	.LVL40:
+ 340              	.L27:
+ 341              	.LBB6:
+  89:main.c        ****     return 1;
+ 342              		.loc 1 89 0
+ 343 0038 0020     		movs	r0, #0
+ 344              	.LVL41:
+ 345              	.LBE6:
+  91:main.c        **** }
+ 346              		.loc 1 91 0
+ 347 003a 7047     		bx	lr
+ 348              		.cfi_endproc
+ 349              	.LFE67:
+ 350              		.size	prime, .-prime
+ 351              		.section	.text.getInt,"ax",%progbits
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 9
+
+
+ 352              		.align	2
+ 353              		.global	getInt
+ 354              		.thumb
+ 355              		.thumb_func
+ 356              		.type	getInt, %function
+ 357              	getInt:
+ 358              	.LFB68:
+  92:main.c        **** 
+  93:main.c        **** 
+  94:main.c        **** 
+  95:main.c        **** 
+  96:main.c        **** int16_t getInt(char *buf,u_int max_buf,char *msg)
+  97:main.c        **** {
+ 359              		.loc 1 97 0
+ 360              		.cfi_startproc
+ 361              		@ args = 0, pretend = 0, frame = 8
+ 362              		@ frame_needed = 0, uses_anonymous_args = 0
+ 363              	.LVL42:
+ 364 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 365              		.cfi_def_cfa_offset 20
+ 366              		.cfi_offset 4, -20
+ 367              		.cfi_offset 5, -16
+ 368              		.cfi_offset 6, -12
+ 369              		.cfi_offset 7, -8
+ 370              		.cfi_offset 14, -4
+ 371 0002 83B0     		sub	sp, sp, #12
+ 372              		.cfi_def_cfa_offset 32
+ 373 0004 0546     		mov	r5, r0
+ 374 0006 0F46     		mov	r7, r1
+ 375 0008 1646     		mov	r6, r2
+ 376              	.LVL43:
+  98:main.c        ****     u_int8_t salir = 0;
+  99:main.c        ****     int16_t result = 0;
+ 377              		.loc 1 99 0
+ 378 000a 0023     		movs	r3, #0
+ 379 000c ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 380              	.LVL44:
+ 381              	.L30:
+ 100:main.c        ****     do
+ 101:main.c        ****     {
+ 102:main.c        ****         PC_PutString(msg);
+ 382              		.loc 1 102 0
+ 383 0010 3046     		mov	r0, r6
+ 384 0012 FFF7FEFF 		bl	PC_PutString
+ 385              	.LVL45:
+ 103:main.c        ****         getLine(buf,max_buf,PC_GetChar,PC_PutChar);
+ 386              		.loc 1 103 0
+ 387 0016 0C4B     		ldr	r3, .L32
+ 388 0018 0C4A     		ldr	r2, .L32+4
+ 389 001a 3946     		mov	r1, r7
+ 390 001c 2846     		mov	r0, r5
+ 391 001e FFF7FEFF 		bl	getLine
+ 392              	.LVL46:
+ 104:main.c        ****         //u_int16_t aux = strtoul(buf,NULL,10);
+ 105:main.c        ****         (salir = sscanf(buf,"%hd",&result))?:PC_PutString("Error, valor ingresado no entero\r\n");
+ 393              		.loc 1 105 0
+ 394 0022 0DF10602 		add	r2, sp, #6
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 10
+
+
+ 395 0026 0A49     		ldr	r1, .L32+8
+ 396 0028 2846     		mov	r0, r5
+ 397 002a FFF7FEFF 		bl	sscanf
+ 398              	.LVL47:
+ 399 002e C4B2     		uxtb	r4, r0
+ 400              	.LVL48:
+ 401 0030 14B9     		cbnz	r4, .L29
+ 402              		.loc 1 105 0 is_stmt 0 discriminator 1
+ 403 0032 0848     		ldr	r0, .L32+12
+ 404 0034 FFF7FEFF 		bl	PC_PutString
+ 405              	.LVL49:
+ 406              	.L29:
+ 106:main.c        ****     }while(salir != 1);
+ 407              		.loc 1 106 0 is_stmt 1
+ 408 0038 012C     		cmp	r4, #1
+ 409 003a E9D1     		bne	.L30
+ 107:main.c        ****     buf[0] = '\0';
+ 410              		.loc 1 107 0
+ 411 003c 0023     		movs	r3, #0
+ 412 003e 2B70     		strb	r3, [r5]
+ 108:main.c        ****     return result;
+ 109:main.c        **** }
+ 413              		.loc 1 109 0
+ 414 0040 BDF90600 		ldrsh	r0, [sp, #6]
+ 415 0044 03B0     		add	sp, sp, #12
+ 416              		.cfi_def_cfa_offset 20
+ 417              		@ sp needed
+ 418 0046 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 419              	.LVL50:
+ 420              	.L33:
+ 421              		.align	2
+ 422              	.L32:
+ 423 0048 00000000 		.word	PC_PutChar
+ 424 004c 00000000 		.word	PC_GetChar
+ 425 0050 00000000 		.word	.LC0
+ 426 0054 04000000 		.word	.LC1
+ 427              		.cfi_endproc
+ 428              	.LFE68:
+ 429              		.size	getInt, .-getInt
+ 430              		.section	.text.main,"ax",%progbits
+ 431              		.align	2
+ 432              		.global	main
+ 433              		.thumb
+ 434              		.thumb_func
+ 435              		.type	main, %function
+ 436              	main:
+ 437              	.LFB69:
+ 110:main.c        **** #define MAX 100
+ 111:main.c        **** char buffer[MAX];
+ 112:main.c        **** 
+ 113:main.c        **** 
+ 114:main.c        **** int main(void)
+ 115:main.c        **** {
+ 438              		.loc 1 115 0
+ 439              		.cfi_startproc
+ 440              		@ args = 0, pretend = 0, frame = 0
+ 441              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 11
+
+
+ 442 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 443              		.cfi_def_cfa_offset 20
+ 444              		.cfi_offset 4, -20
+ 445              		.cfi_offset 5, -16
+ 446              		.cfi_offset 6, -12
+ 447              		.cfi_offset 7, -8
+ 448              		.cfi_offset 14, -4
+ 449 0002 83B0     		sub	sp, sp, #12
+ 450              		.cfi_def_cfa_offset 32
+ 116:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+ 451              		.loc 1 116 0
+ 452              		.syntax unified
+ 453              	@ 116 "main.c" 1
+ 454 0004 62B6     		CPSIE   i
+ 455              	@ 0 "" 2
+ 456              	.LVL51:
+ 117:main.c        **** 
+ 118:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+ 119:main.c        ****     uint8_t n = 0,rc,ra;
+ 120:main.c        ****  
+ 121:main.c        ****     PC_Start();
+ 457              		.loc 1 121 0
+ 458              		.thumb
+ 459              		.syntax unified
+ 460 0006 FFF7FEFF 		bl	PC_Start
+ 461              	.LVL52:
+ 462              	.L35:
+ 122:main.c        ****     for(;;)
+ 123:main.c        ****     {
+ 124:main.c        ****         
+ 125:main.c        ****         n = (uint8_t)getInt(buffer,MAX,"Ingrese el termino n de fibonacci que desea ver: ");
+ 463              		.loc 1 125 0 discriminator 1
+ 464 000a 274C     		ldr	r4, .L37
+ 465 000c 274A     		ldr	r2, .L37+4
+ 466 000e 6421     		movs	r1, #100
+ 467 0010 2046     		mov	r0, r4
+ 468 0012 FFF7FEFF 		bl	getInt
+ 469              	.LVL53:
+ 126:main.c        ****         
+ 127:main.c        ****         rc =fibonacciN(n);
+ 470              		.loc 1 127 0 discriminator 1
+ 471 0016 C5B2     		uxtb	r5, r0
+ 472 0018 2846     		mov	r0, r5
+ 473 001a FFF7FEFF 		bl	fibonacciN
+ 474              	.LVL54:
+ 475 001e 0646     		mov	r6, r0
+ 476              	.LVL55:
+ 128:main.c        ****         ra = fibonacciN_A(n);
+ 477              		.loc 1 128 0 discriminator 1
+ 478 0020 2846     		mov	r0, r5
+ 479 0022 FFF7FEFF 		bl	fibonacciN_A
+ 480              	.LVL56:
+ 129:main.c        ****         snprintf(buffer,MAX,"Resultados:\n\r\ttC: %i\n\r\tA: %i\n\r",rc,ra);
+ 481              		.loc 1 129 0 discriminator 1
+ 482 0026 224D     		ldr	r5, .L37+8
+ 483              	.LVL57:
+ 484 0028 C0B2     		uxtb	r0, r0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 12
+
+
+ 485 002a 0090     		str	r0, [sp]
+ 486 002c F3B2     		uxtb	r3, r6
+ 487 002e 2A46     		mov	r2, r5
+ 488 0030 6421     		movs	r1, #100
+ 489 0032 2046     		mov	r0, r4
+ 490              	.LVL58:
+ 491 0034 FFF7FEFF 		bl	snprintf
+ 492              	.LVL59:
+ 130:main.c        ****         PC_PutString(buffer);
+ 493              		.loc 1 130 0 discriminator 1
+ 494 0038 2046     		mov	r0, r4
+ 495 003a FFF7FEFF 		bl	PC_PutString
+ 496              	.LVL60:
+ 131:main.c        ****       
+ 132:main.c        ****         
+ 133:main.c        ****         n = (uint8_t)getInt(buffer,MAX,"Ingrese numero a verificar si es primo: ");
+ 497              		.loc 1 133 0 discriminator 1
+ 498 003e 1D4A     		ldr	r2, .L37+12
+ 499 0040 6421     		movs	r1, #100
+ 500 0042 2046     		mov	r0, r4
+ 501 0044 FFF7FEFF 		bl	getInt
+ 502              	.LVL61:
+ 134:main.c        ****         rc =prime(n);
+ 503              		.loc 1 134 0 discriminator 1
+ 504 0048 C6B2     		uxtb	r6, r0
+ 505              	.LVL62:
+ 506 004a 3046     		mov	r0, r6
+ 507 004c FFF7FEFF 		bl	prime
+ 508              	.LVL63:
+ 509 0050 0746     		mov	r7, r0
+ 510              	.LVL64:
+ 135:main.c        ****         ra = prime_A(n);
+ 511              		.loc 1 135 0 discriminator 1
+ 512 0052 3046     		mov	r0, r6
+ 513 0054 FFF7FEFF 		bl	prime_A
+ 514              	.LVL65:
+ 136:main.c        ****         snprintf(buffer,MAX,"Resultados:\n\r\ttC: %i\n\r\tA: %i\n\r",rc,ra);
+ 515              		.loc 1 136 0 discriminator 1
+ 516 0058 C0B2     		uxtb	r0, r0
+ 517 005a 0090     		str	r0, [sp]
+ 518 005c FBB2     		uxtb	r3, r7
+ 519 005e 2A46     		mov	r2, r5
+ 520 0060 6421     		movs	r1, #100
+ 521 0062 2046     		mov	r0, r4
+ 522              	.LVL66:
+ 523 0064 FFF7FEFF 		bl	snprintf
+ 524              	.LVL67:
+ 137:main.c        ****         PC_PutString(buffer);
+ 525              		.loc 1 137 0 discriminator 1
+ 526 0068 2046     		mov	r0, r4
+ 527 006a FFF7FEFF 		bl	PC_PutString
+ 528              	.LVL68:
+ 138:main.c        ****         
+ 139:main.c        ****         
+ 140:main.c        ****         
+ 141:main.c        ****         PC_PutString("Ingrese cadena a contar las vocales: ");
+ 529              		.loc 1 141 0 discriminator 1
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 13
+
+
+ 530 006e 1248     		ldr	r0, .L37+16
+ 531 0070 FFF7FEFF 		bl	PC_PutString
+ 532              	.LVL69:
+ 142:main.c        ****         getLine(buffer,MAX,PC_GetChar,PC_PutChar);
+ 533              		.loc 1 142 0 discriminator 1
+ 534 0074 114B     		ldr	r3, .L37+20
+ 535 0076 124A     		ldr	r2, .L37+24
+ 536 0078 6421     		movs	r1, #100
+ 537 007a 2046     		mov	r0, r4
+ 538 007c FFF7FEFF 		bl	getLine
+ 539              	.LVL70:
+ 143:main.c        ****         rc =contVocal(buffer);
+ 540              		.loc 1 143 0 discriminator 1
+ 541 0080 2046     		mov	r0, r4
+ 542 0082 FFF7FEFF 		bl	contVocal
+ 543              	.LVL71:
+ 544 0086 C6B2     		uxtb	r6, r0
+ 545              	.LVL72:
+ 144:main.c        ****         ra =contVocal_A(buffer);
+ 546              		.loc 1 144 0 discriminator 1
+ 547 0088 2046     		mov	r0, r4
+ 548 008a FFF7FEFF 		bl	contVocal_A
+ 549              	.LVL73:
+ 550 008e C0B2     		uxtb	r0, r0
+ 551              	.LVL74:
+ 145:main.c        ****         snprintf(buffer,MAX,"Resultados:\n\r\ttC: %i\n\r\tA: %i\n\r",rc,ra);
+ 552              		.loc 1 145 0 discriminator 1
+ 553 0090 0090     		str	r0, [sp]
+ 554 0092 3346     		mov	r3, r6
+ 555 0094 2A46     		mov	r2, r5
+ 556 0096 6421     		movs	r1, #100
+ 557 0098 2046     		mov	r0, r4
+ 558              	.LVL75:
+ 559 009a FFF7FEFF 		bl	snprintf
+ 560              	.LVL76:
+ 146:main.c        ****         PC_PutString(buffer);
+ 561              		.loc 1 146 0 discriminator 1
+ 562 009e 2046     		mov	r0, r4
+ 563 00a0 FFF7FEFF 		bl	PC_PutString
+ 564              	.LVL77:
+ 565 00a4 B1E7     		b	.L35
+ 566              	.L38:
+ 567 00a6 00BF     		.align	2
+ 568              	.L37:
+ 569 00a8 00000000 		.word	buffer
+ 570 00ac 28000000 		.word	.LC2
+ 571 00b0 5C000000 		.word	.LC3
+ 572 00b4 7C000000 		.word	.LC4
+ 573 00b8 A8000000 		.word	.LC5
+ 574 00bc 00000000 		.word	PC_PutChar
+ 575 00c0 00000000 		.word	PC_GetChar
+ 576              		.cfi_endproc
+ 577              	.LFE69:
+ 578              		.size	main, .-main
+ 579              		.comm	buffer,100,4
+ 580              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 581              		.align	2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 14
+
+
+ 582              	.LC0:
+ 583 0000 25686400 		.ascii	"%hd\000"
+ 584              	.LC1:
+ 585 0004 4572726F 		.ascii	"Error, valor ingresado no entero\015\012\000"
+ 585      722C2076 
+ 585      616C6F72 
+ 585      20696E67 
+ 585      72657361 
+ 586 0027 00       		.space	1
+ 587              	.LC2:
+ 588 0028 496E6772 		.ascii	"Ingrese el termino n de fibonacci que desea ver: \000"
+ 588      65736520 
+ 588      656C2074 
+ 588      65726D69 
+ 588      6E6F206E 
+ 589 005a 0000     		.space	2
+ 590              	.LC3:
+ 591 005c 52657375 		.ascii	"Resultados:\012\015\011tC: %i\012\015\011A: %i\012\015"
+ 591      6C746164 
+ 591      6F733A0A 
+ 591      0D097443 
+ 591      3A202569 
+ 592 007a 00       		.ascii	"\000"
+ 593 007b 00       		.space	1
+ 594              	.LC4:
+ 595 007c 496E6772 		.ascii	"Ingrese numero a verificar si es primo: \000"
+ 595      65736520 
+ 595      6E756D65 
+ 595      726F2061 
+ 595      20766572 
+ 596 00a5 000000   		.space	3
+ 597              	.LC5:
+ 598 00a8 496E6772 		.ascii	"Ingrese cadena a contar las vocales: \000"
+ 598      65736520 
+ 598      63616465 
+ 598      6E612061 
+ 598      20636F6E 
+ 599              		.text
+ 600              	.Letext0:
+ 601              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 602              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 603              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 604              		.file 5 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 605              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 606              		.file 7 "Generated_Source\\PSoC5/PC.h"
+ 607              		.file 8 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 608              		.section	.debug_info,"",%progbits
+ 609              	.Ldebug_info0:
+ 610 0000 ED050000 		.4byte	0x5ed
+ 611 0004 0400     		.2byte	0x4
+ 612 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 613 000a 04       		.byte	0x4
+ 614 000b 01       		.uleb128 0x1
+ 615 000c 46020000 		.4byte	.LASF48
+ 616 0010 0C       		.byte	0xc
+ 617 0011 93010000 		.4byte	.LASF49
+ 618 0015 B3010000 		.4byte	.LASF50
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 15
+
+
+ 619 0019 38000000 		.4byte	.Ldebug_ranges0+0x38
+ 620 001d 00000000 		.4byte	0
+ 621 0021 00000000 		.4byte	.Ldebug_line0
+ 622 0025 02       		.uleb128 0x2
+ 623 0026 01       		.byte	0x1
+ 624 0027 06       		.byte	0x6
+ 625 0028 F4000000 		.4byte	.LASF0
+ 626 002c 03       		.uleb128 0x3
+ 627 002d B0000000 		.4byte	.LASF2
+ 628 0031 02       		.byte	0x2
+ 629 0032 1D       		.byte	0x1d
+ 630 0033 37000000 		.4byte	0x37
+ 631 0037 02       		.uleb128 0x2
+ 632 0038 01       		.byte	0x1
+ 633 0039 08       		.byte	0x8
+ 634 003a DE000000 		.4byte	.LASF1
+ 635 003e 03       		.uleb128 0x3
+ 636 003f 1D020000 		.4byte	.LASF3
+ 637 0043 02       		.byte	0x2
+ 638 0044 29       		.byte	0x29
+ 639 0045 49000000 		.4byte	0x49
+ 640 0049 02       		.uleb128 0x2
+ 641 004a 02       		.byte	0x2
+ 642 004b 05       		.byte	0x5
+ 643 004c 2B000000 		.4byte	.LASF4
+ 644 0050 03       		.uleb128 0x3
+ 645 0051 57000000 		.4byte	.LASF5
+ 646 0055 02       		.byte	0x2
+ 647 0056 2B       		.byte	0x2b
+ 648 0057 5B000000 		.4byte	0x5b
+ 649 005b 02       		.uleb128 0x2
+ 650 005c 02       		.byte	0x2
+ 651 005d 07       		.byte	0x7
+ 652 005e 2B010000 		.4byte	.LASF6
+ 653 0062 03       		.uleb128 0x3
+ 654 0063 13020000 		.4byte	.LASF7
+ 655 0067 02       		.byte	0x2
+ 656 0068 3F       		.byte	0x3f
+ 657 0069 6D000000 		.4byte	0x6d
+ 658 006d 02       		.uleb128 0x2
+ 659 006e 04       		.byte	0x4
+ 660 006f 05       		.byte	0x5
+ 661 0070 9E000000 		.4byte	.LASF8
+ 662 0074 03       		.uleb128 0x3
+ 663 0075 43000000 		.4byte	.LASF9
+ 664 0079 02       		.byte	0x2
+ 665 007a 41       		.byte	0x41
+ 666 007b 7F000000 		.4byte	0x7f
+ 667 007f 02       		.uleb128 0x2
+ 668 0080 04       		.byte	0x4
+ 669 0081 07       		.byte	0x7
+ 670 0082 9A010000 		.4byte	.LASF10
+ 671 0086 02       		.uleb128 0x2
+ 672 0087 08       		.byte	0x8
+ 673 0088 05       		.byte	0x5
+ 674 0089 90000000 		.4byte	.LASF11
+ 675 008d 02       		.uleb128 0x2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 16
+
+
+ 676 008e 08       		.byte	0x8
+ 677 008f 07       		.byte	0x7
+ 678 0090 00010000 		.4byte	.LASF12
+ 679 0094 04       		.uleb128 0x4
+ 680 0095 04       		.byte	0x4
+ 681 0096 05       		.byte	0x5
+ 682 0097 696E7400 		.ascii	"int\000"
+ 683 009b 02       		.uleb128 0x2
+ 684 009c 04       		.byte	0x4
+ 685 009d 07       		.byte	0x7
+ 686 009e 17010000 		.4byte	.LASF13
+ 687 00a2 03       		.uleb128 0x3
+ 688 00a3 68000000 		.4byte	.LASF14
+ 689 00a7 03       		.byte	0x3
+ 690 00a8 18       		.byte	0x18
+ 691 00a9 2C000000 		.4byte	0x2c
+ 692 00ad 03       		.uleb128 0x3
+ 693 00ae 68010000 		.4byte	.LASF15
+ 694 00b2 03       		.byte	0x3
+ 695 00b3 20       		.byte	0x20
+ 696 00b4 3E000000 		.4byte	0x3e
+ 697 00b8 03       		.uleb128 0x3
+ 698 00b9 57010000 		.4byte	.LASF16
+ 699 00bd 03       		.byte	0x3
+ 700 00be 2C       		.byte	0x2c
+ 701 00bf 62000000 		.4byte	0x62
+ 702 00c3 05       		.uleb128 0x5
+ 703 00c4 70000000 		.4byte	.LASF17
+ 704 00c8 04       		.byte	0x4
+ 705 00c9 E801     		.2byte	0x1e8
+ 706 00cb 37000000 		.4byte	0x37
+ 707 00cf 02       		.uleb128 0x2
+ 708 00d0 04       		.byte	0x4
+ 709 00d1 04       		.byte	0x4
+ 710 00d2 8A000000 		.4byte	.LASF18
+ 711 00d6 02       		.uleb128 0x2
+ 712 00d7 08       		.byte	0x8
+ 713 00d8 04       		.byte	0x4
+ 714 00d9 AC010000 		.4byte	.LASF19
+ 715 00dd 02       		.uleb128 0x2
+ 716 00de 01       		.byte	0x1
+ 717 00df 08       		.byte	0x8
+ 718 00e0 52010000 		.4byte	.LASF20
+ 719 00e4 02       		.uleb128 0x2
+ 720 00e5 08       		.byte	0x8
+ 721 00e6 04       		.byte	0x4
+ 722 00e7 CA000000 		.4byte	.LASF21
+ 723 00eb 02       		.uleb128 0x2
+ 724 00ec 04       		.byte	0x4
+ 725 00ed 07       		.byte	0x7
+ 726 00ee 35000000 		.4byte	.LASF22
+ 727 00f2 06       		.uleb128 0x6
+ 728 00f3 04       		.byte	0x4
+ 729 00f4 DD000000 		.4byte	0xdd
+ 730 00f8 03       		.uleb128 0x3
+ 731 00f9 4E000000 		.4byte	.LASF23
+ 732 00fd 05       		.byte	0x5
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 17
+
+
+ 733 00fe 1C       		.byte	0x1c
+ 734 00ff 2C000000 		.4byte	0x2c
+ 735 0103 03       		.uleb128 0x3
+ 736 0104 48010000 		.4byte	.LASF24
+ 737 0108 05       		.byte	0x5
+ 738 0109 1F       		.byte	0x1f
+ 739 010a 50000000 		.4byte	0x50
+ 740 010e 03       		.uleb128 0x3
+ 741 010f 3E010000 		.4byte	.LASF25
+ 742 0113 05       		.byte	0x5
+ 743 0114 22       		.byte	0x22
+ 744 0115 74000000 		.4byte	0x74
+ 745 0119 03       		.uleb128 0x3
+ 746 011a 33020000 		.4byte	.LASF26
+ 747 011e 05       		.byte	0x5
+ 748 011f 5F       		.byte	0x5f
+ 749 0120 9B000000 		.4byte	0x9b
+ 750 0124 07       		.uleb128 0x7
+ 751 0125 7B010000 		.4byte	.LASF51
+ 752 0129 01       		.byte	0x1
+ 753 012a 10       		.byte	0x10
+ 754 012b 00000000 		.4byte	.LFB64
+ 755 012f 36000000 		.4byte	.LFE64-.LFB64
+ 756 0133 01       		.uleb128 0x1
+ 757 0134 9C       		.byte	0x9c
+ 758 0135 AB010000 		.4byte	0x1ab
+ 759 0139 08       		.uleb128 0x8
+ 760 013a 62756600 		.ascii	"buf\000"
+ 761 013e 01       		.byte	0x1
+ 762 013f 10       		.byte	0x10
+ 763 0140 F2000000 		.4byte	0xf2
+ 764 0144 00000000 		.4byte	.LLST0
+ 765 0148 09       		.uleb128 0x9
+ 766 0149 83000000 		.4byte	.LASF27
+ 767 014d 01       		.byte	0x1
+ 768 014e 10       		.byte	0x10
+ 769 014f 94000000 		.4byte	0x94
+ 770 0153 1E000000 		.4byte	.LLST1
+ 771 0157 09       		.uleb128 0x9
+ 772 0158 A7000000 		.4byte	.LASF28
+ 773 015c 01       		.byte	0x1
+ 774 015d 10       		.byte	0x10
+ 775 015e B6010000 		.4byte	0x1b6
+ 776 0162 3C000000 		.4byte	.LLST2
+ 777 0166 09       		.uleb128 0x9
+ 778 0167 5F010000 		.4byte	.LASF29
+ 779 016b 01       		.byte	0x1
+ 780 016c 10       		.byte	0x10
+ 781 016d C7010000 		.4byte	0x1c7
+ 782 0171 5A000000 		.4byte	.LLST3
+ 783 0175 0A       		.uleb128 0xa
+ 784 0176 6900     		.ascii	"i\000"
+ 785 0178 01       		.byte	0x1
+ 786 0179 11       		.byte	0x11
+ 787 017a 94000000 		.4byte	0x94
+ 788 017e 78000000 		.4byte	.LLST4
+ 789 0182 0A       		.uleb128 0xa
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 18
+
+
+ 790 0183 6300     		.ascii	"c\000"
+ 791 0185 01       		.byte	0x1
+ 792 0186 12       		.byte	0x12
+ 793 0187 C3000000 		.4byte	0xc3
+ 794 018b AF000000 		.4byte	.LLST5
+ 795 018f 0B       		.uleb128 0xb
+ 796 0190 18000000 		.4byte	.LVL4
+ 797 0194 9F010000 		.4byte	0x19f
+ 798 0198 0C       		.uleb128 0xc
+ 799 0199 01       		.uleb128 0x1
+ 800 019a 50       		.byte	0x50
+ 801 019b 02       		.uleb128 0x2
+ 802 019c 75       		.byte	0x75
+ 803 019d 00       		.sleb128 0
+ 804 019e 00       		.byte	0
+ 805 019f 0D       		.uleb128 0xd
+ 806 01a0 32000000 		.4byte	.LVL7
+ 807 01a4 0C       		.uleb128 0xc
+ 808 01a5 01       		.uleb128 0x1
+ 809 01a6 50       		.byte	0x50
+ 810 01a7 01       		.uleb128 0x1
+ 811 01a8 3A       		.byte	0x3a
+ 812 01a9 00       		.byte	0
+ 813 01aa 00       		.byte	0
+ 814 01ab 0E       		.uleb128 0xe
+ 815 01ac A2000000 		.4byte	0xa2
+ 816 01b0 B6010000 		.4byte	0x1b6
+ 817 01b4 0F       		.uleb128 0xf
+ 818 01b5 00       		.byte	0
+ 819 01b6 06       		.uleb128 0x6
+ 820 01b7 04       		.byte	0x4
+ 821 01b8 AB010000 		.4byte	0x1ab
+ 822 01bc 10       		.uleb128 0x10
+ 823 01bd C7010000 		.4byte	0x1c7
+ 824 01c1 11       		.uleb128 0x11
+ 825 01c2 A2000000 		.4byte	0xa2
+ 826 01c6 00       		.byte	0
+ 827 01c7 06       		.uleb128 0x6
+ 828 01c8 04       		.byte	0x4
+ 829 01c9 BC010000 		.4byte	0x1bc
+ 830 01cd 12       		.uleb128 0x12
+ 831 01ce 70010000 		.4byte	.LASF30
+ 832 01d2 01       		.byte	0x1
+ 833 01d3 24       		.byte	0x24
+ 834 01d4 0E010000 		.4byte	0x10e
+ 835 01d8 00000000 		.4byte	.LFB65
+ 836 01dc 2C000000 		.4byte	.LFE65-.LFB65
+ 837 01e0 01       		.uleb128 0x1
+ 838 01e1 9C       		.byte	0x9c
+ 839 01e2 32020000 		.4byte	0x232
+ 840 01e6 08       		.uleb128 0x8
+ 841 01e7 4E00     		.ascii	"N\000"
+ 842 01e9 01       		.byte	0x1
+ 843 01ea 24       		.byte	0x24
+ 844 01eb 03010000 		.4byte	0x103
+ 845 01ef C2000000 		.4byte	.LLST6
+ 846 01f3 0A       		.uleb128 0xa
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 19
+
+
+ 847 01f4 6E3100   		.ascii	"n1\000"
+ 848 01f7 01       		.byte	0x1
+ 849 01f8 29       		.byte	0x29
+ 850 01f9 0E010000 		.4byte	0x10e
+ 851 01fd FC000000 		.4byte	.LLST7
+ 852 0201 0A       		.uleb128 0xa
+ 853 0202 6E3200   		.ascii	"n2\000"
+ 854 0205 01       		.byte	0x1
+ 855 0206 29       		.byte	0x29
+ 856 0207 0E010000 		.4byte	0x10e
+ 857 020b 25010000 		.4byte	.LLST8
+ 858 020f 0A       		.uleb128 0xa
+ 859 0210 61757800 		.ascii	"aux\000"
+ 860 0214 01       		.byte	0x1
+ 861 0215 29       		.byte	0x29
+ 862 0216 0E010000 		.4byte	0x10e
+ 863 021a 59010000 		.4byte	.LLST9
+ 864 021e 13       		.uleb128 0x13
+ 865 021f 00000000 		.4byte	.Ldebug_ranges0+0
+ 866 0223 0A       		.uleb128 0xa
+ 867 0224 6900     		.ascii	"i\000"
+ 868 0226 01       		.byte	0x1
+ 869 0227 2A       		.byte	0x2a
+ 870 0228 03010000 		.4byte	0x103
+ 871 022c 6C010000 		.4byte	.LLST10
+ 872 0230 00       		.byte	0
+ 873 0231 00       		.byte	0
+ 874 0232 12       		.uleb128 0x12
+ 875 0233 00000000 		.4byte	.LASF31
+ 876 0237 01       		.byte	0x1
+ 877 0238 35       		.byte	0x35
+ 878 0239 03010000 		.4byte	0x103
+ 879 023d 00000000 		.4byte	.LFB66
+ 880 0241 56000000 		.4byte	.LFE66-.LFB66
+ 881 0245 01       		.uleb128 0x1
+ 882 0246 9C       		.byte	0x9c
+ 883 0247 75020000 		.4byte	0x275
+ 884 024b 08       		.uleb128 0x8
+ 885 024c 7600     		.ascii	"v\000"
+ 886 024e 01       		.byte	0x1
+ 887 024f 35       		.byte	0x35
+ 888 0250 F2000000 		.4byte	0xf2
+ 889 0254 95010000 		.4byte	.LLST11
+ 890 0258 0A       		.uleb128 0xa
+ 891 0259 4E00     		.ascii	"N\000"
+ 892 025b 01       		.byte	0x1
+ 893 025c 37       		.byte	0x37
+ 894 025d 03010000 		.4byte	0x103
+ 895 0261 CB010000 		.4byte	.LLST12
+ 896 0265 14       		.uleb128 0x14
+ 897 0266 24010000 		.4byte	.LASF32
+ 898 026a 01       		.byte	0x1
+ 899 026b 38       		.byte	0x38
+ 900 026c DD000000 		.4byte	0xdd
+ 901 0270 F5010000 		.4byte	.LLST13
+ 902 0274 00       		.byte	0
+ 903 0275 12       		.uleb128 0x12
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 20
+
+
+ 904 0276 62000000 		.4byte	.LASF33
+ 905 027a 01       		.byte	0x1
+ 906 027b 4E       		.byte	0x4e
+ 907 027c 0E010000 		.4byte	0x10e
+ 908 0280 00000000 		.4byte	.LFB67
+ 909 0284 3C000000 		.4byte	.LFE67-.LFB67
+ 910 0288 01       		.uleb128 0x1
+ 911 0289 9C       		.byte	0x9c
+ 912 028a BE020000 		.4byte	0x2be
+ 913 028e 08       		.uleb128 0x8
+ 914 028f 4E00     		.ascii	"N\000"
+ 915 0291 01       		.byte	0x1
+ 916 0292 4E       		.byte	0x4e
+ 917 0293 03010000 		.4byte	0x103
+ 918 0297 13020000 		.4byte	.LLST14
+ 919 029b 14       		.uleb128 0x14
+ 920 029c 0A000000 		.4byte	.LASF34
+ 921 02a0 01       		.byte	0x1
+ 922 02a1 56       		.byte	0x56
+ 923 02a2 03010000 		.4byte	0x103
+ 924 02a6 98020000 		.4byte	.LLST15
+ 925 02aa 13       		.uleb128 0x13
+ 926 02ab 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 927 02af 0A       		.uleb128 0xa
+ 928 02b0 6900     		.ascii	"i\000"
+ 929 02b2 01       		.byte	0x1
+ 930 02b3 57       		.byte	0x57
+ 931 02b4 03010000 		.4byte	0x103
+ 932 02b8 B6020000 		.4byte	.LLST16
+ 933 02bc 00       		.byte	0
+ 934 02bd 00       		.byte	0
+ 935 02be 12       		.uleb128 0x12
+ 936 02bf C3000000 		.4byte	.LASF35
+ 937 02c3 01       		.byte	0x1
+ 938 02c4 60       		.byte	0x60
+ 939 02c5 AD000000 		.4byte	0xad
+ 940 02c9 00000000 		.4byte	.LFB68
+ 941 02cd 58000000 		.4byte	.LFE68-.LFB68
+ 942 02d1 01       		.uleb128 0x1
+ 943 02d2 9C       		.byte	0x9c
+ 944 02d3 86030000 		.4byte	0x386
+ 945 02d7 08       		.uleb128 0x8
+ 946 02d8 62756600 		.ascii	"buf\000"
+ 947 02dc 01       		.byte	0x1
+ 948 02dd 60       		.byte	0x60
+ 949 02de F2000000 		.4byte	0xf2
+ 950 02e2 EB020000 		.4byte	.LLST17
+ 951 02e6 09       		.uleb128 0x9
+ 952 02e7 D6000000 		.4byte	.LASF36
+ 953 02eb 01       		.byte	0x1
+ 954 02ec 60       		.byte	0x60
+ 955 02ed 19010000 		.4byte	0x119
+ 956 02f1 17030000 		.4byte	.LLST18
+ 957 02f5 08       		.uleb128 0x8
+ 958 02f6 6D736700 		.ascii	"msg\000"
+ 959 02fa 01       		.byte	0x1
+ 960 02fb 60       		.byte	0x60
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 21
+
+
+ 961 02fc F2000000 		.4byte	0xf2
+ 962 0300 43030000 		.4byte	.LLST19
+ 963 0304 14       		.uleb128 0x14
+ 964 0305 D4020000 		.4byte	.LASF37
+ 965 0309 01       		.byte	0x1
+ 966 030a 62       		.byte	0x62
+ 967 030b F8000000 		.4byte	0xf8
+ 968 030f 6F030000 		.4byte	.LLST20
+ 969 0313 15       		.uleb128 0x15
+ 970 0314 1D000000 		.4byte	.LASF38
+ 971 0318 01       		.byte	0x1
+ 972 0319 63       		.byte	0x63
+ 973 031a AD000000 		.4byte	0xad
+ 974 031e 02       		.uleb128 0x2
+ 975 031f 91       		.byte	0x91
+ 976 0320 66       		.sleb128 -26
+ 977 0321 16       		.uleb128 0x16
+ 978 0322 16000000 		.4byte	.LVL45
+ 979 0326 A3050000 		.4byte	0x5a3
+ 980 032a 35030000 		.4byte	0x335
+ 981 032e 0C       		.uleb128 0xc
+ 982 032f 01       		.uleb128 0x1
+ 983 0330 50       		.byte	0x50
+ 984 0331 02       		.uleb128 0x2
+ 985 0332 76       		.byte	0x76
+ 986 0333 00       		.sleb128 0
+ 987 0334 00       		.byte	0
+ 988 0335 16       		.uleb128 0x16
+ 989 0336 22000000 		.4byte	.LVL46
+ 990 033a 24010000 		.4byte	0x124
+ 991 033e 4F030000 		.4byte	0x34f
+ 992 0342 0C       		.uleb128 0xc
+ 993 0343 01       		.uleb128 0x1
+ 994 0344 50       		.byte	0x50
+ 995 0345 02       		.uleb128 0x2
+ 996 0346 75       		.byte	0x75
+ 997 0347 00       		.sleb128 0
+ 998 0348 0C       		.uleb128 0xc
+ 999 0349 01       		.uleb128 0x1
+ 1000 034a 51       		.byte	0x51
+ 1001 034b 02       		.uleb128 0x2
+ 1002 034c 77       		.byte	0x77
+ 1003 034d 00       		.sleb128 0
+ 1004 034e 00       		.byte	0
+ 1005 034f 16       		.uleb128 0x16
+ 1006 0350 2E000000 		.4byte	.LVL47
+ 1007 0354 AE050000 		.4byte	0x5ae
+ 1008 0358 72030000 		.4byte	0x372
+ 1009 035c 0C       		.uleb128 0xc
+ 1010 035d 01       		.uleb128 0x1
+ 1011 035e 50       		.byte	0x50
+ 1012 035f 02       		.uleb128 0x2
+ 1013 0360 75       		.byte	0x75
+ 1014 0361 00       		.sleb128 0
+ 1015 0362 0C       		.uleb128 0xc
+ 1016 0363 01       		.uleb128 0x1
+ 1017 0364 51       		.byte	0x51
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 22
+
+
+ 1018 0365 05       		.uleb128 0x5
+ 1019 0366 03       		.byte	0x3
+ 1020 0367 00000000 		.4byte	.LC0
+ 1021 036b 0C       		.uleb128 0xc
+ 1022 036c 01       		.uleb128 0x1
+ 1023 036d 52       		.byte	0x52
+ 1024 036e 02       		.uleb128 0x2
+ 1025 036f 91       		.byte	0x91
+ 1026 0370 66       		.sleb128 -26
+ 1027 0371 00       		.byte	0
+ 1028 0372 17       		.uleb128 0x17
+ 1029 0373 38000000 		.4byte	.LVL49
+ 1030 0377 A3050000 		.4byte	0x5a3
+ 1031 037b 0C       		.uleb128 0xc
+ 1032 037c 01       		.uleb128 0x1
+ 1033 037d 50       		.byte	0x50
+ 1034 037e 05       		.uleb128 0x5
+ 1035 037f 03       		.byte	0x3
+ 1036 0380 04000000 		.4byte	.LC1
+ 1037 0384 00       		.byte	0
+ 1038 0385 00       		.byte	0
+ 1039 0386 18       		.uleb128 0x18
+ 1040 0387 3E000000 		.4byte	.LASF52
+ 1041 038b 01       		.byte	0x1
+ 1042 038c 72       		.byte	0x72
+ 1043 038d 94000000 		.4byte	0x94
+ 1044 0391 00000000 		.4byte	.LFB69
+ 1045 0395 C4000000 		.4byte	.LFE69-.LFB69
+ 1046 0399 01       		.uleb128 0x1
+ 1047 039a 9C       		.byte	0x9c
+ 1048 039b 71050000 		.4byte	0x571
+ 1049 039f 0A       		.uleb128 0xa
+ 1050 03a0 6E00     		.ascii	"n\000"
+ 1051 03a2 01       		.byte	0x1
+ 1052 03a3 77       		.byte	0x77
+ 1053 03a4 A2000000 		.4byte	0xa2
+ 1054 03a8 8E030000 		.4byte	.LLST21
+ 1055 03ac 0A       		.uleb128 0xa
+ 1056 03ad 726300   		.ascii	"rc\000"
+ 1057 03b0 01       		.byte	0x1
+ 1058 03b1 77       		.byte	0x77
+ 1059 03b2 A2000000 		.4byte	0xa2
+ 1060 03b6 CE030000 		.4byte	.LLST22
+ 1061 03ba 0A       		.uleb128 0xa
+ 1062 03bb 726100   		.ascii	"ra\000"
+ 1063 03be 01       		.byte	0x1
+ 1064 03bf 77       		.byte	0x77
+ 1065 03c0 A2000000 		.4byte	0xa2
+ 1066 03c4 F7030000 		.4byte	.LLST23
+ 1067 03c8 19       		.uleb128 0x19
+ 1068 03c9 0A000000 		.4byte	.LVL52
+ 1069 03cd B9050000 		.4byte	0x5b9
+ 1070 03d1 16       		.uleb128 0x16
+ 1071 03d2 16000000 		.4byte	.LVL53
+ 1072 03d6 BE020000 		.4byte	0x2be
+ 1073 03da F4030000 		.4byte	0x3f4
+ 1074 03de 0C       		.uleb128 0xc
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 23
+
+
+ 1075 03df 01       		.uleb128 0x1
+ 1076 03e0 50       		.byte	0x50
+ 1077 03e1 02       		.uleb128 0x2
+ 1078 03e2 74       		.byte	0x74
+ 1079 03e3 00       		.sleb128 0
+ 1080 03e4 0C       		.uleb128 0xc
+ 1081 03e5 01       		.uleb128 0x1
+ 1082 03e6 51       		.byte	0x51
+ 1083 03e7 02       		.uleb128 0x2
+ 1084 03e8 08       		.byte	0x8
+ 1085 03e9 64       		.byte	0x64
+ 1086 03ea 0C       		.uleb128 0xc
+ 1087 03eb 01       		.uleb128 0x1
+ 1088 03ec 52       		.byte	0x52
+ 1089 03ed 05       		.uleb128 0x5
+ 1090 03ee 03       		.byte	0x3
+ 1091 03ef 28000000 		.4byte	.LC2
+ 1092 03f3 00       		.byte	0
+ 1093 03f4 16       		.uleb128 0x16
+ 1094 03f5 1E000000 		.4byte	.LVL54
+ 1095 03f9 CD010000 		.4byte	0x1cd
+ 1096 03fd 08040000 		.4byte	0x408
+ 1097 0401 0C       		.uleb128 0xc
+ 1098 0402 01       		.uleb128 0x1
+ 1099 0403 50       		.byte	0x50
+ 1100 0404 02       		.uleb128 0x2
+ 1101 0405 75       		.byte	0x75
+ 1102 0406 00       		.sleb128 0
+ 1103 0407 00       		.byte	0
+ 1104 0408 16       		.uleb128 0x16
+ 1105 0409 26000000 		.4byte	.LVL56
+ 1106 040d C4050000 		.4byte	0x5c4
+ 1107 0411 1C040000 		.4byte	0x41c
+ 1108 0415 0C       		.uleb128 0xc
+ 1109 0416 01       		.uleb128 0x1
+ 1110 0417 50       		.byte	0x50
+ 1111 0418 02       		.uleb128 0x2
+ 1112 0419 75       		.byte	0x75
+ 1113 041a 00       		.sleb128 0
+ 1114 041b 00       		.byte	0
+ 1115 041c 16       		.uleb128 0x16
+ 1116 041d 38000000 		.4byte	.LVL59
+ 1117 0421 CF050000 		.4byte	0x5cf
+ 1118 0425 45040000 		.4byte	0x445
+ 1119 0429 0C       		.uleb128 0xc
+ 1120 042a 01       		.uleb128 0x1
+ 1121 042b 50       		.byte	0x50
+ 1122 042c 02       		.uleb128 0x2
+ 1123 042d 74       		.byte	0x74
+ 1124 042e 00       		.sleb128 0
+ 1125 042f 0C       		.uleb128 0xc
+ 1126 0430 01       		.uleb128 0x1
+ 1127 0431 51       		.byte	0x51
+ 1128 0432 02       		.uleb128 0x2
+ 1129 0433 08       		.byte	0x8
+ 1130 0434 64       		.byte	0x64
+ 1131 0435 0C       		.uleb128 0xc
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 24
+
+
+ 1132 0436 01       		.uleb128 0x1
+ 1133 0437 52       		.byte	0x52
+ 1134 0438 02       		.uleb128 0x2
+ 1135 0439 75       		.byte	0x75
+ 1136 043a 00       		.sleb128 0
+ 1137 043b 0C       		.uleb128 0xc
+ 1138 043c 01       		.uleb128 0x1
+ 1139 043d 53       		.byte	0x53
+ 1140 043e 05       		.uleb128 0x5
+ 1141 043f 76       		.byte	0x76
+ 1142 0440 00       		.sleb128 0
+ 1143 0441 08       		.byte	0x8
+ 1144 0442 FF       		.byte	0xff
+ 1145 0443 1A       		.byte	0x1a
+ 1146 0444 00       		.byte	0
+ 1147 0445 16       		.uleb128 0x16
+ 1148 0446 3E000000 		.4byte	.LVL60
+ 1149 044a A3050000 		.4byte	0x5a3
+ 1150 044e 59040000 		.4byte	0x459
+ 1151 0452 0C       		.uleb128 0xc
+ 1152 0453 01       		.uleb128 0x1
+ 1153 0454 50       		.byte	0x50
+ 1154 0455 02       		.uleb128 0x2
+ 1155 0456 74       		.byte	0x74
+ 1156 0457 00       		.sleb128 0
+ 1157 0458 00       		.byte	0
+ 1158 0459 16       		.uleb128 0x16
+ 1159 045a 48000000 		.4byte	.LVL61
+ 1160 045e BE020000 		.4byte	0x2be
+ 1161 0462 7C040000 		.4byte	0x47c
+ 1162 0466 0C       		.uleb128 0xc
+ 1163 0467 01       		.uleb128 0x1
+ 1164 0468 50       		.byte	0x50
+ 1165 0469 02       		.uleb128 0x2
+ 1166 046a 74       		.byte	0x74
+ 1167 046b 00       		.sleb128 0
+ 1168 046c 0C       		.uleb128 0xc
+ 1169 046d 01       		.uleb128 0x1
+ 1170 046e 51       		.byte	0x51
+ 1171 046f 02       		.uleb128 0x2
+ 1172 0470 08       		.byte	0x8
+ 1173 0471 64       		.byte	0x64
+ 1174 0472 0C       		.uleb128 0xc
+ 1175 0473 01       		.uleb128 0x1
+ 1176 0474 52       		.byte	0x52
+ 1177 0475 05       		.uleb128 0x5
+ 1178 0476 03       		.byte	0x3
+ 1179 0477 7C000000 		.4byte	.LC4
+ 1180 047b 00       		.byte	0
+ 1181 047c 16       		.uleb128 0x16
+ 1182 047d 50000000 		.4byte	.LVL63
+ 1183 0481 75020000 		.4byte	0x275
+ 1184 0485 90040000 		.4byte	0x490
+ 1185 0489 0C       		.uleb128 0xc
+ 1186 048a 01       		.uleb128 0x1
+ 1187 048b 50       		.byte	0x50
+ 1188 048c 02       		.uleb128 0x2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 25
+
+
+ 1189 048d 76       		.byte	0x76
+ 1190 048e 00       		.sleb128 0
+ 1191 048f 00       		.byte	0
+ 1192 0490 16       		.uleb128 0x16
+ 1193 0491 58000000 		.4byte	.LVL65
+ 1194 0495 DA050000 		.4byte	0x5da
+ 1195 0499 A4040000 		.4byte	0x4a4
+ 1196 049d 0C       		.uleb128 0xc
+ 1197 049e 01       		.uleb128 0x1
+ 1198 049f 50       		.byte	0x50
+ 1199 04a0 02       		.uleb128 0x2
+ 1200 04a1 76       		.byte	0x76
+ 1201 04a2 00       		.sleb128 0
+ 1202 04a3 00       		.byte	0
+ 1203 04a4 16       		.uleb128 0x16
+ 1204 04a5 68000000 		.4byte	.LVL67
+ 1205 04a9 CF050000 		.4byte	0x5cf
+ 1206 04ad CD040000 		.4byte	0x4cd
+ 1207 04b1 0C       		.uleb128 0xc
+ 1208 04b2 01       		.uleb128 0x1
+ 1209 04b3 50       		.byte	0x50
+ 1210 04b4 02       		.uleb128 0x2
+ 1211 04b5 74       		.byte	0x74
+ 1212 04b6 00       		.sleb128 0
+ 1213 04b7 0C       		.uleb128 0xc
+ 1214 04b8 01       		.uleb128 0x1
+ 1215 04b9 51       		.byte	0x51
+ 1216 04ba 02       		.uleb128 0x2
+ 1217 04bb 08       		.byte	0x8
+ 1218 04bc 64       		.byte	0x64
+ 1219 04bd 0C       		.uleb128 0xc
+ 1220 04be 01       		.uleb128 0x1
+ 1221 04bf 52       		.byte	0x52
+ 1222 04c0 02       		.uleb128 0x2
+ 1223 04c1 75       		.byte	0x75
+ 1224 04c2 00       		.sleb128 0
+ 1225 04c3 0C       		.uleb128 0xc
+ 1226 04c4 01       		.uleb128 0x1
+ 1227 04c5 53       		.byte	0x53
+ 1228 04c6 05       		.uleb128 0x5
+ 1229 04c7 77       		.byte	0x77
+ 1230 04c8 00       		.sleb128 0
+ 1231 04c9 08       		.byte	0x8
+ 1232 04ca FF       		.byte	0xff
+ 1233 04cb 1A       		.byte	0x1a
+ 1234 04cc 00       		.byte	0
+ 1235 04cd 16       		.uleb128 0x16
+ 1236 04ce 6E000000 		.4byte	.LVL68
+ 1237 04d2 A3050000 		.4byte	0x5a3
+ 1238 04d6 E1040000 		.4byte	0x4e1
+ 1239 04da 0C       		.uleb128 0xc
+ 1240 04db 01       		.uleb128 0x1
+ 1241 04dc 50       		.byte	0x50
+ 1242 04dd 02       		.uleb128 0x2
+ 1243 04de 74       		.byte	0x74
+ 1244 04df 00       		.sleb128 0
+ 1245 04e0 00       		.byte	0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 26
+
+
+ 1246 04e1 16       		.uleb128 0x16
+ 1247 04e2 74000000 		.4byte	.LVL69
+ 1248 04e6 A3050000 		.4byte	0x5a3
+ 1249 04ea F8040000 		.4byte	0x4f8
+ 1250 04ee 0C       		.uleb128 0xc
+ 1251 04ef 01       		.uleb128 0x1
+ 1252 04f0 50       		.byte	0x50
+ 1253 04f1 05       		.uleb128 0x5
+ 1254 04f2 03       		.byte	0x3
+ 1255 04f3 A8000000 		.4byte	.LC5
+ 1256 04f7 00       		.byte	0
+ 1257 04f8 16       		.uleb128 0x16
+ 1258 04f9 80000000 		.4byte	.LVL70
+ 1259 04fd 24010000 		.4byte	0x124
+ 1260 0501 12050000 		.4byte	0x512
+ 1261 0505 0C       		.uleb128 0xc
+ 1262 0506 01       		.uleb128 0x1
+ 1263 0507 50       		.byte	0x50
+ 1264 0508 02       		.uleb128 0x2
+ 1265 0509 74       		.byte	0x74
+ 1266 050a 00       		.sleb128 0
+ 1267 050b 0C       		.uleb128 0xc
+ 1268 050c 01       		.uleb128 0x1
+ 1269 050d 51       		.byte	0x51
+ 1270 050e 02       		.uleb128 0x2
+ 1271 050f 08       		.byte	0x8
+ 1272 0510 64       		.byte	0x64
+ 1273 0511 00       		.byte	0
+ 1274 0512 16       		.uleb128 0x16
+ 1275 0513 86000000 		.4byte	.LVL71
+ 1276 0517 32020000 		.4byte	0x232
+ 1277 051b 26050000 		.4byte	0x526
+ 1278 051f 0C       		.uleb128 0xc
+ 1279 0520 01       		.uleb128 0x1
+ 1280 0521 50       		.byte	0x50
+ 1281 0522 02       		.uleb128 0x2
+ 1282 0523 74       		.byte	0x74
+ 1283 0524 00       		.sleb128 0
+ 1284 0525 00       		.byte	0
+ 1285 0526 16       		.uleb128 0x16
+ 1286 0527 8E000000 		.4byte	.LVL73
+ 1287 052b E5050000 		.4byte	0x5e5
+ 1288 052f 3A050000 		.4byte	0x53a
+ 1289 0533 0C       		.uleb128 0xc
+ 1290 0534 01       		.uleb128 0x1
+ 1291 0535 50       		.byte	0x50
+ 1292 0536 02       		.uleb128 0x2
+ 1293 0537 74       		.byte	0x74
+ 1294 0538 00       		.sleb128 0
+ 1295 0539 00       		.byte	0
+ 1296 053a 16       		.uleb128 0x16
+ 1297 053b 9E000000 		.4byte	.LVL76
+ 1298 053f CF050000 		.4byte	0x5cf
+ 1299 0543 60050000 		.4byte	0x560
+ 1300 0547 0C       		.uleb128 0xc
+ 1301 0548 01       		.uleb128 0x1
+ 1302 0549 50       		.byte	0x50
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 27
+
+
+ 1303 054a 02       		.uleb128 0x2
+ 1304 054b 74       		.byte	0x74
+ 1305 054c 00       		.sleb128 0
+ 1306 054d 0C       		.uleb128 0xc
+ 1307 054e 01       		.uleb128 0x1
+ 1308 054f 51       		.byte	0x51
+ 1309 0550 02       		.uleb128 0x2
+ 1310 0551 08       		.byte	0x8
+ 1311 0552 64       		.byte	0x64
+ 1312 0553 0C       		.uleb128 0xc
+ 1313 0554 01       		.uleb128 0x1
+ 1314 0555 52       		.byte	0x52
+ 1315 0556 02       		.uleb128 0x2
+ 1316 0557 75       		.byte	0x75
+ 1317 0558 00       		.sleb128 0
+ 1318 0559 0C       		.uleb128 0xc
+ 1319 055a 01       		.uleb128 0x1
+ 1320 055b 53       		.byte	0x53
+ 1321 055c 02       		.uleb128 0x2
+ 1322 055d 76       		.byte	0x76
+ 1323 055e 00       		.sleb128 0
+ 1324 055f 00       		.byte	0
+ 1325 0560 17       		.uleb128 0x17
+ 1326 0561 A4000000 		.4byte	.LVL77
+ 1327 0565 A3050000 		.4byte	0x5a3
+ 1328 0569 0C       		.uleb128 0xc
+ 1329 056a 01       		.uleb128 0x1
+ 1330 056b 50       		.byte	0x50
+ 1331 056c 02       		.uleb128 0x2
+ 1332 056d 74       		.byte	0x74
+ 1333 056e 00       		.sleb128 0
+ 1334 056f 00       		.byte	0
+ 1335 0570 00       		.byte	0
+ 1336 0571 1A       		.uleb128 0x1a
+ 1337 0572 39020000 		.4byte	.LASF39
+ 1338 0576 06       		.byte	0x6
+ 1339 0577 1207     		.2byte	0x712
+ 1340 0579 7D050000 		.4byte	0x57d
+ 1341 057d 1B       		.uleb128 0x1b
+ 1342 057e B8000000 		.4byte	0xb8
+ 1343 0582 1C       		.uleb128 0x1c
+ 1344 0583 DD000000 		.4byte	0xdd
+ 1345 0587 92050000 		.4byte	0x592
+ 1346 058b 1D       		.uleb128 0x1d
+ 1347 058c EB000000 		.4byte	0xeb
+ 1348 0590 63       		.byte	0x63
+ 1349 0591 00       		.byte	0
+ 1350 0592 1E       		.uleb128 0x1e
+ 1351 0593 8C010000 		.4byte	.LASF40
+ 1352 0597 01       		.byte	0x1
+ 1353 0598 6F       		.byte	0x6f
+ 1354 0599 82050000 		.4byte	0x582
+ 1355 059d 05       		.uleb128 0x5
+ 1356 059e 03       		.byte	0x3
+ 1357 059f 00000000 		.4byte	buffer
+ 1358 05a3 1F       		.uleb128 0x1f
+ 1359 05a4 10000000 		.4byte	.LASF41
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 28
+
+
+ 1360 05a8 10000000 		.4byte	.LASF41
+ 1361 05ac 07       		.byte	0x7
+ 1362 05ad 8B       		.byte	0x8b
+ 1363 05ae 1F       		.uleb128 0x1f
+ 1364 05af 24000000 		.4byte	.LASF42
+ 1365 05b3 24000000 		.4byte	.LASF42
+ 1366 05b7 08       		.byte	0x8
+ 1367 05b8 BF       		.byte	0xbf
+ 1368 05b9 1F       		.uleb128 0x1f
+ 1369 05ba 83010000 		.4byte	.LASF43
+ 1370 05be 83010000 		.4byte	.LASF43
+ 1371 05c2 07       		.byte	0x7
+ 1372 05c3 54       		.byte	0x54
+ 1373 05c4 1F       		.uleb128 0x1f
+ 1374 05c5 76000000 		.4byte	.LASF44
+ 1375 05c9 76000000 		.4byte	.LASF44
+ 1376 05cd 01       		.byte	0x1
+ 1377 05ce 20       		.byte	0x20
+ 1378 05cf 1F       		.uleb128 0x1f
+ 1379 05d0 BA000000 		.4byte	.LASF45
+ 1380 05d4 BA000000 		.4byte	.LASF45
+ 1381 05d8 08       		.byte	0x8
+ 1382 05d9 FD       		.byte	0xfd
+ 1383 05da 1F       		.uleb128 0x1f
+ 1384 05db EC000000 		.4byte	.LASF46
+ 1385 05df EC000000 		.4byte	.LASF46
+ 1386 05e3 01       		.byte	0x1
+ 1387 05e4 4C       		.byte	0x4c
+ 1388 05e5 1F       		.uleb128 0x1f
+ 1389 05e6 27020000 		.4byte	.LASF47
+ 1390 05ea 27020000 		.4byte	.LASF47
+ 1391 05ee 01       		.byte	0x1
+ 1392 05ef 33       		.byte	0x33
+ 1393 05f0 00       		.byte	0
+ 1394              		.section	.debug_abbrev,"",%progbits
+ 1395              	.Ldebug_abbrev0:
+ 1396 0000 01       		.uleb128 0x1
+ 1397 0001 11       		.uleb128 0x11
+ 1398 0002 01       		.byte	0x1
+ 1399 0003 25       		.uleb128 0x25
+ 1400 0004 0E       		.uleb128 0xe
+ 1401 0005 13       		.uleb128 0x13
+ 1402 0006 0B       		.uleb128 0xb
+ 1403 0007 03       		.uleb128 0x3
+ 1404 0008 0E       		.uleb128 0xe
+ 1405 0009 1B       		.uleb128 0x1b
+ 1406 000a 0E       		.uleb128 0xe
+ 1407 000b 55       		.uleb128 0x55
+ 1408 000c 17       		.uleb128 0x17
+ 1409 000d 11       		.uleb128 0x11
+ 1410 000e 01       		.uleb128 0x1
+ 1411 000f 10       		.uleb128 0x10
+ 1412 0010 17       		.uleb128 0x17
+ 1413 0011 00       		.byte	0
+ 1414 0012 00       		.byte	0
+ 1415 0013 02       		.uleb128 0x2
+ 1416 0014 24       		.uleb128 0x24
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 29
+
+
+ 1417 0015 00       		.byte	0
+ 1418 0016 0B       		.uleb128 0xb
+ 1419 0017 0B       		.uleb128 0xb
+ 1420 0018 3E       		.uleb128 0x3e
+ 1421 0019 0B       		.uleb128 0xb
+ 1422 001a 03       		.uleb128 0x3
+ 1423 001b 0E       		.uleb128 0xe
+ 1424 001c 00       		.byte	0
+ 1425 001d 00       		.byte	0
+ 1426 001e 03       		.uleb128 0x3
+ 1427 001f 16       		.uleb128 0x16
+ 1428 0020 00       		.byte	0
+ 1429 0021 03       		.uleb128 0x3
+ 1430 0022 0E       		.uleb128 0xe
+ 1431 0023 3A       		.uleb128 0x3a
+ 1432 0024 0B       		.uleb128 0xb
+ 1433 0025 3B       		.uleb128 0x3b
+ 1434 0026 0B       		.uleb128 0xb
+ 1435 0027 49       		.uleb128 0x49
+ 1436 0028 13       		.uleb128 0x13
+ 1437 0029 00       		.byte	0
+ 1438 002a 00       		.byte	0
+ 1439 002b 04       		.uleb128 0x4
+ 1440 002c 24       		.uleb128 0x24
+ 1441 002d 00       		.byte	0
+ 1442 002e 0B       		.uleb128 0xb
+ 1443 002f 0B       		.uleb128 0xb
+ 1444 0030 3E       		.uleb128 0x3e
+ 1445 0031 0B       		.uleb128 0xb
+ 1446 0032 03       		.uleb128 0x3
+ 1447 0033 08       		.uleb128 0x8
+ 1448 0034 00       		.byte	0
+ 1449 0035 00       		.byte	0
+ 1450 0036 05       		.uleb128 0x5
+ 1451 0037 16       		.uleb128 0x16
+ 1452 0038 00       		.byte	0
+ 1453 0039 03       		.uleb128 0x3
+ 1454 003a 0E       		.uleb128 0xe
+ 1455 003b 3A       		.uleb128 0x3a
+ 1456 003c 0B       		.uleb128 0xb
+ 1457 003d 3B       		.uleb128 0x3b
+ 1458 003e 05       		.uleb128 0x5
+ 1459 003f 49       		.uleb128 0x49
+ 1460 0040 13       		.uleb128 0x13
+ 1461 0041 00       		.byte	0
+ 1462 0042 00       		.byte	0
+ 1463 0043 06       		.uleb128 0x6
+ 1464 0044 0F       		.uleb128 0xf
+ 1465 0045 00       		.byte	0
+ 1466 0046 0B       		.uleb128 0xb
+ 1467 0047 0B       		.uleb128 0xb
+ 1468 0048 49       		.uleb128 0x49
+ 1469 0049 13       		.uleb128 0x13
+ 1470 004a 00       		.byte	0
+ 1471 004b 00       		.byte	0
+ 1472 004c 07       		.uleb128 0x7
+ 1473 004d 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 30
+
+
+ 1474 004e 01       		.byte	0x1
+ 1475 004f 3F       		.uleb128 0x3f
+ 1476 0050 19       		.uleb128 0x19
+ 1477 0051 03       		.uleb128 0x3
+ 1478 0052 0E       		.uleb128 0xe
+ 1479 0053 3A       		.uleb128 0x3a
+ 1480 0054 0B       		.uleb128 0xb
+ 1481 0055 3B       		.uleb128 0x3b
+ 1482 0056 0B       		.uleb128 0xb
+ 1483 0057 27       		.uleb128 0x27
+ 1484 0058 19       		.uleb128 0x19
+ 1485 0059 11       		.uleb128 0x11
+ 1486 005a 01       		.uleb128 0x1
+ 1487 005b 12       		.uleb128 0x12
+ 1488 005c 06       		.uleb128 0x6
+ 1489 005d 40       		.uleb128 0x40
+ 1490 005e 18       		.uleb128 0x18
+ 1491 005f 9642     		.uleb128 0x2116
+ 1492 0061 19       		.uleb128 0x19
+ 1493 0062 01       		.uleb128 0x1
+ 1494 0063 13       		.uleb128 0x13
+ 1495 0064 00       		.byte	0
+ 1496 0065 00       		.byte	0
+ 1497 0066 08       		.uleb128 0x8
+ 1498 0067 05       		.uleb128 0x5
+ 1499 0068 00       		.byte	0
+ 1500 0069 03       		.uleb128 0x3
+ 1501 006a 08       		.uleb128 0x8
+ 1502 006b 3A       		.uleb128 0x3a
+ 1503 006c 0B       		.uleb128 0xb
+ 1504 006d 3B       		.uleb128 0x3b
+ 1505 006e 0B       		.uleb128 0xb
+ 1506 006f 49       		.uleb128 0x49
+ 1507 0070 13       		.uleb128 0x13
+ 1508 0071 02       		.uleb128 0x2
+ 1509 0072 17       		.uleb128 0x17
+ 1510 0073 00       		.byte	0
+ 1511 0074 00       		.byte	0
+ 1512 0075 09       		.uleb128 0x9
+ 1513 0076 05       		.uleb128 0x5
+ 1514 0077 00       		.byte	0
+ 1515 0078 03       		.uleb128 0x3
+ 1516 0079 0E       		.uleb128 0xe
+ 1517 007a 3A       		.uleb128 0x3a
+ 1518 007b 0B       		.uleb128 0xb
+ 1519 007c 3B       		.uleb128 0x3b
+ 1520 007d 0B       		.uleb128 0xb
+ 1521 007e 49       		.uleb128 0x49
+ 1522 007f 13       		.uleb128 0x13
+ 1523 0080 02       		.uleb128 0x2
+ 1524 0081 17       		.uleb128 0x17
+ 1525 0082 00       		.byte	0
+ 1526 0083 00       		.byte	0
+ 1527 0084 0A       		.uleb128 0xa
+ 1528 0085 34       		.uleb128 0x34
+ 1529 0086 00       		.byte	0
+ 1530 0087 03       		.uleb128 0x3
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 31
+
+
+ 1531 0088 08       		.uleb128 0x8
+ 1532 0089 3A       		.uleb128 0x3a
+ 1533 008a 0B       		.uleb128 0xb
+ 1534 008b 3B       		.uleb128 0x3b
+ 1535 008c 0B       		.uleb128 0xb
+ 1536 008d 49       		.uleb128 0x49
+ 1537 008e 13       		.uleb128 0x13
+ 1538 008f 02       		.uleb128 0x2
+ 1539 0090 17       		.uleb128 0x17
+ 1540 0091 00       		.byte	0
+ 1541 0092 00       		.byte	0
+ 1542 0093 0B       		.uleb128 0xb
+ 1543 0094 898201   		.uleb128 0x4109
+ 1544 0097 01       		.byte	0x1
+ 1545 0098 11       		.uleb128 0x11
+ 1546 0099 01       		.uleb128 0x1
+ 1547 009a 01       		.uleb128 0x1
+ 1548 009b 13       		.uleb128 0x13
+ 1549 009c 00       		.byte	0
+ 1550 009d 00       		.byte	0
+ 1551 009e 0C       		.uleb128 0xc
+ 1552 009f 8A8201   		.uleb128 0x410a
+ 1553 00a2 00       		.byte	0
+ 1554 00a3 02       		.uleb128 0x2
+ 1555 00a4 18       		.uleb128 0x18
+ 1556 00a5 9142     		.uleb128 0x2111
+ 1557 00a7 18       		.uleb128 0x18
+ 1558 00a8 00       		.byte	0
+ 1559 00a9 00       		.byte	0
+ 1560 00aa 0D       		.uleb128 0xd
+ 1561 00ab 898201   		.uleb128 0x4109
+ 1562 00ae 01       		.byte	0x1
+ 1563 00af 11       		.uleb128 0x11
+ 1564 00b0 01       		.uleb128 0x1
+ 1565 00b1 00       		.byte	0
+ 1566 00b2 00       		.byte	0
+ 1567 00b3 0E       		.uleb128 0xe
+ 1568 00b4 15       		.uleb128 0x15
+ 1569 00b5 01       		.byte	0x1
+ 1570 00b6 49       		.uleb128 0x49
+ 1571 00b7 13       		.uleb128 0x13
+ 1572 00b8 01       		.uleb128 0x1
+ 1573 00b9 13       		.uleb128 0x13
+ 1574 00ba 00       		.byte	0
+ 1575 00bb 00       		.byte	0
+ 1576 00bc 0F       		.uleb128 0xf
+ 1577 00bd 18       		.uleb128 0x18
+ 1578 00be 00       		.byte	0
+ 1579 00bf 00       		.byte	0
+ 1580 00c0 00       		.byte	0
+ 1581 00c1 10       		.uleb128 0x10
+ 1582 00c2 15       		.uleb128 0x15
+ 1583 00c3 01       		.byte	0x1
+ 1584 00c4 27       		.uleb128 0x27
+ 1585 00c5 19       		.uleb128 0x19
+ 1586 00c6 01       		.uleb128 0x1
+ 1587 00c7 13       		.uleb128 0x13
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 32
+
+
+ 1588 00c8 00       		.byte	0
+ 1589 00c9 00       		.byte	0
+ 1590 00ca 11       		.uleb128 0x11
+ 1591 00cb 05       		.uleb128 0x5
+ 1592 00cc 00       		.byte	0
+ 1593 00cd 49       		.uleb128 0x49
+ 1594 00ce 13       		.uleb128 0x13
+ 1595 00cf 00       		.byte	0
+ 1596 00d0 00       		.byte	0
+ 1597 00d1 12       		.uleb128 0x12
+ 1598 00d2 2E       		.uleb128 0x2e
+ 1599 00d3 01       		.byte	0x1
+ 1600 00d4 3F       		.uleb128 0x3f
+ 1601 00d5 19       		.uleb128 0x19
+ 1602 00d6 03       		.uleb128 0x3
+ 1603 00d7 0E       		.uleb128 0xe
+ 1604 00d8 3A       		.uleb128 0x3a
+ 1605 00d9 0B       		.uleb128 0xb
+ 1606 00da 3B       		.uleb128 0x3b
+ 1607 00db 0B       		.uleb128 0xb
+ 1608 00dc 27       		.uleb128 0x27
+ 1609 00dd 19       		.uleb128 0x19
+ 1610 00de 49       		.uleb128 0x49
+ 1611 00df 13       		.uleb128 0x13
+ 1612 00e0 11       		.uleb128 0x11
+ 1613 00e1 01       		.uleb128 0x1
+ 1614 00e2 12       		.uleb128 0x12
+ 1615 00e3 06       		.uleb128 0x6
+ 1616 00e4 40       		.uleb128 0x40
+ 1617 00e5 18       		.uleb128 0x18
+ 1618 00e6 9742     		.uleb128 0x2117
+ 1619 00e8 19       		.uleb128 0x19
+ 1620 00e9 01       		.uleb128 0x1
+ 1621 00ea 13       		.uleb128 0x13
+ 1622 00eb 00       		.byte	0
+ 1623 00ec 00       		.byte	0
+ 1624 00ed 13       		.uleb128 0x13
+ 1625 00ee 0B       		.uleb128 0xb
+ 1626 00ef 01       		.byte	0x1
+ 1627 00f0 55       		.uleb128 0x55
+ 1628 00f1 17       		.uleb128 0x17
+ 1629 00f2 00       		.byte	0
+ 1630 00f3 00       		.byte	0
+ 1631 00f4 14       		.uleb128 0x14
+ 1632 00f5 34       		.uleb128 0x34
+ 1633 00f6 00       		.byte	0
+ 1634 00f7 03       		.uleb128 0x3
+ 1635 00f8 0E       		.uleb128 0xe
+ 1636 00f9 3A       		.uleb128 0x3a
+ 1637 00fa 0B       		.uleb128 0xb
+ 1638 00fb 3B       		.uleb128 0x3b
+ 1639 00fc 0B       		.uleb128 0xb
+ 1640 00fd 49       		.uleb128 0x49
+ 1641 00fe 13       		.uleb128 0x13
+ 1642 00ff 02       		.uleb128 0x2
+ 1643 0100 17       		.uleb128 0x17
+ 1644 0101 00       		.byte	0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 33
+
+
+ 1645 0102 00       		.byte	0
+ 1646 0103 15       		.uleb128 0x15
+ 1647 0104 34       		.uleb128 0x34
+ 1648 0105 00       		.byte	0
+ 1649 0106 03       		.uleb128 0x3
+ 1650 0107 0E       		.uleb128 0xe
+ 1651 0108 3A       		.uleb128 0x3a
+ 1652 0109 0B       		.uleb128 0xb
+ 1653 010a 3B       		.uleb128 0x3b
+ 1654 010b 0B       		.uleb128 0xb
+ 1655 010c 49       		.uleb128 0x49
+ 1656 010d 13       		.uleb128 0x13
+ 1657 010e 02       		.uleb128 0x2
+ 1658 010f 18       		.uleb128 0x18
+ 1659 0110 00       		.byte	0
+ 1660 0111 00       		.byte	0
+ 1661 0112 16       		.uleb128 0x16
+ 1662 0113 898201   		.uleb128 0x4109
+ 1663 0116 01       		.byte	0x1
+ 1664 0117 11       		.uleb128 0x11
+ 1665 0118 01       		.uleb128 0x1
+ 1666 0119 31       		.uleb128 0x31
+ 1667 011a 13       		.uleb128 0x13
+ 1668 011b 01       		.uleb128 0x1
+ 1669 011c 13       		.uleb128 0x13
+ 1670 011d 00       		.byte	0
+ 1671 011e 00       		.byte	0
+ 1672 011f 17       		.uleb128 0x17
+ 1673 0120 898201   		.uleb128 0x4109
+ 1674 0123 01       		.byte	0x1
+ 1675 0124 11       		.uleb128 0x11
+ 1676 0125 01       		.uleb128 0x1
+ 1677 0126 31       		.uleb128 0x31
+ 1678 0127 13       		.uleb128 0x13
+ 1679 0128 00       		.byte	0
+ 1680 0129 00       		.byte	0
+ 1681 012a 18       		.uleb128 0x18
+ 1682 012b 2E       		.uleb128 0x2e
+ 1683 012c 01       		.byte	0x1
+ 1684 012d 3F       		.uleb128 0x3f
+ 1685 012e 19       		.uleb128 0x19
+ 1686 012f 03       		.uleb128 0x3
+ 1687 0130 0E       		.uleb128 0xe
+ 1688 0131 3A       		.uleb128 0x3a
+ 1689 0132 0B       		.uleb128 0xb
+ 1690 0133 3B       		.uleb128 0x3b
+ 1691 0134 0B       		.uleb128 0xb
+ 1692 0135 27       		.uleb128 0x27
+ 1693 0136 19       		.uleb128 0x19
+ 1694 0137 49       		.uleb128 0x49
+ 1695 0138 13       		.uleb128 0x13
+ 1696 0139 8701     		.uleb128 0x87
+ 1697 013b 19       		.uleb128 0x19
+ 1698 013c 11       		.uleb128 0x11
+ 1699 013d 01       		.uleb128 0x1
+ 1700 013e 12       		.uleb128 0x12
+ 1701 013f 06       		.uleb128 0x6
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 34
+
+
+ 1702 0140 40       		.uleb128 0x40
+ 1703 0141 18       		.uleb128 0x18
+ 1704 0142 9742     		.uleb128 0x2117
+ 1705 0144 19       		.uleb128 0x19
+ 1706 0145 01       		.uleb128 0x1
+ 1707 0146 13       		.uleb128 0x13
+ 1708 0147 00       		.byte	0
+ 1709 0148 00       		.byte	0
+ 1710 0149 19       		.uleb128 0x19
+ 1711 014a 898201   		.uleb128 0x4109
+ 1712 014d 00       		.byte	0
+ 1713 014e 11       		.uleb128 0x11
+ 1714 014f 01       		.uleb128 0x1
+ 1715 0150 31       		.uleb128 0x31
+ 1716 0151 13       		.uleb128 0x13
+ 1717 0152 00       		.byte	0
+ 1718 0153 00       		.byte	0
+ 1719 0154 1A       		.uleb128 0x1a
+ 1720 0155 34       		.uleb128 0x34
+ 1721 0156 00       		.byte	0
+ 1722 0157 03       		.uleb128 0x3
+ 1723 0158 0E       		.uleb128 0xe
+ 1724 0159 3A       		.uleb128 0x3a
+ 1725 015a 0B       		.uleb128 0xb
+ 1726 015b 3B       		.uleb128 0x3b
+ 1727 015c 05       		.uleb128 0x5
+ 1728 015d 49       		.uleb128 0x49
+ 1729 015e 13       		.uleb128 0x13
+ 1730 015f 3F       		.uleb128 0x3f
+ 1731 0160 19       		.uleb128 0x19
+ 1732 0161 3C       		.uleb128 0x3c
+ 1733 0162 19       		.uleb128 0x19
+ 1734 0163 00       		.byte	0
+ 1735 0164 00       		.byte	0
+ 1736 0165 1B       		.uleb128 0x1b
+ 1737 0166 35       		.uleb128 0x35
+ 1738 0167 00       		.byte	0
+ 1739 0168 49       		.uleb128 0x49
+ 1740 0169 13       		.uleb128 0x13
+ 1741 016a 00       		.byte	0
+ 1742 016b 00       		.byte	0
+ 1743 016c 1C       		.uleb128 0x1c
+ 1744 016d 01       		.uleb128 0x1
+ 1745 016e 01       		.byte	0x1
+ 1746 016f 49       		.uleb128 0x49
+ 1747 0170 13       		.uleb128 0x13
+ 1748 0171 01       		.uleb128 0x1
+ 1749 0172 13       		.uleb128 0x13
+ 1750 0173 00       		.byte	0
+ 1751 0174 00       		.byte	0
+ 1752 0175 1D       		.uleb128 0x1d
+ 1753 0176 21       		.uleb128 0x21
+ 1754 0177 00       		.byte	0
+ 1755 0178 49       		.uleb128 0x49
+ 1756 0179 13       		.uleb128 0x13
+ 1757 017a 2F       		.uleb128 0x2f
+ 1758 017b 0B       		.uleb128 0xb
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 35
+
+
+ 1759 017c 00       		.byte	0
+ 1760 017d 00       		.byte	0
+ 1761 017e 1E       		.uleb128 0x1e
+ 1762 017f 34       		.uleb128 0x34
+ 1763 0180 00       		.byte	0
+ 1764 0181 03       		.uleb128 0x3
+ 1765 0182 0E       		.uleb128 0xe
+ 1766 0183 3A       		.uleb128 0x3a
+ 1767 0184 0B       		.uleb128 0xb
+ 1768 0185 3B       		.uleb128 0x3b
+ 1769 0186 0B       		.uleb128 0xb
+ 1770 0187 49       		.uleb128 0x49
+ 1771 0188 13       		.uleb128 0x13
+ 1772 0189 3F       		.uleb128 0x3f
+ 1773 018a 19       		.uleb128 0x19
+ 1774 018b 02       		.uleb128 0x2
+ 1775 018c 18       		.uleb128 0x18
+ 1776 018d 00       		.byte	0
+ 1777 018e 00       		.byte	0
+ 1778 018f 1F       		.uleb128 0x1f
+ 1779 0190 2E       		.uleb128 0x2e
+ 1780 0191 00       		.byte	0
+ 1781 0192 3F       		.uleb128 0x3f
+ 1782 0193 19       		.uleb128 0x19
+ 1783 0194 3C       		.uleb128 0x3c
+ 1784 0195 19       		.uleb128 0x19
+ 1785 0196 6E       		.uleb128 0x6e
+ 1786 0197 0E       		.uleb128 0xe
+ 1787 0198 03       		.uleb128 0x3
+ 1788 0199 0E       		.uleb128 0xe
+ 1789 019a 3A       		.uleb128 0x3a
+ 1790 019b 0B       		.uleb128 0xb
+ 1791 019c 3B       		.uleb128 0x3b
+ 1792 019d 0B       		.uleb128 0xb
+ 1793 019e 00       		.byte	0
+ 1794 019f 00       		.byte	0
+ 1795 01a0 00       		.byte	0
+ 1796              		.section	.debug_loc,"",%progbits
+ 1797              	.Ldebug_loc0:
+ 1798              	.LLST0:
+ 1799 0000 00000000 		.4byte	.LVL0
+ 1800 0004 10000000 		.4byte	.LVL2
+ 1801 0008 0100     		.2byte	0x1
+ 1802 000a 50       		.byte	0x50
+ 1803 000b 10000000 		.4byte	.LVL2
+ 1804 000f 36000000 		.4byte	.LFE64
+ 1805 0013 0100     		.2byte	0x1
+ 1806 0015 59       		.byte	0x59
+ 1807 0016 00000000 		.4byte	0
+ 1808 001a 00000000 		.4byte	0
+ 1809              	.LLST1:
+ 1810 001e 00000000 		.4byte	.LVL0
+ 1811 0022 10000000 		.4byte	.LVL2
+ 1812 0026 0100     		.2byte	0x1
+ 1813 0028 51       		.byte	0x51
+ 1814 0029 10000000 		.4byte	.LVL2
+ 1815 002d 36000000 		.4byte	.LFE64
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 36
+
+
+ 1816 0031 0100     		.2byte	0x1
+ 1817 0033 56       		.byte	0x56
+ 1818 0034 00000000 		.4byte	0
+ 1819 0038 00000000 		.4byte	0
+ 1820              	.LLST2:
+ 1821 003c 00000000 		.4byte	.LVL0
+ 1822 0040 10000000 		.4byte	.LVL2
+ 1823 0044 0100     		.2byte	0x1
+ 1824 0046 52       		.byte	0x52
+ 1825 0047 10000000 		.4byte	.LVL2
+ 1826 004b 36000000 		.4byte	.LFE64
+ 1827 004f 0100     		.2byte	0x1
+ 1828 0051 57       		.byte	0x57
+ 1829 0052 00000000 		.4byte	0
+ 1830 0056 00000000 		.4byte	0
+ 1831              	.LLST3:
+ 1832 005a 00000000 		.4byte	.LVL0
+ 1833 005e 10000000 		.4byte	.LVL2
+ 1834 0062 0100     		.2byte	0x1
+ 1835 0064 53       		.byte	0x53
+ 1836 0065 10000000 		.4byte	.LVL2
+ 1837 0069 36000000 		.4byte	.LFE64
+ 1838 006d 0100     		.2byte	0x1
+ 1839 006f 58       		.byte	0x58
+ 1840 0070 00000000 		.4byte	0
+ 1841 0074 00000000 		.4byte	0
+ 1842              	.LLST4:
+ 1843 0078 0C000000 		.4byte	.LVL1
+ 1844 007c 10000000 		.4byte	.LVL2
+ 1845 0080 0200     		.2byte	0x2
+ 1846 0082 30       		.byte	0x30
+ 1847 0083 9F       		.byte	0x9f
+ 1848 0084 10000000 		.4byte	.LVL2
+ 1849 0088 1C000000 		.4byte	.LVL5
+ 1850 008c 0100     		.2byte	0x1
+ 1851 008e 54       		.byte	0x54
+ 1852 008f 1C000000 		.4byte	.LVL5
+ 1853 0093 22000000 		.4byte	.LVL6
+ 1854 0097 0300     		.2byte	0x3
+ 1855 0099 74       		.byte	0x74
+ 1856 009a 01       		.sleb128 1
+ 1857 009b 9F       		.byte	0x9f
+ 1858 009c 22000000 		.4byte	.LVL6
+ 1859 00a0 36000000 		.4byte	.LFE64
+ 1860 00a4 0100     		.2byte	0x1
+ 1861 00a6 54       		.byte	0x54
+ 1862 00a7 00000000 		.4byte	0
+ 1863 00ab 00000000 		.4byte	0
+ 1864              	.LLST5:
+ 1865 00af 12000000 		.4byte	.LVL3
+ 1866 00b3 17000000 		.4byte	.LVL4-1
+ 1867 00b7 0100     		.2byte	0x1
+ 1868 00b9 50       		.byte	0x50
+ 1869 00ba 00000000 		.4byte	0
+ 1870 00be 00000000 		.4byte	0
+ 1871              	.LLST6:
+ 1872 00c2 00000000 		.4byte	.LVL8
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 37
+
+
+ 1873 00c6 22000000 		.4byte	.LVL15
+ 1874 00ca 0100     		.2byte	0x1
+ 1875 00cc 50       		.byte	0x50
+ 1876 00cd 22000000 		.4byte	.LVL15
+ 1877 00d1 24000000 		.4byte	.LVL16
+ 1878 00d5 0400     		.2byte	0x4
+ 1879 00d7 F3       		.byte	0xf3
+ 1880 00d8 01       		.uleb128 0x1
+ 1881 00d9 50       		.byte	0x50
+ 1882 00da 9F       		.byte	0x9f
+ 1883 00db 24000000 		.4byte	.LVL16
+ 1884 00df 26000000 		.4byte	.LVL17
+ 1885 00e3 0100     		.2byte	0x1
+ 1886 00e5 50       		.byte	0x50
+ 1887 00e6 26000000 		.4byte	.LVL17
+ 1888 00ea 2C000000 		.4byte	.LFE65
+ 1889 00ee 0400     		.2byte	0x4
+ 1890 00f0 F3       		.byte	0xf3
+ 1891 00f1 01       		.uleb128 0x1
+ 1892 00f2 50       		.byte	0x50
+ 1893 00f3 9F       		.byte	0x9f
+ 1894 00f4 00000000 		.4byte	0
+ 1895 00f8 00000000 		.4byte	0
+ 1896              	.LLST7:
+ 1897 00fc 12000000 		.4byte	.LVL9
+ 1898 0100 1C000000 		.4byte	.LVL14
+ 1899 0104 0100     		.2byte	0x1
+ 1900 0106 52       		.byte	0x52
+ 1901 0107 1C000000 		.4byte	.LVL14
+ 1902 010b 24000000 		.4byte	.LVL16
+ 1903 010f 0100     		.2byte	0x1
+ 1904 0111 51       		.byte	0x51
+ 1905 0112 28000000 		.4byte	.LVL18
+ 1906 0116 2C000000 		.4byte	.LFE65
+ 1907 011a 0100     		.2byte	0x1
+ 1908 011c 51       		.byte	0x51
+ 1909 011d 00000000 		.4byte	0
+ 1910 0121 00000000 		.4byte	0
+ 1911              	.LLST8:
+ 1912 0125 12000000 		.4byte	.LVL9
+ 1913 0129 14000000 		.4byte	.LVL10
+ 1914 012d 0100     		.2byte	0x1
+ 1915 012f 52       		.byte	0x52
+ 1916 0130 14000000 		.4byte	.LVL10
+ 1917 0134 1C000000 		.4byte	.LVL14
+ 1918 0138 0100     		.2byte	0x1
+ 1919 013a 54       		.byte	0x54
+ 1920 013b 1C000000 		.4byte	.LVL14
+ 1921 013f 24000000 		.4byte	.LVL16
+ 1922 0143 0100     		.2byte	0x1
+ 1923 0145 52       		.byte	0x52
+ 1924 0146 28000000 		.4byte	.LVL18
+ 1925 014a 2C000000 		.4byte	.LFE65
+ 1926 014e 0100     		.2byte	0x1
+ 1927 0150 50       		.byte	0x50
+ 1928 0151 00000000 		.4byte	0
+ 1929 0155 00000000 		.4byte	0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 38
+
+
+ 1930              	.LLST9:
+ 1931 0159 12000000 		.4byte	.LVL9
+ 1932 015d 1A000000 		.4byte	.LVL13
+ 1933 0161 0100     		.2byte	0x1
+ 1934 0163 51       		.byte	0x51
+ 1935 0164 00000000 		.4byte	0
+ 1936 0168 00000000 		.4byte	0
+ 1937              	.LLST10:
+ 1938 016c 12000000 		.4byte	.LVL9
+ 1939 0170 16000000 		.4byte	.LVL11
+ 1940 0174 0100     		.2byte	0x1
+ 1941 0176 53       		.byte	0x53
+ 1942 0177 18000000 		.4byte	.LVL12
+ 1943 017b 24000000 		.4byte	.LVL16
+ 1944 017f 0100     		.2byte	0x1
+ 1945 0181 53       		.byte	0x53
+ 1946 0182 28000000 		.4byte	.LVL18
+ 1947 0186 2C000000 		.4byte	.LFE65
+ 1948 018a 0100     		.2byte	0x1
+ 1949 018c 53       		.byte	0x53
+ 1950 018d 00000000 		.4byte	0
+ 1951 0191 00000000 		.4byte	0
+ 1952              	.LLST11:
+ 1953 0195 00000000 		.4byte	.LVL19
+ 1954 0199 02000000 		.4byte	.LVL20
+ 1955 019d 0100     		.2byte	0x1
+ 1956 019f 50       		.byte	0x50
+ 1957 01a0 02000000 		.4byte	.LVL20
+ 1958 01a4 4C000000 		.4byte	.LVL25
+ 1959 01a8 0100     		.2byte	0x1
+ 1960 01aa 52       		.byte	0x52
+ 1961 01ab 4C000000 		.4byte	.LVL25
+ 1962 01af 50000000 		.4byte	.LVL27
+ 1963 01b3 0300     		.2byte	0x3
+ 1964 01b5 72       		.byte	0x72
+ 1965 01b6 01       		.sleb128 1
+ 1966 01b7 9F       		.byte	0x9f
+ 1967 01b8 50000000 		.4byte	.LVL27
+ 1968 01bc 56000000 		.4byte	.LFE66
+ 1969 01c0 0100     		.2byte	0x1
+ 1970 01c2 52       		.byte	0x52
+ 1971 01c3 00000000 		.4byte	0
+ 1972 01c7 00000000 		.4byte	0
+ 1973              	.LLST12:
+ 1974 01cb 00000000 		.4byte	.LVL19
+ 1975 01cf 08000000 		.4byte	.LVL22
+ 1976 01d3 0200     		.2byte	0x2
+ 1977 01d5 30       		.byte	0x30
+ 1978 01d6 9F       		.byte	0x9f
+ 1979 01d7 08000000 		.4byte	.LVL22
+ 1980 01db 4A000000 		.4byte	.LVL24
+ 1981 01df 0100     		.2byte	0x1
+ 1982 01e1 50       		.byte	0x50
+ 1983 01e2 4C000000 		.4byte	.LVL25
+ 1984 01e6 56000000 		.4byte	.LFE66
+ 1985 01ea 0100     		.2byte	0x1
+ 1986 01ec 50       		.byte	0x50
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 39
+
+
+ 1987 01ed 00000000 		.4byte	0
+ 1988 01f1 00000000 		.4byte	0
+ 1989              	.LLST13:
+ 1990 01f5 04000000 		.4byte	.LVL21
+ 1991 01f9 0A000000 		.4byte	.LVL23
+ 1992 01fd 0100     		.2byte	0x1
+ 1993 01ff 53       		.byte	0x53
+ 1994 0200 4E000000 		.4byte	.LVL26
+ 1995 0204 56000000 		.4byte	.LFE66
+ 1996 0208 0100     		.2byte	0x1
+ 1997 020a 53       		.byte	0x53
+ 1998 020b 00000000 		.4byte	0
+ 1999 020f 00000000 		.4byte	0
+ 2000              	.LLST14:
+ 2001 0213 00000000 		.4byte	.LVL28
+ 2002 0217 2A000000 		.4byte	.LVL33
+ 2003 021b 0100     		.2byte	0x1
+ 2004 021d 50       		.byte	0x50
+ 2005 021e 2A000000 		.4byte	.LVL33
+ 2006 0222 2C000000 		.4byte	.LVL34
+ 2007 0226 0400     		.2byte	0x4
+ 2008 0228 F3       		.byte	0xf3
+ 2009 0229 01       		.uleb128 0x1
+ 2010 022a 50       		.byte	0x50
+ 2011 022b 9F       		.byte	0x9f
+ 2012 022c 2C000000 		.4byte	.LVL34
+ 2013 0230 2E000000 		.4byte	.LVL35
+ 2014 0234 0100     		.2byte	0x1
+ 2015 0236 50       		.byte	0x50
+ 2016 0237 2E000000 		.4byte	.LVL35
+ 2017 023b 30000000 		.4byte	.LVL36
+ 2018 023f 0400     		.2byte	0x4
+ 2019 0241 F3       		.byte	0xf3
+ 2020 0242 01       		.uleb128 0x1
+ 2021 0243 50       		.byte	0x50
+ 2022 0244 9F       		.byte	0x9f
+ 2023 0245 30000000 		.4byte	.LVL36
+ 2024 0249 32000000 		.4byte	.LVL37
+ 2025 024d 0100     		.2byte	0x1
+ 2026 024f 50       		.byte	0x50
+ 2027 0250 32000000 		.4byte	.LVL37
+ 2028 0254 34000000 		.4byte	.LVL38
+ 2029 0258 0400     		.2byte	0x4
+ 2030 025a F3       		.byte	0xf3
+ 2031 025b 01       		.uleb128 0x1
+ 2032 025c 50       		.byte	0x50
+ 2033 025d 9F       		.byte	0x9f
+ 2034 025e 34000000 		.4byte	.LVL38
+ 2035 0262 36000000 		.4byte	.LVL39
+ 2036 0266 0100     		.2byte	0x1
+ 2037 0268 50       		.byte	0x50
+ 2038 0269 36000000 		.4byte	.LVL39
+ 2039 026d 38000000 		.4byte	.LVL40
+ 2040 0271 0400     		.2byte	0x4
+ 2041 0273 F3       		.byte	0xf3
+ 2042 0274 01       		.uleb128 0x1
+ 2043 0275 50       		.byte	0x50
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 40
+
+
+ 2044 0276 9F       		.byte	0x9f
+ 2045 0277 38000000 		.4byte	.LVL40
+ 2046 027b 3A000000 		.4byte	.LVL41
+ 2047 027f 0100     		.2byte	0x1
+ 2048 0281 50       		.byte	0x50
+ 2049 0282 3A000000 		.4byte	.LVL41
+ 2050 0286 3C000000 		.4byte	.LFE67
+ 2051 028a 0400     		.2byte	0x4
+ 2052 028c F3       		.byte	0xf3
+ 2053 028d 01       		.uleb128 0x1
+ 2054 028e 50       		.byte	0x50
+ 2055 028f 9F       		.byte	0x9f
+ 2056 0290 00000000 		.4byte	0
+ 2057 0294 00000000 		.4byte	0
+ 2058              	.LLST15:
+ 2059 0298 10000000 		.4byte	.LVL29
+ 2060 029c 2C000000 		.4byte	.LVL34
+ 2061 02a0 0100     		.2byte	0x1
+ 2062 02a2 51       		.byte	0x51
+ 2063 02a3 38000000 		.4byte	.LVL40
+ 2064 02a7 3C000000 		.4byte	.LFE67
+ 2065 02ab 0100     		.2byte	0x1
+ 2066 02ad 51       		.byte	0x51
+ 2067 02ae 00000000 		.4byte	0
+ 2068 02b2 00000000 		.4byte	0
+ 2069              	.LLST16:
+ 2070 02b6 10000000 		.4byte	.LVL29
+ 2071 02ba 14000000 		.4byte	.LVL30
+ 2072 02be 0200     		.2byte	0x2
+ 2073 02c0 33       		.byte	0x33
+ 2074 02c1 9F       		.byte	0x9f
+ 2075 02c2 14000000 		.4byte	.LVL30
+ 2076 02c6 22000000 		.4byte	.LVL31
+ 2077 02ca 0100     		.2byte	0x1
+ 2078 02cc 53       		.byte	0x53
+ 2079 02cd 24000000 		.4byte	.LVL32
+ 2080 02d1 2C000000 		.4byte	.LVL34
+ 2081 02d5 0100     		.2byte	0x1
+ 2082 02d7 53       		.byte	0x53
+ 2083 02d8 38000000 		.4byte	.LVL40
+ 2084 02dc 3C000000 		.4byte	.LFE67
+ 2085 02e0 0100     		.2byte	0x1
+ 2086 02e2 53       		.byte	0x53
+ 2087 02e3 00000000 		.4byte	0
+ 2088 02e7 00000000 		.4byte	0
+ 2089              	.LLST17:
+ 2090 02eb 00000000 		.4byte	.LVL42
+ 2091 02ef 10000000 		.4byte	.LVL44
+ 2092 02f3 0100     		.2byte	0x1
+ 2093 02f5 50       		.byte	0x50
+ 2094 02f6 10000000 		.4byte	.LVL44
+ 2095 02fa 48000000 		.4byte	.LVL50
+ 2096 02fe 0100     		.2byte	0x1
+ 2097 0300 55       		.byte	0x55
+ 2098 0301 48000000 		.4byte	.LVL50
+ 2099 0305 58000000 		.4byte	.LFE68
+ 2100 0309 0400     		.2byte	0x4
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 41
+
+
+ 2101 030b F3       		.byte	0xf3
+ 2102 030c 01       		.uleb128 0x1
+ 2103 030d 50       		.byte	0x50
+ 2104 030e 9F       		.byte	0x9f
+ 2105 030f 00000000 		.4byte	0
+ 2106 0313 00000000 		.4byte	0
+ 2107              	.LLST18:
+ 2108 0317 00000000 		.4byte	.LVL42
+ 2109 031b 10000000 		.4byte	.LVL44
+ 2110 031f 0100     		.2byte	0x1
+ 2111 0321 51       		.byte	0x51
+ 2112 0322 10000000 		.4byte	.LVL44
+ 2113 0326 48000000 		.4byte	.LVL50
+ 2114 032a 0100     		.2byte	0x1
+ 2115 032c 57       		.byte	0x57
+ 2116 032d 48000000 		.4byte	.LVL50
+ 2117 0331 58000000 		.4byte	.LFE68
+ 2118 0335 0400     		.2byte	0x4
+ 2119 0337 F3       		.byte	0xf3
+ 2120 0338 01       		.uleb128 0x1
+ 2121 0339 51       		.byte	0x51
+ 2122 033a 9F       		.byte	0x9f
+ 2123 033b 00000000 		.4byte	0
+ 2124 033f 00000000 		.4byte	0
+ 2125              	.LLST19:
+ 2126 0343 00000000 		.4byte	.LVL42
+ 2127 0347 10000000 		.4byte	.LVL44
+ 2128 034b 0100     		.2byte	0x1
+ 2129 034d 52       		.byte	0x52
+ 2130 034e 10000000 		.4byte	.LVL44
+ 2131 0352 48000000 		.4byte	.LVL50
+ 2132 0356 0100     		.2byte	0x1
+ 2133 0358 56       		.byte	0x56
+ 2134 0359 48000000 		.4byte	.LVL50
+ 2135 035d 58000000 		.4byte	.LFE68
+ 2136 0361 0400     		.2byte	0x4
+ 2137 0363 F3       		.byte	0xf3
+ 2138 0364 01       		.uleb128 0x1
+ 2139 0365 52       		.byte	0x52
+ 2140 0366 9F       		.byte	0x9f
+ 2141 0367 00000000 		.4byte	0
+ 2142 036b 00000000 		.4byte	0
+ 2143              	.LLST20:
+ 2144 036f 0A000000 		.4byte	.LVL43
+ 2145 0373 10000000 		.4byte	.LVL44
+ 2146 0377 0200     		.2byte	0x2
+ 2147 0379 30       		.byte	0x30
+ 2148 037a 9F       		.byte	0x9f
+ 2149 037b 30000000 		.4byte	.LVL48
+ 2150 037f 48000000 		.4byte	.LVL50
+ 2151 0383 0100     		.2byte	0x1
+ 2152 0385 54       		.byte	0x54
+ 2153 0386 00000000 		.4byte	0
+ 2154 038a 00000000 		.4byte	0
+ 2155              	.LLST21:
+ 2156 038e 06000000 		.4byte	.LVL51
+ 2157 0392 0A000000 		.4byte	.LVL52
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 42
+
+
+ 2158 0396 0200     		.2byte	0x2
+ 2159 0398 30       		.byte	0x30
+ 2160 0399 9F       		.byte	0x9f
+ 2161 039a 16000000 		.4byte	.LVL53
+ 2162 039e 1D000000 		.4byte	.LVL54-1
+ 2163 03a2 0100     		.2byte	0x1
+ 2164 03a4 50       		.byte	0x50
+ 2165 03a5 1D000000 		.4byte	.LVL54-1
+ 2166 03a9 28000000 		.4byte	.LVL57
+ 2167 03ad 0100     		.2byte	0x1
+ 2168 03af 55       		.byte	0x55
+ 2169 03b0 48000000 		.4byte	.LVL61
+ 2170 03b4 4F000000 		.4byte	.LVL63-1
+ 2171 03b8 0100     		.2byte	0x1
+ 2172 03ba 50       		.byte	0x50
+ 2173 03bb 4F000000 		.4byte	.LVL63-1
+ 2174 03bf 88000000 		.4byte	.LVL72
+ 2175 03c3 0100     		.2byte	0x1
+ 2176 03c5 56       		.byte	0x56
+ 2177 03c6 00000000 		.4byte	0
+ 2178 03ca 00000000 		.4byte	0
+ 2179              	.LLST22:
+ 2180 03ce 20000000 		.4byte	.LVL55
+ 2181 03d2 4A000000 		.4byte	.LVL62
+ 2182 03d6 0100     		.2byte	0x1
+ 2183 03d8 56       		.byte	0x56
+ 2184 03d9 52000000 		.4byte	.LVL64
+ 2185 03dd 88000000 		.4byte	.LVL72
+ 2186 03e1 0100     		.2byte	0x1
+ 2187 03e3 57       		.byte	0x57
+ 2188 03e4 88000000 		.4byte	.LVL72
+ 2189 03e8 C4000000 		.4byte	.LFE69
+ 2190 03ec 0100     		.2byte	0x1
+ 2191 03ee 56       		.byte	0x56
+ 2192 03ef 00000000 		.4byte	0
+ 2193 03f3 00000000 		.4byte	0
+ 2194              	.LLST23:
+ 2195 03f7 26000000 		.4byte	.LVL56
+ 2196 03fb 34000000 		.4byte	.LVL58
+ 2197 03ff 0100     		.2byte	0x1
+ 2198 0401 50       		.byte	0x50
+ 2199 0402 34000000 		.4byte	.LVL58
+ 2200 0406 37000000 		.4byte	.LVL59-1
+ 2201 040a 0200     		.2byte	0x2
+ 2202 040c 7D       		.byte	0x7d
+ 2203 040d 00       		.sleb128 0
+ 2204 040e 58000000 		.4byte	.LVL65
+ 2205 0412 64000000 		.4byte	.LVL66
+ 2206 0416 0100     		.2byte	0x1
+ 2207 0418 50       		.byte	0x50
+ 2208 0419 64000000 		.4byte	.LVL66
+ 2209 041d 67000000 		.4byte	.LVL67-1
+ 2210 0421 0200     		.2byte	0x2
+ 2211 0423 7D       		.byte	0x7d
+ 2212 0424 00       		.sleb128 0
+ 2213 0425 90000000 		.4byte	.LVL74
+ 2214 0429 9A000000 		.4byte	.LVL75
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 43
+
+
+ 2215 042d 0100     		.2byte	0x1
+ 2216 042f 50       		.byte	0x50
+ 2217 0430 9A000000 		.4byte	.LVL75
+ 2218 0434 9D000000 		.4byte	.LVL76-1
+ 2219 0438 0200     		.2byte	0x2
+ 2220 043a 7D       		.byte	0x7d
+ 2221 043b 00       		.sleb128 0
+ 2222 043c 00000000 		.4byte	0
+ 2223 0440 00000000 		.4byte	0
+ 2224              		.section	.debug_aranges,"",%progbits
+ 2225 0000 44000000 		.4byte	0x44
+ 2226 0004 0200     		.2byte	0x2
+ 2227 0006 00000000 		.4byte	.Ldebug_info0
+ 2228 000a 04       		.byte	0x4
+ 2229 000b 00       		.byte	0
+ 2230 000c 0000     		.2byte	0
+ 2231 000e 0000     		.2byte	0
+ 2232 0010 00000000 		.4byte	.LFB64
+ 2233 0014 36000000 		.4byte	.LFE64-.LFB64
+ 2234 0018 00000000 		.4byte	.LFB65
+ 2235 001c 2C000000 		.4byte	.LFE65-.LFB65
+ 2236 0020 00000000 		.4byte	.LFB66
+ 2237 0024 56000000 		.4byte	.LFE66-.LFB66
+ 2238 0028 00000000 		.4byte	.LFB67
+ 2239 002c 3C000000 		.4byte	.LFE67-.LFB67
+ 2240 0030 00000000 		.4byte	.LFB68
+ 2241 0034 58000000 		.4byte	.LFE68-.LFB68
+ 2242 0038 00000000 		.4byte	.LFB69
+ 2243 003c C4000000 		.4byte	.LFE69-.LFB69
+ 2244 0040 00000000 		.4byte	0
+ 2245 0044 00000000 		.4byte	0
+ 2246              		.section	.debug_ranges,"",%progbits
+ 2247              	.Ldebug_ranges0:
+ 2248 0000 12000000 		.4byte	.LBB2
+ 2249 0004 20000000 		.4byte	.LBE2
+ 2250 0008 22000000 		.4byte	.LBB3
+ 2251 000c 24000000 		.4byte	.LBE3
+ 2252 0010 00000000 		.4byte	0
+ 2253 0014 00000000 		.4byte	0
+ 2254 0018 10000000 		.4byte	.LBB4
+ 2255 001c 28000000 		.4byte	.LBE4
+ 2256 0020 2A000000 		.4byte	.LBB5
+ 2257 0024 2C000000 		.4byte	.LBE5
+ 2258 0028 38000000 		.4byte	.LBB6
+ 2259 002c 3A000000 		.4byte	.LBE6
+ 2260 0030 00000000 		.4byte	0
+ 2261 0034 00000000 		.4byte	0
+ 2262 0038 00000000 		.4byte	.LFB64
+ 2263 003c 36000000 		.4byte	.LFE64
+ 2264 0040 00000000 		.4byte	.LFB65
+ 2265 0044 2C000000 		.4byte	.LFE65
+ 2266 0048 00000000 		.4byte	.LFB66
+ 2267 004c 56000000 		.4byte	.LFE66
+ 2268 0050 00000000 		.4byte	.LFB67
+ 2269 0054 3C000000 		.4byte	.LFE67
+ 2270 0058 00000000 		.4byte	.LFB68
+ 2271 005c 58000000 		.4byte	.LFE68
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 44
+
+
+ 2272 0060 00000000 		.4byte	.LFB69
+ 2273 0064 C4000000 		.4byte	.LFE69
+ 2274 0068 00000000 		.4byte	0
+ 2275 006c 00000000 		.4byte	0
+ 2276              		.section	.debug_line,"",%progbits
+ 2277              	.Ldebug_line0:
+ 2278 0000 EC020000 		.section	.debug_str,"MS",%progbits,1
+ 2278      0200D201 
+ 2278      00000201 
+ 2278      FB0E0D00 
+ 2278      01010101 
+ 2279              	.LASF31:
+ 2280 0000 636F6E74 		.ascii	"contVocal\000"
+ 2280      566F6361 
+ 2280      6C00
+ 2281              	.LASF34:
+ 2282 000a 6C696D69 		.ascii	"limit\000"
+ 2282      7400
+ 2283              	.LASF41:
+ 2284 0010 50435F50 		.ascii	"PC_PutString\000"
+ 2284      75745374 
+ 2284      72696E67 
+ 2284      00
+ 2285              	.LASF38:
+ 2286 001d 72657375 		.ascii	"result\000"
+ 2286      6C7400
+ 2287              	.LASF42:
+ 2288 0024 73736361 		.ascii	"sscanf\000"
+ 2288      6E6600
+ 2289              	.LASF4:
+ 2290 002b 73686F72 		.ascii	"short int\000"
+ 2290      7420696E 
+ 2290      7400
+ 2291              	.LASF22:
+ 2292 0035 73697A65 		.ascii	"sizetype\000"
+ 2292      74797065 
+ 2292      00
+ 2293              	.LASF52:
+ 2294 003e 6D61696E 		.ascii	"main\000"
+ 2294      00
+ 2295              	.LASF9:
+ 2296 0043 5F5F7569 		.ascii	"__uint32_t\000"
+ 2296      6E743332 
+ 2296      5F7400
+ 2297              	.LASF23:
+ 2298 004e 755F696E 		.ascii	"u_int8_t\000"
+ 2298      74385F74 
+ 2298      00
+ 2299              	.LASF5:
+ 2300 0057 5F5F7569 		.ascii	"__uint16_t\000"
+ 2300      6E743136 
+ 2300      5F7400
+ 2301              	.LASF33:
+ 2302 0062 7072696D 		.ascii	"prime\000"
+ 2302      6500
+ 2303              	.LASF14:
+ 2304 0068 75696E74 		.ascii	"uint8_t\000"
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 45
+
+
+ 2304      385F7400 
+ 2305              	.LASF17:
+ 2306 0070 75696E74 		.ascii	"uint8\000"
+ 2306      3800
+ 2307              	.LASF44:
+ 2308 0076 6669626F 		.ascii	"fibonacciN_A\000"
+ 2308      6E616363 
+ 2308      694E5F41 
+ 2308      00
+ 2309              	.LASF27:
+ 2310 0083 74616D42 		.ascii	"tamBuf\000"
+ 2310      756600
+ 2311              	.LASF18:
+ 2312 008a 666C6F61 		.ascii	"float\000"
+ 2312      7400
+ 2313              	.LASF11:
+ 2314 0090 6C6F6E67 		.ascii	"long long int\000"
+ 2314      206C6F6E 
+ 2314      6720696E 
+ 2314      7400
+ 2315              	.LASF8:
+ 2316 009e 6C6F6E67 		.ascii	"long int\000"
+ 2316      20696E74 
+ 2316      00
+ 2317              	.LASF28:
+ 2318 00a7 67657463 		.ascii	"getcharl\000"
+ 2318      6861726C 
+ 2318      00
+ 2319              	.LASF2:
+ 2320 00b0 5F5F7569 		.ascii	"__uint8_t\000"
+ 2320      6E74385F 
+ 2320      7400
+ 2321              	.LASF45:
+ 2322 00ba 736E7072 		.ascii	"snprintf\000"
+ 2322      696E7466 
+ 2322      00
+ 2323              	.LASF35:
+ 2324 00c3 67657449 		.ascii	"getInt\000"
+ 2324      6E7400
+ 2325              	.LASF21:
+ 2326 00ca 6C6F6E67 		.ascii	"long double\000"
+ 2326      20646F75 
+ 2326      626C6500 
+ 2327              	.LASF36:
+ 2328 00d6 6D61785F 		.ascii	"max_buf\000"
+ 2328      62756600 
+ 2329              	.LASF1:
+ 2330 00de 756E7369 		.ascii	"unsigned char\000"
+ 2330      676E6564 
+ 2330      20636861 
+ 2330      7200
+ 2331              	.LASF46:
+ 2332 00ec 7072696D 		.ascii	"prime_A\000"
+ 2332      655F4100 
+ 2333              	.LASF0:
+ 2334 00f4 7369676E 		.ascii	"signed char\000"
+ 2334      65642063 
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 46
+
+
+ 2334      68617200 
+ 2335              	.LASF12:
+ 2336 0100 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2336      206C6F6E 
+ 2336      6720756E 
+ 2336      7369676E 
+ 2336      65642069 
+ 2337              	.LASF13:
+ 2338 0117 756E7369 		.ascii	"unsigned int\000"
+ 2338      676E6564 
+ 2338      20696E74 
+ 2338      00
+ 2339              	.LASF32:
+ 2340 0124 6C657474 		.ascii	"letter\000"
+ 2340      657200
+ 2341              	.LASF6:
+ 2342 012b 73686F72 		.ascii	"short unsigned int\000"
+ 2342      7420756E 
+ 2342      7369676E 
+ 2342      65642069 
+ 2342      6E7400
+ 2343              	.LASF25:
+ 2344 013e 755F696E 		.ascii	"u_int32_t\000"
+ 2344      7433325F 
+ 2344      7400
+ 2345              	.LASF24:
+ 2346 0148 755F696E 		.ascii	"u_int16_t\000"
+ 2346      7431365F 
+ 2346      7400
+ 2347              	.LASF20:
+ 2348 0152 63686172 		.ascii	"char\000"
+ 2348      00
+ 2349              	.LASF16:
+ 2350 0157 696E7433 		.ascii	"int32_t\000"
+ 2350      325F7400 
+ 2351              	.LASF29:
+ 2352 015f 70757463 		.ascii	"putcharl\000"
+ 2352      6861726C 
+ 2352      00
+ 2353              	.LASF15:
+ 2354 0168 696E7431 		.ascii	"int16_t\000"
+ 2354      365F7400 
+ 2355              	.LASF30:
+ 2356 0170 6669626F 		.ascii	"fibonacciN\000"
+ 2356      6E616363 
+ 2356      694E00
+ 2357              	.LASF51:
+ 2358 017b 6765744C 		.ascii	"getLine\000"
+ 2358      696E6500 
+ 2359              	.LASF43:
+ 2360 0183 50435F53 		.ascii	"PC_Start\000"
+ 2360      74617274 
+ 2360      00
+ 2361              	.LASF40:
+ 2362 018c 62756666 		.ascii	"buffer\000"
+ 2362      657200
+ 2363              	.LASF49:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 47
+
+
+ 2364 0193 6D61696E 		.ascii	"main.c\000"
+ 2364      2E6300
+ 2365              	.LASF10:
+ 2366 019a 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2366      20756E73 
+ 2366      69676E65 
+ 2366      6420696E 
+ 2366      7400
+ 2367              	.LASF19:
+ 2368 01ac 646F7562 		.ascii	"double\000"
+ 2368      6C6500
+ 2369              	.LASF50:
+ 2370 01b3 433A5C55 		.ascii	"C:\\Users\\elias\\OneDrive\\Documents\\Documentos\\"
+ 2370      73657273 
+ 2370      5C656C69 
+ 2370      61735C4F 
+ 2370      6E654472 
+ 2371 01e0 50536F43 		.ascii	"PSoC Creator\\FuncionesRepaso\\FuncionesRepaso.cyds"
+ 2371      20437265 
+ 2371      61746F72 
+ 2371      5C46756E 
+ 2371      63696F6E 
+ 2372 0211 6E00     		.ascii	"n\000"
+ 2373              	.LASF7:
+ 2374 0213 5F5F696E 		.ascii	"__int32_t\000"
+ 2374      7433325F 
+ 2374      7400
+ 2375              	.LASF3:
+ 2376 021d 5F5F696E 		.ascii	"__int16_t\000"
+ 2376      7431365F 
+ 2376      7400
+ 2377              	.LASF47:
+ 2378 0227 636F6E74 		.ascii	"contVocal_A\000"
+ 2378      566F6361 
+ 2378      6C5F4100 
+ 2379              	.LASF26:
+ 2380 0233 755F696E 		.ascii	"u_int\000"
+ 2380      7400
+ 2381              	.LASF39:
+ 2382 0239 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2382      52784275 
+ 2382      66666572 
+ 2382      00
+ 2383              	.LASF48:
+ 2384 0246 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2384      43313120 
+ 2384      352E342E 
+ 2384      31203230 
+ 2384      31363036 
+ 2385 0279 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2385      20726576 
+ 2385      6973696F 
+ 2385      6E203233 
+ 2385      37373135 
+ 2386 02ac 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2386      66756E63 
+ 2386      74696F6E 
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccwvGe8W.s 			page 48
+
+
+ 2386      2D736563 
+ 2386      74696F6E 
+ 2387              	.LASF37:
+ 2388 02d4 73616C69 		.ascii	"salir\000"
+ 2388      7200
+ 2389              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

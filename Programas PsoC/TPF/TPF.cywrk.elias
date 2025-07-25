@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="TPF\Micro1\Source Files\main.c">
+<ExpandedNodeIds>
+<v>TPF</v>
+<v>TPF\LCD\TopDesign</v>
+<v>TPF\LCD\LCD.cydwr\Pins</v>
+<v>TPF\LCD\LCD.cydwr\Analog</v>
+<v>TPF\LCD\LCD.cydwr\Clocks</v>
+<v>TPF\LCD\LCD.cydwr\Interrupts</v>
+<v>TPF\LCD\LCD.cydwr\DMA</v>
+<v>TPF\LCD\LCD.cydwr\System</v>
+<v>TPF\LCD\LCD.cydwr\Directives</v>
+<v>TPF\LCD\LCD.cydwr\Flash Security</v>
+<v>TPF\LCD\LCD.cydwr\EEPROM</v>
+<v>TPF\LCD\Header Files</v>
+<v>TPF\LCD\Header Files\cyapicallbacks.h</v>
+<v>TPF\LCD\Header Files\keyboard.h</v>
+<v>TPF\LCD\Header Files\rgb_lcd.h</v>
+<v>TPF\LCD\Source Files</v>
+<v>TPF\LCD\Source Files\keyboard.c</v>
+<v>TPF\LCD\Source Files\main.c</v>
+<v>TPF\LCD\Source Files\rgb_lcd.c</v>
+<v>TPF\LCD\Source Files\servo.c</v>
+<v>TPF\LCD\Generated_Source</v>
+<v>TPF\LCD\Generated_Source\PSoC5</v>
+<v>TPF\LCD(No funciona)\TopDesign</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).cydwr</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).cydwr\Pins</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).cydwr\Analog</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).cydwr\Clocks</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).cydwr\Interrupts</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).cydwr\DMA</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).cydwr\System</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).cydwr\Directives</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).cydwr\Flash Security</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).cydwr\EEPROM</v>
+<v>TPF\LCD(No funciona)\Header Files</v>
+<v>TPF\LCD(No funciona)\Header Files\cyapicallbacks.h</v>
+<v>TPF\LCD(No funciona)\Header Files\LiquidCrystal_I2C.h</v>
+<v>TPF\LCD(No funciona)\Source Files</v>
+<v>TPF\LCD(No funciona)\Source Files\LiquidCrystal_I2C.c</v>
+<v>TPF\LCD(No funciona)\Source Files\main.c</v>
+<v>TPF\LCD(No funciona)\Generated_Source</v>
+<v>TPF\LCD(No funciona)\Generated_Source\PSoC5</v>
+<v>TPF\Micro1</v>
+<v>TPF\Micro1\TopDesign</v>
+<v>TPF\Micro1\Micro1.cydwr</v>
+<v>TPF\Micro1\Micro1.cydwr\Pins</v>
+<v>TPF\Micro1\Micro1.cydwr\Analog</v>
+<v>TPF\Micro1\Micro1.cydwr\Clocks</v>
+<v>TPF\Micro1\Micro1.cydwr\Interrupts</v>
+<v>TPF\Micro1\Micro1.cydwr\DMA</v>
+<v>TPF\Micro1\Micro1.cydwr\System</v>
+<v>TPF\Micro1\Micro1.cydwr\Directives</v>
+<v>TPF\Micro1\Micro1.cydwr\Flash Security</v>
+<v>TPF\Micro1\Micro1.cydwr\EEPROM</v>
+<v>TPF\Micro1\Header Files</v>
+<v>TPF\Micro1\Header Files\cyapicallbacks.h</v>
+<v>TPF\Micro1\Header Files\keyboard.h</v>
+<v>TPF\Micro1\Header Files\rgb_lcd.h</v>
+<v>TPF\Micro1\Header Files\servo.h</v>
+<v>TPF\Micro1\Source Files</v>
+<v>TPF\Micro1\Source Files\keyboard.c</v>
+<v>TPF\Micro1\Source Files\main.c</v>
+<v>TPF\Micro1\Source Files\rgb_lcd.c</v>
+<v>TPF\Micro1\Source Files\servo.c</v>
+<v>TPF\Micro1\Generated_Source\PSoC5</v>
+<v>TPF\Micro1v2\TopDesign</v>
+<v>TPF\Micro1v2\Micro1v2.cydwr</v>
+<v>TPF\Micro1v2\Micro1v2.cydwr\Pins</v>
+<v>TPF\Micro1v2\Micro1v2.cydwr\Analog</v>
+<v>TPF\Micro1v2\Micro1v2.cydwr\Clocks</v>
+<v>TPF\Micro1v2\Micro1v2.cydwr\Interrupts</v>
+<v>TPF\Micro1v2\Micro1v2.cydwr\DMA</v>
+<v>TPF\Micro1v2\Micro1v2.cydwr\System</v>
+<v>TPF\Micro1v2\Micro1v2.cydwr\Directives</v>
+<v>TPF\Micro1v2\Micro1v2.cydwr\Flash Security</v>
+<v>TPF\Micro1v2\Micro1v2.cydwr\EEPROM</v>
+<v>TPF\Micro1v2\Header Files</v>
+<v>TPF\Micro1v2\Header Files\cyapicallbacks.h</v>
+<v>TPF\Micro1v2\Header Files\keyboard.h</v>
+<v>TPF\Micro1v2\Header Files\rgb_lcd.h</v>
+<v>TPF\Micro1v2\Header Files\servo.h</v>
+<v>TPF\Micro1v2\Source Files</v>
+<v>TPF\Micro1v2\Source Files\keyboard.c</v>
+<v>TPF\Micro1v2\Source Files\main.c</v>
+<v>TPF\Micro1v2\Source Files\rgb_lcd.c</v>
+<v>TPF\Micro1v2\Source Files\servo.c</v>
+<v>TPF\Micro1v2\Generated_Source</v>
+<v>TPF\Micro1v2\Generated_Source\PSoC5</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>TPF</v>
+<v>TPF\LCD</v>
+<v>TPF\LCD(No funciona)</v>
+<v>TPF\Micro1</v>
+<v>TPF\Micro1\TopDesign</v>
+<v>TPF\Micro1\Micro1.cydwr</v>
+<v>TPF\Micro1\Micro1.cydwr\Pins</v>
+<v>TPF\Micro1\Micro1.cydwr\Analog</v>
+<v>TPF\Micro1\Micro1.cydwr\Clocks</v>
+<v>TPF\Micro1\Micro1.cydwr\Interrupts</v>
+<v>TPF\Micro1\Micro1.cydwr\DMA</v>
+<v>TPF\Micro1\Micro1.cydwr\System</v>
+<v>TPF\Micro1\Micro1.cydwr\Directives</v>
+<v>TPF\Micro1\Micro1.cydwr\Flash Security</v>
+<v>TPF\Micro1\Micro1.cydwr\EEPROM</v>
+<v>TPF\Micro1\Header Files</v>
+<v>TPF\Micro1\Header Files\cyapicallbacks.h</v>
+<v>TPF\Micro1\Header Files\keyboard.h</v>
+<v>TPF\Micro1\Header Files\rgb_lcd.h</v>
+<v>TPF\Micro1\Header Files\servo.h</v>
+<v>TPF\Micro1\Source Files</v>
+<v>TPF\Micro1\Source Files\keyboard.c</v>
+<v>TPF\Micro1\Source Files\main.c</v>
+<v>TPF\Micro1\Source Files\rgb_lcd.c</v>
+<v>TPF\Micro1\Source Files\servo.c</v>
+<v>TPF\Micro1\Generated_Source</v>
+<v>TPF\Micro1v2</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>TPF</v>
+<v>TPF\LCD</v>
+<v>TPF\LCD\TopDesign</v>
+<v>TPF\LCD\TopDesign\TopDesign.cysch</v>
+<v>TPF\LCD(No funciona)</v>
+<v>TPF\LCD(No funciona)\TopDesign</v>
+<v>TPF\LCD(No funciona)\TopDesign\TopDesign.cysch</v>
+<v>TPF\Micro1</v>
+<v>TPF\Micro1\TopDesign</v>
+<v>TPF\Micro1\TopDesign\TopDesign.cysch</v>
+<v>TPF\Micro1\TopDesign\TopDesign_01.cymacro</v>
+<v>TPF\Micro1v2</v>
+<v>TPF\Micro1v2\TopDesign</v>
+<v>TPF\Micro1v2\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>TPF</v>
+<v>TPF\LCD</v>
+<v>TPF\LCD\TopDesign</v>
+<v>TPF\LCD\TopDesign\TopDesign.cysch</v>
+<v>TPF\LCD(No funciona)</v>
+<v>TPF\LCD(No funciona)\TopDesign</v>
+<v>TPF\LCD(No funciona)\TopDesign\TopDesign.cysch</v>
+<v>TPF\Micro1</v>
+<v>TPF\Micro1\TopDesign</v>
+<v>TPF\Micro1\TopDesign\TopDesign.cysch</v>
+<v>TPF\Micro1\TopDesign\TopDesign_01.cymacro</v>
+<v>TPF\Micro1v2</v>
+<v>TPF\Micro1v2\TopDesign</v>
+<v>TPF\Micro1v2\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>TPF</v>
+<v>TPF\LCD</v>
+<v>TPF\LCD\CortexM3</v>
+<v>TPF\LCD\CortexM3\ARM_GCC_541</v>
+<v>TPF\LCD\CortexM3\ARM_GCC_541\Debug</v>
+<v>TPF\LCD\CortexM3\ARM_GCC_541\Debug\LCD.elf</v>
+<v>TPF\LCD\CortexM3\ARM_GCC_541\Debug\LCD.hex</v>
+<v>TPF\LCD\CortexM3\ARM_GCC_541\Debug\LCD.map</v>
+<v>TPF\LCD\LCD.gpdsc</v>
+<v>TPF\LCD\LCD.rpt</v>
+<v>TPF\LCD\LCD_timing.html</v>
+<v>TPF\LCD(No funciona)</v>
+<v>TPF\LCD(No funciona)\CortexM3</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_BOOT.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_INT.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_MASTER.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_PM.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_SLAVE.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\LiquidCrystal_I2C.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\SCL_1.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\SDA_1.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\LCD(No funciona).elf</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\LCD(No funciona).hex</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\LCD(No funciona).map</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).gpdsc</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona).rpt</v>
+<v>TPF\LCD(No funciona)\LCD(No funciona)_timing.html</v>
+<v>TPF\Micro1</v>
+<v>TPF\Micro1\CortexM3</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\ClockPWM.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD_BOOT.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD_INT.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD_MASTER.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD_PM.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD_SLAVE.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard_in.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard_out.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\PC.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_BOOT.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_INT.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_IntClock.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_PM.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\POT.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\POT_INT.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\POT_IRQ.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\POT_PM.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\POT_theACLK.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\pot1.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM1.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM1_PM.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM2.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM2_PM.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\rgb_lcd.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\SCL_1.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\SDA_1.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Listing Files\servo.lst</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Micro1.elf</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Micro1.hex</v>
+<v>TPF\Micro1\CortexM3\ARM_GCC_541\Debug\Micro1.map</v>
+<v>TPF\Micro1\Micro1.gpdsc</v>
+<v>TPF\Micro1\Micro1.rpt</v>
+<v>TPF\Micro1\Micro1_timing.html</v>
+<v>TPF\Micro1v2</v>
+<v>TPF\Micro1v2\CortexM3</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\ClockPWM.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD_BOOT.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD_INT.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD_MASTER.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD_PM.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_LCD_SLAVE.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard_in.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard_out.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\PC.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_BOOT.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_INT.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_IntClock.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_PM.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\POT.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\POT_INT.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\POT_IRQ.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\POT_PM.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\POT_theACLK.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\pot1.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM1.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM1_PM.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM2.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM2_PM.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\rgb_lcd.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\SCL_1.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\SDA_1.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Listing Files\servo.lst</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Micro1v2.elf</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Micro1v2.hex</v>
+<v>TPF\Micro1v2\CortexM3\ARM_GCC_541\Debug\Micro1v2.map</v>
+<v>TPF\Micro1v2\Micro1v2.gpdsc</v>
+<v>TPF\Micro1v2\Micro1v2.rpt</v>
+<v>TPF\Micro1v2\Micro1v2_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>TPF</v>
+<v>TPF\LCD</v>
+<v>TPF\LCD\CortexM3</v>
+<v>TPF\LCD\CortexM3\ARM_GCC_541</v>
+<v>TPF\LCD\CortexM3\ARM_GCC_541\Debug</v>
+<v>TPF\LCD\CortexM3\ARM_GCC_541\Debug\LCD.elf</v>
+<v>TPF\LCD\CortexM3\ARM_GCC_541\Debug\LCD.hex</v>
+<v>TPF\LCD\CortexM3\ARM_GCC_541\Debug\LCD.map</v>
+<v>TPF\LCD\LCD.gpdsc</v>
+<v>TPF\LCD\LCD.rpt</v>
+<v>TPF\LCD\LCD_timing.html</v>
+<v>TPF\LCD(No funciona)</v>
+<v>TPF\LCD(No funciona)\CortexM3</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_BOOT.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_INT.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_MASTER.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_PM.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_SLAVE.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\LiquidCrystal_I2C.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>TPF\LCD(No funciona)\CortexM3\ARM_GCC_541\Debug\Listing Files\SCL_1.lst</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>TPF</v>
+<v>TPF\LCD</v>
+<v>TPF\LCD\PSoC 5LP Architecture TRM</v>
+<v>TPF\LCD\CY8C58LP Family Datasheet</v>
+<v>TPF\LCD\System Reference Guides</v>
+<v>TPF\LCD\System Reference Guides\cy_boot_v6_0</v>
+<v>TPF\LCD\cy_clock_v2_20.pdf</v>
+<v>TPF\LCD\cy_pins_v2_20</v>
+<v>TPF\LCD\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>TPF\LCD\I2C_v3_50.pdf</v>
+<v>TPF\LCD\PWM_v3_30</v>
+<v>TPF\LCD\PWM_v3_30\PWM_v3_30.pdf</v>
+<v>TPF\LCD\UART_v2_50.pdf</v>
+<v>TPF\LCD(No funciona)</v>
+<v>TPF\LCD(No funciona)\PSoC 5LP Architecture TRM</v>
+<v>TPF\LCD(No funciona)\CY8C58LP Family Datasheet</v>
+<v>TPF\LCD(No funciona)\System Reference Guides</v>
+<v>TPF\LCD(No funciona)\System Reference Guides\cy_boot_v6_0</v>
+<v>TPF\LCD(No funciona)\cy_pins_v2_20</v>
+<v>TPF\LCD(No funciona)\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>TPF\LCD(No funciona)\I2C_v3_50.pdf</v>
+<v>TPF\Micro1</v>
+<v>TPF\Micro1\PSoC 5LP Architecture TRM</v>
+<v>TPF\Micro1\CY8C58LP Family Datasheet</v>
+<v>TPF\Micro1\System Reference Guides</v>
+<v>TPF\Micro1\System Reference Guides\cy_boot_v6_0</v>
+<v>TPF\Micro1\ADC_SAR_v3_10.pdf</v>
+<v>TPF\Micro1\cy_clock_v2_20.pdf</v>
+<v>TPF\Micro1\cy_pins_v2_20</v>
+<v>TPF\Micro1\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>TPF\Micro1\I2C_v3_50.pdf</v>
+<v>TPF\Micro1\PWM_v3_30</v>
+<v>TPF\Micro1\PWM_v3_30\PWM_v3_30.pdf</v>
+<v>TPF\Micro1\UART_v2_50.pdf</v>
+<v>TPF\Micro1v2</v>
+<v>TPF\Micro1v2\PSoC 5LP Architecture TRM</v>
+<v>TPF\Micro1v2\CY8C58LP Family Datasheet</v>
+<v>TPF\Micro1v2\System Reference Guides</v>
+<v>TPF\Micro1v2\System Reference Guides\cy_boot_v6_0</v>
+<v>TPF\Micro1v2\ADC_SAR_v3_10.pdf</v>
+<v>TPF\Micro1v2\cy_clock_v2_20.pdf</v>
+<v>TPF\Micro1v2\cy_pins_v2_20</v>
+<v>TPF\Micro1v2\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>TPF\Micro1v2\I2C_v3_50.pdf</v>
+<v>TPF\Micro1v2\PWM_v3_30</v>
+<v>TPF\Micro1v2\PWM_v3_30\PWM_v3_30.pdf</v>
+<v>TPF\Micro1v2\UART_v2_50.pdf</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>TPF</v>
+<v>TPF\LCD</v>
+<v>TPF\LCD\PSoC 5LP Architecture TRM</v>
+<v>TPF\LCD\CY8C58LP Family Datasheet</v>
+<v>TPF\LCD\System Reference Guides</v>
+<v>TPF\LCD\System Reference Guides\cy_boot_v6_0</v>
+<v>TPF\LCD\cy_clock_v2_20.pdf</v>
+<v>TPF\LCD\cy_pins_v2_20</v>
+<v>TPF\LCD\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>TPF\LCD\I2C_v3_50.pdf</v>
+<v>TPF\LCD\PWM_v3_30</v>
+<v>TPF\LCD\PWM_v3_30\PWM_v3_30.pdf</v>
+<v>TPF\LCD\UART_v2_50.pdf</v>
+<v>TPF\LCD(No funciona)</v>
+<v>TPF\LCD(No funciona)\PSoC 5LP Architecture TRM</v>
+<v>TPF\LCD(No funciona)\CY8C58LP Family Datasheet</v>
+<v>TPF\LCD(No funciona)\System Reference Guides</v>
+<v>TPF\LCD(No funciona)\System Reference Guides\cy_boot_v6_0</v>
+<v>TPF\LCD(No funciona)\cy_pins_v2_20</v>
+<v>TPF\LCD(No funciona)\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>TPF\LCD(No funciona)\I2C_v3_50.pdf</v>
+<v>TPF\Micro1</v>
+<v>TPF\Micro1\PSoC 5LP Architecture TRM</v>
+<v>TPF\Micro1\CY8C58LP Family Datasheet</v>
+<v>TPF\Micro1\System Reference Guides</v>
+<v>TPF\Micro1\System Reference Guides\cy_boot_v6_0</v>
+<v>TPF\Micro1\ADC_SAR_v3_10.pdf</v>
+<v>TPF\Micro1\cy_clock_v2_20.pdf</v>
+<v>TPF\Micro1\cy_pins_v2_20</v>
+<v>TPF\Micro1\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>TPF\Micro1\I2C_v3_50.pdf</v>
+<v>TPF\Micro1\PWM_v3_30</v>
+<v>TPF\Micro1\PWM_v3_30\PWM_v3_30.pdf</v>
+<v>TPF\Micro1\UART_v2_50.pdf</v>
+<v>TPF\Micro1v2</v>
+<v>TPF\Micro1v2\PSoC 5LP Architecture TRM</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+<dataGuid v="5f2be1a5-0687-4501-bb8c-cf21cb8211bf">
+<CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf type_name="CyDesigner.Common.ProjMgmt.GUI.CyBookmarkData" version="1">
+<indicators />
+</CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v=".\Micro1v2.cydsn\main.c" />
+<name v=".\Micro1.cydsn\main.c" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Vertical"><TabbedMdiContainer Size="850, 487" SelectedTabbedMdiWindow="039930ba-05c3-40ca-ac28-6d7578b9cb3c"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="7fc9e867-6b67-4645-b6da-6879527565d3" /><DocumentWindow Key="C:\Users\elias\OneDrive\UCA\8_Semestre\Micro 1\Programas PsoC\TPF\Micro1v2.cydsn\main.c" Guid="75d68884-a985-437d-a7bf-7a9da27adfea" /><DocumentWindow Key="C:\Users\elias\OneDrive\UCA\8_Semestre\Micro 1\Programas PsoC\TPF\Micro1.cydsn\main.c" Guid="039930ba-05c3-40ca-ac28-6d7578b9cb3c" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

@@ -1,0 +1,4 @@
+C:/Users/elias/OneDrive/Documents/Documentos/PSoC\ Creator/FuncionesRepaso/FuncionesRepaso.cydsn/CortexM3/ARM_GCC_541/Debug/contVocal_A.o : C:/Users/elias/OneDrive/Documents/Documentos/PSoC\ Creator/FuncionesRepaso/FuncionesRepaso.cydsn/contVocal_A.s 
+
+C:/Users/elias/OneDrive/Documents/Documentos/PSoC\ Creator/FuncionesRepaso/FuncionesRepaso.cydsn/contVocal_A.s : 
+

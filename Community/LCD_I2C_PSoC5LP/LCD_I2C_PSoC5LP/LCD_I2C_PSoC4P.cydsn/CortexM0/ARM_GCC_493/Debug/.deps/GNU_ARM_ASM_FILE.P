@@ -1,0 +1,8 @@
+C:/Users/thetr/OneDrive/Documentos/PSoC\ Creator/LCD_I2C_PSoC5LP/LCD_I2C_PSoC4P.cydsn/CortexM0/ARM_GCC_493/Debug/CyBootAsmGnu.o : C:/Users/thetr/OneDrive/Documentos/PSoC\ Creator/LCD_I2C_PSoC5LP/LCD_I2C_PSoC4P.cydsn/Generated_Source/PSoC4/CyBootAsmGnu.s C:/Users/thetr/OneDrive/Documentos/PSoC\ Creator/LCD_I2C_PSoC5LP/LCD_I2C_PSoC4P.cydsn/Generated_Source/PSoC4/cydevicegnu_trm.inc C:/Users/thetr/OneDrive/Documentos/PSoC\ Creator/LCD_I2C_PSoC5LP/LCD_I2C_PSoC4P.cydsn/Generated_Source/PSoC4/cyfittergnu.inc 
+
+C:/Users/thetr/OneDrive/Documentos/PSoC\ Creator/LCD_I2C_PSoC5LP/LCD_I2C_PSoC4P.cydsn/Generated_Source/PSoC4/CyBootAsmGnu.s : 
+
+C:/Users/thetr/OneDrive/Documentos/PSoC\ Creator/LCD_I2C_PSoC5LP/LCD_I2C_PSoC4P.cydsn/Generated_Source/PSoC4/cydevicegnu_trm.inc : 
+
+C:/Users/thetr/OneDrive/Documentos/PSoC\ Creator/LCD_I2C_PSoC5LP/LCD_I2C_PSoC4P.cydsn/Generated_Source/PSoC4/cyfittergnu.inc : 
+

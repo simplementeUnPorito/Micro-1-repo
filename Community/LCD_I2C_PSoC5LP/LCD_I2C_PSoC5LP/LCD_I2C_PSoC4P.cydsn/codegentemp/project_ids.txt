@@ -1,0 +1,6 @@
+C:\Program Files (x86)\Cypress\PSoC Creator\3.3\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|1eaa0e86-a9d6-40b7-8fc6-c81a99ea5d4d
+C:\Program Files (x86)\Cypress\PSoC Creator\3.3\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|1beeef3a-3cab-4efd-9bed-7cb85a8f0951
+C:\Program Files (x86)\Cypress\PSoC Creator\3.3\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|dab347e3-ce00-40af-b5d7-19731ac0425b
+C:\Program Files (x86)\Cypress\PSoC Creator\3.3\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|5077e4c8-6c48-4f21-9391-4fa7904bb8e5
+C:\Users\thetr\OneDrive\Documentos\PSoC Creator\LCD_I2C_PSoC5LP\LCD_I2C_V.cydsn\LCD_I2C_V.cyprj|8552ad8c-eb60-44f9-a188-86390b36d073
+C:\Users\thetr\OneDrive\Documentos\PSoC Creator\LCD_I2C_PSoC5LP\LCD_I2C_PSoC4P.cydsn\LCD_I2C_PSoC4P.cyprj|a1d62539-70a6-46e9-8b47-d87d5ee25944

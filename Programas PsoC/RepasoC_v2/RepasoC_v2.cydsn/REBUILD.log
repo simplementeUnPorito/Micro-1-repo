@@ -1,0 +1,20 @@
+--------------- Rebuild Started: 08/21/2024 14:41:05 Project: main.c, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/main.lst -g -D DEBUG -D CY_CORE_ID=0 -Wall -ffunction-sections -ffat-lto-objects -Og -c main.c -o .\CortexM3\ARM_GCC_541\Debug\main.o
+main.c: In function 'getInt':
+main.c:48:29: error: 'PC_GetChar' undeclared (first use in this function)
+         getLine(buf,max_buf,PC_GetChar,PC_PutChar);
+                             ^
+main.c:48:29: note: each undeclared identifier is reported only once for each function it appears in
+main.c:48:40: error: 'PC_PutChar' undeclared (first use in this function)
+         getLine(buf,max_buf,PC_GetChar,PC_PutChar);
+                                        ^
+main.c: In function 'getDegree':
+main.c:63:9: warning: implicit declaration of function 'PC_PutString' [-Wimplicit-function-declaration]
+     {   PC_PutString("Grado del polinomio?");
+         ^
+main.c: In function 'main':
+main.c:112:5: warning: implicit declaration of function 'PC_Start' [-Wimplicit-function-declaration]
+     PC_Start();
+     ^
+The command 'arm-none-eabi-gcc.exe' failed with exit code '1'.
+--------------- Rebuild Failed: 08/21/2024 14:41:05 ---------------

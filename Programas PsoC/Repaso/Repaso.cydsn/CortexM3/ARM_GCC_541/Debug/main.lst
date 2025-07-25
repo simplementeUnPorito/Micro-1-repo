@@ -1,0 +1,2590 @@
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.getLine,"ax",%progbits
+  20              		.align	2
+  21              		.global	getLine
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	getLine, %function
+  25              	getLine:
+  26              	.LFB64:
+  27              		.file 1 "main.c"
+   1:main.c        **** #include "project.h"
+   2:main.c        **** #include <stdio.h>
+   3:main.c        **** #include <stdlib.h>
+   4:main.c        **** 
+   5:main.c        **** 
+   6:main.c        **** #define MAX_BUFF 100
+   7:main.c        **** #define MAX_DEGREE 255
+   8:main.c        **** char buffer[MAX_BUFF];
+   9:main.c        **** char question[MAX_BUFF];
+  10:main.c        **** u_int8_t degree;
+  11:main.c        **** int8_t coeficiente[MAX_DEGREE];
+  12:main.c        **** int16_t x;
+  13:main.c        **** int64_t result;
+  14:main.c        **** 
+  15:main.c        **** //FUNCIONES GENERALES
+  16:main.c        **** 
+  17:main.c        **** /*
+  18:main.c        **** Función que lee una línea por el puerto serial.
+  19:main.c        **** Parámetros:
+  20:main.c        ****     buf -> dirección del buffer de caracteres recibidos
+  21:main.c        ****     tamBuf -> cantidad de posiciones disponible en el buffer
+  22:main.c        ****     getchar -> función que lee un caracter del puerto UART
+  23:main.c        ****     putchar -> función que escribe un caracter por el puerto UART
+  24:main.c        **** Retorno:
+  25:main.c        ****     Ninguno
+  26:main.c        **** */
+  27:main.c        **** void getLine (char *buf, int tamBuf, uint8_t (*getcharl)(), void (*putcharl)(uint8_t)) {
+  28              		.loc 1 27 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 2
+
+
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+  34              		.cfi_def_cfa_offset 32
+  35              		.cfi_offset 3, -32
+  36              		.cfi_offset 4, -28
+  37              		.cfi_offset 5, -24
+  38              		.cfi_offset 6, -20
+  39              		.cfi_offset 7, -16
+  40              		.cfi_offset 8, -12
+  41              		.cfi_offset 9, -8
+  42              		.cfi_offset 14, -4
+  43 0004 8146     		mov	r9, r0
+  44 0006 0E46     		mov	r6, r1
+  45 0008 1746     		mov	r7, r2
+  46 000a 9846     		mov	r8, r3
+  47              	.LVL1:
+  28:main.c        ****     int i;
+  29:main.c        ****     uint8 c;
+  30:main.c        ****    
+  31:main.c        ****     for (i = 0; i < tamBuf -1; ) {
+  48              		.loc 1 31 0
+  49 000c 0024     		movs	r4, #0
+  50 000e 08E0     		b	.L3
+  51              	.LVL2:
+  52              	.L5:
+  32:main.c        ****         if ((c = getcharl()) != 0){
+  53              		.loc 1 32 0
+  54 0010 B847     		blx	r7
+  55              	.LVL3:
+  56 0012 0546     		mov	r5, r0
+  57 0014 28B1     		cbz	r0, .L3
+  33:main.c        ****             putcharl(c);
+  58              		.loc 1 33 0
+  59 0016 C047     		blx	r8
+  60              	.LVL4:
+  34:main.c        ****             if (c == '\r') break;   // salimos si recibimos un enter
+  61              		.loc 1 34 0
+  62 0018 0D2D     		cmp	r5, #13
+  63 001a 05D0     		beq	.L4
+  64              	.LVL5:
+  35:main.c        ****             buf[i++] = c;
+  65              		.loc 1 35 0
+  66 001c 09F80450 		strb	r5, [r9, r4]
+  67 0020 0134     		adds	r4, r4, #1
+  68              	.LVL6:
+  69              	.L3:
+  31:main.c        ****         if ((c = getcharl()) != 0){
+  70              		.loc 1 31 0 discriminator 1
+  71 0022 731E     		subs	r3, r6, #1
+  72 0024 9C42     		cmp	r4, r3
+  73 0026 F3DB     		blt	.L5
+  74              	.L4:
+  36:main.c        ****         }
+  37:main.c        ****     }
+  38:main.c        ****     buf[i] = '\0';
+  75              		.loc 1 38 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 3
+
+
+  76 0028 0023     		movs	r3, #0
+  77 002a 09F80430 		strb	r3, [r9, r4]
+  39:main.c        ****     putcharl('\n');
+  78              		.loc 1 39 0
+  79 002e 0A20     		movs	r0, #10
+  80 0030 C047     		blx	r8
+  81              	.LVL7:
+  82 0032 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+  83              		.cfi_endproc
+  84              	.LFE64:
+  85              		.size	getLine, .-getLine
+  86 0036 00BF     		.section	.text.getInt,"ax",%progbits
+  87              		.align	2
+  88              		.global	getInt
+  89              		.thumb
+  90              		.thumb_func
+  91              		.type	getInt, %function
+  92              	getInt:
+  93              	.LFB65:
+  40:main.c        **** }
+  41:main.c        **** 
+  42:main.c        **** int16_t getInt(char *buf,u_int max_buf,char *msg)
+  43:main.c        **** {
+  94              		.loc 1 43 0
+  95              		.cfi_startproc
+  96              		@ args = 0, pretend = 0, frame = 8
+  97              		@ frame_needed = 0, uses_anonymous_args = 0
+  98              	.LVL8:
+  99 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 100              		.cfi_def_cfa_offset 20
+ 101              		.cfi_offset 4, -20
+ 102              		.cfi_offset 5, -16
+ 103              		.cfi_offset 6, -12
+ 104              		.cfi_offset 7, -8
+ 105              		.cfi_offset 14, -4
+ 106 0002 83B0     		sub	sp, sp, #12
+ 107              		.cfi_def_cfa_offset 32
+ 108 0004 0546     		mov	r5, r0
+ 109 0006 0F46     		mov	r7, r1
+ 110 0008 1646     		mov	r6, r2
+ 111              	.LVL9:
+  44:main.c        ****     u_int8_t salir = 0;
+  45:main.c        ****     int16_t result = 0;
+ 112              		.loc 1 45 0
+ 113 000a 0023     		movs	r3, #0
+ 114 000c ADF80630 		strh	r3, [sp, #6]	@ movhi
+ 115              	.LVL10:
+ 116              	.L9:
+  46:main.c        ****     do
+  47:main.c        ****     {
+  48:main.c        ****         PC_PutString(msg);
+ 117              		.loc 1 48 0
+ 118 0010 3046     		mov	r0, r6
+ 119 0012 FFF7FEFF 		bl	PC_PutString
+ 120              	.LVL11:
+  49:main.c        ****         getLine(buf,max_buf,PC_GetChar,PC_PutChar);
+ 121              		.loc 1 49 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 4
+
+
+ 122 0016 0C4B     		ldr	r3, .L11
+ 123 0018 0C4A     		ldr	r2, .L11+4
+ 124 001a 3946     		mov	r1, r7
+ 125 001c 2846     		mov	r0, r5
+ 126 001e FFF7FEFF 		bl	getLine
+ 127              	.LVL12:
+  50:main.c        ****         //u_int16_t aux = strtoul(buf,NULL,10);
+  51:main.c        ****         (salir = sscanf(buf,"%hd",&result))?:PC_PutString("Error, valor ingresado no entero\r\n");
+ 128              		.loc 1 51 0
+ 129 0022 0DF10602 		add	r2, sp, #6
+ 130 0026 0A49     		ldr	r1, .L11+8
+ 131 0028 2846     		mov	r0, r5
+ 132 002a FFF7FEFF 		bl	sscanf
+ 133              	.LVL13:
+ 134 002e C4B2     		uxtb	r4, r0
+ 135              	.LVL14:
+ 136 0030 14B9     		cbnz	r4, .L8
+ 137              		.loc 1 51 0 is_stmt 0 discriminator 1
+ 138 0032 0848     		ldr	r0, .L11+12
+ 139 0034 FFF7FEFF 		bl	PC_PutString
+ 140              	.LVL15:
+ 141              	.L8:
+  52:main.c        ****     }while(salir != 1);
+ 142              		.loc 1 52 0 is_stmt 1
+ 143 0038 012C     		cmp	r4, #1
+ 144 003a E9D1     		bne	.L9
+  53:main.c        ****     buf[0] = '\0';
+ 145              		.loc 1 53 0
+ 146 003c 0023     		movs	r3, #0
+ 147 003e 2B70     		strb	r3, [r5]
+  54:main.c        ****     return result;
+  55:main.c        **** }
+ 148              		.loc 1 55 0
+ 149 0040 BDF90600 		ldrsh	r0, [sp, #6]
+ 150 0044 03B0     		add	sp, sp, #12
+ 151              		.cfi_def_cfa_offset 20
+ 152              		@ sp needed
+ 153 0046 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 154              	.LVL16:
+ 155              	.L12:
+ 156              		.align	2
+ 157              	.L11:
+ 158 0048 00000000 		.word	PC_PutChar
+ 159 004c 00000000 		.word	PC_GetChar
+ 160 0050 00000000 		.word	.LC0
+ 161 0054 04000000 		.word	.LC1
+ 162              		.cfi_endproc
+ 163              	.LFE65:
+ 164              		.size	getInt, .-getInt
+ 165              		.section	.text.power,"ax",%progbits
+ 166              		.align	2
+ 167              		.global	power
+ 168              		.thumb
+ 169              		.thumb_func
+ 170              		.type	power, %function
+ 171              	power:
+ 172              	.LFB66:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 5
+
+
+  56:main.c        **** int64_t power (int16_t x,uint8_t n) {     //Funcion que calcula la potencia
+ 173              		.loc 1 56 0
+ 174              		.cfi_startproc
+ 175              		@ args = 0, pretend = 0, frame = 0
+ 176              		@ frame_needed = 0, uses_anonymous_args = 0
+ 177              		@ link register save eliminated.
+ 178              	.LVL17:
+  57:main.c        ****     
+  58:main.c        ****     if(n == 0){
+ 179              		.loc 1 58 0
+ 180 0000 C1B1     		cbz	r1, .L18
+  56:main.c        **** int64_t power (int16_t x,uint8_t n) {     //Funcion que calcula la potencia
+ 181              		.loc 1 56 0
+ 182 0002 70B4     		push	{r4, r5, r6}
+ 183              		.cfi_def_cfa_offset 12
+ 184              		.cfi_offset 4, -12
+ 185              		.cfi_offset 5, -8
+ 186              		.cfi_offset 6, -4
+ 187 0004 0E46     		mov	r6, r1
+  59:main.c        ****         return 1;
+  60:main.c        ****     }
+  61:main.c        ****     if(n == 1){
+ 188              		.loc 1 61 0
+ 189 0006 0129     		cmp	r1, #1
+ 190 0008 02D1     		bne	.L15
+  62:main.c        ****         return x;
+ 191              		.loc 1 62 0
+ 192 000a 00B2     		sxth	r0, r0
+ 193 000c C117     		asrs	r1, r0, #31
+ 194              	.LVL18:
+ 195 000e 14E0     		b	.L14
+ 196              	.LVL19:
+ 197              	.L15:
+  63:main.c        ****     }
+  64:main.c        ****     int64_t result = x;
+ 198              		.loc 1 64 0
+ 199 0010 04B2     		sxth	r4, r0
+ 200 0012 E517     		asrs	r5, r4, #31
+ 201              	.LVL20:
+ 202 0014 2046     		mov	r0, r4
+ 203 0016 2946     		mov	r1, r5
+ 204              	.LVL21:
+ 205              	.LBB2:
+  65:main.c        ****     for(uint8_t i=1; i<n; i++){
+ 206              		.loc 1 65 0
+ 207 0018 0123     		movs	r3, #1
+ 208 001a 08E0     		b	.L16
+ 209              	.LVL22:
+ 210              	.L17:
+  66:main.c        ****         result*= x;
+ 211              		.loc 1 66 0 discriminator 3
+ 212 001c 00FB05F2 		mul	r2, r0, r5
+ 213 0020 04FB0122 		mla	r2, r4, r1, r2
+ 214 0024 A0FB0401 		umull	r0, r1, r0, r4
+ 215              	.LVL23:
+ 216 0028 1144     		add	r1, r1, r2
+ 217              	.LVL24:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 6
+
+
+  65:main.c        ****     for(uint8_t i=1; i<n; i++){
+ 218              		.loc 1 65 0 discriminator 3
+ 219 002a 0133     		adds	r3, r3, #1
+ 220              	.LVL25:
+ 221 002c DBB2     		uxtb	r3, r3
+ 222              	.LVL26:
+ 223              	.L16:
+  65:main.c        ****     for(uint8_t i=1; i<n; i++){
+ 224              		.loc 1 65 0 is_stmt 0 discriminator 1
+ 225 002e B342     		cmp	r3, r6
+ 226 0030 F4D3     		bcc	.L17
+ 227 0032 02E0     		b	.L14
+ 228              	.LVL27:
+ 229              	.L18:
+ 230              		.cfi_def_cfa_offset 0
+ 231              		.cfi_restore 4
+ 232              		.cfi_restore 5
+ 233              		.cfi_restore 6
+ 234              	.LBE2:
+  59:main.c        ****     }
+ 235              		.loc 1 59 0 is_stmt 1
+ 236 0034 0120     		movs	r0, #1
+ 237              	.LVL28:
+ 238 0036 0021     		movs	r1, #0
+ 239              	.LVL29:
+ 240 0038 7047     		bx	lr
+ 241              	.L14:
+ 242              		.cfi_def_cfa_offset 12
+ 243              		.cfi_offset 4, -12
+ 244              		.cfi_offset 5, -8
+ 245              		.cfi_offset 6, -4
+  67:main.c        ****     }
+  68:main.c        ****     return result;
+  69:main.c        **** }
+ 246              		.loc 1 69 0
+ 247 003a 70BC     		pop	{r4, r5, r6}
+ 248              		.cfi_restore 6
+ 249              		.cfi_restore 5
+ 250              		.cfi_restore 4
+ 251              		.cfi_def_cfa_offset 0
+ 252 003c 7047     		bx	lr
+ 253              		.cfi_endproc
+ 254              	.LFE66:
+ 255              		.size	power, .-power
+ 256 003e 00BF     		.section	.text.getDegree,"ax",%progbits
+ 257              		.align	2
+ 258              		.global	getDegree
+ 259              		.thumb
+ 260              		.thumb_func
+ 261              		.type	getDegree, %function
+ 262              	getDegree:
+ 263              	.LFB67:
+  70:main.c        **** 
+  71:main.c        **** 
+  72:main.c        **** //FUNCIONES PARA EL PROGRAMA 
+  73:main.c        **** void getDegree()
+  74:main.c        **** {
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 7
+
+
+ 264              		.loc 1 74 0
+ 265              		.cfi_startproc
+ 266              		@ args = 0, pretend = 0, frame = 0
+ 267              		@ frame_needed = 0, uses_anonymous_args = 0
+ 268 0000 10B5     		push	{r4, lr}
+ 269              		.cfi_def_cfa_offset 8
+ 270              		.cfi_offset 4, -8
+ 271              		.cfi_offset 14, -4
+ 272              	.LVL30:
+  75:main.c        ****     u_int8_t salir = 0;
+ 273              		.loc 1 75 0
+ 274 0002 0024     		movs	r4, #0
+ 275              	.LVL31:
+ 276              	.L23:
+  76:main.c        ****     do
+  77:main.c        ****     {   
+  78:main.c        ****         degree = (u_int8_t)getInt(buffer,MAX_BUFF-1,"Grado del polinomio?\r\nGrado = ");
+ 277              		.loc 1 78 0
+ 278 0004 084A     		ldr	r2, .L26
+ 279 0006 6321     		movs	r1, #99
+ 280 0008 0848     		ldr	r0, .L26+4
+ 281 000a FFF7FEFF 		bl	getInt
+ 282              	.LVL32:
+ 283 000e C0B2     		uxtb	r0, r0
+ 284 0010 074B     		ldr	r3, .L26+8
+ 285 0012 1870     		strb	r0, [r3]
+  79:main.c        ****         if (0<= degree && degree<=MAX_DEGREE-1) //creo que no es necesario pero bueno
+ 286              		.loc 1 79 0
+ 287 0014 FF28     		cmp	r0, #255
+ 288 0016 03D1     		bne	.L24
+  80:main.c        ****             salir = 1;
+  81:main.c        ****         else
+  82:main.c        ****             PC_PutString("Error, valor ingresado no valido");
+ 289              		.loc 1 82 0
+ 290 0018 0648     		ldr	r0, .L26+12
+ 291 001a FFF7FEFF 		bl	PC_PutString
+ 292              	.LVL33:
+ 293 001e 00E0     		b	.L22
+ 294              	.L24:
+  80:main.c        ****             salir = 1;
+ 295              		.loc 1 80 0
+ 296 0020 0124     		movs	r4, #1
+ 297              	.LVL34:
+ 298              	.L22:
+  83:main.c        ****     }while (salir != 1);
+ 299              		.loc 1 83 0
+ 300 0022 002C     		cmp	r4, #0
+ 301 0024 EED0     		beq	.L23
+  84:main.c        ****     
+  85:main.c        **** }
+ 302              		.loc 1 85 0
+ 303 0026 10BD     		pop	{r4, pc}
+ 304              	.LVL35:
+ 305              	.L27:
+ 306              		.align	2
+ 307              	.L26:
+ 308 0028 28000000 		.word	.LC2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 8
+
+
+ 309 002c 00000000 		.word	buffer
+ 310 0030 00000000 		.word	degree
+ 311 0034 48000000 		.word	.LC3
+ 312              		.cfi_endproc
+ 313              	.LFE67:
+ 314              		.size	getDegree, .-getDegree
+ 315              		.section	.text.getCoef,"ax",%progbits
+ 316              		.align	2
+ 317              		.global	getCoef
+ 318              		.thumb
+ 319              		.thumb_func
+ 320              		.type	getCoef, %function
+ 321              	getCoef:
+ 322              	.LFB68:
+  86:main.c        **** 
+  87:main.c        **** void getCoef()
+  88:main.c        **** {
+ 323              		.loc 1 88 0
+ 324              		.cfi_startproc
+ 325              		@ args = 0, pretend = 0, frame = 0
+ 326              		@ frame_needed = 0, uses_anonymous_args = 0
+ 327 0000 30B5     		push	{r4, r5, lr}
+ 328              		.cfi_def_cfa_offset 12
+ 329              		.cfi_offset 4, -12
+ 330              		.cfi_offset 5, -8
+ 331              		.cfi_offset 14, -4
+ 332 0002 83B0     		sub	sp, sp, #12
+ 333              		.cfi_def_cfa_offset 24
+ 334              	.LVL36:
+ 335              	.LBB3:
+  89:main.c        ****     u_int8_t aux = 0;
+  90:main.c        ****     for(u_int8_t i = degree;;)
+ 336              		.loc 1 90 0
+ 337 0004 0B4B     		ldr	r3, .L32
+ 338 0006 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 339              	.LVL37:
+ 340              	.L30:
+  91:main.c        ****     {
+  92:main.c        ****         snprintf(question,MAX_BUFF ,"Coeficiente de x^%i?\r\nC_%i = ",i,i);
+ 341              		.loc 1 92 0
+ 342 0008 0B4D     		ldr	r5, .L32+4
+ 343 000a 0094     		str	r4, [sp]
+ 344 000c 2346     		mov	r3, r4
+ 345 000e 0B4A     		ldr	r2, .L32+8
+ 346 0010 6421     		movs	r1, #100
+ 347 0012 2846     		mov	r0, r5
+ 348 0014 FFF7FEFF 		bl	snprintf
+ 349              	.LVL38:
+  93:main.c        ****         aux = (u_int8_t)getInt(buffer,MAX_BUFF,question);
+ 350              		.loc 1 93 0
+ 351 0018 2A46     		mov	r2, r5
+ 352 001a 6421     		movs	r1, #100
+ 353 001c 0848     		ldr	r0, .L32+12
+ 354 001e FFF7FEFF 		bl	getInt
+ 355              	.LVL39:
+  94:main.c        ****         if(0 <= aux && aux <= MAX_DEGREE)
+  95:main.c        ****         {
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 9
+
+
+  96:main.c        ****             coeficiente[i] = aux;
+ 356              		.loc 1 96 0
+ 357 0022 084B     		ldr	r3, .L32+16
+ 358 0024 1855     		strb	r0, [r3, r4]
+  97:main.c        ****             if(i == 0) break;
+ 359              		.loc 1 97 0
+ 360 0026 14B1     		cbz	r4, .L28
+  98:main.c        ****             else i--;
+ 361              		.loc 1 98 0
+ 362 0028 013C     		subs	r4, r4, #1
+ 363              	.LVL40:
+ 364 002a E4B2     		uxtb	r4, r4
+ 365              	.LVL41:
+  99:main.c        ****         }
+ 100:main.c        ****     }
+ 366              		.loc 1 100 0
+ 367 002c ECE7     		b	.L30
+ 368              	.L28:
+ 369              	.LBE3:
+ 101:main.c        **** }
+ 370              		.loc 1 101 0
+ 371 002e 03B0     		add	sp, sp, #12
+ 372              		.cfi_def_cfa_offset 12
+ 373              		@ sp needed
+ 374 0030 30BD     		pop	{r4, r5, pc}
+ 375              	.LVL42:
+ 376              	.L33:
+ 377 0032 00BF     		.align	2
+ 378              	.L32:
+ 379 0034 00000000 		.word	degree
+ 380 0038 00000000 		.word	question
+ 381 003c 6C000000 		.word	.LC4
+ 382 0040 00000000 		.word	buffer
+ 383 0044 00000000 		.word	coeficiente
+ 384              		.cfi_endproc
+ 385              	.LFE68:
+ 386              		.size	getCoef, .-getCoef
+ 387              		.section	.text.evalX,"ax",%progbits
+ 388              		.align	2
+ 389              		.global	evalX
+ 390              		.thumb
+ 391              		.thumb_func
+ 392              		.type	evalX, %function
+ 393              	evalX:
+ 394              	.LFB69:
+ 102:main.c        **** 
+ 103:main.c        **** void evalX()
+ 104:main.c        **** {
+ 395              		.loc 1 104 0
+ 396              		.cfi_startproc
+ 397              		@ args = 0, pretend = 0, frame = 0
+ 398              		@ frame_needed = 0, uses_anonymous_args = 0
+ 399 0000 70B5     		push	{r4, r5, r6, lr}
+ 400              		.cfi_def_cfa_offset 16
+ 401              		.cfi_offset 4, -16
+ 402              		.cfi_offset 5, -12
+ 403              		.cfi_offset 6, -8
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 10
+
+
+ 404              		.cfi_offset 14, -4
+ 405 0002 82B0     		sub	sp, sp, #8
+ 406              		.cfi_def_cfa_offset 24
+ 407              	.L38:
+ 105:main.c        ****     do
+ 106:main.c        ****     {
+ 107:main.c        ****         x = getInt(buffer,MAX_BUFF,"Punto a evaluar?\r\nx = ");
+ 408              		.loc 1 107 0
+ 409 0004 1F4A     		ldr	r2, .L40
+ 410 0006 6421     		movs	r1, #100
+ 411 0008 1F48     		ldr	r0, .L40+4
+ 412 000a FFF7FEFF 		bl	getInt
+ 413              	.LVL43:
+ 414 000e 1F4B     		ldr	r3, .L40+8
+ 415 0010 1880     		strh	r0, [r3]	@ movhi
+ 108:main.c        ****         if(x == -999) break; //salir de eval
+ 416              		.loc 1 108 0
+ 417 0012 1F4B     		ldr	r3, .L40+12
+ 418 0014 9842     		cmp	r0, r3
+ 419 0016 32D0     		beq	.L34
+ 420 0018 0546     		mov	r5, r0
+ 109:main.c        ****         
+ 110:main.c        ****         result = 0;
+ 421              		.loc 1 110 0
+ 422 001a 0020     		movs	r0, #0
+ 423 001c 0021     		movs	r1, #0
+ 424 001e 1D4B     		ldr	r3, .L40+16
+ 425 0020 C3E90001 		strd	r0, [r3]
+ 426              	.LBB4:
+ 111:main.c        ****         for(u_int8_t i = degree;; i--)
+ 427              		.loc 1 111 0
+ 428 0024 1C4B     		ldr	r3, .L40+20
+ 429 0026 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 430              	.LVL44:
+ 431              	.L37:
+ 112:main.c        ****         {
+ 113:main.c        ****             result += coeficiente[i]*power(x,i);
+ 432              		.loc 1 113 0
+ 433 0028 1C4B     		ldr	r3, .L40+24
+ 434 002a 1E57     		ldrsb	r6, [r3, r4]
+ 435 002c 2146     		mov	r1, r4
+ 436 002e 2846     		mov	r0, r5
+ 437 0030 FFF7FEFF 		bl	power
+ 438              	.LVL45:
+ 439 0034 72B2     		sxtb	r2, r6
+ 440 0036 D317     		asrs	r3, r2, #31
+ 441 0038 01FB02F1 		mul	r1, r1, r2
+ 442 003c 00FB0311 		mla	r1, r0, r3, r1
+ 443 0040 A2FB0023 		umull	r2, r3, r2, r0
+ 444 0044 0B44     		add	r3, r3, r1
+ 445 0046 134E     		ldr	r6, .L40+16
+ 446 0048 D6E90001 		ldrd	r0, [r6]
+ 447 004c 1218     		adds	r2, r2, r0
+ 448 004e 4B41     		adcs	r3, r3, r1
+ 449 0050 C6E90023 		strd	r2, [r6]
+ 114:main.c        ****             if(i == 0) break;
+ 450              		.loc 1 114 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 11
+
+
+ 451 0054 14B1     		cbz	r4, .L36
+ 111:main.c        ****         for(u_int8_t i = degree;; i--)
+ 452              		.loc 1 111 0
+ 453 0056 013C     		subs	r4, r4, #1
+ 454              	.LVL46:
+ 455 0058 E4B2     		uxtb	r4, r4
+ 456              	.LVL47:
+ 115:main.c        ****         }
+ 457              		.loc 1 115 0
+ 458 005a E5E7     		b	.L37
+ 459              	.L36:
+ 460              	.LBE4:
+ 116:main.c        ****         snprintf(buffer,MAX_BUFF ,"f(%i) = %i\r\n",x,(int)result);
+ 461              		.loc 1 116 0
+ 462 005c 0A4C     		ldr	r4, .L40+4
+ 463              	.LVL48:
+ 464 005e 0092     		str	r2, [sp]
+ 465 0060 2B46     		mov	r3, r5
+ 466 0062 0F4A     		ldr	r2, .L40+28
+ 467 0064 6421     		movs	r1, #100
+ 468 0066 2046     		mov	r0, r4
+ 469 0068 FFF7FEFF 		bl	snprintf
+ 470              	.LVL49:
+ 117:main.c        ****         PC_PutString(buffer);
+ 471              		.loc 1 117 0
+ 472 006c 2046     		mov	r0, r4
+ 473 006e FFF7FEFF 		bl	PC_PutString
+ 474              	.LVL50:
+ 118:main.c        ****     }while(x != -999);
+ 475              		.loc 1 118 0
+ 476 0072 064B     		ldr	r3, .L40+8
+ 477 0074 B3F90020 		ldrsh	r2, [r3]
+ 478 0078 054B     		ldr	r3, .L40+12
+ 479 007a 9A42     		cmp	r2, r3
+ 480 007c C2D1     		bne	.L38
+ 481              	.L34:
+ 119:main.c        **** }
+ 482              		.loc 1 119 0
+ 483 007e 02B0     		add	sp, sp, #8
+ 484              		.cfi_def_cfa_offset 16
+ 485              		@ sp needed
+ 486 0080 70BD     		pop	{r4, r5, r6, pc}
+ 487              	.L41:
+ 488 0082 00BF     		.align	2
+ 489              	.L40:
+ 490 0084 8C000000 		.word	.LC5
+ 491 0088 00000000 		.word	buffer
+ 492 008c 00000000 		.word	x
+ 493 0090 19FCFFFF 		.word	-999
+ 494 0094 00000000 		.word	result
+ 495 0098 00000000 		.word	degree
+ 496 009c 00000000 		.word	coeficiente
+ 497 00a0 A4000000 		.word	.LC6
+ 498              		.cfi_endproc
+ 499              	.LFE69:
+ 500              		.size	evalX, .-evalX
+ 501              		.section	.text.main,"ax",%progbits
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 12
+
+
+ 502              		.align	2
+ 503              		.global	main
+ 504              		.thumb
+ 505              		.thumb_func
+ 506              		.type	main, %function
+ 507              	main:
+ 508              	.LFB70:
+ 120:main.c        **** 
+ 121:main.c        **** int main(void)
+ 122:main.c        **** {
+ 509              		.loc 1 122 0
+ 510              		.cfi_startproc
+ 511              		@ Volatile: function does not return.
+ 512              		@ args = 0, pretend = 0, frame = 0
+ 513              		@ frame_needed = 0, uses_anonymous_args = 0
+ 514 0000 08B5     		push	{r3, lr}
+ 515              		.cfi_def_cfa_offset 8
+ 516              		.cfi_offset 3, -8
+ 517              		.cfi_offset 14, -4
+ 123:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+ 518              		.loc 1 123 0
+ 519              		.syntax unified
+ 520              	@ 123 "main.c" 1
+ 521 0002 62B6     		CPSIE   i
+ 522              	@ 0 "" 2
+ 124:main.c        **** 
+ 125:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+ 126:main.c        ****     PC_Start();
+ 523              		.loc 1 126 0
+ 524              		.thumb
+ 525              		.syntax unified
+ 526 0004 FFF7FEFF 		bl	PC_Start
+ 527              	.LVL51:
+ 528              	.L43:
+ 127:main.c        ****     for(;;)
+ 128:main.c        ****     {
+ 129:main.c        ****         getDegree();
+ 529              		.loc 1 129 0 discriminator 1
+ 530 0008 FFF7FEFF 		bl	getDegree
+ 531              	.LVL52:
+ 130:main.c        ****         getCoef();
+ 532              		.loc 1 130 0 discriminator 1
+ 533 000c FFF7FEFF 		bl	getCoef
+ 534              	.LVL53:
+ 131:main.c        ****         evalX();
+ 535              		.loc 1 131 0 discriminator 1
+ 536 0010 FFF7FEFF 		bl	evalX
+ 537              	.LVL54:
+ 538 0014 F8E7     		b	.L43
+ 539              		.cfi_endproc
+ 540              	.LFE70:
+ 541              		.size	main, .-main
+ 542              		.comm	result,8,8
+ 543              		.comm	x,2,2
+ 544              		.comm	coeficiente,255,4
+ 545              		.comm	degree,1,1
+ 546              		.comm	question,100,4
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 13
+
+
+ 547              		.comm	buffer,100,4
+ 548 0016 00BF     		.section	.rodata.str1.4,"aMS",%progbits,1
+ 549              		.align	2
+ 550              	.LC0:
+ 551 0000 25686400 		.ascii	"%hd\000"
+ 552              	.LC1:
+ 553 0004 4572726F 		.ascii	"Error, valor ingresado no entero\015\012\000"
+ 553      722C2076 
+ 553      616C6F72 
+ 553      20696E67 
+ 553      72657361 
+ 554 0027 00       		.space	1
+ 555              	.LC2:
+ 556 0028 47726164 		.ascii	"Grado del polinomio?\015\012Grado = \000"
+ 556      6F206465 
+ 556      6C20706F 
+ 556      6C696E6F 
+ 556      6D696F3F 
+ 557 0047 00       		.space	1
+ 558              	.LC3:
+ 559 0048 4572726F 		.ascii	"Error, valor ingresado no valido\000"
+ 559      722C2076 
+ 559      616C6F72 
+ 559      20696E67 
+ 559      72657361 
+ 560 0069 000000   		.space	3
+ 561              	.LC4:
+ 562 006c 436F6566 		.ascii	"Coeficiente de x^%i?\015\012C_%i = \000"
+ 562      69636965 
+ 562      6E746520 
+ 562      64652078 
+ 562      5E25693F 
+ 563 008a 0000     		.space	2
+ 564              	.LC5:
+ 565 008c 50756E74 		.ascii	"Punto a evaluar?\015\012x = \000"
+ 565      6F206120 
+ 565      6576616C 
+ 565      7561723F 
+ 565      0D0A7820 
+ 566 00a3 00       		.space	1
+ 567              	.LC6:
+ 568 00a4 66282569 		.ascii	"f(%i) = %i\015\012\000"
+ 568      29203D20 
+ 568      25690D0A 
+ 568      00
+ 569              		.text
+ 570              	.Letext0:
+ 571              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 572              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 573              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 574              		.file 5 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 575              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 576              		.file 7 "Generated_Source\\PSoC5/PC.h"
+ 577              		.file 8 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 578              		.section	.debug_info,"",%progbits
+ 579              	.Ldebug_info0:
+ 580 0000 7A050000 		.4byte	0x57a
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 14
+
+
+ 581 0004 0400     		.2byte	0x4
+ 582 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 583 000a 04       		.byte	0x4
+ 584 000b 01       		.uleb128 0x1
+ 585 000c 7D000000 		.4byte	.LASF47
+ 586 0010 0C       		.byte	0xc
+ 587 0011 CC010000 		.4byte	.LASF48
+ 588 0015 5A020000 		.4byte	.LASF49
+ 589 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 590 001d 00000000 		.4byte	0
+ 591 0021 00000000 		.4byte	.Ldebug_line0
+ 592 0025 02       		.uleb128 0x2
+ 593 0026 07000000 		.4byte	.LASF0
+ 594 002a 02       		.byte	0x2
+ 595 002b 1B       		.byte	0x1b
+ 596 002c 30000000 		.4byte	0x30
+ 597 0030 03       		.uleb128 0x3
+ 598 0031 01       		.byte	0x1
+ 599 0032 06       		.byte	0x6
+ 600 0033 42020000 		.4byte	.LASF2
+ 601 0037 02       		.uleb128 0x2
+ 602 0038 10000000 		.4byte	.LASF1
+ 603 003c 02       		.byte	0x2
+ 604 003d 1D       		.byte	0x1d
+ 605 003e 42000000 		.4byte	0x42
+ 606 0042 03       		.uleb128 0x3
+ 607 0043 01       		.byte	0x1
+ 608 0044 08       		.byte	0x8
+ 609 0045 6F000000 		.4byte	.LASF3
+ 610 0049 02       		.uleb128 0x2
+ 611 004a 21000000 		.4byte	.LASF4
+ 612 004e 02       		.byte	0x2
+ 613 004f 29       		.byte	0x29
+ 614 0050 54000000 		.4byte	0x54
+ 615 0054 03       		.uleb128 0x3
+ 616 0055 02       		.byte	0x2
+ 617 0056 05       		.byte	0x5
+ 618 0057 EB010000 		.4byte	.LASF5
+ 619 005b 03       		.uleb128 0x3
+ 620 005c 02       		.byte	0x2
+ 621 005d 07       		.byte	0x7
+ 622 005e 1D010000 		.4byte	.LASF6
+ 623 0062 02       		.uleb128 0x2
+ 624 0063 2B000000 		.4byte	.LASF7
+ 625 0067 02       		.byte	0x2
+ 626 0068 3F       		.byte	0x3f
+ 627 0069 6D000000 		.4byte	0x6d
+ 628 006d 03       		.uleb128 0x3
+ 629 006e 04       		.byte	0x4
+ 630 006f 05       		.byte	0x5
+ 631 0070 35000000 		.4byte	.LASF8
+ 632 0074 03       		.uleb128 0x3
+ 633 0075 04       		.byte	0x4
+ 634 0076 07       		.byte	0x7
+ 635 0077 0B010000 		.4byte	.LASF9
+ 636 007b 02       		.uleb128 0x2
+ 637 007c D8010000 		.4byte	.LASF10
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 15
+
+
+ 638 0080 02       		.byte	0x2
+ 639 0081 59       		.byte	0x59
+ 640 0082 86000000 		.4byte	0x86
+ 641 0086 03       		.uleb128 0x3
+ 642 0087 08       		.byte	0x8
+ 643 0088 05       		.byte	0x5
+ 644 0089 BE010000 		.4byte	.LASF11
+ 645 008d 03       		.uleb128 0x3
+ 646 008e 08       		.byte	0x8
+ 647 008f 07       		.byte	0x7
+ 648 0090 77010000 		.4byte	.LASF12
+ 649 0094 04       		.uleb128 0x4
+ 650 0095 04       		.byte	0x4
+ 651 0096 05       		.byte	0x5
+ 652 0097 696E7400 		.ascii	"int\000"
+ 653 009b 03       		.uleb128 0x3
+ 654 009c 04       		.byte	0x4
+ 655 009d 07       		.byte	0x7
+ 656 009e 64010000 		.4byte	.LASF13
+ 657 00a2 02       		.uleb128 0x2
+ 658 00a3 53000000 		.4byte	.LASF14
+ 659 00a7 03       		.byte	0x3
+ 660 00a8 14       		.byte	0x14
+ 661 00a9 25000000 		.4byte	0x25
+ 662 00ad 02       		.uleb128 0x2
+ 663 00ae 8E010000 		.4byte	.LASF15
+ 664 00b2 03       		.byte	0x3
+ 665 00b3 18       		.byte	0x18
+ 666 00b4 37000000 		.4byte	0x37
+ 667 00b8 02       		.uleb128 0x2
+ 668 00b9 9D010000 		.4byte	.LASF16
+ 669 00bd 03       		.byte	0x3
+ 670 00be 20       		.byte	0x20
+ 671 00bf 49000000 		.4byte	0x49
+ 672 00c3 02       		.uleb128 0x2
+ 673 00c4 A5010000 		.4byte	.LASF17
+ 674 00c8 03       		.byte	0x3
+ 675 00c9 2C       		.byte	0x2c
+ 676 00ca 62000000 		.4byte	0x62
+ 677 00ce 02       		.uleb128 0x2
+ 678 00cf B6010000 		.4byte	.LASF18
+ 679 00d3 03       		.byte	0x3
+ 680 00d4 38       		.byte	0x38
+ 681 00d5 7B000000 		.4byte	0x7b
+ 682 00d9 05       		.uleb128 0x5
+ 683 00da FC010000 		.4byte	.LASF19
+ 684 00de 04       		.byte	0x4
+ 685 00df E801     		.2byte	0x1e8
+ 686 00e1 42000000 		.4byte	0x42
+ 687 00e5 03       		.uleb128 0x3
+ 688 00e6 04       		.byte	0x4
+ 689 00e7 04       		.byte	0x4
+ 690 00e8 61000000 		.4byte	.LASF20
+ 691 00ec 03       		.uleb128 0x3
+ 692 00ed 08       		.byte	0x8
+ 693 00ee 04       		.byte	0x4
+ 694 00ef 4F010000 		.4byte	.LASF21
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 16
+
+
+ 695 00f3 03       		.uleb128 0x3
+ 696 00f4 01       		.byte	0x1
+ 697 00f5 08       		.byte	0x8
+ 698 00f6 D3010000 		.4byte	.LASF22
+ 699 00fa 03       		.uleb128 0x3
+ 700 00fb 08       		.byte	0x8
+ 701 00fc 04       		.byte	0x4
+ 702 00fd 2D020000 		.4byte	.LASF23
+ 703 0101 03       		.uleb128 0x3
+ 704 0102 04       		.byte	0x4
+ 705 0103 07       		.byte	0x7
+ 706 0104 AD010000 		.4byte	.LASF24
+ 707 0108 06       		.uleb128 0x6
+ 708 0109 04       		.byte	0x4
+ 709 010a F3000000 		.4byte	0xf3
+ 710 010e 02       		.uleb128 0x2
+ 711 010f A8020000 		.4byte	.LASF25
+ 712 0113 05       		.byte	0x5
+ 713 0114 1C       		.byte	0x1c
+ 714 0115 37000000 		.4byte	0x37
+ 715 0119 02       		.uleb128 0x2
+ 716 011a 47000000 		.4byte	.LASF26
+ 717 011e 05       		.byte	0x5
+ 718 011f 5F       		.byte	0x5f
+ 719 0120 9B000000 		.4byte	0x9b
+ 720 0124 07       		.uleb128 0x7
+ 721 0125 02020000 		.4byte	.LASF50
+ 722 0129 01       		.byte	0x1
+ 723 012a 1B       		.byte	0x1b
+ 724 012b 00000000 		.4byte	.LFB64
+ 725 012f 36000000 		.4byte	.LFE64-.LFB64
+ 726 0133 01       		.uleb128 0x1
+ 727 0134 9C       		.byte	0x9c
+ 728 0135 AB010000 		.4byte	0x1ab
+ 729 0139 08       		.uleb128 0x8
+ 730 013a 62756600 		.ascii	"buf\000"
+ 731 013e 01       		.byte	0x1
+ 732 013f 1B       		.byte	0x1b
+ 733 0140 08010000 		.4byte	0x108
+ 734 0144 00000000 		.4byte	.LLST0
+ 735 0148 09       		.uleb128 0x9
+ 736 0149 1A000000 		.4byte	.LASF27
+ 737 014d 01       		.byte	0x1
+ 738 014e 1B       		.byte	0x1b
+ 739 014f 94000000 		.4byte	0x94
+ 740 0153 1E000000 		.4byte	.LLST1
+ 741 0157 09       		.uleb128 0x9
+ 742 0158 5B010000 		.4byte	.LASF28
+ 743 015c 01       		.byte	0x1
+ 744 015d 1B       		.byte	0x1b
+ 745 015e B6010000 		.4byte	0x1b6
+ 746 0162 3C000000 		.4byte	.LLST2
+ 747 0166 09       		.uleb128 0x9
+ 748 0167 17020000 		.4byte	.LASF29
+ 749 016b 01       		.byte	0x1
+ 750 016c 1B       		.byte	0x1b
+ 751 016d C7010000 		.4byte	0x1c7
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 17
+
+
+ 752 0171 5A000000 		.4byte	.LLST3
+ 753 0175 0A       		.uleb128 0xa
+ 754 0176 6900     		.ascii	"i\000"
+ 755 0178 01       		.byte	0x1
+ 756 0179 1C       		.byte	0x1c
+ 757 017a 94000000 		.4byte	0x94
+ 758 017e 78000000 		.4byte	.LLST4
+ 759 0182 0A       		.uleb128 0xa
+ 760 0183 6300     		.ascii	"c\000"
+ 761 0185 01       		.byte	0x1
+ 762 0186 1D       		.byte	0x1d
+ 763 0187 D9000000 		.4byte	0xd9
+ 764 018b AF000000 		.4byte	.LLST5
+ 765 018f 0B       		.uleb128 0xb
+ 766 0190 18000000 		.4byte	.LVL4
+ 767 0194 9F010000 		.4byte	0x19f
+ 768 0198 0C       		.uleb128 0xc
+ 769 0199 01       		.uleb128 0x1
+ 770 019a 50       		.byte	0x50
+ 771 019b 02       		.uleb128 0x2
+ 772 019c 75       		.byte	0x75
+ 773 019d 00       		.sleb128 0
+ 774 019e 00       		.byte	0
+ 775 019f 0D       		.uleb128 0xd
+ 776 01a0 32000000 		.4byte	.LVL7
+ 777 01a4 0C       		.uleb128 0xc
+ 778 01a5 01       		.uleb128 0x1
+ 779 01a6 50       		.byte	0x50
+ 780 01a7 01       		.uleb128 0x1
+ 781 01a8 3A       		.byte	0x3a
+ 782 01a9 00       		.byte	0
+ 783 01aa 00       		.byte	0
+ 784 01ab 0E       		.uleb128 0xe
+ 785 01ac AD000000 		.4byte	0xad
+ 786 01b0 B6010000 		.4byte	0x1b6
+ 787 01b4 0F       		.uleb128 0xf
+ 788 01b5 00       		.byte	0
+ 789 01b6 06       		.uleb128 0x6
+ 790 01b7 04       		.byte	0x4
+ 791 01b8 AB010000 		.4byte	0x1ab
+ 792 01bc 10       		.uleb128 0x10
+ 793 01bd C7010000 		.4byte	0x1c7
+ 794 01c1 11       		.uleb128 0x11
+ 795 01c2 AD000000 		.4byte	0xad
+ 796 01c6 00       		.byte	0
+ 797 01c7 06       		.uleb128 0x6
+ 798 01c8 04       		.byte	0x4
+ 799 01c9 BC010000 		.4byte	0x1bc
+ 800 01cd 12       		.uleb128 0x12
+ 801 01ce 5A000000 		.4byte	.LASF33
+ 802 01d2 01       		.byte	0x1
+ 803 01d3 2A       		.byte	0x2a
+ 804 01d4 B8000000 		.4byte	0xb8
+ 805 01d8 00000000 		.4byte	.LFB65
+ 806 01dc 58000000 		.4byte	.LFE65-.LFB65
+ 807 01e0 01       		.uleb128 0x1
+ 808 01e1 9C       		.byte	0x9c
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 18
+
+
+ 809 01e2 95020000 		.4byte	0x295
+ 810 01e6 08       		.uleb128 0x8
+ 811 01e7 62756600 		.ascii	"buf\000"
+ 812 01eb 01       		.byte	0x1
+ 813 01ec 2A       		.byte	0x2a
+ 814 01ed 08010000 		.4byte	0x108
+ 815 01f1 C2000000 		.4byte	.LLST6
+ 816 01f5 09       		.uleb128 0x9
+ 817 01f6 3D010000 		.4byte	.LASF30
+ 818 01fa 01       		.byte	0x1
+ 819 01fb 2A       		.byte	0x2a
+ 820 01fc 19010000 		.4byte	0x119
+ 821 0200 EE000000 		.4byte	.LLST7
+ 822 0204 08       		.uleb128 0x8
+ 823 0205 6D736700 		.ascii	"msg\000"
+ 824 0209 01       		.byte	0x1
+ 825 020a 2A       		.byte	0x2a
+ 826 020b 08010000 		.4byte	0x108
+ 827 020f 1A010000 		.4byte	.LLST8
+ 828 0213 13       		.uleb128 0x13
+ 829 0214 71010000 		.4byte	.LASF31
+ 830 0218 01       		.byte	0x1
+ 831 0219 2C       		.byte	0x2c
+ 832 021a 0E010000 		.4byte	0x10e
+ 833 021e 46010000 		.4byte	.LLST9
+ 834 0222 14       		.uleb128 0x14
+ 835 0223 96010000 		.4byte	.LASF32
+ 836 0227 01       		.byte	0x1
+ 837 0228 2D       		.byte	0x2d
+ 838 0229 B8000000 		.4byte	0xb8
+ 839 022d 02       		.uleb128 0x2
+ 840 022e 91       		.byte	0x91
+ 841 022f 66       		.sleb128 -26
+ 842 0230 15       		.uleb128 0x15
+ 843 0231 16000000 		.4byte	.LVL11
+ 844 0235 51050000 		.4byte	0x551
+ 845 0239 44020000 		.4byte	0x244
+ 846 023d 0C       		.uleb128 0xc
+ 847 023e 01       		.uleb128 0x1
+ 848 023f 50       		.byte	0x50
+ 849 0240 02       		.uleb128 0x2
+ 850 0241 76       		.byte	0x76
+ 851 0242 00       		.sleb128 0
+ 852 0243 00       		.byte	0
+ 853 0244 15       		.uleb128 0x15
+ 854 0245 22000000 		.4byte	.LVL12
+ 855 0249 24010000 		.4byte	0x124
+ 856 024d 5E020000 		.4byte	0x25e
+ 857 0251 0C       		.uleb128 0xc
+ 858 0252 01       		.uleb128 0x1
+ 859 0253 50       		.byte	0x50
+ 860 0254 02       		.uleb128 0x2
+ 861 0255 75       		.byte	0x75
+ 862 0256 00       		.sleb128 0
+ 863 0257 0C       		.uleb128 0xc
+ 864 0258 01       		.uleb128 0x1
+ 865 0259 51       		.byte	0x51
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 19
+
+
+ 866 025a 02       		.uleb128 0x2
+ 867 025b 77       		.byte	0x77
+ 868 025c 00       		.sleb128 0
+ 869 025d 00       		.byte	0
+ 870 025e 15       		.uleb128 0x15
+ 871 025f 2E000000 		.4byte	.LVL13
+ 872 0263 5C050000 		.4byte	0x55c
+ 873 0267 81020000 		.4byte	0x281
+ 874 026b 0C       		.uleb128 0xc
+ 875 026c 01       		.uleb128 0x1
+ 876 026d 50       		.byte	0x50
+ 877 026e 02       		.uleb128 0x2
+ 878 026f 75       		.byte	0x75
+ 879 0270 00       		.sleb128 0
+ 880 0271 0C       		.uleb128 0xc
+ 881 0272 01       		.uleb128 0x1
+ 882 0273 51       		.byte	0x51
+ 883 0274 05       		.uleb128 0x5
+ 884 0275 03       		.byte	0x3
+ 885 0276 00000000 		.4byte	.LC0
+ 886 027a 0C       		.uleb128 0xc
+ 887 027b 01       		.uleb128 0x1
+ 888 027c 52       		.byte	0x52
+ 889 027d 02       		.uleb128 0x2
+ 890 027e 91       		.byte	0x91
+ 891 027f 66       		.sleb128 -26
+ 892 0280 00       		.byte	0
+ 893 0281 16       		.uleb128 0x16
+ 894 0282 38000000 		.4byte	.LVL15
+ 895 0286 51050000 		.4byte	0x551
+ 896 028a 0C       		.uleb128 0xc
+ 897 028b 01       		.uleb128 0x1
+ 898 028c 50       		.byte	0x50
+ 899 028d 05       		.uleb128 0x5
+ 900 028e 03       		.byte	0x3
+ 901 028f 04000000 		.4byte	.LC1
+ 902 0293 00       		.byte	0
+ 903 0294 00       		.byte	0
+ 904 0295 12       		.uleb128 0x12
+ 905 0296 4D000000 		.4byte	.LASF34
+ 906 029a 01       		.byte	0x1
+ 907 029b 38       		.byte	0x38
+ 908 029c CE000000 		.4byte	0xce
+ 909 02a0 00000000 		.4byte	.LFB66
+ 910 02a4 3E000000 		.4byte	.LFE66-.LFB66
+ 911 02a8 01       		.uleb128 0x1
+ 912 02a9 9C       		.byte	0x9c
+ 913 02aa EF020000 		.4byte	0x2ef
+ 914 02ae 08       		.uleb128 0x8
+ 915 02af 7800     		.ascii	"x\000"
+ 916 02b1 01       		.byte	0x1
+ 917 02b2 38       		.byte	0x38
+ 918 02b3 B8000000 		.4byte	0xb8
+ 919 02b7 65010000 		.4byte	.LLST10
+ 920 02bb 08       		.uleb128 0x8
+ 921 02bc 6E00     		.ascii	"n\000"
+ 922 02be 01       		.byte	0x1
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 20
+
+
+ 923 02bf 38       		.byte	0x38
+ 924 02c0 AD000000 		.4byte	0xad
+ 925 02c4 9C010000 		.4byte	.LLST11
+ 926 02c8 13       		.uleb128 0x13
+ 927 02c9 96010000 		.4byte	.LASF32
+ 928 02cd 01       		.byte	0x1
+ 929 02ce 40       		.byte	0x40
+ 930 02cf CE000000 		.4byte	0xce
+ 931 02d3 EF010000 		.4byte	.LLST12
+ 932 02d7 17       		.uleb128 0x17
+ 933 02d8 18000000 		.4byte	.LBB2
+ 934 02dc 1C000000 		.4byte	.LBE2-.LBB2
+ 935 02e0 0A       		.uleb128 0xa
+ 936 02e1 6900     		.ascii	"i\000"
+ 937 02e3 01       		.byte	0x1
+ 938 02e4 41       		.byte	0x41
+ 939 02e5 AD000000 		.4byte	0xad
+ 940 02e9 27020000 		.4byte	.LLST13
+ 941 02ed 00       		.byte	0
+ 942 02ee 00       		.byte	0
+ 943 02ef 18       		.uleb128 0x18
+ 944 02f0 45010000 		.4byte	.LASF35
+ 945 02f4 01       		.byte	0x1
+ 946 02f5 49       		.byte	0x49
+ 947 02f6 00000000 		.4byte	.LFB67
+ 948 02fa 38000000 		.4byte	.LFE67-.LFB67
+ 949 02fe 01       		.uleb128 0x1
+ 950 02ff 9C       		.byte	0x9c
+ 951 0300 4D030000 		.4byte	0x34d
+ 952 0304 13       		.uleb128 0x13
+ 953 0305 71010000 		.4byte	.LASF31
+ 954 0309 01       		.byte	0x1
+ 955 030a 4B       		.byte	0x4b
+ 956 030b 0E010000 		.4byte	0x10e
+ 957 030f 51020000 		.4byte	.LLST14
+ 958 0313 15       		.uleb128 0x15
+ 959 0314 0E000000 		.4byte	.LVL32
+ 960 0318 CD010000 		.4byte	0x1cd
+ 961 031c 39030000 		.4byte	0x339
+ 962 0320 0C       		.uleb128 0xc
+ 963 0321 01       		.uleb128 0x1
+ 964 0322 50       		.byte	0x50
+ 965 0323 05       		.uleb128 0x5
+ 966 0324 03       		.byte	0x3
+ 967 0325 00000000 		.4byte	buffer
+ 968 0329 0C       		.uleb128 0xc
+ 969 032a 01       		.uleb128 0x1
+ 970 032b 51       		.byte	0x51
+ 971 032c 02       		.uleb128 0x2
+ 972 032d 08       		.byte	0x8
+ 973 032e 63       		.byte	0x63
+ 974 032f 0C       		.uleb128 0xc
+ 975 0330 01       		.uleb128 0x1
+ 976 0331 52       		.byte	0x52
+ 977 0332 05       		.uleb128 0x5
+ 978 0333 03       		.byte	0x3
+ 979 0334 28000000 		.4byte	.LC2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 21
+
+
+ 980 0338 00       		.byte	0
+ 981 0339 16       		.uleb128 0x16
+ 982 033a 1E000000 		.4byte	.LVL33
+ 983 033e 51050000 		.4byte	0x551
+ 984 0342 0C       		.uleb128 0xc
+ 985 0343 01       		.uleb128 0x1
+ 986 0344 50       		.byte	0x50
+ 987 0345 05       		.uleb128 0x5
+ 988 0346 03       		.byte	0x3
+ 989 0347 48000000 		.4byte	.LC3
+ 990 034b 00       		.byte	0
+ 991 034c 00       		.byte	0
+ 992 034d 18       		.uleb128 0x18
+ 993 034e 67000000 		.4byte	.LASF36
+ 994 0352 01       		.byte	0x1
+ 995 0353 57       		.byte	0x57
+ 996 0354 00000000 		.4byte	.LFB68
+ 997 0358 48000000 		.4byte	.LFE68-.LFB68
+ 998 035c 01       		.uleb128 0x1
+ 999 035d 9C       		.byte	0x9c
+ 1000 035e D8030000 		.4byte	0x3d8
+ 1001 0362 0A       		.uleb128 0xa
+ 1002 0363 61757800 		.ascii	"aux\000"
+ 1003 0367 01       		.byte	0x1
+ 1004 0368 59       		.byte	0x59
+ 1005 0369 0E010000 		.4byte	0x10e
+ 1006 036d 70020000 		.4byte	.LLST15
+ 1007 0371 17       		.uleb128 0x17
+ 1008 0372 04000000 		.4byte	.LBB3
+ 1009 0376 2A000000 		.4byte	.LBE3-.LBB3
+ 1010 037a 0A       		.uleb128 0xa
+ 1011 037b 6900     		.ascii	"i\000"
+ 1012 037d 01       		.byte	0x1
+ 1013 037e 5A       		.byte	0x5a
+ 1014 037f 0E010000 		.4byte	0x10e
+ 1015 0383 8F020000 		.4byte	.LLST16
+ 1016 0387 15       		.uleb128 0x15
+ 1017 0388 18000000 		.4byte	.LVL38
+ 1018 038c 67050000 		.4byte	0x567
+ 1019 0390 B7030000 		.4byte	0x3b7
+ 1020 0394 0C       		.uleb128 0xc
+ 1021 0395 01       		.uleb128 0x1
+ 1022 0396 50       		.byte	0x50
+ 1023 0397 02       		.uleb128 0x2
+ 1024 0398 75       		.byte	0x75
+ 1025 0399 00       		.sleb128 0
+ 1026 039a 0C       		.uleb128 0xc
+ 1027 039b 01       		.uleb128 0x1
+ 1028 039c 51       		.byte	0x51
+ 1029 039d 02       		.uleb128 0x2
+ 1030 039e 08       		.byte	0x8
+ 1031 039f 64       		.byte	0x64
+ 1032 03a0 0C       		.uleb128 0xc
+ 1033 03a1 01       		.uleb128 0x1
+ 1034 03a2 52       		.byte	0x52
+ 1035 03a3 05       		.uleb128 0x5
+ 1036 03a4 03       		.byte	0x3
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 22
+
+
+ 1037 03a5 6C000000 		.4byte	.LC4
+ 1038 03a9 0C       		.uleb128 0xc
+ 1039 03aa 01       		.uleb128 0x1
+ 1040 03ab 53       		.byte	0x53
+ 1041 03ac 02       		.uleb128 0x2
+ 1042 03ad 74       		.byte	0x74
+ 1043 03ae 00       		.sleb128 0
+ 1044 03af 0C       		.uleb128 0xc
+ 1045 03b0 02       		.uleb128 0x2
+ 1046 03b1 7D       		.byte	0x7d
+ 1047 03b2 00       		.sleb128 0
+ 1048 03b3 02       		.uleb128 0x2
+ 1049 03b4 74       		.byte	0x74
+ 1050 03b5 00       		.sleb128 0
+ 1051 03b6 00       		.byte	0
+ 1052 03b7 16       		.uleb128 0x16
+ 1053 03b8 22000000 		.4byte	.LVL39
+ 1054 03bc CD010000 		.4byte	0x1cd
+ 1055 03c0 0C       		.uleb128 0xc
+ 1056 03c1 01       		.uleb128 0x1
+ 1057 03c2 50       		.byte	0x50
+ 1058 03c3 05       		.uleb128 0x5
+ 1059 03c4 03       		.byte	0x3
+ 1060 03c5 00000000 		.4byte	buffer
+ 1061 03c9 0C       		.uleb128 0xc
+ 1062 03ca 01       		.uleb128 0x1
+ 1063 03cb 51       		.byte	0x51
+ 1064 03cc 02       		.uleb128 0x2
+ 1065 03cd 08       		.byte	0x8
+ 1066 03ce 64       		.byte	0x64
+ 1067 03cf 0C       		.uleb128 0xc
+ 1068 03d0 01       		.uleb128 0x1
+ 1069 03d1 52       		.byte	0x52
+ 1070 03d2 02       		.uleb128 0x2
+ 1071 03d3 75       		.byte	0x75
+ 1072 03d4 00       		.sleb128 0
+ 1073 03d5 00       		.byte	0
+ 1074 03d6 00       		.byte	0
+ 1075 03d7 00       		.byte	0
+ 1076 03d8 18       		.uleb128 0x18
+ 1077 03d9 20020000 		.4byte	.LASF37
+ 1078 03dd 01       		.byte	0x1
+ 1079 03de 67       		.byte	0x67
+ 1080 03df 00000000 		.4byte	.LFB69
+ 1081 03e3 A4000000 		.4byte	.LFE69-.LFB69
+ 1082 03e7 01       		.uleb128 0x1
+ 1083 03e8 9C       		.byte	0x9c
+ 1084 03e9 7E040000 		.4byte	0x47e
+ 1085 03ed 19       		.uleb128 0x19
+ 1086 03ee 24000000 		.4byte	.LBB4
+ 1087 03f2 38000000 		.4byte	.LBE4-.LBB4
+ 1088 03f6 1E040000 		.4byte	0x41e
+ 1089 03fa 0A       		.uleb128 0xa
+ 1090 03fb 6900     		.ascii	"i\000"
+ 1091 03fd 01       		.byte	0x1
+ 1092 03fe 6F       		.byte	0x6f
+ 1093 03ff 0E010000 		.4byte	0x10e
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 23
+
+
+ 1094 0403 AD020000 		.4byte	.LLST17
+ 1095 0407 16       		.uleb128 0x16
+ 1096 0408 34000000 		.4byte	.LVL45
+ 1097 040c 95020000 		.4byte	0x295
+ 1098 0410 0C       		.uleb128 0xc
+ 1099 0411 01       		.uleb128 0x1
+ 1100 0412 50       		.byte	0x50
+ 1101 0413 02       		.uleb128 0x2
+ 1102 0414 75       		.byte	0x75
+ 1103 0415 00       		.sleb128 0
+ 1104 0416 0C       		.uleb128 0xc
+ 1105 0417 01       		.uleb128 0x1
+ 1106 0418 51       		.byte	0x51
+ 1107 0419 02       		.uleb128 0x2
+ 1108 041a 74       		.byte	0x74
+ 1109 041b 00       		.sleb128 0
+ 1110 041c 00       		.byte	0
+ 1111 041d 00       		.byte	0
+ 1112 041e 15       		.uleb128 0x15
+ 1113 041f 0E000000 		.4byte	.LVL43
+ 1114 0423 CD010000 		.4byte	0x1cd
+ 1115 0427 44040000 		.4byte	0x444
+ 1116 042b 0C       		.uleb128 0xc
+ 1117 042c 01       		.uleb128 0x1
+ 1118 042d 50       		.byte	0x50
+ 1119 042e 05       		.uleb128 0x5
+ 1120 042f 03       		.byte	0x3
+ 1121 0430 00000000 		.4byte	buffer
+ 1122 0434 0C       		.uleb128 0xc
+ 1123 0435 01       		.uleb128 0x1
+ 1124 0436 51       		.byte	0x51
+ 1125 0437 02       		.uleb128 0x2
+ 1126 0438 08       		.byte	0x8
+ 1127 0439 64       		.byte	0x64
+ 1128 043a 0C       		.uleb128 0xc
+ 1129 043b 01       		.uleb128 0x1
+ 1130 043c 52       		.byte	0x52
+ 1131 043d 05       		.uleb128 0x5
+ 1132 043e 03       		.byte	0x3
+ 1133 043f 8C000000 		.4byte	.LC5
+ 1134 0443 00       		.byte	0
+ 1135 0444 15       		.uleb128 0x15
+ 1136 0445 6C000000 		.4byte	.LVL49
+ 1137 0449 67050000 		.4byte	0x567
+ 1138 044d 6D040000 		.4byte	0x46d
+ 1139 0451 0C       		.uleb128 0xc
+ 1140 0452 01       		.uleb128 0x1
+ 1141 0453 50       		.byte	0x50
+ 1142 0454 02       		.uleb128 0x2
+ 1143 0455 74       		.byte	0x74
+ 1144 0456 00       		.sleb128 0
+ 1145 0457 0C       		.uleb128 0xc
+ 1146 0458 01       		.uleb128 0x1
+ 1147 0459 51       		.byte	0x51
+ 1148 045a 02       		.uleb128 0x2
+ 1149 045b 08       		.byte	0x8
+ 1150 045c 64       		.byte	0x64
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 24
+
+
+ 1151 045d 0C       		.uleb128 0xc
+ 1152 045e 01       		.uleb128 0x1
+ 1153 045f 52       		.byte	0x52
+ 1154 0460 05       		.uleb128 0x5
+ 1155 0461 03       		.byte	0x3
+ 1156 0462 A4000000 		.4byte	.LC6
+ 1157 0466 0C       		.uleb128 0xc
+ 1158 0467 01       		.uleb128 0x1
+ 1159 0468 53       		.byte	0x53
+ 1160 0469 02       		.uleb128 0x2
+ 1161 046a 75       		.byte	0x75
+ 1162 046b 00       		.sleb128 0
+ 1163 046c 00       		.byte	0
+ 1164 046d 16       		.uleb128 0x16
+ 1165 046e 72000000 		.4byte	.LVL50
+ 1166 0472 51050000 		.4byte	0x551
+ 1167 0476 0C       		.uleb128 0xc
+ 1168 0477 01       		.uleb128 0x1
+ 1169 0478 50       		.byte	0x50
+ 1170 0479 02       		.uleb128 0x2
+ 1171 047a 74       		.byte	0x74
+ 1172 047b 00       		.sleb128 0
+ 1173 047c 00       		.byte	0
+ 1174 047d 00       		.byte	0
+ 1175 047e 1A       		.uleb128 0x1a
+ 1176 047f 56010000 		.4byte	.LASF51
+ 1177 0483 01       		.byte	0x1
+ 1178 0484 79       		.byte	0x79
+ 1179 0485 94000000 		.4byte	0x94
+ 1180 0489 00000000 		.4byte	.LFB70
+ 1181 048d 16000000 		.4byte	.LFE70-.LFB70
+ 1182 0491 01       		.uleb128 0x1
+ 1183 0492 9C       		.byte	0x9c
+ 1184 0493 BC040000 		.4byte	0x4bc
+ 1185 0497 1B       		.uleb128 0x1b
+ 1186 0498 08000000 		.4byte	.LVL51
+ 1187 049c 72050000 		.4byte	0x572
+ 1188 04a0 1B       		.uleb128 0x1b
+ 1189 04a1 0C000000 		.4byte	.LVL52
+ 1190 04a5 EF020000 		.4byte	0x2ef
+ 1191 04a9 1B       		.uleb128 0x1b
+ 1192 04aa 10000000 		.4byte	.LVL53
+ 1193 04ae 4D030000 		.4byte	0x34d
+ 1194 04b2 1B       		.uleb128 0x1b
+ 1195 04b3 14000000 		.4byte	.LVL54
+ 1196 04b7 D8030000 		.4byte	0x3d8
+ 1197 04bb 00       		.byte	0
+ 1198 04bc 1C       		.uleb128 0x1c
+ 1199 04bd 30010000 		.4byte	.LASF38
+ 1200 04c1 06       		.byte	0x6
+ 1201 04c2 1207     		.2byte	0x712
+ 1202 04c4 C8040000 		.4byte	0x4c8
+ 1203 04c8 1D       		.uleb128 0x1d
+ 1204 04c9 C3000000 		.4byte	0xc3
+ 1205 04cd 1E       		.uleb128 0x1e
+ 1206 04ce F3000000 		.4byte	0xf3
+ 1207 04d2 DD040000 		.4byte	0x4dd
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 25
+
+
+ 1208 04d6 1F       		.uleb128 0x1f
+ 1209 04d7 01010000 		.4byte	0x101
+ 1210 04db 63       		.byte	0x63
+ 1211 04dc 00       		.byte	0
+ 1212 04dd 20       		.uleb128 0x20
+ 1213 04de F5010000 		.4byte	.LASF39
+ 1214 04e2 01       		.byte	0x1
+ 1215 04e3 08       		.byte	0x8
+ 1216 04e4 CD040000 		.4byte	0x4cd
+ 1217 04e8 05       		.uleb128 0x5
+ 1218 04e9 03       		.byte	0x3
+ 1219 04ea 00000000 		.4byte	buffer
+ 1220 04ee 20       		.uleb128 0x20
+ 1221 04ef 39020000 		.4byte	.LASF40
+ 1222 04f3 01       		.byte	0x1
+ 1223 04f4 09       		.byte	0x9
+ 1224 04f5 CD040000 		.4byte	0x4cd
+ 1225 04f9 05       		.uleb128 0x5
+ 1226 04fa 03       		.byte	0x3
+ 1227 04fb 00000000 		.4byte	question
+ 1228 04ff 20       		.uleb128 0x20
+ 1229 0500 26020000 		.4byte	.LASF41
+ 1230 0504 01       		.byte	0x1
+ 1231 0505 0A       		.byte	0xa
+ 1232 0506 0E010000 		.4byte	0x10e
+ 1233 050a 05       		.uleb128 0x5
+ 1234 050b 03       		.byte	0x3
+ 1235 050c 00000000 		.4byte	degree
+ 1236 0510 1E       		.uleb128 0x1e
+ 1237 0511 A2000000 		.4byte	0xa2
+ 1238 0515 20050000 		.4byte	0x520
+ 1239 0519 1F       		.uleb128 0x1f
+ 1240 051a 01010000 		.4byte	0x101
+ 1241 051e FE       		.byte	0xfe
+ 1242 051f 00       		.byte	0
+ 1243 0520 20       		.uleb128 0x20
+ 1244 0521 4E020000 		.4byte	.LASF42
+ 1245 0525 01       		.byte	0x1
+ 1246 0526 0B       		.byte	0xb
+ 1247 0527 10050000 		.4byte	0x510
+ 1248 052b 05       		.uleb128 0x5
+ 1249 052c 03       		.byte	0x3
+ 1250 052d 00000000 		.4byte	coeficiente
+ 1251 0531 21       		.uleb128 0x21
+ 1252 0532 7800     		.ascii	"x\000"
+ 1253 0534 01       		.byte	0x1
+ 1254 0535 0C       		.byte	0xc
+ 1255 0536 B8000000 		.4byte	0xb8
+ 1256 053a 05       		.uleb128 0x5
+ 1257 053b 03       		.byte	0x3
+ 1258 053c 00000000 		.4byte	x
+ 1259 0540 20       		.uleb128 0x20
+ 1260 0541 96010000 		.4byte	.LASF32
+ 1261 0545 01       		.byte	0x1
+ 1262 0546 0D       		.byte	0xd
+ 1263 0547 CE000000 		.4byte	0xce
+ 1264 054b 05       		.uleb128 0x5
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 26
+
+
+ 1265 054c 03       		.byte	0x3
+ 1266 054d 00000000 		.4byte	result
+ 1267 0551 22       		.uleb128 0x22
+ 1268 0552 0A020000 		.4byte	.LASF43
+ 1269 0556 0A020000 		.4byte	.LASF43
+ 1270 055a 07       		.byte	0x7
+ 1271 055b 8B       		.byte	0x8b
+ 1272 055c 22       		.uleb128 0x22
+ 1273 055d 00000000 		.4byte	.LASF44
+ 1274 0561 00000000 		.4byte	.LASF44
+ 1275 0565 08       		.byte	0x8
+ 1276 0566 BF       		.byte	0xbf
+ 1277 0567 22       		.uleb128 0x22
+ 1278 0568 3E000000 		.4byte	.LASF45
+ 1279 056c 3E000000 		.4byte	.LASF45
+ 1280 0570 08       		.byte	0x8
+ 1281 0571 FD       		.byte	0xfd
+ 1282 0572 22       		.uleb128 0x22
+ 1283 0573 E2010000 		.4byte	.LASF46
+ 1284 0577 E2010000 		.4byte	.LASF46
+ 1285 057b 07       		.byte	0x7
+ 1286 057c 54       		.byte	0x54
+ 1287 057d 00       		.byte	0
+ 1288              		.section	.debug_abbrev,"",%progbits
+ 1289              	.Ldebug_abbrev0:
+ 1290 0000 01       		.uleb128 0x1
+ 1291 0001 11       		.uleb128 0x11
+ 1292 0002 01       		.byte	0x1
+ 1293 0003 25       		.uleb128 0x25
+ 1294 0004 0E       		.uleb128 0xe
+ 1295 0005 13       		.uleb128 0x13
+ 1296 0006 0B       		.uleb128 0xb
+ 1297 0007 03       		.uleb128 0x3
+ 1298 0008 0E       		.uleb128 0xe
+ 1299 0009 1B       		.uleb128 0x1b
+ 1300 000a 0E       		.uleb128 0xe
+ 1301 000b 55       		.uleb128 0x55
+ 1302 000c 17       		.uleb128 0x17
+ 1303 000d 11       		.uleb128 0x11
+ 1304 000e 01       		.uleb128 0x1
+ 1305 000f 10       		.uleb128 0x10
+ 1306 0010 17       		.uleb128 0x17
+ 1307 0011 00       		.byte	0
+ 1308 0012 00       		.byte	0
+ 1309 0013 02       		.uleb128 0x2
+ 1310 0014 16       		.uleb128 0x16
+ 1311 0015 00       		.byte	0
+ 1312 0016 03       		.uleb128 0x3
+ 1313 0017 0E       		.uleb128 0xe
+ 1314 0018 3A       		.uleb128 0x3a
+ 1315 0019 0B       		.uleb128 0xb
+ 1316 001a 3B       		.uleb128 0x3b
+ 1317 001b 0B       		.uleb128 0xb
+ 1318 001c 49       		.uleb128 0x49
+ 1319 001d 13       		.uleb128 0x13
+ 1320 001e 00       		.byte	0
+ 1321 001f 00       		.byte	0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 27
+
+
+ 1322 0020 03       		.uleb128 0x3
+ 1323 0021 24       		.uleb128 0x24
+ 1324 0022 00       		.byte	0
+ 1325 0023 0B       		.uleb128 0xb
+ 1326 0024 0B       		.uleb128 0xb
+ 1327 0025 3E       		.uleb128 0x3e
+ 1328 0026 0B       		.uleb128 0xb
+ 1329 0027 03       		.uleb128 0x3
+ 1330 0028 0E       		.uleb128 0xe
+ 1331 0029 00       		.byte	0
+ 1332 002a 00       		.byte	0
+ 1333 002b 04       		.uleb128 0x4
+ 1334 002c 24       		.uleb128 0x24
+ 1335 002d 00       		.byte	0
+ 1336 002e 0B       		.uleb128 0xb
+ 1337 002f 0B       		.uleb128 0xb
+ 1338 0030 3E       		.uleb128 0x3e
+ 1339 0031 0B       		.uleb128 0xb
+ 1340 0032 03       		.uleb128 0x3
+ 1341 0033 08       		.uleb128 0x8
+ 1342 0034 00       		.byte	0
+ 1343 0035 00       		.byte	0
+ 1344 0036 05       		.uleb128 0x5
+ 1345 0037 16       		.uleb128 0x16
+ 1346 0038 00       		.byte	0
+ 1347 0039 03       		.uleb128 0x3
+ 1348 003a 0E       		.uleb128 0xe
+ 1349 003b 3A       		.uleb128 0x3a
+ 1350 003c 0B       		.uleb128 0xb
+ 1351 003d 3B       		.uleb128 0x3b
+ 1352 003e 05       		.uleb128 0x5
+ 1353 003f 49       		.uleb128 0x49
+ 1354 0040 13       		.uleb128 0x13
+ 1355 0041 00       		.byte	0
+ 1356 0042 00       		.byte	0
+ 1357 0043 06       		.uleb128 0x6
+ 1358 0044 0F       		.uleb128 0xf
+ 1359 0045 00       		.byte	0
+ 1360 0046 0B       		.uleb128 0xb
+ 1361 0047 0B       		.uleb128 0xb
+ 1362 0048 49       		.uleb128 0x49
+ 1363 0049 13       		.uleb128 0x13
+ 1364 004a 00       		.byte	0
+ 1365 004b 00       		.byte	0
+ 1366 004c 07       		.uleb128 0x7
+ 1367 004d 2E       		.uleb128 0x2e
+ 1368 004e 01       		.byte	0x1
+ 1369 004f 3F       		.uleb128 0x3f
+ 1370 0050 19       		.uleb128 0x19
+ 1371 0051 03       		.uleb128 0x3
+ 1372 0052 0E       		.uleb128 0xe
+ 1373 0053 3A       		.uleb128 0x3a
+ 1374 0054 0B       		.uleb128 0xb
+ 1375 0055 3B       		.uleb128 0x3b
+ 1376 0056 0B       		.uleb128 0xb
+ 1377 0057 27       		.uleb128 0x27
+ 1378 0058 19       		.uleb128 0x19
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 28
+
+
+ 1379 0059 11       		.uleb128 0x11
+ 1380 005a 01       		.uleb128 0x1
+ 1381 005b 12       		.uleb128 0x12
+ 1382 005c 06       		.uleb128 0x6
+ 1383 005d 40       		.uleb128 0x40
+ 1384 005e 18       		.uleb128 0x18
+ 1385 005f 9642     		.uleb128 0x2116
+ 1386 0061 19       		.uleb128 0x19
+ 1387 0062 01       		.uleb128 0x1
+ 1388 0063 13       		.uleb128 0x13
+ 1389 0064 00       		.byte	0
+ 1390 0065 00       		.byte	0
+ 1391 0066 08       		.uleb128 0x8
+ 1392 0067 05       		.uleb128 0x5
+ 1393 0068 00       		.byte	0
+ 1394 0069 03       		.uleb128 0x3
+ 1395 006a 08       		.uleb128 0x8
+ 1396 006b 3A       		.uleb128 0x3a
+ 1397 006c 0B       		.uleb128 0xb
+ 1398 006d 3B       		.uleb128 0x3b
+ 1399 006e 0B       		.uleb128 0xb
+ 1400 006f 49       		.uleb128 0x49
+ 1401 0070 13       		.uleb128 0x13
+ 1402 0071 02       		.uleb128 0x2
+ 1403 0072 17       		.uleb128 0x17
+ 1404 0073 00       		.byte	0
+ 1405 0074 00       		.byte	0
+ 1406 0075 09       		.uleb128 0x9
+ 1407 0076 05       		.uleb128 0x5
+ 1408 0077 00       		.byte	0
+ 1409 0078 03       		.uleb128 0x3
+ 1410 0079 0E       		.uleb128 0xe
+ 1411 007a 3A       		.uleb128 0x3a
+ 1412 007b 0B       		.uleb128 0xb
+ 1413 007c 3B       		.uleb128 0x3b
+ 1414 007d 0B       		.uleb128 0xb
+ 1415 007e 49       		.uleb128 0x49
+ 1416 007f 13       		.uleb128 0x13
+ 1417 0080 02       		.uleb128 0x2
+ 1418 0081 17       		.uleb128 0x17
+ 1419 0082 00       		.byte	0
+ 1420 0083 00       		.byte	0
+ 1421 0084 0A       		.uleb128 0xa
+ 1422 0085 34       		.uleb128 0x34
+ 1423 0086 00       		.byte	0
+ 1424 0087 03       		.uleb128 0x3
+ 1425 0088 08       		.uleb128 0x8
+ 1426 0089 3A       		.uleb128 0x3a
+ 1427 008a 0B       		.uleb128 0xb
+ 1428 008b 3B       		.uleb128 0x3b
+ 1429 008c 0B       		.uleb128 0xb
+ 1430 008d 49       		.uleb128 0x49
+ 1431 008e 13       		.uleb128 0x13
+ 1432 008f 02       		.uleb128 0x2
+ 1433 0090 17       		.uleb128 0x17
+ 1434 0091 00       		.byte	0
+ 1435 0092 00       		.byte	0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 29
+
+
+ 1436 0093 0B       		.uleb128 0xb
+ 1437 0094 898201   		.uleb128 0x4109
+ 1438 0097 01       		.byte	0x1
+ 1439 0098 11       		.uleb128 0x11
+ 1440 0099 01       		.uleb128 0x1
+ 1441 009a 01       		.uleb128 0x1
+ 1442 009b 13       		.uleb128 0x13
+ 1443 009c 00       		.byte	0
+ 1444 009d 00       		.byte	0
+ 1445 009e 0C       		.uleb128 0xc
+ 1446 009f 8A8201   		.uleb128 0x410a
+ 1447 00a2 00       		.byte	0
+ 1448 00a3 02       		.uleb128 0x2
+ 1449 00a4 18       		.uleb128 0x18
+ 1450 00a5 9142     		.uleb128 0x2111
+ 1451 00a7 18       		.uleb128 0x18
+ 1452 00a8 00       		.byte	0
+ 1453 00a9 00       		.byte	0
+ 1454 00aa 0D       		.uleb128 0xd
+ 1455 00ab 898201   		.uleb128 0x4109
+ 1456 00ae 01       		.byte	0x1
+ 1457 00af 11       		.uleb128 0x11
+ 1458 00b0 01       		.uleb128 0x1
+ 1459 00b1 00       		.byte	0
+ 1460 00b2 00       		.byte	0
+ 1461 00b3 0E       		.uleb128 0xe
+ 1462 00b4 15       		.uleb128 0x15
+ 1463 00b5 01       		.byte	0x1
+ 1464 00b6 49       		.uleb128 0x49
+ 1465 00b7 13       		.uleb128 0x13
+ 1466 00b8 01       		.uleb128 0x1
+ 1467 00b9 13       		.uleb128 0x13
+ 1468 00ba 00       		.byte	0
+ 1469 00bb 00       		.byte	0
+ 1470 00bc 0F       		.uleb128 0xf
+ 1471 00bd 18       		.uleb128 0x18
+ 1472 00be 00       		.byte	0
+ 1473 00bf 00       		.byte	0
+ 1474 00c0 00       		.byte	0
+ 1475 00c1 10       		.uleb128 0x10
+ 1476 00c2 15       		.uleb128 0x15
+ 1477 00c3 01       		.byte	0x1
+ 1478 00c4 27       		.uleb128 0x27
+ 1479 00c5 19       		.uleb128 0x19
+ 1480 00c6 01       		.uleb128 0x1
+ 1481 00c7 13       		.uleb128 0x13
+ 1482 00c8 00       		.byte	0
+ 1483 00c9 00       		.byte	0
+ 1484 00ca 11       		.uleb128 0x11
+ 1485 00cb 05       		.uleb128 0x5
+ 1486 00cc 00       		.byte	0
+ 1487 00cd 49       		.uleb128 0x49
+ 1488 00ce 13       		.uleb128 0x13
+ 1489 00cf 00       		.byte	0
+ 1490 00d0 00       		.byte	0
+ 1491 00d1 12       		.uleb128 0x12
+ 1492 00d2 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 30
+
+
+ 1493 00d3 01       		.byte	0x1
+ 1494 00d4 3F       		.uleb128 0x3f
+ 1495 00d5 19       		.uleb128 0x19
+ 1496 00d6 03       		.uleb128 0x3
+ 1497 00d7 0E       		.uleb128 0xe
+ 1498 00d8 3A       		.uleb128 0x3a
+ 1499 00d9 0B       		.uleb128 0xb
+ 1500 00da 3B       		.uleb128 0x3b
+ 1501 00db 0B       		.uleb128 0xb
+ 1502 00dc 27       		.uleb128 0x27
+ 1503 00dd 19       		.uleb128 0x19
+ 1504 00de 49       		.uleb128 0x49
+ 1505 00df 13       		.uleb128 0x13
+ 1506 00e0 11       		.uleb128 0x11
+ 1507 00e1 01       		.uleb128 0x1
+ 1508 00e2 12       		.uleb128 0x12
+ 1509 00e3 06       		.uleb128 0x6
+ 1510 00e4 40       		.uleb128 0x40
+ 1511 00e5 18       		.uleb128 0x18
+ 1512 00e6 9742     		.uleb128 0x2117
+ 1513 00e8 19       		.uleb128 0x19
+ 1514 00e9 01       		.uleb128 0x1
+ 1515 00ea 13       		.uleb128 0x13
+ 1516 00eb 00       		.byte	0
+ 1517 00ec 00       		.byte	0
+ 1518 00ed 13       		.uleb128 0x13
+ 1519 00ee 34       		.uleb128 0x34
+ 1520 00ef 00       		.byte	0
+ 1521 00f0 03       		.uleb128 0x3
+ 1522 00f1 0E       		.uleb128 0xe
+ 1523 00f2 3A       		.uleb128 0x3a
+ 1524 00f3 0B       		.uleb128 0xb
+ 1525 00f4 3B       		.uleb128 0x3b
+ 1526 00f5 0B       		.uleb128 0xb
+ 1527 00f6 49       		.uleb128 0x49
+ 1528 00f7 13       		.uleb128 0x13
+ 1529 00f8 02       		.uleb128 0x2
+ 1530 00f9 17       		.uleb128 0x17
+ 1531 00fa 00       		.byte	0
+ 1532 00fb 00       		.byte	0
+ 1533 00fc 14       		.uleb128 0x14
+ 1534 00fd 34       		.uleb128 0x34
+ 1535 00fe 00       		.byte	0
+ 1536 00ff 03       		.uleb128 0x3
+ 1537 0100 0E       		.uleb128 0xe
+ 1538 0101 3A       		.uleb128 0x3a
+ 1539 0102 0B       		.uleb128 0xb
+ 1540 0103 3B       		.uleb128 0x3b
+ 1541 0104 0B       		.uleb128 0xb
+ 1542 0105 49       		.uleb128 0x49
+ 1543 0106 13       		.uleb128 0x13
+ 1544 0107 02       		.uleb128 0x2
+ 1545 0108 18       		.uleb128 0x18
+ 1546 0109 00       		.byte	0
+ 1547 010a 00       		.byte	0
+ 1548 010b 15       		.uleb128 0x15
+ 1549 010c 898201   		.uleb128 0x4109
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 31
+
+
+ 1550 010f 01       		.byte	0x1
+ 1551 0110 11       		.uleb128 0x11
+ 1552 0111 01       		.uleb128 0x1
+ 1553 0112 31       		.uleb128 0x31
+ 1554 0113 13       		.uleb128 0x13
+ 1555 0114 01       		.uleb128 0x1
+ 1556 0115 13       		.uleb128 0x13
+ 1557 0116 00       		.byte	0
+ 1558 0117 00       		.byte	0
+ 1559 0118 16       		.uleb128 0x16
+ 1560 0119 898201   		.uleb128 0x4109
+ 1561 011c 01       		.byte	0x1
+ 1562 011d 11       		.uleb128 0x11
+ 1563 011e 01       		.uleb128 0x1
+ 1564 011f 31       		.uleb128 0x31
+ 1565 0120 13       		.uleb128 0x13
+ 1566 0121 00       		.byte	0
+ 1567 0122 00       		.byte	0
+ 1568 0123 17       		.uleb128 0x17
+ 1569 0124 0B       		.uleb128 0xb
+ 1570 0125 01       		.byte	0x1
+ 1571 0126 11       		.uleb128 0x11
+ 1572 0127 01       		.uleb128 0x1
+ 1573 0128 12       		.uleb128 0x12
+ 1574 0129 06       		.uleb128 0x6
+ 1575 012a 00       		.byte	0
+ 1576 012b 00       		.byte	0
+ 1577 012c 18       		.uleb128 0x18
+ 1578 012d 2E       		.uleb128 0x2e
+ 1579 012e 01       		.byte	0x1
+ 1580 012f 3F       		.uleb128 0x3f
+ 1581 0130 19       		.uleb128 0x19
+ 1582 0131 03       		.uleb128 0x3
+ 1583 0132 0E       		.uleb128 0xe
+ 1584 0133 3A       		.uleb128 0x3a
+ 1585 0134 0B       		.uleb128 0xb
+ 1586 0135 3B       		.uleb128 0x3b
+ 1587 0136 0B       		.uleb128 0xb
+ 1588 0137 11       		.uleb128 0x11
+ 1589 0138 01       		.uleb128 0x1
+ 1590 0139 12       		.uleb128 0x12
+ 1591 013a 06       		.uleb128 0x6
+ 1592 013b 40       		.uleb128 0x40
+ 1593 013c 18       		.uleb128 0x18
+ 1594 013d 9742     		.uleb128 0x2117
+ 1595 013f 19       		.uleb128 0x19
+ 1596 0140 01       		.uleb128 0x1
+ 1597 0141 13       		.uleb128 0x13
+ 1598 0142 00       		.byte	0
+ 1599 0143 00       		.byte	0
+ 1600 0144 19       		.uleb128 0x19
+ 1601 0145 0B       		.uleb128 0xb
+ 1602 0146 01       		.byte	0x1
+ 1603 0147 11       		.uleb128 0x11
+ 1604 0148 01       		.uleb128 0x1
+ 1605 0149 12       		.uleb128 0x12
+ 1606 014a 06       		.uleb128 0x6
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 32
+
+
+ 1607 014b 01       		.uleb128 0x1
+ 1608 014c 13       		.uleb128 0x13
+ 1609 014d 00       		.byte	0
+ 1610 014e 00       		.byte	0
+ 1611 014f 1A       		.uleb128 0x1a
+ 1612 0150 2E       		.uleb128 0x2e
+ 1613 0151 01       		.byte	0x1
+ 1614 0152 3F       		.uleb128 0x3f
+ 1615 0153 19       		.uleb128 0x19
+ 1616 0154 03       		.uleb128 0x3
+ 1617 0155 0E       		.uleb128 0xe
+ 1618 0156 3A       		.uleb128 0x3a
+ 1619 0157 0B       		.uleb128 0xb
+ 1620 0158 3B       		.uleb128 0x3b
+ 1621 0159 0B       		.uleb128 0xb
+ 1622 015a 27       		.uleb128 0x27
+ 1623 015b 19       		.uleb128 0x19
+ 1624 015c 49       		.uleb128 0x49
+ 1625 015d 13       		.uleb128 0x13
+ 1626 015e 8701     		.uleb128 0x87
+ 1627 0160 19       		.uleb128 0x19
+ 1628 0161 11       		.uleb128 0x11
+ 1629 0162 01       		.uleb128 0x1
+ 1630 0163 12       		.uleb128 0x12
+ 1631 0164 06       		.uleb128 0x6
+ 1632 0165 40       		.uleb128 0x40
+ 1633 0166 18       		.uleb128 0x18
+ 1634 0167 9742     		.uleb128 0x2117
+ 1635 0169 19       		.uleb128 0x19
+ 1636 016a 01       		.uleb128 0x1
+ 1637 016b 13       		.uleb128 0x13
+ 1638 016c 00       		.byte	0
+ 1639 016d 00       		.byte	0
+ 1640 016e 1B       		.uleb128 0x1b
+ 1641 016f 898201   		.uleb128 0x4109
+ 1642 0172 00       		.byte	0
+ 1643 0173 11       		.uleb128 0x11
+ 1644 0174 01       		.uleb128 0x1
+ 1645 0175 31       		.uleb128 0x31
+ 1646 0176 13       		.uleb128 0x13
+ 1647 0177 00       		.byte	0
+ 1648 0178 00       		.byte	0
+ 1649 0179 1C       		.uleb128 0x1c
+ 1650 017a 34       		.uleb128 0x34
+ 1651 017b 00       		.byte	0
+ 1652 017c 03       		.uleb128 0x3
+ 1653 017d 0E       		.uleb128 0xe
+ 1654 017e 3A       		.uleb128 0x3a
+ 1655 017f 0B       		.uleb128 0xb
+ 1656 0180 3B       		.uleb128 0x3b
+ 1657 0181 05       		.uleb128 0x5
+ 1658 0182 49       		.uleb128 0x49
+ 1659 0183 13       		.uleb128 0x13
+ 1660 0184 3F       		.uleb128 0x3f
+ 1661 0185 19       		.uleb128 0x19
+ 1662 0186 3C       		.uleb128 0x3c
+ 1663 0187 19       		.uleb128 0x19
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 33
+
+
+ 1664 0188 00       		.byte	0
+ 1665 0189 00       		.byte	0
+ 1666 018a 1D       		.uleb128 0x1d
+ 1667 018b 35       		.uleb128 0x35
+ 1668 018c 00       		.byte	0
+ 1669 018d 49       		.uleb128 0x49
+ 1670 018e 13       		.uleb128 0x13
+ 1671 018f 00       		.byte	0
+ 1672 0190 00       		.byte	0
+ 1673 0191 1E       		.uleb128 0x1e
+ 1674 0192 01       		.uleb128 0x1
+ 1675 0193 01       		.byte	0x1
+ 1676 0194 49       		.uleb128 0x49
+ 1677 0195 13       		.uleb128 0x13
+ 1678 0196 01       		.uleb128 0x1
+ 1679 0197 13       		.uleb128 0x13
+ 1680 0198 00       		.byte	0
+ 1681 0199 00       		.byte	0
+ 1682 019a 1F       		.uleb128 0x1f
+ 1683 019b 21       		.uleb128 0x21
+ 1684 019c 00       		.byte	0
+ 1685 019d 49       		.uleb128 0x49
+ 1686 019e 13       		.uleb128 0x13
+ 1687 019f 2F       		.uleb128 0x2f
+ 1688 01a0 0B       		.uleb128 0xb
+ 1689 01a1 00       		.byte	0
+ 1690 01a2 00       		.byte	0
+ 1691 01a3 20       		.uleb128 0x20
+ 1692 01a4 34       		.uleb128 0x34
+ 1693 01a5 00       		.byte	0
+ 1694 01a6 03       		.uleb128 0x3
+ 1695 01a7 0E       		.uleb128 0xe
+ 1696 01a8 3A       		.uleb128 0x3a
+ 1697 01a9 0B       		.uleb128 0xb
+ 1698 01aa 3B       		.uleb128 0x3b
+ 1699 01ab 0B       		.uleb128 0xb
+ 1700 01ac 49       		.uleb128 0x49
+ 1701 01ad 13       		.uleb128 0x13
+ 1702 01ae 3F       		.uleb128 0x3f
+ 1703 01af 19       		.uleb128 0x19
+ 1704 01b0 02       		.uleb128 0x2
+ 1705 01b1 18       		.uleb128 0x18
+ 1706 01b2 00       		.byte	0
+ 1707 01b3 00       		.byte	0
+ 1708 01b4 21       		.uleb128 0x21
+ 1709 01b5 34       		.uleb128 0x34
+ 1710 01b6 00       		.byte	0
+ 1711 01b7 03       		.uleb128 0x3
+ 1712 01b8 08       		.uleb128 0x8
+ 1713 01b9 3A       		.uleb128 0x3a
+ 1714 01ba 0B       		.uleb128 0xb
+ 1715 01bb 3B       		.uleb128 0x3b
+ 1716 01bc 0B       		.uleb128 0xb
+ 1717 01bd 49       		.uleb128 0x49
+ 1718 01be 13       		.uleb128 0x13
+ 1719 01bf 3F       		.uleb128 0x3f
+ 1720 01c0 19       		.uleb128 0x19
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 34
+
+
+ 1721 01c1 02       		.uleb128 0x2
+ 1722 01c2 18       		.uleb128 0x18
+ 1723 01c3 00       		.byte	0
+ 1724 01c4 00       		.byte	0
+ 1725 01c5 22       		.uleb128 0x22
+ 1726 01c6 2E       		.uleb128 0x2e
+ 1727 01c7 00       		.byte	0
+ 1728 01c8 3F       		.uleb128 0x3f
+ 1729 01c9 19       		.uleb128 0x19
+ 1730 01ca 3C       		.uleb128 0x3c
+ 1731 01cb 19       		.uleb128 0x19
+ 1732 01cc 6E       		.uleb128 0x6e
+ 1733 01cd 0E       		.uleb128 0xe
+ 1734 01ce 03       		.uleb128 0x3
+ 1735 01cf 0E       		.uleb128 0xe
+ 1736 01d0 3A       		.uleb128 0x3a
+ 1737 01d1 0B       		.uleb128 0xb
+ 1738 01d2 3B       		.uleb128 0x3b
+ 1739 01d3 0B       		.uleb128 0xb
+ 1740 01d4 00       		.byte	0
+ 1741 01d5 00       		.byte	0
+ 1742 01d6 00       		.byte	0
+ 1743              		.section	.debug_loc,"",%progbits
+ 1744              	.Ldebug_loc0:
+ 1745              	.LLST0:
+ 1746 0000 00000000 		.4byte	.LVL0
+ 1747 0004 10000000 		.4byte	.LVL2
+ 1748 0008 0100     		.2byte	0x1
+ 1749 000a 50       		.byte	0x50
+ 1750 000b 10000000 		.4byte	.LVL2
+ 1751 000f 36000000 		.4byte	.LFE64
+ 1752 0013 0100     		.2byte	0x1
+ 1753 0015 59       		.byte	0x59
+ 1754 0016 00000000 		.4byte	0
+ 1755 001a 00000000 		.4byte	0
+ 1756              	.LLST1:
+ 1757 001e 00000000 		.4byte	.LVL0
+ 1758 0022 10000000 		.4byte	.LVL2
+ 1759 0026 0100     		.2byte	0x1
+ 1760 0028 51       		.byte	0x51
+ 1761 0029 10000000 		.4byte	.LVL2
+ 1762 002d 36000000 		.4byte	.LFE64
+ 1763 0031 0100     		.2byte	0x1
+ 1764 0033 56       		.byte	0x56
+ 1765 0034 00000000 		.4byte	0
+ 1766 0038 00000000 		.4byte	0
+ 1767              	.LLST2:
+ 1768 003c 00000000 		.4byte	.LVL0
+ 1769 0040 10000000 		.4byte	.LVL2
+ 1770 0044 0100     		.2byte	0x1
+ 1771 0046 52       		.byte	0x52
+ 1772 0047 10000000 		.4byte	.LVL2
+ 1773 004b 36000000 		.4byte	.LFE64
+ 1774 004f 0100     		.2byte	0x1
+ 1775 0051 57       		.byte	0x57
+ 1776 0052 00000000 		.4byte	0
+ 1777 0056 00000000 		.4byte	0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 35
+
+
+ 1778              	.LLST3:
+ 1779 005a 00000000 		.4byte	.LVL0
+ 1780 005e 10000000 		.4byte	.LVL2
+ 1781 0062 0100     		.2byte	0x1
+ 1782 0064 53       		.byte	0x53
+ 1783 0065 10000000 		.4byte	.LVL2
+ 1784 0069 36000000 		.4byte	.LFE64
+ 1785 006d 0100     		.2byte	0x1
+ 1786 006f 58       		.byte	0x58
+ 1787 0070 00000000 		.4byte	0
+ 1788 0074 00000000 		.4byte	0
+ 1789              	.LLST4:
+ 1790 0078 0C000000 		.4byte	.LVL1
+ 1791 007c 10000000 		.4byte	.LVL2
+ 1792 0080 0200     		.2byte	0x2
+ 1793 0082 30       		.byte	0x30
+ 1794 0083 9F       		.byte	0x9f
+ 1795 0084 10000000 		.4byte	.LVL2
+ 1796 0088 1C000000 		.4byte	.LVL5
+ 1797 008c 0100     		.2byte	0x1
+ 1798 008e 54       		.byte	0x54
+ 1799 008f 1C000000 		.4byte	.LVL5
+ 1800 0093 22000000 		.4byte	.LVL6
+ 1801 0097 0300     		.2byte	0x3
+ 1802 0099 74       		.byte	0x74
+ 1803 009a 01       		.sleb128 1
+ 1804 009b 9F       		.byte	0x9f
+ 1805 009c 22000000 		.4byte	.LVL6
+ 1806 00a0 36000000 		.4byte	.LFE64
+ 1807 00a4 0100     		.2byte	0x1
+ 1808 00a6 54       		.byte	0x54
+ 1809 00a7 00000000 		.4byte	0
+ 1810 00ab 00000000 		.4byte	0
+ 1811              	.LLST5:
+ 1812 00af 12000000 		.4byte	.LVL3
+ 1813 00b3 17000000 		.4byte	.LVL4-1
+ 1814 00b7 0100     		.2byte	0x1
+ 1815 00b9 50       		.byte	0x50
+ 1816 00ba 00000000 		.4byte	0
+ 1817 00be 00000000 		.4byte	0
+ 1818              	.LLST6:
+ 1819 00c2 00000000 		.4byte	.LVL8
+ 1820 00c6 10000000 		.4byte	.LVL10
+ 1821 00ca 0100     		.2byte	0x1
+ 1822 00cc 50       		.byte	0x50
+ 1823 00cd 10000000 		.4byte	.LVL10
+ 1824 00d1 48000000 		.4byte	.LVL16
+ 1825 00d5 0100     		.2byte	0x1
+ 1826 00d7 55       		.byte	0x55
+ 1827 00d8 48000000 		.4byte	.LVL16
+ 1828 00dc 58000000 		.4byte	.LFE65
+ 1829 00e0 0400     		.2byte	0x4
+ 1830 00e2 F3       		.byte	0xf3
+ 1831 00e3 01       		.uleb128 0x1
+ 1832 00e4 50       		.byte	0x50
+ 1833 00e5 9F       		.byte	0x9f
+ 1834 00e6 00000000 		.4byte	0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 36
+
+
+ 1835 00ea 00000000 		.4byte	0
+ 1836              	.LLST7:
+ 1837 00ee 00000000 		.4byte	.LVL8
+ 1838 00f2 10000000 		.4byte	.LVL10
+ 1839 00f6 0100     		.2byte	0x1
+ 1840 00f8 51       		.byte	0x51
+ 1841 00f9 10000000 		.4byte	.LVL10
+ 1842 00fd 48000000 		.4byte	.LVL16
+ 1843 0101 0100     		.2byte	0x1
+ 1844 0103 57       		.byte	0x57
+ 1845 0104 48000000 		.4byte	.LVL16
+ 1846 0108 58000000 		.4byte	.LFE65
+ 1847 010c 0400     		.2byte	0x4
+ 1848 010e F3       		.byte	0xf3
+ 1849 010f 01       		.uleb128 0x1
+ 1850 0110 51       		.byte	0x51
+ 1851 0111 9F       		.byte	0x9f
+ 1852 0112 00000000 		.4byte	0
+ 1853 0116 00000000 		.4byte	0
+ 1854              	.LLST8:
+ 1855 011a 00000000 		.4byte	.LVL8
+ 1856 011e 10000000 		.4byte	.LVL10
+ 1857 0122 0100     		.2byte	0x1
+ 1858 0124 52       		.byte	0x52
+ 1859 0125 10000000 		.4byte	.LVL10
+ 1860 0129 48000000 		.4byte	.LVL16
+ 1861 012d 0100     		.2byte	0x1
+ 1862 012f 56       		.byte	0x56
+ 1863 0130 48000000 		.4byte	.LVL16
+ 1864 0134 58000000 		.4byte	.LFE65
+ 1865 0138 0400     		.2byte	0x4
+ 1866 013a F3       		.byte	0xf3
+ 1867 013b 01       		.uleb128 0x1
+ 1868 013c 52       		.byte	0x52
+ 1869 013d 9F       		.byte	0x9f
+ 1870 013e 00000000 		.4byte	0
+ 1871 0142 00000000 		.4byte	0
+ 1872              	.LLST9:
+ 1873 0146 0A000000 		.4byte	.LVL9
+ 1874 014a 10000000 		.4byte	.LVL10
+ 1875 014e 0200     		.2byte	0x2
+ 1876 0150 30       		.byte	0x30
+ 1877 0151 9F       		.byte	0x9f
+ 1878 0152 30000000 		.4byte	.LVL14
+ 1879 0156 48000000 		.4byte	.LVL16
+ 1880 015a 0100     		.2byte	0x1
+ 1881 015c 54       		.byte	0x54
+ 1882 015d 00000000 		.4byte	0
+ 1883 0161 00000000 		.4byte	0
+ 1884              	.LLST10:
+ 1885 0165 00000000 		.4byte	.LVL17
+ 1886 0169 1C000000 		.4byte	.LVL22
+ 1887 016d 0100     		.2byte	0x1
+ 1888 016f 50       		.byte	0x50
+ 1889 0170 1C000000 		.4byte	.LVL22
+ 1890 0174 34000000 		.4byte	.LVL27
+ 1891 0178 0100     		.2byte	0x1
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 37
+
+
+ 1892 017a 54       		.byte	0x54
+ 1893 017b 34000000 		.4byte	.LVL27
+ 1894 017f 36000000 		.4byte	.LVL28
+ 1895 0183 0100     		.2byte	0x1
+ 1896 0185 50       		.byte	0x50
+ 1897 0186 36000000 		.4byte	.LVL28
+ 1898 018a 3E000000 		.4byte	.LFE66
+ 1899 018e 0400     		.2byte	0x4
+ 1900 0190 F3       		.byte	0xf3
+ 1901 0191 01       		.uleb128 0x1
+ 1902 0192 50       		.byte	0x50
+ 1903 0193 9F       		.byte	0x9f
+ 1904 0194 00000000 		.4byte	0
+ 1905 0198 00000000 		.4byte	0
+ 1906              	.LLST11:
+ 1907 019c 00000000 		.4byte	.LVL17
+ 1908 01a0 0E000000 		.4byte	.LVL18
+ 1909 01a4 0100     		.2byte	0x1
+ 1910 01a6 51       		.byte	0x51
+ 1911 01a7 0E000000 		.4byte	.LVL18
+ 1912 01ab 10000000 		.4byte	.LVL19
+ 1913 01af 0400     		.2byte	0x4
+ 1914 01b1 F3       		.byte	0xf3
+ 1915 01b2 01       		.uleb128 0x1
+ 1916 01b3 51       		.byte	0x51
+ 1917 01b4 9F       		.byte	0x9f
+ 1918 01b5 10000000 		.4byte	.LVL19
+ 1919 01b9 18000000 		.4byte	.LVL21
+ 1920 01bd 0100     		.2byte	0x1
+ 1921 01bf 51       		.byte	0x51
+ 1922 01c0 18000000 		.4byte	.LVL21
+ 1923 01c4 34000000 		.4byte	.LVL27
+ 1924 01c8 0400     		.2byte	0x4
+ 1925 01ca F3       		.byte	0xf3
+ 1926 01cb 01       		.uleb128 0x1
+ 1927 01cc 51       		.byte	0x51
+ 1928 01cd 9F       		.byte	0x9f
+ 1929 01ce 34000000 		.4byte	.LVL27
+ 1930 01d2 38000000 		.4byte	.LVL29
+ 1931 01d6 0100     		.2byte	0x1
+ 1932 01d8 51       		.byte	0x51
+ 1933 01d9 38000000 		.4byte	.LVL29
+ 1934 01dd 3E000000 		.4byte	.LFE66
+ 1935 01e1 0400     		.2byte	0x4
+ 1936 01e3 F3       		.byte	0xf3
+ 1937 01e4 01       		.uleb128 0x1
+ 1938 01e5 51       		.byte	0x51
+ 1939 01e6 9F       		.byte	0x9f
+ 1940 01e7 00000000 		.4byte	0
+ 1941 01eb 00000000 		.4byte	0
+ 1942              	.LLST12:
+ 1943 01ef 14000000 		.4byte	.LVL20
+ 1944 01f3 1C000000 		.4byte	.LVL22
+ 1945 01f7 0600     		.2byte	0x6
+ 1946 01f9 54       		.byte	0x54
+ 1947 01fa 93       		.byte	0x93
+ 1948 01fb 04       		.uleb128 0x4
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 38
+
+
+ 1949 01fc 55       		.byte	0x55
+ 1950 01fd 93       		.byte	0x93
+ 1951 01fe 04       		.uleb128 0x4
+ 1952 01ff 1C000000 		.4byte	.LVL22
+ 1953 0203 28000000 		.4byte	.LVL23
+ 1954 0207 0600     		.2byte	0x6
+ 1955 0209 50       		.byte	0x50
+ 1956 020a 93       		.byte	0x93
+ 1957 020b 04       		.uleb128 0x4
+ 1958 020c 51       		.byte	0x51
+ 1959 020d 93       		.byte	0x93
+ 1960 020e 04       		.uleb128 0x4
+ 1961 020f 2A000000 		.4byte	.LVL24
+ 1962 0213 34000000 		.4byte	.LVL27
+ 1963 0217 0600     		.2byte	0x6
+ 1964 0219 50       		.byte	0x50
+ 1965 021a 93       		.byte	0x93
+ 1966 021b 04       		.uleb128 0x4
+ 1967 021c 51       		.byte	0x51
+ 1968 021d 93       		.byte	0x93
+ 1969 021e 04       		.uleb128 0x4
+ 1970 021f 00000000 		.4byte	0
+ 1971 0223 00000000 		.4byte	0
+ 1972              	.LLST13:
+ 1973 0227 14000000 		.4byte	.LVL20
+ 1974 022b 1C000000 		.4byte	.LVL22
+ 1975 022f 0200     		.2byte	0x2
+ 1976 0231 31       		.byte	0x31
+ 1977 0232 9F       		.byte	0x9f
+ 1978 0233 1C000000 		.4byte	.LVL22
+ 1979 0237 2C000000 		.4byte	.LVL25
+ 1980 023b 0100     		.2byte	0x1
+ 1981 023d 53       		.byte	0x53
+ 1982 023e 2E000000 		.4byte	.LVL26
+ 1983 0242 34000000 		.4byte	.LVL27
+ 1984 0246 0100     		.2byte	0x1
+ 1985 0248 53       		.byte	0x53
+ 1986 0249 00000000 		.4byte	0
+ 1987 024d 00000000 		.4byte	0
+ 1988              	.LLST14:
+ 1989 0251 02000000 		.4byte	.LVL30
+ 1990 0255 04000000 		.4byte	.LVL31
+ 1991 0259 0200     		.2byte	0x2
+ 1992 025b 30       		.byte	0x30
+ 1993 025c 9F       		.byte	0x9f
+ 1994 025d 04000000 		.4byte	.LVL31
+ 1995 0261 28000000 		.4byte	.LVL35
+ 1996 0265 0100     		.2byte	0x1
+ 1997 0267 54       		.byte	0x54
+ 1998 0268 00000000 		.4byte	0
+ 1999 026c 00000000 		.4byte	0
+ 2000              	.LLST15:
+ 2001 0270 04000000 		.4byte	.LVL36
+ 2002 0274 08000000 		.4byte	.LVL37
+ 2003 0278 0200     		.2byte	0x2
+ 2004 027a 30       		.byte	0x30
+ 2005 027b 9F       		.byte	0x9f
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 39
+
+
+ 2006 027c 22000000 		.4byte	.LVL39
+ 2007 0280 48000000 		.4byte	.LFE68
+ 2008 0284 0100     		.2byte	0x1
+ 2009 0286 50       		.byte	0x50
+ 2010 0287 00000000 		.4byte	0
+ 2011 028b 00000000 		.4byte	0
+ 2012              	.LLST16:
+ 2013 028f 08000000 		.4byte	.LVL37
+ 2014 0293 2A000000 		.4byte	.LVL40
+ 2015 0297 0100     		.2byte	0x1
+ 2016 0299 54       		.byte	0x54
+ 2017 029a 2C000000 		.4byte	.LVL41
+ 2018 029e 32000000 		.4byte	.LVL42
+ 2019 02a2 0100     		.2byte	0x1
+ 2020 02a4 54       		.byte	0x54
+ 2021 02a5 00000000 		.4byte	0
+ 2022 02a9 00000000 		.4byte	0
+ 2023              	.LLST17:
+ 2024 02ad 28000000 		.4byte	.LVL44
+ 2025 02b1 58000000 		.4byte	.LVL46
+ 2026 02b5 0100     		.2byte	0x1
+ 2027 02b7 54       		.byte	0x54
+ 2028 02b8 5A000000 		.4byte	.LVL47
+ 2029 02bc 5E000000 		.4byte	.LVL48
+ 2030 02c0 0100     		.2byte	0x1
+ 2031 02c2 54       		.byte	0x54
+ 2032 02c3 00000000 		.4byte	0
+ 2033 02c7 00000000 		.4byte	0
+ 2034              		.section	.debug_aranges,"",%progbits
+ 2035 0000 4C000000 		.4byte	0x4c
+ 2036 0004 0200     		.2byte	0x2
+ 2037 0006 00000000 		.4byte	.Ldebug_info0
+ 2038 000a 04       		.byte	0x4
+ 2039 000b 00       		.byte	0
+ 2040 000c 0000     		.2byte	0
+ 2041 000e 0000     		.2byte	0
+ 2042 0010 00000000 		.4byte	.LFB64
+ 2043 0014 36000000 		.4byte	.LFE64-.LFB64
+ 2044 0018 00000000 		.4byte	.LFB65
+ 2045 001c 58000000 		.4byte	.LFE65-.LFB65
+ 2046 0020 00000000 		.4byte	.LFB66
+ 2047 0024 3E000000 		.4byte	.LFE66-.LFB66
+ 2048 0028 00000000 		.4byte	.LFB67
+ 2049 002c 38000000 		.4byte	.LFE67-.LFB67
+ 2050 0030 00000000 		.4byte	.LFB68
+ 2051 0034 48000000 		.4byte	.LFE68-.LFB68
+ 2052 0038 00000000 		.4byte	.LFB69
+ 2053 003c A4000000 		.4byte	.LFE69-.LFB69
+ 2054 0040 00000000 		.4byte	.LFB70
+ 2055 0044 16000000 		.4byte	.LFE70-.LFB70
+ 2056 0048 00000000 		.4byte	0
+ 2057 004c 00000000 		.4byte	0
+ 2058              		.section	.debug_ranges,"",%progbits
+ 2059              	.Ldebug_ranges0:
+ 2060 0000 00000000 		.4byte	.LFB64
+ 2061 0004 36000000 		.4byte	.LFE64
+ 2062 0008 00000000 		.4byte	.LFB65
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 40
+
+
+ 2063 000c 58000000 		.4byte	.LFE65
+ 2064 0010 00000000 		.4byte	.LFB66
+ 2065 0014 3E000000 		.4byte	.LFE66
+ 2066 0018 00000000 		.4byte	.LFB67
+ 2067 001c 38000000 		.4byte	.LFE67
+ 2068 0020 00000000 		.4byte	.LFB68
+ 2069 0024 48000000 		.4byte	.LFE68
+ 2070 0028 00000000 		.4byte	.LFB69
+ 2071 002c A4000000 		.4byte	.LFE69
+ 2072 0030 00000000 		.4byte	.LFB70
+ 2073 0034 16000000 		.4byte	.LFE70
+ 2074 0038 00000000 		.4byte	0
+ 2075 003c 00000000 		.4byte	0
+ 2076              		.section	.debug_line,"",%progbits
+ 2077              	.Ldebug_line0:
+ 2078 0000 A9020000 		.section	.debug_str,"MS",%progbits,1
+ 2078      0200D201 
+ 2078      00000201 
+ 2078      FB0E0D00 
+ 2078      01010101 
+ 2079              	.LASF44:
+ 2080 0000 73736361 		.ascii	"sscanf\000"
+ 2080      6E6600
+ 2081              	.LASF0:
+ 2082 0007 5F5F696E 		.ascii	"__int8_t\000"
+ 2082      74385F74 
+ 2082      00
+ 2083              	.LASF1:
+ 2084 0010 5F5F7569 		.ascii	"__uint8_t\000"
+ 2084      6E74385F 
+ 2084      7400
+ 2085              	.LASF27:
+ 2086 001a 74616D42 		.ascii	"tamBuf\000"
+ 2086      756600
+ 2087              	.LASF4:
+ 2088 0021 5F5F696E 		.ascii	"__int16_t\000"
+ 2088      7431365F 
+ 2088      7400
+ 2089              	.LASF7:
+ 2090 002b 5F5F696E 		.ascii	"__int32_t\000"
+ 2090      7433325F 
+ 2090      7400
+ 2091              	.LASF8:
+ 2092 0035 6C6F6E67 		.ascii	"long int\000"
+ 2092      20696E74 
+ 2092      00
+ 2093              	.LASF45:
+ 2094 003e 736E7072 		.ascii	"snprintf\000"
+ 2094      696E7466 
+ 2094      00
+ 2095              	.LASF26:
+ 2096 0047 755F696E 		.ascii	"u_int\000"
+ 2096      7400
+ 2097              	.LASF34:
+ 2098 004d 706F7765 		.ascii	"power\000"
+ 2098      7200
+ 2099              	.LASF14:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 41
+
+
+ 2100 0053 696E7438 		.ascii	"int8_t\000"
+ 2100      5F7400
+ 2101              	.LASF33:
+ 2102 005a 67657449 		.ascii	"getInt\000"
+ 2102      6E7400
+ 2103              	.LASF20:
+ 2104 0061 666C6F61 		.ascii	"float\000"
+ 2104      7400
+ 2105              	.LASF36:
+ 2106 0067 67657443 		.ascii	"getCoef\000"
+ 2106      6F656600 
+ 2107              	.LASF3:
+ 2108 006f 756E7369 		.ascii	"unsigned char\000"
+ 2108      676E6564 
+ 2108      20636861 
+ 2108      7200
+ 2109              	.LASF47:
+ 2110 007d 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2110      43313120 
+ 2110      352E342E 
+ 2110      31203230 
+ 2110      31363036 
+ 2111 00b0 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2111      20726576 
+ 2111      6973696F 
+ 2111      6E203233 
+ 2111      37373135 
+ 2112 00e3 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2112      66756E63 
+ 2112      74696F6E 
+ 2112      2D736563 
+ 2112      74696F6E 
+ 2113              	.LASF9:
+ 2114 010b 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2114      20756E73 
+ 2114      69676E65 
+ 2114      6420696E 
+ 2114      7400
+ 2115              	.LASF6:
+ 2116 011d 73686F72 		.ascii	"short unsigned int\000"
+ 2116      7420756E 
+ 2116      7369676E 
+ 2116      65642069 
+ 2116      6E7400
+ 2117              	.LASF38:
+ 2118 0130 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2118      52784275 
+ 2118      66666572 
+ 2118      00
+ 2119              	.LASF30:
+ 2120 013d 6D61785F 		.ascii	"max_buf\000"
+ 2120      62756600 
+ 2121              	.LASF35:
+ 2122 0145 67657444 		.ascii	"getDegree\000"
+ 2122      65677265 
+ 2122      6500
+ 2123              	.LASF21:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 42
+
+
+ 2124 014f 646F7562 		.ascii	"double\000"
+ 2124      6C6500
+ 2125              	.LASF51:
+ 2126 0156 6D61696E 		.ascii	"main\000"
+ 2126      00
+ 2127              	.LASF28:
+ 2128 015b 67657463 		.ascii	"getcharl\000"
+ 2128      6861726C 
+ 2128      00
+ 2129              	.LASF13:
+ 2130 0164 756E7369 		.ascii	"unsigned int\000"
+ 2130      676E6564 
+ 2130      20696E74 
+ 2130      00
+ 2131              	.LASF31:
+ 2132 0171 73616C69 		.ascii	"salir\000"
+ 2132      7200
+ 2133              	.LASF12:
+ 2134 0177 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2134      206C6F6E 
+ 2134      6720756E 
+ 2134      7369676E 
+ 2134      65642069 
+ 2135              	.LASF15:
+ 2136 018e 75696E74 		.ascii	"uint8_t\000"
+ 2136      385F7400 
+ 2137              	.LASF32:
+ 2138 0196 72657375 		.ascii	"result\000"
+ 2138      6C7400
+ 2139              	.LASF16:
+ 2140 019d 696E7431 		.ascii	"int16_t\000"
+ 2140      365F7400 
+ 2141              	.LASF17:
+ 2142 01a5 696E7433 		.ascii	"int32_t\000"
+ 2142      325F7400 
+ 2143              	.LASF24:
+ 2144 01ad 73697A65 		.ascii	"sizetype\000"
+ 2144      74797065 
+ 2144      00
+ 2145              	.LASF18:
+ 2146 01b6 696E7436 		.ascii	"int64_t\000"
+ 2146      345F7400 
+ 2147              	.LASF11:
+ 2148 01be 6C6F6E67 		.ascii	"long long int\000"
+ 2148      206C6F6E 
+ 2148      6720696E 
+ 2148      7400
+ 2149              	.LASF48:
+ 2150 01cc 6D61696E 		.ascii	"main.c\000"
+ 2150      2E6300
+ 2151              	.LASF22:
+ 2152 01d3 63686172 		.ascii	"char\000"
+ 2152      00
+ 2153              	.LASF10:
+ 2154 01d8 5F5F696E 		.ascii	"__int64_t\000"
+ 2154      7436345F 
+ 2154      7400
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 43
+
+
+ 2155              	.LASF46:
+ 2156 01e2 50435F53 		.ascii	"PC_Start\000"
+ 2156      74617274 
+ 2156      00
+ 2157              	.LASF5:
+ 2158 01eb 73686F72 		.ascii	"short int\000"
+ 2158      7420696E 
+ 2158      7400
+ 2159              	.LASF39:
+ 2160 01f5 62756666 		.ascii	"buffer\000"
+ 2160      657200
+ 2161              	.LASF19:
+ 2162 01fc 75696E74 		.ascii	"uint8\000"
+ 2162      3800
+ 2163              	.LASF50:
+ 2164 0202 6765744C 		.ascii	"getLine\000"
+ 2164      696E6500 
+ 2165              	.LASF43:
+ 2166 020a 50435F50 		.ascii	"PC_PutString\000"
+ 2166      75745374 
+ 2166      72696E67 
+ 2166      00
+ 2167              	.LASF29:
+ 2168 0217 70757463 		.ascii	"putcharl\000"
+ 2168      6861726C 
+ 2168      00
+ 2169              	.LASF37:
+ 2170 0220 6576616C 		.ascii	"evalX\000"
+ 2170      5800
+ 2171              	.LASF41:
+ 2172 0226 64656772 		.ascii	"degree\000"
+ 2172      656500
+ 2173              	.LASF23:
+ 2174 022d 6C6F6E67 		.ascii	"long double\000"
+ 2174      20646F75 
+ 2174      626C6500 
+ 2175              	.LASF40:
+ 2176 0239 71756573 		.ascii	"question\000"
+ 2176      74696F6E 
+ 2176      00
+ 2177              	.LASF2:
+ 2178 0242 7369676E 		.ascii	"signed char\000"
+ 2178      65642063 
+ 2178      68617200 
+ 2179              	.LASF42:
+ 2180 024e 636F6566 		.ascii	"coeficiente\000"
+ 2180      69636965 
+ 2180      6E746500 
+ 2181              	.LASF49:
+ 2182 025a 433A5C55 		.ascii	"C:\\Users\\elias\\OneDrive\\Documents\\Documentos\\"
+ 2182      73657273 
+ 2182      5C656C69 
+ 2182      61735C4F 
+ 2182      6E654472 
+ 2183 0287 50536F43 		.ascii	"PSoC Creator\\Repaso\\Repaso.cydsn\000"
+ 2183      20437265 
+ 2183      61746F72 
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccRYudKt.s 			page 44
+
+
+ 2183      5C526570 
+ 2183      61736F5C 
+ 2184              	.LASF25:
+ 2185 02a8 755F696E 		.ascii	"u_int8_t\000"
+ 2185      74385F74 
+ 2185      00
+ 2186              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

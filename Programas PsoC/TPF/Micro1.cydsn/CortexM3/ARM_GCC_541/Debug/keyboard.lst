@@ -1,0 +1,2017 @@
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"keyboard.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.readKeyboard,"ax",%progbits
+  20              		.align	2
+  21              		.global	readKeyboard
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	readKeyboard, %function
+  25              	readKeyboard:
+  26              	.LFB64:
+  27              		.file 1 "keyboard.c"
+   1:keyboard.c    **** #include <stdio.h>
+   2:keyboard.c    **** #include "keyboard.h"
+   3:keyboard.c    **** 
+   4:keyboard.c    **** 
+   5:keyboard.c    **** 
+   6:keyboard.c    **** //KeyPosition decoderReadKeyboard(uint8_t code) {
+   7:keyboard.c    **** //    KeyPosition activeKey;
+   8:keyboard.c    **** //    uint8_t rowCode = code & MASK_ROW_KB, columnCode = code >> MAX_COLUMN_KB;
+   9:keyboard.c    **** //
+  10:keyboard.c    **** //    // Encontrar la posición de la fila activa
+  11:keyboard.c    **** //    activeKey.row = 0;
+  12:keyboard.c    **** //    while (rowCode >>= 1) activeKey.row++;
+  13:keyboard.c    **** //
+  14:keyboard.c    **** //    // Encontrar la posición de la columna activa
+  15:keyboard.c    **** //    activeKey.column = 0;
+  16:keyboard.c    **** //    while (columnCode >>= 1) activeKey.column++;
+  17:keyboard.c    **** //    
+  18:keyboard.c    **** //    return activeKey;
+  19:keyboard.c    **** //}
+  20:keyboard.c    **** uint16_t readKeyboard(void (*write)(uint8_t), uint8_t (*read)(void)) {
+  28              		.loc 1 20 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 16
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 84B0     		sub	sp, sp, #16
+  37              		.cfi_def_cfa_offset 24
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 2
+
+
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  40 0006 7860     		str	r0, [r7, #4]
+  41 0008 3960     		str	r1, [r7]
+  21:keyboard.c    ****     uint8_t column, row;
+  22:keyboard.c    ****     uint16_t result = 0;
+  42              		.loc 1 22 0
+  43 000a 0023     		movs	r3, #0
+  44 000c BB81     		strh	r3, [r7, #12]	@ movhi
+  23:keyboard.c    **** 
+  24:keyboard.c    ****     // Recorre todas las columnas (activas)
+  25:keyboard.c    ****     for (column = (1 << (MAX_COLUMN_KB)); column > 0; column >>= 1) {
+  45              		.loc 1 25 0
+  46 000e 1023     		movs	r3, #16
+  47 0010 FB73     		strb	r3, [r7, #15]
+  48 0012 16E0     		b	.L2
+  49              	.L5:
+  26:keyboard.c    ****         write(column);  // Envía la señal activa (columna)
+  50              		.loc 1 26 0
+  51 0014 FA7B     		ldrb	r2, [r7, #15]	@ zero_extendqisi2
+  52 0016 7B68     		ldr	r3, [r7, #4]
+  53 0018 1046     		mov	r0, r2
+  54 001a 9847     		blx	r3
+  27:keyboard.c    **** 
+  28:keyboard.c    ****         // Si es necesario un delay para que el teclado se estabilice hay que ver
+  29:keyboard.c    ****         // Cydelay(ALGO)???;
+  30:keyboard.c    **** 
+  31:keyboard.c    ****         row = read();  // Lee las filas pasivas
+  55              		.loc 1 31 0
+  56 001c 3B68     		ldr	r3, [r7]
+  57 001e 9847     		blx	r3
+  58 0020 0346     		mov	r3, r0
+  59 0022 FB72     		strb	r3, [r7, #11]
+  32:keyboard.c    ****         if (row != 0) {  // Si alguna fila está activa (se detecta una tecla presionada)
+  60              		.loc 1 32 0
+  61 0024 FB7A     		ldrb	r3, [r7, #11]	@ zero_extendqisi2
+  62 0026 002B     		cmp	r3, #0
+  63 0028 08D0     		beq	.L3
+  33:keyboard.c    ****             result = (column << (MAX_ROW_KB-1)) | row;  // Combina los bits de columna y fila
+  64              		.loc 1 33 0
+  65 002a FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+  66 002c 1B01     		lsls	r3, r3, #4
+  67 002e 1AB2     		sxth	r2, r3
+  68 0030 FB7A     		ldrb	r3, [r7, #11]	@ zero_extendqisi2
+  69 0032 1BB2     		sxth	r3, r3
+  70 0034 1343     		orrs	r3, r3, r2
+  71 0036 1BB2     		sxth	r3, r3
+  72 0038 BB81     		strh	r3, [r7, #12]	@ movhi
+  34:keyboard.c    ****             break;  // Sale del ciclo si se detecta una pulsación
+  73              		.loc 1 34 0
+  74 003a 05E0     		b	.L4
+  75              	.L3:
+  25:keyboard.c    ****         write(column);  // Envía la señal activa (columna)
+  76              		.loc 1 25 0 discriminator 2
+  77 003c FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+  78 003e 5B08     		lsrs	r3, r3, #1
+  79 0040 FB73     		strb	r3, [r7, #15]
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 3
+
+
+  80              	.L2:
+  25:keyboard.c    ****         write(column);  // Envía la señal activa (columna)
+  81              		.loc 1 25 0 is_stmt 0 discriminator 1
+  82 0042 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+  83 0044 002B     		cmp	r3, #0
+  84 0046 E5D1     		bne	.L5
+  85              	.L4:
+  35:keyboard.c    ****         }
+  36:keyboard.c    ****     }
+  37:keyboard.c    **** 
+  38:keyboard.c    ****     return result;
+  86              		.loc 1 38 0 is_stmt 1
+  87 0048 BB89     		ldrh	r3, [r7, #12]
+  39:keyboard.c    **** }
+  88              		.loc 1 39 0
+  89 004a 1846     		mov	r0, r3
+  90 004c 1037     		adds	r7, r7, #16
+  91              		.cfi_def_cfa_offset 8
+  92 004e BD46     		mov	sp, r7
+  93              		.cfi_def_cfa_register 13
+  94              		@ sp needed
+  95 0050 80BD     		pop	{r7, pc}
+  96              		.cfi_endproc
+  97              	.LFE64:
+  98              		.size	readKeyboard, .-readKeyboard
+  99 0052 00BF     		.section	.text.debouncer,"ax",%progbits
+ 100              		.align	2
+ 101              		.global	debouncer
+ 102              		.thumb
+ 103              		.thumb_func
+ 104              		.type	debouncer, %function
+ 105              	debouncer:
+ 106              	.LFB65:
+  40:keyboard.c    **** 
+  41:keyboard.c    **** uint16_t debouncer(void (*write)(uint8_t), uint8_t (*read)(void)){
+ 107              		.loc 1 41 0
+ 108              		.cfi_startproc
+ 109              		@ args = 0, pretend = 0, frame = 16
+ 110              		@ frame_needed = 1, uses_anonymous_args = 0
+ 111 0000 80B5     		push	{r7, lr}
+ 112              		.cfi_def_cfa_offset 8
+ 113              		.cfi_offset 7, -8
+ 114              		.cfi_offset 14, -4
+ 115 0002 84B0     		sub	sp, sp, #16
+ 116              		.cfi_def_cfa_offset 24
+ 117 0004 00AF     		add	r7, sp, #0
+ 118              		.cfi_def_cfa_register 7
+ 119 0006 7860     		str	r0, [r7, #4]
+ 120 0008 3960     		str	r1, [r7]
+  42:keyboard.c    ****     // Definir el enum
+  43:keyboard.c    ****     enum myState {noInput, firstTime, secondTime, firstTimeOut};
+  44:keyboard.c    ****     // Declarar una variable del tipo enum state
+  45:keyboard.c    ****     static enum myState state = noInput;
+  46:keyboard.c    ****     uint16_t filtredInput = 0, currentInputDetected;
+ 121              		.loc 1 46 0
+ 122 000a 0023     		movs	r3, #0
+ 123 000c FB81     		strh	r3, [r7, #14]	@ movhi
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 4
+
+
+  47:keyboard.c    ****     static uint16_t lastInputDetected;
+  48:keyboard.c    ****     currentInputDetected = readKeyboard(write, read);
+ 124              		.loc 1 48 0
+ 125 000e 3968     		ldr	r1, [r7]
+ 126 0010 7868     		ldr	r0, [r7, #4]
+ 127 0012 FFF7FEFF 		bl	readKeyboard
+ 128 0016 0346     		mov	r3, r0
+ 129 0018 BB81     		strh	r3, [r7, #12]	@ movhi
+  49:keyboard.c    ****     switch(state)
+ 130              		.loc 1 49 0
+ 131 001a 344B     		ldr	r3, .L27
+ 132 001c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 133 001e 032B     		cmp	r3, #3
+ 134 0020 58D8     		bhi	.L8
+ 135 0022 01A2     		adr	r2, .L10
+ 136 0024 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 137              		.p2align 2
+ 138              	.L10:
+ 139 0028 39000000 		.word	.L9+1
+ 140 002c 4D000000 		.word	.L11+1
+ 141 0030 7B000000 		.word	.L12+1
+ 142 0034 A1000000 		.word	.L13+1
+ 143              		.p2align 1
+ 144              	.L9:
+  50:keyboard.c    ****     {
+  51:keyboard.c    ****         case noInput:
+  52:keyboard.c    ****             if(currentInputDetected){
+ 145              		.loc 1 52 0
+ 146 0038 BB89     		ldrh	r3, [r7, #12]
+ 147 003a 002B     		cmp	r3, #0
+ 148 003c 4ED0     		beq	.L25
+  53:keyboard.c    ****                 lastInputDetected = currentInputDetected;
+ 149              		.loc 1 53 0
+ 150 003e 2C4A     		ldr	r2, .L27+4
+ 151 0040 BB89     		ldrh	r3, [r7, #12]	@ movhi
+ 152 0042 1380     		strh	r3, [r2]	@ movhi
+  54:keyboard.c    ****                 state = firstTime;
+ 153              		.loc 1 54 0
+ 154 0044 294B     		ldr	r3, .L27
+ 155 0046 0122     		movs	r2, #1
+ 156 0048 1A70     		strb	r2, [r3]
+  55:keyboard.c    ****             }
+  56:keyboard.c    ****             break;
+ 157              		.loc 1 56 0
+ 158 004a 47E0     		b	.L25
+ 159              	.L11:
+  57:keyboard.c    ****         case firstTime:
+  58:keyboard.c    ****             //falso positivo, fue solo ruido
+  59:keyboard.c    ****             if(currentInputDetected == 0) 
+ 160              		.loc 1 59 0
+ 161 004c BB89     		ldrh	r3, [r7, #12]
+ 162 004e 002B     		cmp	r3, #0
+ 163 0050 03D1     		bne	.L16
+  60:keyboard.c    ****                 state = noInput;
+ 164              		.loc 1 60 0
+ 165 0052 264B     		ldr	r3, .L27
+ 166 0054 0022     		movs	r2, #0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 5
+
+
+ 167 0056 1A70     		strb	r2, [r3]
+  61:keyboard.c    ****             //señal constante, por lo tanto valida
+  62:keyboard.c    ****             else if(currentInputDetected == lastInputDetected)
+  63:keyboard.c    ****             {
+  64:keyboard.c    ****                 state = secondTime;
+  65:keyboard.c    ****                 filtredInput = lastInputDetected;
+  66:keyboard.c    ****             }
+  67:keyboard.c    ****             //2 botones pulsados seguidos, consideramos solo el ultimo
+  68:keyboard.c    ****             else
+  69:keyboard.c    ****                 lastInputDetected = currentInputDetected;
+  70:keyboard.c    ****                 
+  71:keyboard.c    ****             break;
+ 168              		.loc 1 71 0
+ 169 0058 43E0     		b	.L15
+ 170              	.L16:
+  62:keyboard.c    ****             {
+ 171              		.loc 1 62 0
+ 172 005a 254B     		ldr	r3, .L27+4
+ 173 005c 1B88     		ldrh	r3, [r3]
+ 174 005e BA89     		ldrh	r2, [r7, #12]
+ 175 0060 9A42     		cmp	r2, r3
+ 176 0062 06D1     		bne	.L18
+  64:keyboard.c    ****                 filtredInput = lastInputDetected;
+ 177              		.loc 1 64 0
+ 178 0064 214B     		ldr	r3, .L27
+ 179 0066 0222     		movs	r2, #2
+ 180 0068 1A70     		strb	r2, [r3]
+  65:keyboard.c    ****             }
+ 181              		.loc 1 65 0
+ 182 006a 214B     		ldr	r3, .L27+4
+ 183 006c 1B88     		ldrh	r3, [r3]	@ movhi
+ 184 006e FB81     		strh	r3, [r7, #14]	@ movhi
+ 185              		.loc 1 71 0
+ 186 0070 37E0     		b	.L15
+ 187              	.L18:
+  69:keyboard.c    ****                 
+ 188              		.loc 1 69 0
+ 189 0072 1F4A     		ldr	r2, .L27+4
+ 190 0074 BB89     		ldrh	r3, [r7, #12]	@ movhi
+ 191 0076 1380     		strh	r3, [r2]	@ movhi
+ 192              		.loc 1 71 0
+ 193 0078 33E0     		b	.L15
+ 194              	.L12:
+  72:keyboard.c    ****         case secondTime:
+  73:keyboard.c    ****             //boton dejo de pulsarse, pasamos a firstTimeOut
+  74:keyboard.c    ****             if(currentInputDetected == 0){
+ 195              		.loc 1 74 0
+ 196 007a BB89     		ldrh	r3, [r7, #12]
+ 197 007c 002B     		cmp	r3, #0
+ 198 007e 03D1     		bne	.L19
+  75:keyboard.c    ****                 state = firstTimeOut;
+ 199              		.loc 1 75 0
+ 200 0080 1A4B     		ldr	r3, .L27
+ 201 0082 0322     		movs	r2, #3
+ 202 0084 1A70     		strb	r2, [r3]
+  76:keyboard.c    ****             }
+  77:keyboard.c    ****             //instantaneamente despues de la otra señal, pulsamos otro boton
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 6
+
+
+  78:keyboard.c    ****             else if(lastInputDetected != currentInputDetected)
+  79:keyboard.c    ****             {
+  80:keyboard.c    ****                 lastInputDetected = currentInputDetected;
+  81:keyboard.c    ****                 state = firstTime;
+  82:keyboard.c    ****             }
+  83:keyboard.c    ****             //si no hacemos nada, es que el boton aun no ha sido soltado
+  84:keyboard.c    ****             break;
+ 203              		.loc 1 84 0
+ 204 0086 2BE0     		b	.L26
+ 205              	.L19:
+  78:keyboard.c    ****             {
+ 206              		.loc 1 78 0
+ 207 0088 194B     		ldr	r3, .L27+4
+ 208 008a 1B88     		ldrh	r3, [r3]
+ 209 008c BA89     		ldrh	r2, [r7, #12]
+ 210 008e 9A42     		cmp	r2, r3
+ 211 0090 26D0     		beq	.L26
+  80:keyboard.c    ****                 state = firstTime;
+ 212              		.loc 1 80 0
+ 213 0092 174A     		ldr	r2, .L27+4
+ 214 0094 BB89     		ldrh	r3, [r7, #12]	@ movhi
+ 215 0096 1380     		strh	r3, [r2]	@ movhi
+  81:keyboard.c    ****             }
+ 216              		.loc 1 81 0
+ 217 0098 144B     		ldr	r3, .L27
+ 218 009a 0122     		movs	r2, #1
+ 219 009c 1A70     		strb	r2, [r3]
+ 220              		.loc 1 84 0
+ 221 009e 1FE0     		b	.L26
+ 222              	.L13:
+  85:keyboard.c    ****         case firstTimeOut:
+  86:keyboard.c    ****             //boton dejo de pulsarse por 2 periodos, por lo que reiniciamos la maquina
+  87:keyboard.c    ****             if(currentInputDetected == 0){
+ 223              		.loc 1 87 0
+ 224 00a0 BB89     		ldrh	r3, [r7, #12]
+ 225 00a2 002B     		cmp	r3, #0
+ 226 00a4 06D1     		bne	.L21
+  88:keyboard.c    ****                 state = noInput;
+ 227              		.loc 1 88 0
+ 228 00a6 114B     		ldr	r3, .L27
+ 229 00a8 0022     		movs	r2, #0
+ 230 00aa 1A70     		strb	r2, [r3]
+  89:keyboard.c    ****                 lastInputDetected = 0;
+ 231              		.loc 1 89 0
+ 232 00ac 104B     		ldr	r3, .L27+4
+ 233 00ae 0022     		movs	r2, #0
+ 234 00b0 1A80     		strh	r2, [r3]	@ movhi
+  90:keyboard.c    ****             }
+  91:keyboard.c    ****             //instantaneamente despues de la otra señal, pulsamos otro boton
+  92:keyboard.c    ****             else if(lastInputDetected != currentInputDetected)
+  93:keyboard.c    ****             {
+  94:keyboard.c    ****                 //filtredInput = lastInputDetected;
+  95:keyboard.c    ****                 lastInputDetected = currentInputDetected;
+  96:keyboard.c    ****                 state = firstTime;
+  97:keyboard.c    ****             }
+  98:keyboard.c    ****             //si es igual a lastInputDetected, fue un falso positivo de que se haya soltado
+  99:keyboard.c    ****             //por lo que volvemos a secondTime
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 7
+
+
+ 100:keyboard.c    ****             else 
+ 101:keyboard.c    ****                 state = secondTime;
+ 102:keyboard.c    ****             
+ 103:keyboard.c    ****             break;
+ 235              		.loc 1 103 0
+ 236 00b2 16E0     		b	.L15
+ 237              	.L21:
+  92:keyboard.c    ****             {
+ 238              		.loc 1 92 0
+ 239 00b4 0E4B     		ldr	r3, .L27+4
+ 240 00b6 1B88     		ldrh	r3, [r3]
+ 241 00b8 BA89     		ldrh	r2, [r7, #12]
+ 242 00ba 9A42     		cmp	r2, r3
+ 243 00bc 06D0     		beq	.L23
+  95:keyboard.c    ****                 state = firstTime;
+ 244              		.loc 1 95 0
+ 245 00be 0C4A     		ldr	r2, .L27+4
+ 246 00c0 BB89     		ldrh	r3, [r7, #12]	@ movhi
+ 247 00c2 1380     		strh	r3, [r2]	@ movhi
+  96:keyboard.c    ****             }
+ 248              		.loc 1 96 0
+ 249 00c4 094B     		ldr	r3, .L27
+ 250 00c6 0122     		movs	r2, #1
+ 251 00c8 1A70     		strb	r2, [r3]
+ 252              		.loc 1 103 0
+ 253 00ca 0AE0     		b	.L15
+ 254              	.L23:
+ 101:keyboard.c    ****             
+ 255              		.loc 1 101 0
+ 256 00cc 074B     		ldr	r3, .L27
+ 257 00ce 0222     		movs	r2, #2
+ 258 00d0 1A70     		strb	r2, [r3]
+ 259              		.loc 1 103 0
+ 260 00d2 06E0     		b	.L15
+ 261              	.L8:
+ 104:keyboard.c    ****         default:
+ 105:keyboard.c    ****             state = noInput;
+ 262              		.loc 1 105 0
+ 263 00d4 054B     		ldr	r3, .L27
+ 264 00d6 0022     		movs	r2, #0
+ 265 00d8 1A70     		strb	r2, [r3]
+ 266 00da 02E0     		b	.L15
+ 267              	.L25:
+  56:keyboard.c    ****         case firstTime:
+ 268              		.loc 1 56 0
+ 269 00dc 00BF     		nop
+ 270 00de 00E0     		b	.L15
+ 271              	.L26:
+  84:keyboard.c    ****         case firstTimeOut:
+ 272              		.loc 1 84 0
+ 273 00e0 00BF     		nop
+ 274              	.L15:
+ 106:keyboard.c    ****     }
+ 107:keyboard.c    ****     return filtredInput;
+ 275              		.loc 1 107 0
+ 276 00e2 FB89     		ldrh	r3, [r7, #14]
+ 108:keyboard.c    **** }
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 8
+
+
+ 277              		.loc 1 108 0
+ 278 00e4 1846     		mov	r0, r3
+ 279 00e6 1037     		adds	r7, r7, #16
+ 280              		.cfi_def_cfa_offset 8
+ 281 00e8 BD46     		mov	sp, r7
+ 282              		.cfi_def_cfa_register 13
+ 283              		@ sp needed
+ 284 00ea 80BD     		pop	{r7, pc}
+ 285              	.L28:
+ 286              		.align	2
+ 287              	.L27:
+ 288 00ec 00000000 		.word	state.6797
+ 289 00f0 02000000 		.word	lastInputDetected.6800
+ 290              		.cfi_endproc
+ 291              	.LFE65:
+ 292              		.size	debouncer, .-debouncer
+ 293              		.section	.rodata
+ 294              		.align	2
+ 295              	.LC0:
+ 296 0000 4631205B 		.ascii	"F1 [COD:%x]\012\015\000"
+ 296      434F443A 
+ 296      25785D0A 
+ 296      0D00
+ 297 000e 0000     		.align	2
+ 298              	.LC1:
+ 299 0010 4632205B 		.ascii	"F2 [COD:%x]\012\015\000"
+ 299      434F443A 
+ 299      25785D0A 
+ 299      0D00
+ 300 001e 0000     		.align	2
+ 301              	.LC2:
+ 302 0020 23205B43 		.ascii	"# [COD:%x]\012\015\000"
+ 302      4F443A25 
+ 302      785D0A0D 
+ 302      00
+ 303 002d 000000   		.align	2
+ 304              	.LC3:
+ 305 0030 2A205B43 		.ascii	"* [COD:%x]\012\015\000"
+ 305      4F443A25 
+ 305      785D0A0D 
+ 305      00
+ 306 003d 000000   		.align	2
+ 307              	.LC4:
+ 308 0040 30205B43 		.ascii	"0 [COD:%x]\012\015\000"
+ 308      4F443A25 
+ 308      785D0A0D 
+ 308      00
+ 309 004d 000000   		.align	2
+ 310              	.LC5:
+ 311 0050 31205B43 		.ascii	"1 [COD:%x]\012\015\000"
+ 311      4F443A25 
+ 311      785D0A0D 
+ 311      00
+ 312 005d 000000   		.align	2
+ 313              	.LC6:
+ 314 0060 32205B43 		.ascii	"2 [COD:%x]\012\015\000"
+ 314      4F443A25 
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 9
+
+
+ 314      785D0A0D 
+ 314      00
+ 315 006d 000000   		.align	2
+ 316              	.LC7:
+ 317 0070 33205B43 		.ascii	"3 [COD:%x]\012\015\000"
+ 317      4F443A25 
+ 317      785D0A0D 
+ 317      00
+ 318 007d 000000   		.align	2
+ 319              	.LC8:
+ 320 0080 34205B43 		.ascii	"4 [COD:%x]\012\015\000"
+ 320      4F443A25 
+ 320      785D0A0D 
+ 320      00
+ 321 008d 000000   		.align	2
+ 322              	.LC9:
+ 323 0090 35205B43 		.ascii	"5 [COD:%x]\012\015\000"
+ 323      4F443A25 
+ 323      785D0A0D 
+ 323      00
+ 324 009d 000000   		.align	2
+ 325              	.LC10:
+ 326 00a0 36205B43 		.ascii	"6 [COD:%x]\012\015\000"
+ 326      4F443A25 
+ 326      785D0A0D 
+ 326      00
+ 327 00ad 000000   		.align	2
+ 328              	.LC11:
+ 329 00b0 37205B43 		.ascii	"7 [COD:%x]\012\015\000"
+ 329      4F443A25 
+ 329      785D0A0D 
+ 329      00
+ 330 00bd 000000   		.align	2
+ 331              	.LC12:
+ 332 00c0 38205B43 		.ascii	"8 [COD:%x]\012\015\000"
+ 332      4F443A25 
+ 332      785D0A0D 
+ 332      00
+ 333 00cd 000000   		.align	2
+ 334              	.LC13:
+ 335 00d0 39205B43 		.ascii	"9 [COD:%x]\012\015\000"
+ 335      4F443A25 
+ 335      785D0A0D 
+ 335      00
+ 336 00dd 000000   		.align	2
+ 337              	.LC14:
+ 338 00e0 5570205B 		.ascii	"Up [COD:%x]\012\015\000"
+ 338      434F443A 
+ 338      25785D0A 
+ 338      0D00
+ 339 00ee 0000     		.align	2
+ 340              	.LC15:
+ 341 00f0 446F776E 		.ascii	"Down [COD:%x]\012\015\000"
+ 341      205B434F 
+ 341      443A2578 
+ 341      5D0A0D00 
+ 342              		.align	2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 10
+
+
+ 343              	.LC16:
+ 344 0100 52696768 		.ascii	"Right [COD:%x]\012\015\000"
+ 344      74205B43 
+ 344      4F443A25 
+ 344      785D0A0D 
+ 344      00
+ 345 0111 000000   		.align	2
+ 346              	.LC17:
+ 347 0114 4C656674 		.ascii	"Left [COD:%x]\012\015\000"
+ 347      205B434F 
+ 347      443A2578 
+ 347      5D0A0D00 
+ 348              		.align	2
+ 349              	.LC18:
+ 350 0124 45736320 		.ascii	"Esc [COD:%x]\012\015\000"
+ 350      5B434F44 
+ 350      3A25785D 
+ 350      0A0D00
+ 351 0133 00       		.align	2
+ 352              	.LC19:
+ 353 0134 456E7465 		.ascii	"Enter [COD:%x]\012\015\000"
+ 353      72205B43 
+ 353      4F443A25 
+ 353      785D0A0D 
+ 353      00
+ 354 0145 000000   		.align	2
+ 355              	.LC20:
+ 356 0148 4552524F 		.ascii	"ERROR [COD:%x]\012\015\000"
+ 356      52205B43 
+ 356      4F443A25 
+ 356      785D0A0D 
+ 356      00
+ 357              		.section	.text.echoButton,"ax",%progbits
+ 358              		.align	2
+ 359              		.global	echoButton
+ 360              		.thumb
+ 361              		.thumb_func
+ 362              		.type	echoButton, %function
+ 363              	echoButton:
+ 364              	.LFB66:
+ 109:keyboard.c    **** 
+ 110:keyboard.c    **** 
+ 111:keyboard.c    **** void echoButton(uint16_t b,char8* bufferTX, uint8 max, void (*putString)(const char8*))
+ 112:keyboard.c    **** {
+ 365              		.loc 1 112 0
+ 366              		.cfi_startproc
+ 367              		@ args = 0, pretend = 0, frame = 16
+ 368              		@ frame_needed = 1, uses_anonymous_args = 0
+ 369 0000 80B5     		push	{r7, lr}
+ 370              		.cfi_def_cfa_offset 8
+ 371              		.cfi_offset 7, -8
+ 372              		.cfi_offset 14, -4
+ 373 0002 84B0     		sub	sp, sp, #16
+ 374              		.cfi_def_cfa_offset 24
+ 375 0004 00AF     		add	r7, sp, #0
+ 376              		.cfi_def_cfa_register 7
+ 377 0006 B960     		str	r1, [r7, #8]
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 11
+
+
+ 378 0008 7B60     		str	r3, [r7, #4]
+ 379 000a 0346     		mov	r3, r0	@ movhi
+ 380 000c FB81     		strh	r3, [r7, #14]	@ movhi
+ 381 000e 1346     		mov	r3, r2
+ 382 0010 7B73     		strb	r3, [r7, #13]
+ 113:keyboard.c    ****     
+ 114:keyboard.c    ****     switch(b)
+ 383              		.loc 1 114 0
+ 384 0012 FB89     		ldrh	r3, [r7, #14]
+ 385 0014 422B     		cmp	r3, #66
+ 386 0016 00F0A980 		beq	.L31
+ 387 001a 422B     		cmp	r3, #66
+ 388 001c 1FDC     		bgt	.L32
+ 389 001e 182B     		cmp	r3, #24
+ 390 0020 68D0     		beq	.L33
+ 391 0022 182B     		cmp	r3, #24
+ 392 0024 0CDC     		bgt	.L34
+ 393 0026 112B     		cmp	r3, #17
+ 394 0028 46D0     		beq	.L35
+ 395 002a 112B     		cmp	r3, #17
+ 396 002c 03DC     		bgt	.L36
+ 397 002e 002B     		cmp	r3, #0
+ 398 0030 00F01481 		beq	.L60
+ 399 0034 08E1     		b	.L30
+ 400              	.L36:
+ 401 0036 122B     		cmp	r3, #18
+ 402 0038 48D0     		beq	.L38
+ 403 003a 142B     		cmp	r3, #20
+ 404 003c 50D0     		beq	.L39
+ 405 003e 03E1     		b	.L30
+ 406              	.L34:
+ 407 0040 242B     		cmp	r3, #36
+ 408 0042 7FD0     		beq	.L40
+ 409 0044 242B     		cmp	r3, #36
+ 410 0046 04DC     		bgt	.L41
+ 411 0048 212B     		cmp	r3, #33
+ 412 004a 67D0     		beq	.L42
+ 413 004c 222B     		cmp	r3, #34
+ 414 004e 6FD0     		beq	.L43
+ 415 0050 FAE0     		b	.L30
+ 416              	.L41:
+ 417 0052 282B     		cmp	r3, #40
+ 418 0054 00F0BC80 		beq	.L44
+ 419 0058 412B     		cmp	r3, #65
+ 420 005a 7DD0     		beq	.L45
+ 421 005c F4E0     		b	.L30
+ 422              	.L32:
+ 423 005e 842B     		cmp	r3, #132
+ 424 0060 00F0AC80 		beq	.L46
+ 425 0064 842B     		cmp	r3, #132
+ 426 0066 0FDC     		bgt	.L47
+ 427 0068 482B     		cmp	r3, #72
+ 428 006a 00F0BB80 		beq	.L48
+ 429 006e 482B     		cmp	r3, #72
+ 430 0070 03DC     		bgt	.L49
+ 431 0072 442B     		cmp	r3, #68
+ 432 0074 00F08480 		beq	.L50
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 12
+
+
+ 433 0078 E6E0     		b	.L30
+ 434              	.L49:
+ 435 007a 812B     		cmp	r3, #129
+ 436 007c 00F08A80 		beq	.L51
+ 437 0080 822B     		cmp	r3, #130
+ 438 0082 00F09180 		beq	.L52
+ 439 0086 DFE0     		b	.L30
+ 440              	.L47:
+ 441 0088 B3F5817F 		cmp	r3, #258
+ 442 008c 3CD0     		beq	.L53
+ 443 008e B3F5817F 		cmp	r3, #258
+ 444 0092 08DC     		bgt	.L54
+ 445 0094 882B     		cmp	r3, #136
+ 446 0096 00F0C380 		beq	.L55
+ 447 009a 40F20112 		movw	r2, #257
+ 448 009e 9342     		cmp	r3, r2
+ 449 00a0 00F0B480 		beq	.L56
+ 450 00a4 D0E0     		b	.L30
+ 451              	.L54:
+ 452 00a6 B3F5827F 		cmp	r3, #260
+ 453 00aa 00F0A580 		beq	.L57
+ 454 00ae B3F5847F 		cmp	r3, #264
+ 455 00b2 00F0BF80 		beq	.L58
+ 456 00b6 C7E0     		b	.L30
+ 457              	.L35:
+ 115:keyboard.c    ****     {
+ 116:keyboard.c    ****         case F1_KEY:
+ 117:keyboard.c    ****             snprintf(bufferTX,max,"F1 [COD:%x]\n\r",b);
+ 458              		.loc 1 117 0
+ 459 00b8 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 460 00ba FB89     		ldrh	r3, [r7, #14]
+ 461 00bc 6A4A     		ldr	r2, .L61
+ 462 00be B868     		ldr	r0, [r7, #8]
+ 463 00c0 FFF7FEFF 		bl	snprintf
+ 118:keyboard.c    ****             putString(bufferTX);
+ 464              		.loc 1 118 0
+ 465 00c4 7B68     		ldr	r3, [r7, #4]
+ 466 00c6 B868     		ldr	r0, [r7, #8]
+ 467 00c8 9847     		blx	r3
+ 119:keyboard.c    ****             break;
+ 468              		.loc 1 119 0
+ 469 00ca C8E0     		b	.L59
+ 470              	.L38:
+ 120:keyboard.c    ****         case F2_KEY:
+ 121:keyboard.c    ****             //PC_PutString("F2\n\r");
+ 122:keyboard.c    ****             snprintf(bufferTX,max,"F2 [COD:%x]\n\r",b);
+ 471              		.loc 1 122 0
+ 472 00cc 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 473 00ce FB89     		ldrh	r3, [r7, #14]
+ 474 00d0 664A     		ldr	r2, .L61+4
+ 475 00d2 B868     		ldr	r0, [r7, #8]
+ 476 00d4 FFF7FEFF 		bl	snprintf
+ 123:keyboard.c    ****             putString(bufferTX);
+ 477              		.loc 1 123 0
+ 478 00d8 7B68     		ldr	r3, [r7, #4]
+ 479 00da B868     		ldr	r0, [r7, #8]
+ 480 00dc 9847     		blx	r3
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 13
+
+
+ 124:keyboard.c    ****             break;
+ 481              		.loc 1 124 0
+ 482 00de BEE0     		b	.L59
+ 483              	.L39:
+ 125:keyboard.c    ****         case HASH_KEY:
+ 126:keyboard.c    ****             snprintf(bufferTX,max,"# [COD:%x]\n\r",b);
+ 484              		.loc 1 126 0
+ 485 00e0 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 486 00e2 FB89     		ldrh	r3, [r7, #14]
+ 487 00e4 624A     		ldr	r2, .L61+8
+ 488 00e6 B868     		ldr	r0, [r7, #8]
+ 489 00e8 FFF7FEFF 		bl	snprintf
+ 127:keyboard.c    ****             putString(bufferTX);
+ 490              		.loc 1 127 0
+ 491 00ec 7B68     		ldr	r3, [r7, #4]
+ 492 00ee B868     		ldr	r0, [r7, #8]
+ 493 00f0 9847     		blx	r3
+ 128:keyboard.c    ****             //PC_PutString("#\n\r");
+ 129:keyboard.c    ****             break;
+ 494              		.loc 1 129 0
+ 495 00f2 B4E0     		b	.L59
+ 496              	.L33:
+ 130:keyboard.c    ****         case STAR_KEY:
+ 131:keyboard.c    ****             snprintf(bufferTX,max,"* [COD:%x]\n\r",b);
+ 497              		.loc 1 131 0
+ 498 00f4 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 499 00f6 FB89     		ldrh	r3, [r7, #14]
+ 500 00f8 5E4A     		ldr	r2, .L61+12
+ 501 00fa B868     		ldr	r0, [r7, #8]
+ 502 00fc FFF7FEFF 		bl	snprintf
+ 132:keyboard.c    ****             putString(bufferTX);
+ 503              		.loc 1 132 0
+ 504 0100 7B68     		ldr	r3, [r7, #4]
+ 505 0102 B868     		ldr	r0, [r7, #8]
+ 506 0104 9847     		blx	r3
+ 133:keyboard.c    ****             //PC_PutString("*\n\r");
+ 134:keyboard.c    ****             break;
+ 507              		.loc 1 134 0
+ 508 0106 AAE0     		b	.L59
+ 509              	.L53:
+ 135:keyboard.c    ****         case KEY_0:
+ 136:keyboard.c    ****             snprintf(bufferTX,max,"0 [COD:%x]\n\r",b);
+ 510              		.loc 1 136 0
+ 511 0108 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 512 010a FB89     		ldrh	r3, [r7, #14]
+ 513 010c 5A4A     		ldr	r2, .L61+16
+ 514 010e B868     		ldr	r0, [r7, #8]
+ 515 0110 FFF7FEFF 		bl	snprintf
+ 137:keyboard.c    ****             putString(bufferTX);
+ 516              		.loc 1 137 0
+ 517 0114 7B68     		ldr	r3, [r7, #4]
+ 518 0116 B868     		ldr	r0, [r7, #8]
+ 519 0118 9847     		blx	r3
+ 138:keyboard.c    ****             //PC_PutString("0\n\r");
+ 139:keyboard.c    ****             break;
+ 520              		.loc 1 139 0
+ 521 011a A0E0     		b	.L59
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 14
+
+
+ 522              	.L42:
+ 140:keyboard.c    ****         case KEY_1:
+ 141:keyboard.c    ****             snprintf(bufferTX,max,"1 [COD:%x]\n\r",b);
+ 523              		.loc 1 141 0
+ 524 011c 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 525 011e FB89     		ldrh	r3, [r7, #14]
+ 526 0120 564A     		ldr	r2, .L61+20
+ 527 0122 B868     		ldr	r0, [r7, #8]
+ 528 0124 FFF7FEFF 		bl	snprintf
+ 142:keyboard.c    ****             putString(bufferTX);
+ 529              		.loc 1 142 0
+ 530 0128 7B68     		ldr	r3, [r7, #4]
+ 531 012a B868     		ldr	r0, [r7, #8]
+ 532 012c 9847     		blx	r3
+ 143:keyboard.c    ****             //PC_PutString("1\n\r");
+ 144:keyboard.c    ****             break;
+ 533              		.loc 1 144 0
+ 534 012e 96E0     		b	.L59
+ 535              	.L43:
+ 145:keyboard.c    ****         case KEY_2:
+ 146:keyboard.c    ****             snprintf(bufferTX,max,"2 [COD:%x]\n\r",b);
+ 536              		.loc 1 146 0
+ 537 0130 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 538 0132 FB89     		ldrh	r3, [r7, #14]
+ 539 0134 524A     		ldr	r2, .L61+24
+ 540 0136 B868     		ldr	r0, [r7, #8]
+ 541 0138 FFF7FEFF 		bl	snprintf
+ 147:keyboard.c    ****             PC_PutString(bufferTX);
+ 542              		.loc 1 147 0
+ 543 013c B868     		ldr	r0, [r7, #8]
+ 544 013e FFF7FEFF 		bl	PC_PutString
+ 148:keyboard.c    ****             //PC_PutString("2\n\r");
+ 149:keyboard.c    ****             break;
+ 545              		.loc 1 149 0
+ 546 0142 8CE0     		b	.L59
+ 547              	.L40:
+ 150:keyboard.c    ****         case KEY_3:
+ 151:keyboard.c    ****             snprintf(bufferTX,max,"3 [COD:%x]\n\r",b);
+ 548              		.loc 1 151 0
+ 549 0144 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 550 0146 FB89     		ldrh	r3, [r7, #14]
+ 551 0148 4E4A     		ldr	r2, .L61+28
+ 552 014a B868     		ldr	r0, [r7, #8]
+ 553 014c FFF7FEFF 		bl	snprintf
+ 152:keyboard.c    ****             putString(bufferTX);
+ 554              		.loc 1 152 0
+ 555 0150 7B68     		ldr	r3, [r7, #4]
+ 556 0152 B868     		ldr	r0, [r7, #8]
+ 557 0154 9847     		blx	r3
+ 153:keyboard.c    ****             //PC_PutString("3\n\r");
+ 154:keyboard.c    ****             break;
+ 558              		.loc 1 154 0
+ 559 0156 82E0     		b	.L59
+ 560              	.L45:
+ 155:keyboard.c    ****         case KEY_4:
+ 156:keyboard.c    ****             snprintf(bufferTX,max,"4 [COD:%x]\n\r",b);
+ 561              		.loc 1 156 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 15
+
+
+ 562 0158 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 563 015a FB89     		ldrh	r3, [r7, #14]
+ 564 015c 4A4A     		ldr	r2, .L61+32
+ 565 015e B868     		ldr	r0, [r7, #8]
+ 566 0160 FFF7FEFF 		bl	snprintf
+ 157:keyboard.c    ****             putString(bufferTX);
+ 567              		.loc 1 157 0
+ 568 0164 7B68     		ldr	r3, [r7, #4]
+ 569 0166 B868     		ldr	r0, [r7, #8]
+ 570 0168 9847     		blx	r3
+ 158:keyboard.c    ****             //PC_PutString("4\n\r");
+ 159:keyboard.c    ****             break;
+ 571              		.loc 1 159 0
+ 572 016a 78E0     		b	.L59
+ 573              	.L31:
+ 160:keyboard.c    ****         case KEY_5:
+ 161:keyboard.c    ****             snprintf(bufferTX,max,"5 [COD:%x]\n\r",b);
+ 574              		.loc 1 161 0
+ 575 016c 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 576 016e FB89     		ldrh	r3, [r7, #14]
+ 577 0170 464A     		ldr	r2, .L61+36
+ 578 0172 B868     		ldr	r0, [r7, #8]
+ 579 0174 FFF7FEFF 		bl	snprintf
+ 162:keyboard.c    ****             putString(bufferTX);
+ 580              		.loc 1 162 0
+ 581 0178 7B68     		ldr	r3, [r7, #4]
+ 582 017a B868     		ldr	r0, [r7, #8]
+ 583 017c 9847     		blx	r3
+ 163:keyboard.c    ****             //PC_PutString("5\n\r");
+ 164:keyboard.c    ****             break;
+ 584              		.loc 1 164 0
+ 585 017e 6EE0     		b	.L59
+ 586              	.L50:
+ 165:keyboard.c    ****         case KEY_6:
+ 166:keyboard.c    ****             snprintf(bufferTX,max,"6 [COD:%x]\n\r",b);
+ 587              		.loc 1 166 0
+ 588 0180 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 589 0182 FB89     		ldrh	r3, [r7, #14]
+ 590 0184 424A     		ldr	r2, .L61+40
+ 591 0186 B868     		ldr	r0, [r7, #8]
+ 592 0188 FFF7FEFF 		bl	snprintf
+ 167:keyboard.c    ****             putString(bufferTX);
+ 593              		.loc 1 167 0
+ 594 018c 7B68     		ldr	r3, [r7, #4]
+ 595 018e B868     		ldr	r0, [r7, #8]
+ 596 0190 9847     		blx	r3
+ 168:keyboard.c    ****             //PC_PutString("6\n\r");
+ 169:keyboard.c    ****             break;
+ 597              		.loc 1 169 0
+ 598 0192 64E0     		b	.L59
+ 599              	.L51:
+ 170:keyboard.c    ****         case KEY_7:
+ 171:keyboard.c    ****             snprintf(bufferTX,max,"7 [COD:%x]\n\r",b);
+ 600              		.loc 1 171 0
+ 601 0194 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 602 0196 FB89     		ldrh	r3, [r7, #14]
+ 603 0198 3E4A     		ldr	r2, .L61+44
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 16
+
+
+ 604 019a B868     		ldr	r0, [r7, #8]
+ 605 019c FFF7FEFF 		bl	snprintf
+ 172:keyboard.c    ****             putString(bufferTX);
+ 606              		.loc 1 172 0
+ 607 01a0 7B68     		ldr	r3, [r7, #4]
+ 608 01a2 B868     		ldr	r0, [r7, #8]
+ 609 01a4 9847     		blx	r3
+ 173:keyboard.c    ****             //PC_PutString("7\n\r");
+ 174:keyboard.c    ****             break;
+ 610              		.loc 1 174 0
+ 611 01a6 5AE0     		b	.L59
+ 612              	.L52:
+ 175:keyboard.c    ****         case KEY_8:
+ 176:keyboard.c    ****             snprintf(bufferTX,max,"8 [COD:%x]\n\r",b);
+ 613              		.loc 1 176 0
+ 614 01a8 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 615 01aa FB89     		ldrh	r3, [r7, #14]
+ 616 01ac 3A4A     		ldr	r2, .L61+48
+ 617 01ae B868     		ldr	r0, [r7, #8]
+ 618 01b0 FFF7FEFF 		bl	snprintf
+ 177:keyboard.c    ****             putString(bufferTX);
+ 619              		.loc 1 177 0
+ 620 01b4 7B68     		ldr	r3, [r7, #4]
+ 621 01b6 B868     		ldr	r0, [r7, #8]
+ 622 01b8 9847     		blx	r3
+ 178:keyboard.c    ****             //PC_PutString("8\n\r");
+ 179:keyboard.c    ****             break;
+ 623              		.loc 1 179 0
+ 624 01ba 50E0     		b	.L59
+ 625              	.L46:
+ 180:keyboard.c    ****         case KEY_9:
+ 181:keyboard.c    ****             snprintf(bufferTX,max,"9 [COD:%x]\n\r",b);
+ 626              		.loc 1 181 0
+ 627 01bc 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 628 01be FB89     		ldrh	r3, [r7, #14]
+ 629 01c0 364A     		ldr	r2, .L61+52
+ 630 01c2 B868     		ldr	r0, [r7, #8]
+ 631 01c4 FFF7FEFF 		bl	snprintf
+ 182:keyboard.c    ****             putString(bufferTX);
+ 632              		.loc 1 182 0
+ 633 01c8 7B68     		ldr	r3, [r7, #4]
+ 634 01ca B868     		ldr	r0, [r7, #8]
+ 635 01cc 9847     		blx	r3
+ 183:keyboard.c    ****             //PC_PutString("9\n\r");
+ 184:keyboard.c    ****             break;
+ 636              		.loc 1 184 0
+ 637 01ce 46E0     		b	.L59
+ 638              	.L44:
+ 185:keyboard.c    ****         case UP_ARROW:
+ 186:keyboard.c    ****             snprintf(bufferTX,max,"Up [COD:%x]\n\r",b);
+ 639              		.loc 1 186 0
+ 640 01d0 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 641 01d2 FB89     		ldrh	r3, [r7, #14]
+ 642 01d4 324A     		ldr	r2, .L61+56
+ 643 01d6 B868     		ldr	r0, [r7, #8]
+ 644 01d8 FFF7FEFF 		bl	snprintf
+ 187:keyboard.c    ****             putString(bufferTX);
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 17
+
+
+ 645              		.loc 1 187 0
+ 646 01dc 7B68     		ldr	r3, [r7, #4]
+ 647 01de B868     		ldr	r0, [r7, #8]
+ 648 01e0 9847     		blx	r3
+ 188:keyboard.c    ****             //PC_PutString("Up\n\r");
+ 189:keyboard.c    ****             break;
+ 649              		.loc 1 189 0
+ 650 01e2 3CE0     		b	.L59
+ 651              	.L48:
+ 190:keyboard.c    ****         case DOWN_ARROW:
+ 191:keyboard.c    ****             snprintf(bufferTX,max,"Down [COD:%x]\n\r",b);
+ 652              		.loc 1 191 0
+ 653 01e4 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 654 01e6 FB89     		ldrh	r3, [r7, #14]
+ 655 01e8 2E4A     		ldr	r2, .L61+60
+ 656 01ea B868     		ldr	r0, [r7, #8]
+ 657 01ec FFF7FEFF 		bl	snprintf
+ 192:keyboard.c    ****             putString(bufferTX);
+ 658              		.loc 1 192 0
+ 659 01f0 7B68     		ldr	r3, [r7, #4]
+ 660 01f2 B868     		ldr	r0, [r7, #8]
+ 661 01f4 9847     		blx	r3
+ 193:keyboard.c    ****             //PC_PutString("Down\n\r");
+ 194:keyboard.c    ****             break;
+ 662              		.loc 1 194 0
+ 663 01f6 32E0     		b	.L59
+ 664              	.L57:
+ 195:keyboard.c    ****         case RIGHT_ARROW:
+ 196:keyboard.c    ****             snprintf(bufferTX,max,"Right [COD:%x]\n\r",b);
+ 665              		.loc 1 196 0
+ 666 01f8 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 667 01fa FB89     		ldrh	r3, [r7, #14]
+ 668 01fc 2A4A     		ldr	r2, .L61+64
+ 669 01fe B868     		ldr	r0, [r7, #8]
+ 670 0200 FFF7FEFF 		bl	snprintf
+ 197:keyboard.c    ****             putString(bufferTX);
+ 671              		.loc 1 197 0
+ 672 0204 7B68     		ldr	r3, [r7, #4]
+ 673 0206 B868     		ldr	r0, [r7, #8]
+ 674 0208 9847     		blx	r3
+ 198:keyboard.c    ****             //PC_PutString("Right\n\r");
+ 199:keyboard.c    ****             break;
+ 675              		.loc 1 199 0
+ 676 020a 28E0     		b	.L59
+ 677              	.L56:
+ 200:keyboard.c    ****         case LEFT_ARROW:
+ 201:keyboard.c    ****             snprintf(bufferTX,max,"Left [COD:%x]\n\r",b);
+ 678              		.loc 1 201 0
+ 679 020c 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 680 020e FB89     		ldrh	r3, [r7, #14]
+ 681 0210 264A     		ldr	r2, .L61+68
+ 682 0212 B868     		ldr	r0, [r7, #8]
+ 683 0214 FFF7FEFF 		bl	snprintf
+ 202:keyboard.c    ****             putString(bufferTX);
+ 684              		.loc 1 202 0
+ 685 0218 7B68     		ldr	r3, [r7, #4]
+ 686 021a B868     		ldr	r0, [r7, #8]
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 18
+
+
+ 687 021c 9847     		blx	r3
+ 203:keyboard.c    ****             //PC_PutString("Left\n\r");
+ 204:keyboard.c    ****             break;
+ 688              		.loc 1 204 0
+ 689 021e 1EE0     		b	.L59
+ 690              	.L55:
+ 205:keyboard.c    ****         case ESC_KEY:
+ 206:keyboard.c    ****             snprintf(bufferTX,max,"Esc [COD:%x]\n\r",b);
+ 691              		.loc 1 206 0
+ 692 0220 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 693 0222 FB89     		ldrh	r3, [r7, #14]
+ 694 0224 224A     		ldr	r2, .L61+72
+ 695 0226 B868     		ldr	r0, [r7, #8]
+ 696 0228 FFF7FEFF 		bl	snprintf
+ 207:keyboard.c    ****             putString(bufferTX);
+ 697              		.loc 1 207 0
+ 698 022c 7B68     		ldr	r3, [r7, #4]
+ 699 022e B868     		ldr	r0, [r7, #8]
+ 700 0230 9847     		blx	r3
+ 208:keyboard.c    ****             //PC_PutString("Esc\n\r");
+ 209:keyboard.c    ****             break;
+ 701              		.loc 1 209 0
+ 702 0232 14E0     		b	.L59
+ 703              	.L58:
+ 210:keyboard.c    ****         case ENTER_KEY:
+ 211:keyboard.c    ****             snprintf(bufferTX,max,"Enter [COD:%x]\n\r",b);
+ 704              		.loc 1 211 0
+ 705 0234 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 706 0236 FB89     		ldrh	r3, [r7, #14]
+ 707 0238 1E4A     		ldr	r2, .L61+76
+ 708 023a B868     		ldr	r0, [r7, #8]
+ 709 023c FFF7FEFF 		bl	snprintf
+ 212:keyboard.c    ****             putString(bufferTX);
+ 710              		.loc 1 212 0
+ 711 0240 7B68     		ldr	r3, [r7, #4]
+ 712 0242 B868     		ldr	r0, [r7, #8]
+ 713 0244 9847     		blx	r3
+ 213:keyboard.c    ****             //PC_PutString("Enter\n\r");
+ 214:keyboard.c    ****             break;
+ 714              		.loc 1 214 0
+ 715 0246 0AE0     		b	.L59
+ 716              	.L30:
+ 215:keyboard.c    ****         case 0:
+ 216:keyboard.c    ****             //PC_PutString("PitoPitoDorodito\n\r");
+ 217:keyboard.c    ****             break;
+ 218:keyboard.c    ****         default:
+ 219:keyboard.c    ****             snprintf(bufferTX,max,"ERROR [COD:%x]\n\r",b);
+ 717              		.loc 1 219 0
+ 718 0248 797B     		ldrb	r1, [r7, #13]	@ zero_extendqisi2
+ 719 024a FB89     		ldrh	r3, [r7, #14]
+ 720 024c 1A4A     		ldr	r2, .L61+80
+ 721 024e B868     		ldr	r0, [r7, #8]
+ 722 0250 FFF7FEFF 		bl	snprintf
+ 220:keyboard.c    ****             putString(bufferTX);
+ 723              		.loc 1 220 0
+ 724 0254 7B68     		ldr	r3, [r7, #4]
+ 725 0256 B868     		ldr	r0, [r7, #8]
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 19
+
+
+ 726 0258 9847     		blx	r3
+ 221:keyboard.c    ****             //PC_PutString("ERROR\n\r");
+ 222:keyboard.c    ****             break;
+ 727              		.loc 1 222 0
+ 728 025a 00E0     		b	.L59
+ 729              	.L60:
+ 217:keyboard.c    ****         default:
+ 730              		.loc 1 217 0
+ 731 025c 00BF     		nop
+ 732              	.L59:
+ 223:keyboard.c    ****          
+ 224:keyboard.c    ****         
+ 225:keyboard.c    ****     }
+ 226:keyboard.c    **** }...
+ 733              		.loc 1 226 0
+ 734 025e 00BF     		nop
+ 735 0260 1037     		adds	r7, r7, #16
+ 736              		.cfi_def_cfa_offset 8
+ 737 0262 BD46     		mov	sp, r7
+ 738              		.cfi_def_cfa_register 13
+ 739              		@ sp needed
+ 740 0264 80BD     		pop	{r7, pc}
+ 741              	.L62:
+ 742 0266 00BF     		.align	2
+ 743              	.L61:
+ 744 0268 00000000 		.word	.LC0
+ 745 026c 10000000 		.word	.LC1
+ 746 0270 20000000 		.word	.LC2
+ 747 0274 30000000 		.word	.LC3
+ 748 0278 40000000 		.word	.LC4
+ 749 027c 50000000 		.word	.LC5
+ 750 0280 60000000 		.word	.LC6
+ 751 0284 70000000 		.word	.LC7
+ 752 0288 80000000 		.word	.LC8
+ 753 028c 90000000 		.word	.LC9
+ 754 0290 A0000000 		.word	.LC10
+ 755 0294 B0000000 		.word	.LC11
+ 756 0298 C0000000 		.word	.LC12
+ 757 029c D0000000 		.word	.LC13
+ 758 02a0 E0000000 		.word	.LC14
+ 759 02a4 F0000000 		.word	.LC15
+ 760 02a8 00010000 		.word	.LC16
+ 761 02ac 14010000 		.word	.LC17
+ 762 02b0 24010000 		.word	.LC18
+ 763 02b4 34010000 		.word	.LC19
+ 764 02b8 48010000 		.word	.LC20
+ 765              		.cfi_endproc
+ 766              	.LFE66:
+ 767              		.size	echoButton, .-echoButton
+ 768              		.bss
+ 769              	state.6797:
+ 770 0000 00       		.space	1
+ 771 0001 00       		.align	1
+ 772              	lastInputDetected.6800:
+ 773 0002 0000     		.space	2
+ 774              		.text
+ 775              	.Letext0:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 20
+
+
+ 776              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 777              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 778              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 779              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 780              		.section	.debug_info,"",%progbits
+ 781              	.Ldebug_info0:
+ 782 0000 7D020000 		.4byte	0x27d
+ 783 0004 0400     		.2byte	0x4
+ 784 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 785 000a 04       		.byte	0x4
+ 786 000b 01       		.uleb128 0x1
+ 787 000c 0A000000 		.4byte	.LASF38
+ 788 0010 0C       		.byte	0xc
+ 789 0011 37010000 		.4byte	.LASF39
+ 790 0015 E2000000 		.4byte	.LASF40
+ 791 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 792 001d 00000000 		.4byte	0
+ 793 0021 00000000 		.4byte	.Ldebug_line0
+ 794 0025 02       		.uleb128 0x2
+ 795 0026 01       		.byte	0x1
+ 796 0027 06       		.byte	0x6
+ 797 0028 7E020000 		.4byte	.LASF0
+ 798 002c 03       		.uleb128 0x3
+ 799 002d 00000000 		.4byte	.LASF3
+ 800 0031 02       		.byte	0x2
+ 801 0032 1D       		.byte	0x1d
+ 802 0033 37000000 		.4byte	0x37
+ 803 0037 02       		.uleb128 0x2
+ 804 0038 01       		.byte	0x1
+ 805 0039 08       		.byte	0x8
+ 806 003a 79010000 		.4byte	.LASF1
+ 807 003e 02       		.uleb128 0x2
+ 808 003f 02       		.byte	0x2
+ 809 0040 05       		.byte	0x5
+ 810 0041 49020000 		.4byte	.LASF2
+ 811 0045 03       		.uleb128 0x3
+ 812 0046 87010000 		.4byte	.LASF4
+ 813 004a 02       		.byte	0x2
+ 814 004b 2B       		.byte	0x2b
+ 815 004c 50000000 		.4byte	0x50
+ 816 0050 02       		.uleb128 0x2
+ 817 0051 02       		.byte	0x2
+ 818 0052 07       		.byte	0x7
+ 819 0053 CF000000 		.4byte	.LASF5
+ 820 0057 03       		.uleb128 0x3
+ 821 0058 C5000000 		.4byte	.LASF6
+ 822 005c 02       		.byte	0x2
+ 823 005d 3F       		.byte	0x3f
+ 824 005e 62000000 		.4byte	0x62
+ 825 0062 02       		.uleb128 0x2
+ 826 0063 04       		.byte	0x4
+ 827 0064 05       		.byte	0x5
+ 828 0065 69020000 		.4byte	.LASF7
+ 829 0069 02       		.uleb128 0x2
+ 830 006a 04       		.byte	0x4
+ 831 006b 07       		.byte	0x7
+ 832 006c 92010000 		.4byte	.LASF8
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 21
+
+
+ 833 0070 02       		.uleb128 0x2
+ 834 0071 08       		.byte	0x8
+ 835 0072 05       		.byte	0x5
+ 836 0073 36020000 		.4byte	.LASF9
+ 837 0077 02       		.uleb128 0x2
+ 838 0078 08       		.byte	0x8
+ 839 0079 07       		.byte	0x7
+ 840 007a ED010000 		.4byte	.LASF10
+ 841 007e 04       		.uleb128 0x4
+ 842 007f 04       		.byte	0x4
+ 843 0080 05       		.byte	0x5
+ 844 0081 696E7400 		.ascii	"int\000"
+ 845 0085 02       		.uleb128 0x2
+ 846 0086 04       		.byte	0x4
+ 847 0087 07       		.byte	0x7
+ 848 0088 D5010000 		.4byte	.LASF11
+ 849 008c 02       		.uleb128 0x2
+ 850 008d 08       		.byte	0x8
+ 851 008e 04       		.byte	0x4
+ 852 008f 72020000 		.4byte	.LASF12
+ 853 0093 02       		.uleb128 0x2
+ 854 0094 04       		.byte	0x4
+ 855 0095 07       		.byte	0x7
+ 856 0096 2D020000 		.4byte	.LASF13
+ 857 009a 02       		.uleb128 0x2
+ 858 009b 01       		.byte	0x1
+ 859 009c 08       		.byte	0x8
+ 860 009d 44020000 		.4byte	.LASF14
+ 861 00a1 03       		.uleb128 0x3
+ 862 00a2 04020000 		.4byte	.LASF15
+ 863 00a6 03       		.byte	0x3
+ 864 00a7 18       		.byte	0x18
+ 865 00a8 2C000000 		.4byte	0x2c
+ 866 00ac 03       		.uleb128 0x3
+ 867 00ad 53020000 		.4byte	.LASF16
+ 868 00b1 03       		.byte	0x3
+ 869 00b2 24       		.byte	0x24
+ 870 00b3 45000000 		.4byte	0x45
+ 871 00b7 03       		.uleb128 0x3
+ 872 00b8 25020000 		.4byte	.LASF17
+ 873 00bc 03       		.byte	0x3
+ 874 00bd 2C       		.byte	0x2c
+ 875 00be 57000000 		.4byte	0x57
+ 876 00c2 05       		.uleb128 0x5
+ 877 00c3 48010000 		.4byte	.LASF18
+ 878 00c7 04       		.byte	0x4
+ 879 00c8 E801     		.2byte	0x1e8
+ 880 00ca 37000000 		.4byte	0x37
+ 881 00ce 02       		.uleb128 0x2
+ 882 00cf 04       		.byte	0x4
+ 883 00d0 04       		.byte	0x4
+ 884 00d1 42010000 		.4byte	.LASF19
+ 885 00d5 02       		.uleb128 0x2
+ 886 00d6 08       		.byte	0x8
+ 887 00d7 04       		.byte	0x4
+ 888 00d8 8A020000 		.4byte	.LASF20
+ 889 00dc 05       		.uleb128 0x5
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 22
+
+
+ 890 00dd 59010000 		.4byte	.LASF21
+ 891 00e1 04       		.byte	0x4
+ 892 00e2 F901     		.2byte	0x1f9
+ 893 00e4 9A000000 		.4byte	0x9a
+ 894 00e8 06       		.uleb128 0x6
+ 895 00e9 5C020000 		.4byte	.LASF26
+ 896 00ed 01       		.byte	0x1
+ 897 00ee 14       		.byte	0x14
+ 898 00ef AC000000 		.4byte	0xac
+ 899 00f3 00000000 		.4byte	.LFB64
+ 900 00f7 52000000 		.4byte	.LFE64-.LFB64
+ 901 00fb 01       		.uleb128 0x1
+ 902 00fc 9C       		.byte	0x9c
+ 903 00fd 48010000 		.4byte	0x148
+ 904 0101 07       		.uleb128 0x7
+ 905 0102 66010000 		.4byte	.LASF22
+ 906 0106 01       		.byte	0x1
+ 907 0107 14       		.byte	0x14
+ 908 0108 53010000 		.4byte	0x153
+ 909 010c 02       		.uleb128 0x2
+ 910 010d 91       		.byte	0x91
+ 911 010e 6C       		.sleb128 -20
+ 912 010f 07       		.uleb128 0x7
+ 913 0110 B6010000 		.4byte	.LASF23
+ 914 0114 01       		.byte	0x1
+ 915 0115 14       		.byte	0x14
+ 916 0116 5E010000 		.4byte	0x15e
+ 917 011a 02       		.uleb128 0x2
+ 918 011b 91       		.byte	0x91
+ 919 011c 68       		.sleb128 -24
+ 920 011d 08       		.uleb128 0x8
+ 921 011e 5F010000 		.4byte	.LASF24
+ 922 0122 01       		.byte	0x1
+ 923 0123 15       		.byte	0x15
+ 924 0124 A1000000 		.4byte	0xa1
+ 925 0128 02       		.uleb128 0x2
+ 926 0129 91       		.byte	0x91
+ 927 012a 77       		.sleb128 -9
+ 928 012b 09       		.uleb128 0x9
+ 929 012c 726F7700 		.ascii	"row\000"
+ 930 0130 01       		.byte	0x1
+ 931 0131 15       		.byte	0x15
+ 932 0132 A1000000 		.4byte	0xa1
+ 933 0136 02       		.uleb128 0x2
+ 934 0137 91       		.byte	0x91
+ 935 0138 73       		.sleb128 -13
+ 936 0139 08       		.uleb128 0x8
+ 937 013a 0C020000 		.4byte	.LASF25
+ 938 013e 01       		.byte	0x1
+ 939 013f 16       		.byte	0x16
+ 940 0140 AC000000 		.4byte	0xac
+ 941 0144 02       		.uleb128 0x2
+ 942 0145 91       		.byte	0x91
+ 943 0146 74       		.sleb128 -12
+ 944 0147 00       		.byte	0
+ 945 0148 0A       		.uleb128 0xa
+ 946 0149 53010000 		.4byte	0x153
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 23
+
+
+ 947 014d 0B       		.uleb128 0xb
+ 948 014e A1000000 		.4byte	0xa1
+ 949 0152 00       		.byte	0
+ 950 0153 0C       		.uleb128 0xc
+ 951 0154 04       		.byte	0x4
+ 952 0155 48010000 		.4byte	0x148
+ 953 0159 0D       		.uleb128 0xd
+ 954 015a A1000000 		.4byte	0xa1
+ 955 015e 0C       		.uleb128 0xc
+ 956 015f 04       		.byte	0x4
+ 957 0160 59010000 		.4byte	0x159
+ 958 0164 06       		.uleb128 0x6
+ 959 0165 AC010000 		.4byte	.LASF27
+ 960 0169 01       		.byte	0x1
+ 961 016a 29       		.byte	0x29
+ 962 016b AC000000 		.4byte	0xac
+ 963 016f 00000000 		.4byte	.LFB65
+ 964 0173 F4000000 		.4byte	.LFE65-.LFB65
+ 965 0177 01       		.uleb128 0x1
+ 966 0178 9C       		.byte	0x9c
+ 967 0179 01020000 		.4byte	0x201
+ 968 017d 07       		.uleb128 0x7
+ 969 017e 66010000 		.4byte	.LASF22
+ 970 0182 01       		.byte	0x1
+ 971 0183 29       		.byte	0x29
+ 972 0184 53010000 		.4byte	0x153
+ 973 0188 02       		.uleb128 0x2
+ 974 0189 91       		.byte	0x91
+ 975 018a 6C       		.sleb128 -20
+ 976 018b 07       		.uleb128 0x7
+ 977 018c B6010000 		.4byte	.LASF23
+ 978 0190 01       		.byte	0x1
+ 979 0191 29       		.byte	0x29
+ 980 0192 5E010000 		.4byte	0x15e
+ 981 0196 02       		.uleb128 0x2
+ 982 0197 91       		.byte	0x91
+ 983 0198 68       		.sleb128 -24
+ 984 0199 0E       		.uleb128 0xe
+ 985 019a A4010000 		.4byte	.LASF41
+ 986 019e 01       		.byte	0x1
+ 987 019f 37000000 		.4byte	0x37
+ 988 01a3 01       		.byte	0x1
+ 989 01a4 2B       		.byte	0x2b
+ 990 01a5 C2010000 		.4byte	0x1c2
+ 991 01a9 0F       		.uleb128 0xf
+ 992 01aa 13020000 		.4byte	.LASF28
+ 993 01ae 00       		.byte	0
+ 994 01af 0F       		.uleb128 0xf
+ 995 01b0 1B020000 		.4byte	.LASF29
+ 996 01b4 01       		.byte	0x1
+ 997 01b5 0F       		.uleb128 0xf
+ 998 01b6 4E010000 		.4byte	.LASF30
+ 999 01ba 02       		.byte	0x2
+ 1000 01bb 0F       		.uleb128 0xf
+ 1001 01bc BB010000 		.4byte	.LASF31
+ 1002 01c0 03       		.byte	0x3
+ 1003 01c1 00       		.byte	0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 24
+
+
+ 1004 01c2 08       		.uleb128 0x8
+ 1005 01c3 98000000 		.4byte	.LASF32
+ 1006 01c7 01       		.byte	0x1
+ 1007 01c8 2D       		.byte	0x2d
+ 1008 01c9 99010000 		.4byte	0x199
+ 1009 01cd 05       		.uleb128 0x5
+ 1010 01ce 03       		.byte	0x3
+ 1011 01cf 00000000 		.4byte	state.6797
+ 1012 01d3 08       		.uleb128 0x8
+ 1013 01d4 C8010000 		.4byte	.LASF33
+ 1014 01d8 01       		.byte	0x1
+ 1015 01d9 2E       		.byte	0x2e
+ 1016 01da AC000000 		.4byte	0xac
+ 1017 01de 02       		.uleb128 0x2
+ 1018 01df 91       		.byte	0x91
+ 1019 01e0 76       		.sleb128 -10
+ 1020 01e1 08       		.uleb128 0x8
+ 1021 01e2 B0000000 		.4byte	.LASF34
+ 1022 01e6 01       		.byte	0x1
+ 1023 01e7 2E       		.byte	0x2e
+ 1024 01e8 AC000000 		.4byte	0xac
+ 1025 01ec 02       		.uleb128 0x2
+ 1026 01ed 91       		.byte	0x91
+ 1027 01ee 74       		.sleb128 -12
+ 1028 01ef 08       		.uleb128 0x8
+ 1029 01f0 9E000000 		.4byte	.LASF35
+ 1030 01f4 01       		.byte	0x1
+ 1031 01f5 2F       		.byte	0x2f
+ 1032 01f6 AC000000 		.4byte	0xac
+ 1033 01fa 05       		.uleb128 0x5
+ 1034 01fb 03       		.byte	0x3
+ 1035 01fc 02000000 		.4byte	lastInputDetected.6800
+ 1036 0200 00       		.byte	0
+ 1037 0201 10       		.uleb128 0x10
+ 1038 0202 E2010000 		.4byte	.LASF42
+ 1039 0206 01       		.byte	0x1
+ 1040 0207 6F       		.byte	0x6f
+ 1041 0208 00000000 		.4byte	.LFB66
+ 1042 020c BC020000 		.4byte	.LFE66-.LFB66
+ 1043 0210 01       		.uleb128 0x1
+ 1044 0211 9C       		.byte	0x9c
+ 1045 0212 4D020000 		.4byte	0x24d
+ 1046 0216 11       		.uleb128 0x11
+ 1047 0217 6200     		.ascii	"b\000"
+ 1048 0219 01       		.byte	0x1
+ 1049 021a 6F       		.byte	0x6f
+ 1050 021b AC000000 		.4byte	0xac
+ 1051 021f 02       		.uleb128 0x2
+ 1052 0220 91       		.byte	0x91
+ 1053 0221 76       		.sleb128 -10
+ 1054 0222 07       		.uleb128 0x7
+ 1055 0223 91020000 		.4byte	.LASF36
+ 1056 0227 01       		.byte	0x1
+ 1057 0228 6F       		.byte	0x6f
+ 1058 0229 4D020000 		.4byte	0x24d
+ 1059 022d 02       		.uleb128 0x2
+ 1060 022e 91       		.byte	0x91
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 25
+
+
+ 1061 022f 70       		.sleb128 -16
+ 1062 0230 11       		.uleb128 0x11
+ 1063 0231 6D617800 		.ascii	"max\000"
+ 1064 0235 01       		.byte	0x1
+ 1065 0236 6F       		.byte	0x6f
+ 1066 0237 C2000000 		.4byte	0xc2
+ 1067 023b 02       		.uleb128 0x2
+ 1068 023c 91       		.byte	0x91
+ 1069 023d 75       		.sleb128 -11
+ 1070 023e 07       		.uleb128 0x7
+ 1071 023f 2D010000 		.4byte	.LASF37
+ 1072 0243 01       		.byte	0x1
+ 1073 0244 6F       		.byte	0x6f
+ 1074 0245 69020000 		.4byte	0x269
+ 1075 0249 02       		.uleb128 0x2
+ 1076 024a 91       		.byte	0x91
+ 1077 024b 6C       		.sleb128 -20
+ 1078 024c 00       		.byte	0
+ 1079 024d 0C       		.uleb128 0xc
+ 1080 024e 04       		.byte	0x4
+ 1081 024f DC000000 		.4byte	0xdc
+ 1082 0253 0A       		.uleb128 0xa
+ 1083 0254 5E020000 		.4byte	0x25e
+ 1084 0258 0B       		.uleb128 0xb
+ 1085 0259 5E020000 		.4byte	0x25e
+ 1086 025d 00       		.byte	0
+ 1087 025e 0C       		.uleb128 0xc
+ 1088 025f 04       		.byte	0x4
+ 1089 0260 64020000 		.4byte	0x264
+ 1090 0264 12       		.uleb128 0x12
+ 1091 0265 DC000000 		.4byte	0xdc
+ 1092 0269 0C       		.uleb128 0xc
+ 1093 026a 04       		.byte	0x4
+ 1094 026b 53020000 		.4byte	0x253
+ 1095 026f 13       		.uleb128 0x13
+ 1096 0270 6C010000 		.4byte	.LASF43
+ 1097 0274 05       		.byte	0x5
+ 1098 0275 1207     		.2byte	0x712
+ 1099 0277 7B020000 		.4byte	0x27b
+ 1100 027b 14       		.uleb128 0x14
+ 1101 027c B7000000 		.4byte	0xb7
+ 1102 0280 00       		.byte	0
+ 1103              		.section	.debug_abbrev,"",%progbits
+ 1104              	.Ldebug_abbrev0:
+ 1105 0000 01       		.uleb128 0x1
+ 1106 0001 11       		.uleb128 0x11
+ 1107 0002 01       		.byte	0x1
+ 1108 0003 25       		.uleb128 0x25
+ 1109 0004 0E       		.uleb128 0xe
+ 1110 0005 13       		.uleb128 0x13
+ 1111 0006 0B       		.uleb128 0xb
+ 1112 0007 03       		.uleb128 0x3
+ 1113 0008 0E       		.uleb128 0xe
+ 1114 0009 1B       		.uleb128 0x1b
+ 1115 000a 0E       		.uleb128 0xe
+ 1116 000b 55       		.uleb128 0x55
+ 1117 000c 17       		.uleb128 0x17
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 26
+
+
+ 1118 000d 11       		.uleb128 0x11
+ 1119 000e 01       		.uleb128 0x1
+ 1120 000f 10       		.uleb128 0x10
+ 1121 0010 17       		.uleb128 0x17
+ 1122 0011 00       		.byte	0
+ 1123 0012 00       		.byte	0
+ 1124 0013 02       		.uleb128 0x2
+ 1125 0014 24       		.uleb128 0x24
+ 1126 0015 00       		.byte	0
+ 1127 0016 0B       		.uleb128 0xb
+ 1128 0017 0B       		.uleb128 0xb
+ 1129 0018 3E       		.uleb128 0x3e
+ 1130 0019 0B       		.uleb128 0xb
+ 1131 001a 03       		.uleb128 0x3
+ 1132 001b 0E       		.uleb128 0xe
+ 1133 001c 00       		.byte	0
+ 1134 001d 00       		.byte	0
+ 1135 001e 03       		.uleb128 0x3
+ 1136 001f 16       		.uleb128 0x16
+ 1137 0020 00       		.byte	0
+ 1138 0021 03       		.uleb128 0x3
+ 1139 0022 0E       		.uleb128 0xe
+ 1140 0023 3A       		.uleb128 0x3a
+ 1141 0024 0B       		.uleb128 0xb
+ 1142 0025 3B       		.uleb128 0x3b
+ 1143 0026 0B       		.uleb128 0xb
+ 1144 0027 49       		.uleb128 0x49
+ 1145 0028 13       		.uleb128 0x13
+ 1146 0029 00       		.byte	0
+ 1147 002a 00       		.byte	0
+ 1148 002b 04       		.uleb128 0x4
+ 1149 002c 24       		.uleb128 0x24
+ 1150 002d 00       		.byte	0
+ 1151 002e 0B       		.uleb128 0xb
+ 1152 002f 0B       		.uleb128 0xb
+ 1153 0030 3E       		.uleb128 0x3e
+ 1154 0031 0B       		.uleb128 0xb
+ 1155 0032 03       		.uleb128 0x3
+ 1156 0033 08       		.uleb128 0x8
+ 1157 0034 00       		.byte	0
+ 1158 0035 00       		.byte	0
+ 1159 0036 05       		.uleb128 0x5
+ 1160 0037 16       		.uleb128 0x16
+ 1161 0038 00       		.byte	0
+ 1162 0039 03       		.uleb128 0x3
+ 1163 003a 0E       		.uleb128 0xe
+ 1164 003b 3A       		.uleb128 0x3a
+ 1165 003c 0B       		.uleb128 0xb
+ 1166 003d 3B       		.uleb128 0x3b
+ 1167 003e 05       		.uleb128 0x5
+ 1168 003f 49       		.uleb128 0x49
+ 1169 0040 13       		.uleb128 0x13
+ 1170 0041 00       		.byte	0
+ 1171 0042 00       		.byte	0
+ 1172 0043 06       		.uleb128 0x6
+ 1173 0044 2E       		.uleb128 0x2e
+ 1174 0045 01       		.byte	0x1
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 27
+
+
+ 1175 0046 3F       		.uleb128 0x3f
+ 1176 0047 19       		.uleb128 0x19
+ 1177 0048 03       		.uleb128 0x3
+ 1178 0049 0E       		.uleb128 0xe
+ 1179 004a 3A       		.uleb128 0x3a
+ 1180 004b 0B       		.uleb128 0xb
+ 1181 004c 3B       		.uleb128 0x3b
+ 1182 004d 0B       		.uleb128 0xb
+ 1183 004e 27       		.uleb128 0x27
+ 1184 004f 19       		.uleb128 0x19
+ 1185 0050 49       		.uleb128 0x49
+ 1186 0051 13       		.uleb128 0x13
+ 1187 0052 11       		.uleb128 0x11
+ 1188 0053 01       		.uleb128 0x1
+ 1189 0054 12       		.uleb128 0x12
+ 1190 0055 06       		.uleb128 0x6
+ 1191 0056 40       		.uleb128 0x40
+ 1192 0057 18       		.uleb128 0x18
+ 1193 0058 9642     		.uleb128 0x2116
+ 1194 005a 19       		.uleb128 0x19
+ 1195 005b 01       		.uleb128 0x1
+ 1196 005c 13       		.uleb128 0x13
+ 1197 005d 00       		.byte	0
+ 1198 005e 00       		.byte	0
+ 1199 005f 07       		.uleb128 0x7
+ 1200 0060 05       		.uleb128 0x5
+ 1201 0061 00       		.byte	0
+ 1202 0062 03       		.uleb128 0x3
+ 1203 0063 0E       		.uleb128 0xe
+ 1204 0064 3A       		.uleb128 0x3a
+ 1205 0065 0B       		.uleb128 0xb
+ 1206 0066 3B       		.uleb128 0x3b
+ 1207 0067 0B       		.uleb128 0xb
+ 1208 0068 49       		.uleb128 0x49
+ 1209 0069 13       		.uleb128 0x13
+ 1210 006a 02       		.uleb128 0x2
+ 1211 006b 18       		.uleb128 0x18
+ 1212 006c 00       		.byte	0
+ 1213 006d 00       		.byte	0
+ 1214 006e 08       		.uleb128 0x8
+ 1215 006f 34       		.uleb128 0x34
+ 1216 0070 00       		.byte	0
+ 1217 0071 03       		.uleb128 0x3
+ 1218 0072 0E       		.uleb128 0xe
+ 1219 0073 3A       		.uleb128 0x3a
+ 1220 0074 0B       		.uleb128 0xb
+ 1221 0075 3B       		.uleb128 0x3b
+ 1222 0076 0B       		.uleb128 0xb
+ 1223 0077 49       		.uleb128 0x49
+ 1224 0078 13       		.uleb128 0x13
+ 1225 0079 02       		.uleb128 0x2
+ 1226 007a 18       		.uleb128 0x18
+ 1227 007b 00       		.byte	0
+ 1228 007c 00       		.byte	0
+ 1229 007d 09       		.uleb128 0x9
+ 1230 007e 34       		.uleb128 0x34
+ 1231 007f 00       		.byte	0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 28
+
+
+ 1232 0080 03       		.uleb128 0x3
+ 1233 0081 08       		.uleb128 0x8
+ 1234 0082 3A       		.uleb128 0x3a
+ 1235 0083 0B       		.uleb128 0xb
+ 1236 0084 3B       		.uleb128 0x3b
+ 1237 0085 0B       		.uleb128 0xb
+ 1238 0086 49       		.uleb128 0x49
+ 1239 0087 13       		.uleb128 0x13
+ 1240 0088 02       		.uleb128 0x2
+ 1241 0089 18       		.uleb128 0x18
+ 1242 008a 00       		.byte	0
+ 1243 008b 00       		.byte	0
+ 1244 008c 0A       		.uleb128 0xa
+ 1245 008d 15       		.uleb128 0x15
+ 1246 008e 01       		.byte	0x1
+ 1247 008f 27       		.uleb128 0x27
+ 1248 0090 19       		.uleb128 0x19
+ 1249 0091 01       		.uleb128 0x1
+ 1250 0092 13       		.uleb128 0x13
+ 1251 0093 00       		.byte	0
+ 1252 0094 00       		.byte	0
+ 1253 0095 0B       		.uleb128 0xb
+ 1254 0096 05       		.uleb128 0x5
+ 1255 0097 00       		.byte	0
+ 1256 0098 49       		.uleb128 0x49
+ 1257 0099 13       		.uleb128 0x13
+ 1258 009a 00       		.byte	0
+ 1259 009b 00       		.byte	0
+ 1260 009c 0C       		.uleb128 0xc
+ 1261 009d 0F       		.uleb128 0xf
+ 1262 009e 00       		.byte	0
+ 1263 009f 0B       		.uleb128 0xb
+ 1264 00a0 0B       		.uleb128 0xb
+ 1265 00a1 49       		.uleb128 0x49
+ 1266 00a2 13       		.uleb128 0x13
+ 1267 00a3 00       		.byte	0
+ 1268 00a4 00       		.byte	0
+ 1269 00a5 0D       		.uleb128 0xd
+ 1270 00a6 15       		.uleb128 0x15
+ 1271 00a7 00       		.byte	0
+ 1272 00a8 27       		.uleb128 0x27
+ 1273 00a9 19       		.uleb128 0x19
+ 1274 00aa 49       		.uleb128 0x49
+ 1275 00ab 13       		.uleb128 0x13
+ 1276 00ac 00       		.byte	0
+ 1277 00ad 00       		.byte	0
+ 1278 00ae 0E       		.uleb128 0xe
+ 1279 00af 04       		.uleb128 0x4
+ 1280 00b0 01       		.byte	0x1
+ 1281 00b1 03       		.uleb128 0x3
+ 1282 00b2 0E       		.uleb128 0xe
+ 1283 00b3 0B       		.uleb128 0xb
+ 1284 00b4 0B       		.uleb128 0xb
+ 1285 00b5 49       		.uleb128 0x49
+ 1286 00b6 13       		.uleb128 0x13
+ 1287 00b7 3A       		.uleb128 0x3a
+ 1288 00b8 0B       		.uleb128 0xb
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 29
+
+
+ 1289 00b9 3B       		.uleb128 0x3b
+ 1290 00ba 0B       		.uleb128 0xb
+ 1291 00bb 01       		.uleb128 0x1
+ 1292 00bc 13       		.uleb128 0x13
+ 1293 00bd 00       		.byte	0
+ 1294 00be 00       		.byte	0
+ 1295 00bf 0F       		.uleb128 0xf
+ 1296 00c0 28       		.uleb128 0x28
+ 1297 00c1 00       		.byte	0
+ 1298 00c2 03       		.uleb128 0x3
+ 1299 00c3 0E       		.uleb128 0xe
+ 1300 00c4 1C       		.uleb128 0x1c
+ 1301 00c5 0B       		.uleb128 0xb
+ 1302 00c6 00       		.byte	0
+ 1303 00c7 00       		.byte	0
+ 1304 00c8 10       		.uleb128 0x10
+ 1305 00c9 2E       		.uleb128 0x2e
+ 1306 00ca 01       		.byte	0x1
+ 1307 00cb 3F       		.uleb128 0x3f
+ 1308 00cc 19       		.uleb128 0x19
+ 1309 00cd 03       		.uleb128 0x3
+ 1310 00ce 0E       		.uleb128 0xe
+ 1311 00cf 3A       		.uleb128 0x3a
+ 1312 00d0 0B       		.uleb128 0xb
+ 1313 00d1 3B       		.uleb128 0x3b
+ 1314 00d2 0B       		.uleb128 0xb
+ 1315 00d3 27       		.uleb128 0x27
+ 1316 00d4 19       		.uleb128 0x19
+ 1317 00d5 11       		.uleb128 0x11
+ 1318 00d6 01       		.uleb128 0x1
+ 1319 00d7 12       		.uleb128 0x12
+ 1320 00d8 06       		.uleb128 0x6
+ 1321 00d9 40       		.uleb128 0x40
+ 1322 00da 18       		.uleb128 0x18
+ 1323 00db 9642     		.uleb128 0x2116
+ 1324 00dd 19       		.uleb128 0x19
+ 1325 00de 01       		.uleb128 0x1
+ 1326 00df 13       		.uleb128 0x13
+ 1327 00e0 00       		.byte	0
+ 1328 00e1 00       		.byte	0
+ 1329 00e2 11       		.uleb128 0x11
+ 1330 00e3 05       		.uleb128 0x5
+ 1331 00e4 00       		.byte	0
+ 1332 00e5 03       		.uleb128 0x3
+ 1333 00e6 08       		.uleb128 0x8
+ 1334 00e7 3A       		.uleb128 0x3a
+ 1335 00e8 0B       		.uleb128 0xb
+ 1336 00e9 3B       		.uleb128 0x3b
+ 1337 00ea 0B       		.uleb128 0xb
+ 1338 00eb 49       		.uleb128 0x49
+ 1339 00ec 13       		.uleb128 0x13
+ 1340 00ed 02       		.uleb128 0x2
+ 1341 00ee 18       		.uleb128 0x18
+ 1342 00ef 00       		.byte	0
+ 1343 00f0 00       		.byte	0
+ 1344 00f1 12       		.uleb128 0x12
+ 1345 00f2 26       		.uleb128 0x26
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 30
+
+
+ 1346 00f3 00       		.byte	0
+ 1347 00f4 49       		.uleb128 0x49
+ 1348 00f5 13       		.uleb128 0x13
+ 1349 00f6 00       		.byte	0
+ 1350 00f7 00       		.byte	0
+ 1351 00f8 13       		.uleb128 0x13
+ 1352 00f9 34       		.uleb128 0x34
+ 1353 00fa 00       		.byte	0
+ 1354 00fb 03       		.uleb128 0x3
+ 1355 00fc 0E       		.uleb128 0xe
+ 1356 00fd 3A       		.uleb128 0x3a
+ 1357 00fe 0B       		.uleb128 0xb
+ 1358 00ff 3B       		.uleb128 0x3b
+ 1359 0100 05       		.uleb128 0x5
+ 1360 0101 49       		.uleb128 0x49
+ 1361 0102 13       		.uleb128 0x13
+ 1362 0103 3F       		.uleb128 0x3f
+ 1363 0104 19       		.uleb128 0x19
+ 1364 0105 3C       		.uleb128 0x3c
+ 1365 0106 19       		.uleb128 0x19
+ 1366 0107 00       		.byte	0
+ 1367 0108 00       		.byte	0
+ 1368 0109 14       		.uleb128 0x14
+ 1369 010a 35       		.uleb128 0x35
+ 1370 010b 00       		.byte	0
+ 1371 010c 49       		.uleb128 0x49
+ 1372 010d 13       		.uleb128 0x13
+ 1373 010e 00       		.byte	0
+ 1374 010f 00       		.byte	0
+ 1375 0110 00       		.byte	0
+ 1376              		.section	.debug_aranges,"",%progbits
+ 1377 0000 2C000000 		.4byte	0x2c
+ 1378 0004 0200     		.2byte	0x2
+ 1379 0006 00000000 		.4byte	.Ldebug_info0
+ 1380 000a 04       		.byte	0x4
+ 1381 000b 00       		.byte	0
+ 1382 000c 0000     		.2byte	0
+ 1383 000e 0000     		.2byte	0
+ 1384 0010 00000000 		.4byte	.LFB64
+ 1385 0014 52000000 		.4byte	.LFE64-.LFB64
+ 1386 0018 00000000 		.4byte	.LFB65
+ 1387 001c F4000000 		.4byte	.LFE65-.LFB65
+ 1388 0020 00000000 		.4byte	.LFB66
+ 1389 0024 BC020000 		.4byte	.LFE66-.LFB66
+ 1390 0028 00000000 		.4byte	0
+ 1391 002c 00000000 		.4byte	0
+ 1392              		.section	.debug_ranges,"",%progbits
+ 1393              	.Ldebug_ranges0:
+ 1394 0000 00000000 		.4byte	.LFB64
+ 1395 0004 52000000 		.4byte	.LFE64
+ 1396 0008 00000000 		.4byte	.LFB65
+ 1397 000c F4000000 		.4byte	.LFE65
+ 1398 0010 00000000 		.4byte	.LFB66
+ 1399 0014 BC020000 		.4byte	.LFE66
+ 1400 0018 00000000 		.4byte	0
+ 1401 001c 00000000 		.4byte	0
+ 1402              		.section	.debug_line,"",%progbits
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 31
+
+
+ 1403              	.Ldebug_line0:
+ 1404 0000 1B020000 		.section	.debug_str,"MS",%progbits,1
+ 1404      02005001 
+ 1404      00000201 
+ 1404      FB0E0D00 
+ 1404      01010101 
+ 1405              	.LASF3:
+ 1406 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 1406      6E74385F 
+ 1406      7400
+ 1407              	.LASF38:
+ 1408 000a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1408      43313120 
+ 1408      352E342E 
+ 1408      31203230 
+ 1408      31363036 
+ 1409 003d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1409      20726576 
+ 1409      6973696F 
+ 1409      6E203233 
+ 1409      37373135 
+ 1410 0070 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1410      66756E63 
+ 1410      74696F6E 
+ 1410      2D736563 
+ 1410      74696F6E 
+ 1411              	.LASF32:
+ 1412 0098 73746174 		.ascii	"state\000"
+ 1412      6500
+ 1413              	.LASF35:
+ 1414 009e 6C617374 		.ascii	"lastInputDetected\000"
+ 1414      496E7075 
+ 1414      74446574 
+ 1414      65637465 
+ 1414      6400
+ 1415              	.LASF34:
+ 1416 00b0 63757272 		.ascii	"currentInputDetected\000"
+ 1416      656E7449 
+ 1416      6E707574 
+ 1416      44657465 
+ 1416      63746564 
+ 1417              	.LASF6:
+ 1418 00c5 5F5F696E 		.ascii	"__int32_t\000"
+ 1418      7433325F 
+ 1418      7400
+ 1419              	.LASF5:
+ 1420 00cf 73686F72 		.ascii	"short unsigned int\000"
+ 1420      7420756E 
+ 1420      7369676E 
+ 1420      65642069 
+ 1420      6E7400
+ 1421              	.LASF40:
+ 1422 00e2 433A5C55 		.ascii	"C:\\Users\\elias\\OneDrive\\Documents\\Documentos\\"
+ 1422      73657273 
+ 1422      5C656C69 
+ 1422      61735C4F 
+ 1422      6E654472 
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 32
+
+
+ 1423 010f 50536F43 		.ascii	"PSoC Creator\\TPF\\Micro1.cydsn\000"
+ 1423      20437265 
+ 1423      61746F72 
+ 1423      5C545046 
+ 1423      5C4D6963 
+ 1424              	.LASF37:
+ 1425 012d 70757453 		.ascii	"putString\000"
+ 1425      7472696E 
+ 1425      6700
+ 1426              	.LASF39:
+ 1427 0137 6B657962 		.ascii	"keyboard.c\000"
+ 1427      6F617264 
+ 1427      2E6300
+ 1428              	.LASF19:
+ 1429 0142 666C6F61 		.ascii	"float\000"
+ 1429      7400
+ 1430              	.LASF18:
+ 1431 0148 75696E74 		.ascii	"uint8\000"
+ 1431      3800
+ 1432              	.LASF30:
+ 1433 014e 7365636F 		.ascii	"secondTime\000"
+ 1433      6E645469 
+ 1433      6D6500
+ 1434              	.LASF21:
+ 1435 0159 63686172 		.ascii	"char8\000"
+ 1435      3800
+ 1436              	.LASF24:
+ 1437 015f 636F6C75 		.ascii	"column\000"
+ 1437      6D6E00
+ 1438              	.LASF22:
+ 1439 0166 77726974 		.ascii	"write\000"
+ 1439      6500
+ 1440              	.LASF43:
+ 1441 016c 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1441      52784275 
+ 1441      66666572 
+ 1441      00
+ 1442              	.LASF1:
+ 1443 0179 756E7369 		.ascii	"unsigned char\000"
+ 1443      676E6564 
+ 1443      20636861 
+ 1443      7200
+ 1444              	.LASF4:
+ 1445 0187 5F5F7569 		.ascii	"__uint16_t\000"
+ 1445      6E743136 
+ 1445      5F7400
+ 1446              	.LASF8:
+ 1447 0192 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1447      20756E73 
+ 1447      69676E65 
+ 1447      6420696E 
+ 1447      7400
+ 1448              	.LASF41:
+ 1449 01a4 6D795374 		.ascii	"myState\000"
+ 1449      61746500 
+ 1450              	.LASF27:
+ 1451 01ac 6465626F 		.ascii	"debouncer\000"
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 33
+
+
+ 1451      756E6365 
+ 1451      7200
+ 1452              	.LASF23:
+ 1453 01b6 72656164 		.ascii	"read\000"
+ 1453      00
+ 1454              	.LASF31:
+ 1455 01bb 66697273 		.ascii	"firstTimeOut\000"
+ 1455      7454696D 
+ 1455      654F7574 
+ 1455      00
+ 1456              	.LASF33:
+ 1457 01c8 66696C74 		.ascii	"filtredInput\000"
+ 1457      72656449 
+ 1457      6E707574 
+ 1457      00
+ 1458              	.LASF11:
+ 1459 01d5 756E7369 		.ascii	"unsigned int\000"
+ 1459      676E6564 
+ 1459      20696E74 
+ 1459      00
+ 1460              	.LASF42:
+ 1461 01e2 6563686F 		.ascii	"echoButton\000"
+ 1461      42757474 
+ 1461      6F6E00
+ 1462              	.LASF10:
+ 1463 01ed 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1463      206C6F6E 
+ 1463      6720756E 
+ 1463      7369676E 
+ 1463      65642069 
+ 1464              	.LASF15:
+ 1465 0204 75696E74 		.ascii	"uint8_t\000"
+ 1465      385F7400 
+ 1466              	.LASF25:
+ 1467 020c 72657375 		.ascii	"result\000"
+ 1467      6C7400
+ 1468              	.LASF28:
+ 1469 0213 6E6F496E 		.ascii	"noInput\000"
+ 1469      70757400 
+ 1470              	.LASF29:
+ 1471 021b 66697273 		.ascii	"firstTime\000"
+ 1471      7454696D 
+ 1471      6500
+ 1472              	.LASF17:
+ 1473 0225 696E7433 		.ascii	"int32_t\000"
+ 1473      325F7400 
+ 1474              	.LASF13:
+ 1475 022d 73697A65 		.ascii	"sizetype\000"
+ 1475      74797065 
+ 1475      00
+ 1476              	.LASF9:
+ 1477 0236 6C6F6E67 		.ascii	"long long int\000"
+ 1477      206C6F6E 
+ 1477      6720696E 
+ 1477      7400
+ 1478              	.LASF14:
+ 1479 0244 63686172 		.ascii	"char\000"
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccl9CCY9.s 			page 34
+
+
+ 1479      00
+ 1480              	.LASF2:
+ 1481 0249 73686F72 		.ascii	"short int\000"
+ 1481      7420696E 
+ 1481      7400
+ 1482              	.LASF16:
+ 1483 0253 75696E74 		.ascii	"uint16_t\000"
+ 1483      31365F74 
+ 1483      00
+ 1484              	.LASF26:
+ 1485 025c 72656164 		.ascii	"readKeyboard\000"
+ 1485      4B657962 
+ 1485      6F617264 
+ 1485      00
+ 1486              	.LASF7:
+ 1487 0269 6C6F6E67 		.ascii	"long int\000"
+ 1487      20696E74 
+ 1487      00
+ 1488              	.LASF12:
+ 1489 0272 6C6F6E67 		.ascii	"long double\000"
+ 1489      20646F75 
+ 1489      626C6500 
+ 1490              	.LASF0:
+ 1491 027e 7369676E 		.ascii	"signed char\000"
+ 1491      65642063 
+ 1491      68617200 
+ 1492              	.LASF20:
+ 1493 028a 646F7562 		.ascii	"double\000"
+ 1493      6C6500
+ 1494              	.LASF36:
+ 1495 0291 62756666 		.ascii	"bufferTX\000"
+ 1495      65725458 
+ 1495      00
+ 1496              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="PuertaConClave">
+<ExpandedNodeIds>
+<v>PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave\TopDesign</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Pins</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Analog</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Clocks</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Interrupts</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\DMA</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\System</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Directives</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Flash Security</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\EEPROM</v>
+<v>PuertaConClave\PuertaConClave\Header Files</v>
+<v>PuertaConClave\PuertaConClave\Header Files\cyapicallbacks.h</v>
+<v>PuertaConClave\PuertaConClave\Header Files\keyboard.h</v>
+<v>PuertaConClave\PuertaConClave\Source Files</v>
+<v>PuertaConClave\PuertaConClave\Source Files\keyboard.c</v>
+<v>PuertaConClave\PuertaConClave\Source Files\main.c</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave\TopDesign</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Pins</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Analog</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Clocks</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Interrupts</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\DMA</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\System</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Directives</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\Flash Security</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.cydwr\EEPROM</v>
+<v>PuertaConClave\PuertaConClave\Header Files</v>
+<v>PuertaConClave\PuertaConClave\Header Files\cyapicallbacks.h</v>
+<v>PuertaConClave\PuertaConClave\Header Files\keyboard.h</v>
+<v>PuertaConClave\PuertaConClave\Source Files</v>
+<v>PuertaConClave\PuertaConClave\Source Files\keyboard.c</v>
+<v>PuertaConClave\PuertaConClave\Source Files\main.c</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\Clock_1</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\cy_boot</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\Em_EEPROM_Dynamic</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\int_debouncer</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\int_puertaAbierta</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\int_sensorOFF</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\int_sensorON</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\keyboard_in</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\keyboard_out</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\Led</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\PC</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\PC_IntClock</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\SensorPuerta</v>
+<v>PuertaConClave\PuertaConClave\Generated_Source\PSoC5\timer_clock</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave\TopDesign</v>
+<v>PuertaConClave\PuertaConClave\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave\TopDesign</v>
+<v>PuertaConClave\PuertaConClave\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave\CortexM3</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_1.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\int_debouncer.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\int_puertaAbierta.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\int_sensorOFF.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\int_sensorON.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard_in.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard_out.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\Led.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\PC.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_BOOT.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_INT.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_IntClock.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_PM.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\SensorPuerta.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\timer_clock.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\timer_debouncer.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\timer_debouncer_PM.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\timer_puertaAbierta.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\timer_puertaAbierta_PM.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\PuertaConClave.elf</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\PuertaConClave.hex</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\PuertaConClave.map</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.gpdsc</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave.rpt</v>
+<v>PuertaConClave\PuertaConClave\PuertaConClave_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave\CortexM3</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_1.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\int_debouncer.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\int_puertaAbierta.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\int_sensorOFF.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\int_sensorON.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard_in.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\keyboard_out.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\Led.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\PC.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_BOOT.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_INT.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_IntClock.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\PC_PM.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\SensorPuerta.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\timer_clock.lst</v>
+<v>PuertaConClave\PuertaConClave\CortexM3\ARM_GCC_541\Debug\Listing Files\timer_debouncer.lst</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave\PSoC 5LP Architecture TRM</v>
+<v>PuertaConClave\PuertaConClave\CY8C58LP Family Datasheet</v>
+<v>PuertaConClave\PuertaConClave\System Reference Guides</v>
+<v>PuertaConClave\PuertaConClave\System Reference Guides\cy_boot_v6_10</v>
+<v>PuertaConClave\PuertaConClave\cy_clock_v2_20</v>
+<v>PuertaConClave\PuertaConClave\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>PuertaConClave\PuertaConClave\cy_isr_v1_70</v>
+<v>PuertaConClave\PuertaConClave\cy_isr_v1_70\cy_isr_v1_70.pdf</v>
+<v>PuertaConClave\PuertaConClave\cy_pins_v2_20</v>
+<v>PuertaConClave\PuertaConClave\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>PuertaConClave\PuertaConClave\Debouncer_v1_0.pdf</v>
+<v>PuertaConClave\PuertaConClave\not_v1_0.pdf</v>
+<v>PuertaConClave\PuertaConClave\Timer_v2_80</v>
+<v>PuertaConClave\PuertaConClave\Timer_v2_80\Timer_v2_80.pdf</v>
+<v>PuertaConClave\PuertaConClave\UART_v2_50.pdf</v>
+<v>PuertaConClave\PuertaConClave\ZeroTerminal.pdf</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave</v>
+<v>PuertaConClave\PuertaConClave\PSoC 5LP Architecture TRM</v>
+<v>PuertaConClave\PuertaConClave\CY8C58LP Family Datasheet</v>
+<v>PuertaConClave\PuertaConClave\System Reference Guides</v>
+<v>PuertaConClave\PuertaConClave\System Reference Guides\cy_boot_v6_10</v>
+<v>PuertaConClave\PuertaConClave\cy_clock_v2_20</v>
+<v>PuertaConClave\PuertaConClave\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>PuertaConClave\PuertaConClave\cy_isr_v1_70</v>
+<v>PuertaConClave\PuertaConClave\cy_isr_v1_70\cy_isr_v1_70.pdf</v>
+<v>PuertaConClave\PuertaConClave\cy_pins_v2_20</v>
+<v>PuertaConClave\PuertaConClave\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>PuertaConClave\PuertaConClave\Debouncer_v1_0.pdf</v>
+<v>PuertaConClave\PuertaConClave\not_v1_0.pdf</v>
+<v>PuertaConClave\PuertaConClave\Timer_v2_80</v>
+<v>PuertaConClave\PuertaConClave\Timer_v2_80\Timer_v2_80.pdf</v>
+<v>PuertaConClave\PuertaConClave\UART_v2_50.pdf</v>
+<v>PuertaConClave\PuertaConClave\ZeroTerminal.pdf</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v=".\PuertaConClave.cydsn\main.c" />
+<name v=".\PuertaConClave.cydsn\keyboard.c" />
+<name v=".\PuertaConClave.cydsn\keyboard.h" />
+<name v=".\PuertaConClave.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\PuertaConClave.cydsn\PuertaConClave.cydwr" />
+<name v=".\PuertaConClave.cydsn\Generated_Source\PSoC5\cytypes.h" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Vertical"><TabbedMdiContainer Size="950, 487" SelectedTabbedMdiWindow="e4650158-0fbd-4314-8774-ae8545dbf8a8"><DocumentWindow Key="C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\PuertaConClave\PuertaConClave.cydsn\main.c" Guid="e4650158-0fbd-4314-8774-ae8545dbf8a8" /><DocumentWindow Key="C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\PuertaConClave\PuertaConClave.cydsn\keyboard.c" Guid="eae6f1e1-9473-4b32-a62b-285cedfea376" /><DocumentWindow Key="C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\PuertaConClave\PuertaConClave.cydsn\keyboard.h" Guid="a4bdf940-6c5e-4596-97bc-46f61299d3ad" /><DocumentWindow Key="C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\PuertaConClave\PuertaConClave.cydsn\TopDesign\TopDesign.cysch" Guid="de915db5-3ff4-4089-b267-8eb9745f959d" /><DocumentWindow Key="C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\PuertaConClave\PuertaConClave.cydsn\PuertaConClave.cydwr" Guid="d04c0527-c877-420e-b38f-e75249cfacac" /><DocumentWindow Key="C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\PuertaConClave\PuertaConClave.cydsn\Generated_Source\PSoC5\cytypes.h" Guid="b14297bc-b300-4b20-8e64-cc998fcde23f" /><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="7fc9e867-6b67-4645-b6da-6879527565d3" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

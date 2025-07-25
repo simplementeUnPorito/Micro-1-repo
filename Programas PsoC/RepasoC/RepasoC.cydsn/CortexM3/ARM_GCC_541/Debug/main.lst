@@ -1,0 +1,1763 @@
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	buffer,100,4
+  20              		.comm	degree,1,1
+  21              		.comm	coeficiente,255,4
+  22              		.comm	x,2,2
+  23              		.comm	result,8,8
+  24              		.section	.text.getLine,"ax",%progbits
+  25              		.align	2
+  26              		.global	getLine
+  27              		.thumb
+  28              		.thumb_func
+  29              		.type	getLine, %function
+  30              	getLine:
+  31              	.LFB64:
+  32              		.file 1 "main.c"
+   1:main.c        **** #include "project.h"
+   2:main.c        **** #include <stdio.h>
+   3:main.c        **** #include <stdlib.h>
+   4:main.c        **** #include <math.h>
+   5:main.c        **** 
+   6:main.c        **** 
+   7:main.c        **** #define MAX_BUFF 100
+   8:main.c        **** #define MAX_DEGREE 255
+   9:main.c        **** char buffer[MAX_BUFF];
+  10:main.c        **** u_int8_t degree;
+  11:main.c        **** int8_t coeficiente[MAX_DEGREE];
+  12:main.c        **** int16_t x;
+  13:main.c        **** int64_t result;
+  14:main.c        **** 
+  15:main.c        **** //FUNCIONES GENERALES
+  16:main.c        **** 
+  17:main.c        **** /*
+  18:main.c        **** Función que lee una línea por el puerto serial.
+  19:main.c        **** Parámetros:
+  20:main.c        ****     buf -> dirección del buffer de caracteres recibidos
+  21:main.c        ****     tamBuf -> cantidad de posiciones disponible en el buffer
+  22:main.c        ****     getchar -> función que lee un caracter del puerto UART
+  23:main.c        ****     putchar -> función que escribe un caracter por el puerto UART
+  24:main.c        **** Retorno:
+  25:main.c        ****     Ninguno
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 2
+
+
+  26:main.c        **** */
+  27:main.c        **** void getLine (char *buf, int tamBuf, uint8_t (*getcharl)(), void (*putcharl)(uint8_t)) {
+  33              		.loc 1 27 0
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 24
+  36              		@ frame_needed = 1, uses_anonymous_args = 0
+  37 0000 80B5     		push	{r7, lr}
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 7, -8
+  40              		.cfi_offset 14, -4
+  41 0002 86B0     		sub	sp, sp, #24
+  42              		.cfi_def_cfa_offset 32
+  43 0004 00AF     		add	r7, sp, #0
+  44              		.cfi_def_cfa_register 7
+  45 0006 F860     		str	r0, [r7, #12]
+  46 0008 B960     		str	r1, [r7, #8]
+  47 000a 7A60     		str	r2, [r7, #4]
+  48 000c 3B60     		str	r3, [r7]
+  28:main.c        ****     int i;
+  29:main.c        ****     uint8 c;
+  30:main.c        ****    
+  31:main.c        ****     for (i = 0; i < tamBuf -1; ) {
+  49              		.loc 1 31 0
+  50 000e 0023     		movs	r3, #0
+  51 0010 7B61     		str	r3, [r7, #20]
+  52 0012 15E0     		b	.L2
+  53              	.L5:
+  32:main.c        ****         if ((c = getcharl()) != 0){
+  54              		.loc 1 32 0
+  55 0014 7B68     		ldr	r3, [r7, #4]
+  56 0016 9847     		blx	r3
+  57 0018 0346     		mov	r3, r0
+  58 001a FB74     		strb	r3, [r7, #19]
+  59 001c FB7C     		ldrb	r3, [r7, #19]	@ zero_extendqisi2
+  60 001e 002B     		cmp	r3, #0
+  61 0020 0ED0     		beq	.L2
+  33:main.c        ****             putcharl(c);
+  62              		.loc 1 33 0
+  63 0022 FA7C     		ldrb	r2, [r7, #19]	@ zero_extendqisi2
+  64 0024 3B68     		ldr	r3, [r7]
+  65 0026 1046     		mov	r0, r2
+  66 0028 9847     		blx	r3
+  34:main.c        ****             if (c == '\r') break;   // salimos si recibimos un enter
+  67              		.loc 1 34 0
+  68 002a FB7C     		ldrb	r3, [r7, #19]	@ zero_extendqisi2
+  69 002c 0D2B     		cmp	r3, #13
+  70 002e 0DD0     		beq	.L6
+  35:main.c        ****             buf[i++] = c;
+  71              		.loc 1 35 0
+  72 0030 7B69     		ldr	r3, [r7, #20]
+  73 0032 5A1C     		adds	r2, r3, #1
+  74 0034 7A61     		str	r2, [r7, #20]
+  75 0036 1A46     		mov	r2, r3
+  76 0038 FB68     		ldr	r3, [r7, #12]
+  77 003a 1344     		add	r3, r3, r2
+  78 003c FA7C     		ldrb	r2, [r7, #19]
+  79 003e 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 3
+
+
+  80              	.L2:
+  31:main.c        ****         if ((c = getcharl()) != 0){
+  81              		.loc 1 31 0 discriminator 1
+  82 0040 BB68     		ldr	r3, [r7, #8]
+  83 0042 5A1E     		subs	r2, r3, #1
+  84 0044 7B69     		ldr	r3, [r7, #20]
+  85 0046 9A42     		cmp	r2, r3
+  86 0048 E4DC     		bgt	.L5
+  87 004a 00E0     		b	.L4
+  88              	.L6:
+  34:main.c        ****             if (c == '\r') break;   // salimos si recibimos un enter
+  89              		.loc 1 34 0
+  90 004c 00BF     		nop
+  91              	.L4:
+  36:main.c        ****         }
+  37:main.c        ****     }
+  38:main.c        ****     buf[i] = '\0';
+  92              		.loc 1 38 0
+  93 004e 7B69     		ldr	r3, [r7, #20]
+  94 0050 FA68     		ldr	r2, [r7, #12]
+  95 0052 1344     		add	r3, r3, r2
+  96 0054 0022     		movs	r2, #0
+  97 0056 1A70     		strb	r2, [r3]
+  39:main.c        ****     putcharl('\n');
+  98              		.loc 1 39 0
+  99 0058 3B68     		ldr	r3, [r7]
+ 100 005a 0A20     		movs	r0, #10
+ 101 005c 9847     		blx	r3
+  40:main.c        **** }
+ 102              		.loc 1 40 0
+ 103 005e 00BF     		nop
+ 104 0060 1837     		adds	r7, r7, #24
+ 105              		.cfi_def_cfa_offset 8
+ 106 0062 BD46     		mov	sp, r7
+ 107              		.cfi_def_cfa_register 13
+ 108              		@ sp needed
+ 109 0064 80BD     		pop	{r7, pc}
+ 110              		.cfi_endproc
+ 111              	.LFE64:
+ 112              		.size	getLine, .-getLine
+ 113 0066 00BF     		.section	.rodata
+ 114              		.align	2
+ 115              	.LC0:
+ 116 0000 25686400 		.ascii	"%hd\000"
+ 117              		.section	.text.getInt,"ax",%progbits
+ 118              		.align	2
+ 119              		.global	getInt
+ 120              		.thumb
+ 121              		.thumb_func
+ 122              		.type	getInt, %function
+ 123              	getInt:
+ 124              	.LFB65:
+  41:main.c        **** 
+  42:main.c        **** int16_t getInt(char *buf,u_int max_buf)
+  43:main.c        **** {
+ 125              		.loc 1 43 0
+ 126              		.cfi_startproc
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 4
+
+
+ 127              		@ args = 0, pretend = 0, frame = 16
+ 128              		@ frame_needed = 1, uses_anonymous_args = 0
+ 129 0000 80B5     		push	{r7, lr}
+ 130              		.cfi_def_cfa_offset 8
+ 131              		.cfi_offset 7, -8
+ 132              		.cfi_offset 14, -4
+ 133 0002 84B0     		sub	sp, sp, #16
+ 134              		.cfi_def_cfa_offset 24
+ 135 0004 00AF     		add	r7, sp, #0
+ 136              		.cfi_def_cfa_register 7
+ 137 0006 7860     		str	r0, [r7, #4]
+ 138 0008 3960     		str	r1, [r7]
+  44:main.c        ****     u_int8_t salir = 0;
+ 139              		.loc 1 44 0
+ 140 000a 0023     		movs	r3, #0
+ 141 000c FB73     		strb	r3, [r7, #15]
+  45:main.c        ****     int16_t result = 0;
+ 142              		.loc 1 45 0
+ 143 000e 0023     		movs	r3, #0
+ 144 0010 BB81     		strh	r3, [r7, #12]	@ movhi
+ 145              	.L8:
+  46:main.c        ****     do
+  47:main.c        ****     {
+  48:main.c        ****         getLine(buf,max_buf,PC_GetChar,PC_PutChar);
+ 146              		.loc 1 48 0 discriminator 1
+ 147 0012 3968     		ldr	r1, [r7]
+ 148 0014 0C4B     		ldr	r3, .L10
+ 149 0016 0D4A     		ldr	r2, .L10+4
+ 150 0018 7868     		ldr	r0, [r7, #4]
+ 151 001a FFF7FEFF 		bl	getLine
+  49:main.c        ****         //u_int16_t aux = strtoul(buf,NULL,10);
+  50:main.c        ****         salir = sscanf(buf,"%hd",&result);
+ 152              		.loc 1 50 0 discriminator 1
+ 153 001e 07F10C03 		add	r3, r7, #12
+ 154 0022 1A46     		mov	r2, r3
+ 155 0024 0A49     		ldr	r1, .L10+8
+ 156 0026 7868     		ldr	r0, [r7, #4]
+ 157 0028 FFF7FEFF 		bl	sscanf
+ 158 002c 0346     		mov	r3, r0
+ 159 002e FB73     		strb	r3, [r7, #15]
+  51:main.c        ****     }while(salir != 1);
+ 160              		.loc 1 51 0 discriminator 1
+ 161 0030 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 162 0032 012B     		cmp	r3, #1
+ 163 0034 EDD1     		bne	.L8
+  52:main.c        ****     buf[0] = '\0';
+ 164              		.loc 1 52 0
+ 165 0036 7B68     		ldr	r3, [r7, #4]
+ 166 0038 0022     		movs	r2, #0
+ 167 003a 1A70     		strb	r2, [r3]
+  53:main.c        ****     return result;
+ 168              		.loc 1 53 0
+ 169 003c B7F90C30 		ldrsh	r3, [r7, #12]
+  54:main.c        **** }
+ 170              		.loc 1 54 0
+ 171 0040 1846     		mov	r0, r3
+ 172 0042 1037     		adds	r7, r7, #16
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 5
+
+
+ 173              		.cfi_def_cfa_offset 8
+ 174 0044 BD46     		mov	sp, r7
+ 175              		.cfi_def_cfa_register 13
+ 176              		@ sp needed
+ 177 0046 80BD     		pop	{r7, pc}
+ 178              	.L11:
+ 179              		.align	2
+ 180              	.L10:
+ 181 0048 00000000 		.word	PC_PutChar
+ 182 004c 00000000 		.word	PC_GetChar
+ 183 0050 00000000 		.word	.LC0
+ 184              		.cfi_endproc
+ 185              	.LFE65:
+ 186              		.size	getInt, .-getInt
+ 187              		.section	.rodata
+ 188              		.align	2
+ 189              	.LC1:
+ 190 0004 47726164 		.ascii	"Grado del polinomio?\000"
+ 190      6F206465 
+ 190      6C20706F 
+ 190      6C696E6F 
+ 190      6D696F3F 
+ 191              		.section	.text.getDegree,"ax",%progbits
+ 192              		.align	2
+ 193              		.global	getDegree
+ 194              		.thumb
+ 195              		.thumb_func
+ 196              		.type	getDegree, %function
+ 197              	getDegree:
+ 198              	.LFB66:
+  55:main.c        **** 
+  56:main.c        **** 
+  57:main.c        **** 
+  58:main.c        **** //FUNCIONES PARA EL PROGRAMA 
+  59:main.c        **** void getDegree()
+  60:main.c        **** {
+ 199              		.loc 1 60 0
+ 200              		.cfi_startproc
+ 201              		@ args = 0, pretend = 0, frame = 8
+ 202              		@ frame_needed = 1, uses_anonymous_args = 0
+ 203 0000 80B5     		push	{r7, lr}
+ 204              		.cfi_def_cfa_offset 8
+ 205              		.cfi_offset 7, -8
+ 206              		.cfi_offset 14, -4
+ 207 0002 82B0     		sub	sp, sp, #8
+ 208              		.cfi_def_cfa_offset 16
+ 209 0004 00AF     		add	r7, sp, #0
+ 210              		.cfi_def_cfa_register 7
+  61:main.c        ****     u_int8_t salir = 0;
+ 211              		.loc 1 61 0
+ 212 0006 0023     		movs	r3, #0
+ 213 0008 FB71     		strb	r3, [r7, #7]
+ 214              	.L14:
+  62:main.c        ****     do
+  63:main.c        ****     {   PC_PutString("Grado del polinomio?");
+ 215              		.loc 1 63 0
+ 216 000a 0C48     		ldr	r0, .L15
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 6
+
+
+ 217 000c FFF7FEFF 		bl	PC_PutString
+  64:main.c        ****         degree = (u_int8_t)getInt(buffer,MAX_BUFF-1);
+ 218              		.loc 1 64 0
+ 219 0010 6321     		movs	r1, #99
+ 220 0012 0B48     		ldr	r0, .L15+4
+ 221 0014 FFF7FEFF 		bl	getInt
+ 222 0018 0346     		mov	r3, r0
+ 223 001a DAB2     		uxtb	r2, r3
+ 224 001c 094B     		ldr	r3, .L15+8
+ 225 001e 1A70     		strb	r2, [r3]
+  65:main.c        ****         if (0<= degree && degree<=MAX_DEGREE-1) //creo que no es necesario pero bueno
+ 226              		.loc 1 65 0
+ 227 0020 084B     		ldr	r3, .L15+8
+ 228 0022 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 229 0024 FF2B     		cmp	r3, #255
+ 230 0026 01D0     		beq	.L13
+  66:main.c        ****             salir = 1;    
+ 231              		.loc 1 66 0
+ 232 0028 0123     		movs	r3, #1
+ 233 002a FB71     		strb	r3, [r7, #7]
+ 234              	.L13:
+  67:main.c        ****     }while (salir != 0);
+ 235              		.loc 1 67 0
+ 236 002c FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 237 002e 002B     		cmp	r3, #0
+ 238 0030 EBD1     		bne	.L14
+  68:main.c        ****     
+  69:main.c        **** }
+ 239              		.loc 1 69 0
+ 240 0032 00BF     		nop
+ 241 0034 0837     		adds	r7, r7, #8
+ 242              		.cfi_def_cfa_offset 8
+ 243 0036 BD46     		mov	sp, r7
+ 244              		.cfi_def_cfa_register 13
+ 245              		@ sp needed
+ 246 0038 80BD     		pop	{r7, pc}
+ 247              	.L16:
+ 248 003a 00BF     		.align	2
+ 249              	.L15:
+ 250 003c 04000000 		.word	.LC1
+ 251 0040 00000000 		.word	buffer
+ 252 0044 00000000 		.word	degree
+ 253              		.cfi_endproc
+ 254              	.LFE66:
+ 255              		.size	getDegree, .-getDegree
+ 256              		.section	.rodata
+ 257 0019 000000   		.align	2
+ 258              	.LC2:
+ 259 001c 436F6566 		.ascii	"Coeficiente de x^%i?\000"
+ 259      69636965 
+ 259      6E746520 
+ 259      64652078 
+ 259      5E25693F 
+ 260              		.section	.text.getCoef,"ax",%progbits
+ 261              		.align	2
+ 262              		.global	getCoef
+ 263              		.thumb
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 7
+
+
+ 264              		.thumb_func
+ 265              		.type	getCoef, %function
+ 266              	getCoef:
+ 267              	.LFB67:
+  70:main.c        **** 
+  71:main.c        **** void getCoef()
+  72:main.c        **** {
+ 268              		.loc 1 72 0
+ 269              		.cfi_startproc
+ 270              		@ args = 0, pretend = 0, frame = 8
+ 271              		@ frame_needed = 1, uses_anonymous_args = 0
+ 272 0000 80B5     		push	{r7, lr}
+ 273              		.cfi_def_cfa_offset 8
+ 274              		.cfi_offset 7, -8
+ 275              		.cfi_offset 14, -4
+ 276 0002 82B0     		sub	sp, sp, #8
+ 277              		.cfi_def_cfa_offset 16
+ 278 0004 00AF     		add	r7, sp, #0
+ 279              		.cfi_def_cfa_register 7
+  73:main.c        ****     u_int8_t aux = 0;
+ 280              		.loc 1 73 0
+ 281 0006 0023     		movs	r3, #0
+ 282 0008 BB71     		strb	r3, [r7, #6]
+ 283              	.LBB2:
+  74:main.c        ****     for(u_int8_t i = degree;;)
+ 284              		.loc 1 74 0
+ 285 000a 114B     		ldr	r3, .L23
+ 286 000c 1B78     		ldrb	r3, [r3]
+ 287 000e FB71     		strb	r3, [r7, #7]
+ 288              	.L20:
+  75:main.c        ****     {
+  76:main.c        ****         snprintf(buffer,MAX_BUFF ,"Coeficiente de x^%i?",i);
+ 289              		.loc 1 76 0
+ 290 0010 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 291 0012 104A     		ldr	r2, .L23+4
+ 292 0014 6421     		movs	r1, #100
+ 293 0016 1048     		ldr	r0, .L23+8
+ 294 0018 FFF7FEFF 		bl	snprintf
+  77:main.c        ****         PC_PutString(buffer);
+ 295              		.loc 1 77 0
+ 296 001c 0E48     		ldr	r0, .L23+8
+ 297 001e FFF7FEFF 		bl	PC_PutString
+  78:main.c        ****         aux = (u_int8_t)getInt(buffer,MAX_BUFF);
+ 298              		.loc 1 78 0
+ 299 0022 6421     		movs	r1, #100
+ 300 0024 0C48     		ldr	r0, .L23+8
+ 301 0026 FFF7FEFF 		bl	getInt
+ 302 002a 0346     		mov	r3, r0
+ 303 002c BB71     		strb	r3, [r7, #6]
+  79:main.c        ****         if(0 <= aux && aux <= MAX_DEGREE) coeficiente[i] = aux;
+ 304              		.loc 1 79 0
+ 305 002e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 306 0030 97F90610 		ldrsb	r1, [r7, #6]
+ 307 0034 094A     		ldr	r2, .L23+12
+ 308 0036 D154     		strb	r1, [r2, r3]
+  80:main.c        ****         if(i == 0) break;
+ 309              		.loc 1 80 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 8
+
+
+ 310 0038 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 311 003a 002B     		cmp	r3, #0
+ 312 003c 03D0     		beq	.L22
+  81:main.c        ****         else i--;
+ 313              		.loc 1 81 0
+ 314 003e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 315 0040 013B     		subs	r3, r3, #1
+ 316 0042 FB71     		strb	r3, [r7, #7]
+  82:main.c        ****            
+  83:main.c        ****     
+  84:main.c        ****     }
+ 317              		.loc 1 84 0
+ 318 0044 E4E7     		b	.L20
+ 319              	.L22:
+  80:main.c        ****         else i--;
+ 320              		.loc 1 80 0
+ 321 0046 00BF     		nop
+ 322              	.LBE2:
+  85:main.c        **** }
+ 323              		.loc 1 85 0
+ 324 0048 00BF     		nop
+ 325 004a 0837     		adds	r7, r7, #8
+ 326              		.cfi_def_cfa_offset 8
+ 327 004c BD46     		mov	sp, r7
+ 328              		.cfi_def_cfa_register 13
+ 329              		@ sp needed
+ 330 004e 80BD     		pop	{r7, pc}
+ 331              	.L24:
+ 332              		.align	2
+ 333              	.L23:
+ 334 0050 00000000 		.word	degree
+ 335 0054 1C000000 		.word	.LC2
+ 336 0058 00000000 		.word	buffer
+ 337 005c 00000000 		.word	coeficiente
+ 338              		.cfi_endproc
+ 339              	.LFE67:
+ 340              		.size	getCoef, .-getCoef
+ 341              		.section	.rodata
+ 342 0031 000000   		.align	2
+ 343              	.LC3:
+ 344 0034 50756E74 		.ascii	"Punto a evaluar?\000"
+ 344      6F206120 
+ 344      6576616C 
+ 344      7561723F 
+ 344      00
+ 345              		.global	__aeabi_i2d
+ 346              		.global	__aeabi_ui2d
+ 347              		.global	__aeabi_dmul
+ 348              		.global	__aeabi_l2d
+ 349              		.global	__aeabi_dadd
+ 350              		.global	__aeabi_d2lz
+ 351              		.section	.text.evalX,"ax",%progbits
+ 352              		.align	2
+ 353              		.global	evalX
+ 354              		.thumb
+ 355              		.thumb_func
+ 356              		.type	evalX, %function
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 9
+
+
+ 357              	evalX:
+ 358              	.LFB68:
+  86:main.c        **** 
+  87:main.c        **** void evalX()
+  88:main.c        **** {
+ 359              		.loc 1 88 0
+ 360              		.cfi_startproc
+ 361              		@ args = 0, pretend = 0, frame = 8
+ 362              		@ frame_needed = 1, uses_anonymous_args = 0
+ 363 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 364              		.cfi_def_cfa_offset 28
+ 365              		.cfi_offset 4, -28
+ 366              		.cfi_offset 5, -24
+ 367              		.cfi_offset 6, -20
+ 368              		.cfi_offset 7, -16
+ 369              		.cfi_offset 8, -12
+ 370              		.cfi_offset 9, -8
+ 371              		.cfi_offset 14, -4
+ 372 0004 83B0     		sub	sp, sp, #12
+ 373              		.cfi_def_cfa_offset 40
+ 374 0006 00AF     		add	r7, sp, #0
+ 375              		.cfi_def_cfa_register 7
+ 376              	.L31:
+  89:main.c        ****     do
+  90:main.c        ****     {
+  91:main.c        ****         PC_PutString("Punto a evaluar?");
+ 377              		.loc 1 91 0
+ 378 0008 3448     		ldr	r0, .L35
+ 379 000a FFF7FEFF 		bl	PC_PutString
+  92:main.c        ****         x = getInt(buffer,MAX_BUFF);
+ 380              		.loc 1 92 0
+ 381 000e 6421     		movs	r1, #100
+ 382 0010 3348     		ldr	r0, .L35+4
+ 383 0012 FFF7FEFF 		bl	getInt
+ 384 0016 0346     		mov	r3, r0
+ 385 0018 1A46     		mov	r2, r3
+ 386 001a 324B     		ldr	r3, .L35+8
+ 387 001c 1A80     		strh	r2, [r3]	@ movhi
+  93:main.c        ****         if(x == -999) break; //salir de eval
+ 388              		.loc 1 93 0
+ 389 001e 314B     		ldr	r3, .L35+8
+ 390 0020 B3F90030 		ldrsh	r3, [r3]
+ 391 0024 304A     		ldr	r2, .L35+12
+ 392 0026 9342     		cmp	r3, r2
+ 393 0028 51D0     		beq	.L33
+  94:main.c        ****         
+  95:main.c        ****         result = 0;
+ 394              		.loc 1 95 0
+ 395 002a 304A     		ldr	r2, .L35+16
+ 396 002c 4FF00003 		mov	r3, #0
+ 397 0030 4FF00004 		mov	r4, #0
+ 398 0034 C2E90034 		strd	r3, [r2]
+ 399              	.LBB3:
+  96:main.c        ****         for(u_int8_t i = degree;; i--)
+ 400              		.loc 1 96 0
+ 401 0038 2D4B     		ldr	r3, .L35+20
+ 402 003a 1B78     		ldrb	r3, [r3]
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 10
+
+
+ 403 003c FB71     		strb	r3, [r7, #7]
+ 404              	.L30:
+  97:main.c        ****         {
+  98:main.c        ****             result += coeficiente[i]*pow(x,i);
+ 405              		.loc 1 98 0
+ 406 003e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 407 0040 2C4A     		ldr	r2, .L35+24
+ 408 0042 D356     		ldrsb	r3, [r2, r3]
+ 409 0044 1846     		mov	r0, r3
+ 410 0046 FFF7FEFF 		bl	__aeabi_i2d
+ 411 004a 0446     		mov	r4, r0
+ 412 004c 0D46     		mov	r5, r1
+ 413 004e 254B     		ldr	r3, .L35+8
+ 414 0050 B3F90030 		ldrsh	r3, [r3]
+ 415 0054 1846     		mov	r0, r3
+ 416 0056 FFF7FEFF 		bl	__aeabi_i2d
+ 417 005a 8046     		mov	r8, r0
+ 418 005c 8946     		mov	r9, r1
+ 419 005e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 420 0060 1846     		mov	r0, r3
+ 421 0062 FFF7FEFF 		bl	__aeabi_ui2d
+ 422 0066 0246     		mov	r2, r0
+ 423 0068 0B46     		mov	r3, r1
+ 424 006a 4046     		mov	r0, r8
+ 425 006c 4946     		mov	r1, r9
+ 426 006e FFF7FEFF 		bl	pow
+ 427 0072 0246     		mov	r2, r0
+ 428 0074 0B46     		mov	r3, r1
+ 429 0076 2046     		mov	r0, r4
+ 430 0078 2946     		mov	r1, r5
+ 431 007a FFF7FEFF 		bl	__aeabi_dmul
+ 432 007e 0346     		mov	r3, r0
+ 433 0080 0C46     		mov	r4, r1
+ 434 0082 1D46     		mov	r5, r3
+ 435 0084 2646     		mov	r6, r4
+ 436 0086 194B     		ldr	r3, .L35+16
+ 437 0088 18CB     		ldmia	r3, {r3-r4}
+ 438 008a 1846     		mov	r0, r3
+ 439 008c 2146     		mov	r1, r4
+ 440 008e FFF7FEFF 		bl	__aeabi_l2d
+ 441 0092 2A46     		mov	r2, r5
+ 442 0094 3346     		mov	r3, r6
+ 443 0096 FFF7FEFF 		bl	__aeabi_dadd
+ 444 009a 0346     		mov	r3, r0
+ 445 009c 0C46     		mov	r4, r1
+ 446 009e 1846     		mov	r0, r3
+ 447 00a0 2146     		mov	r1, r4
+ 448 00a2 FFF7FEFF 		bl	__aeabi_d2lz
+ 449 00a6 0346     		mov	r3, r0
+ 450 00a8 0C46     		mov	r4, r1
+ 451 00aa 104A     		ldr	r2, .L35+16
+ 452 00ac C2E90034 		strd	r3, [r2]
+  99:main.c        ****             if(i == 0) break;
+ 453              		.loc 1 99 0
+ 454 00b0 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 455 00b2 002B     		cmp	r3, #0
+ 456 00b4 03D0     		beq	.L34
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 11
+
+
+  96:main.c        ****         for(u_int8_t i = degree;; i--)
+ 457              		.loc 1 96 0
+ 458 00b6 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 459 00b8 013B     		subs	r3, r3, #1
+ 460 00ba FB71     		strb	r3, [r7, #7]
+ 100:main.c        ****         }
+ 461              		.loc 1 100 0
+ 462 00bc BFE7     		b	.L30
+ 463              	.L34:
+  99:main.c        ****             if(i == 0) break;
+ 464              		.loc 1 99 0
+ 465 00be 00BF     		nop
+ 466              	.LBE3:
+ 101:main.c        ****         
+ 102:main.c        ****         
+ 103:main.c        ****     }while(x != -999);
+ 467              		.loc 1 103 0
+ 468 00c0 084B     		ldr	r3, .L35+8
+ 469 00c2 B3F90030 		ldrsh	r3, [r3]
+ 470 00c6 084A     		ldr	r2, .L35+12
+ 471 00c8 9342     		cmp	r3, r2
+ 472 00ca 9DD1     		bne	.L31
+ 104:main.c        **** }
+ 473              		.loc 1 104 0
+ 474 00cc 00E0     		b	.L27
+ 475              	.L33:
+  93:main.c        ****         
+ 476              		.loc 1 93 0
+ 477 00ce 00BF     		nop
+ 478              	.L27:
+ 479              		.loc 1 104 0
+ 480 00d0 00BF     		nop
+ 481 00d2 0C37     		adds	r7, r7, #12
+ 482              		.cfi_def_cfa_offset 28
+ 483 00d4 BD46     		mov	sp, r7
+ 484              		.cfi_def_cfa_register 13
+ 485              		@ sp needed
+ 486 00d6 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 487              	.L36:
+ 488 00da 00BF     		.align	2
+ 489              	.L35:
+ 490 00dc 34000000 		.word	.LC3
+ 491 00e0 00000000 		.word	buffer
+ 492 00e4 00000000 		.word	x
+ 493 00e8 19FCFFFF 		.word	-999
+ 494 00ec 00000000 		.word	result
+ 495 00f0 00000000 		.word	degree
+ 496 00f4 00000000 		.word	coeficiente
+ 497              		.cfi_endproc
+ 498              	.LFE68:
+ 499              		.size	evalX, .-evalX
+ 500              		.section	.text.main,"ax",%progbits
+ 501              		.align	2
+ 502              		.global	main
+ 503              		.thumb
+ 504              		.thumb_func
+ 505              		.type	main, %function
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 12
+
+
+ 506              	main:
+ 507              	.LFB69:
+ 105:main.c        **** 
+ 106:main.c        **** int main(void)
+ 107:main.c        **** {
+ 508              		.loc 1 107 0
+ 509              		.cfi_startproc
+ 510              		@ args = 0, pretend = 0, frame = 0
+ 511              		@ frame_needed = 1, uses_anonymous_args = 0
+ 512 0000 80B5     		push	{r7, lr}
+ 513              		.cfi_def_cfa_offset 8
+ 514              		.cfi_offset 7, -8
+ 515              		.cfi_offset 14, -4
+ 516 0002 00AF     		add	r7, sp, #0
+ 517              		.cfi_def_cfa_register 7
+ 108:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+ 518              		.loc 1 108 0
+ 519              		.syntax unified
+ 520              	@ 108 "main.c" 1
+ 521 0004 62B6     		CPSIE   i
+ 522              	@ 0 "" 2
+ 109:main.c        **** 
+ 110:main.c        ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+ 111:main.c        ****     PC_Start();
+ 523              		.loc 1 111 0
+ 524              		.thumb
+ 525              		.syntax unified
+ 526 0006 FFF7FEFF 		bl	PC_Start
+ 527              	.L38:
+ 112:main.c        ****     for(;;)
+ 113:main.c        ****     {
+ 114:main.c        ****         getDegree();
+ 528              		.loc 1 114 0 discriminator 1
+ 529 000a FFF7FEFF 		bl	getDegree
+ 115:main.c        ****         getCoef();
+ 530              		.loc 1 115 0 discriminator 1
+ 531 000e FFF7FEFF 		bl	getCoef
+ 116:main.c        ****         evalX();
+ 532              		.loc 1 116 0 discriminator 1
+ 533 0012 FFF7FEFF 		bl	evalX
+ 117:main.c        ****         
+ 118:main.c        ****         
+ 119:main.c        ****     }
+ 534              		.loc 1 119 0 discriminator 1
+ 535 0016 F8E7     		b	.L38
+ 536              		.cfi_endproc
+ 537              	.LFE69:
+ 538              		.size	main, .-main
+ 539              		.text
+ 540              	.Letext0:
+ 541              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 542              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 543              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 544              		.file 5 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 545              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 546              		.section	.debug_info,"",%progbits
+ 547              	.Ldebug_info0:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 13
+
+
+ 548 0000 1E030000 		.4byte	0x31e
+ 549 0004 0400     		.2byte	0x4
+ 550 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 551 000a 04       		.byte	0x4
+ 552 000b 01       		.uleb128 0x1
+ 553 000c 13000000 		.4byte	.LASF40
+ 554 0010 0C       		.byte	0xc
+ 555 0011 00020000 		.4byte	.LASF41
+ 556 0015 EE000000 		.4byte	.LASF42
+ 557 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 558 001d 00000000 		.4byte	0
+ 559 0021 00000000 		.4byte	.Ldebug_line0
+ 560 0025 02       		.uleb128 0x2
+ 561 0026 00000000 		.4byte	.LASF0
+ 562 002a 02       		.byte	0x2
+ 563 002b 1B       		.byte	0x1b
+ 564 002c 30000000 		.4byte	0x30
+ 565 0030 03       		.uleb128 0x3
+ 566 0031 01       		.byte	0x1
+ 567 0032 06       		.byte	0x6
+ 568 0033 57020000 		.4byte	.LASF2
+ 569 0037 02       		.uleb128 0x2
+ 570 0038 09000000 		.4byte	.LASF1
+ 571 003c 02       		.byte	0x2
+ 572 003d 1D       		.byte	0x1d
+ 573 003e 42000000 		.4byte	0x42
+ 574 0042 03       		.uleb128 0x3
+ 575 0043 01       		.byte	0x1
+ 576 0044 08       		.byte	0x8
+ 577 0045 E0000000 		.4byte	.LASF3
+ 578 0049 02       		.uleb128 0x2
+ 579 004a A1000000 		.4byte	.LASF4
+ 580 004e 02       		.byte	0x2
+ 581 004f 29       		.byte	0x29
+ 582 0050 54000000 		.4byte	0x54
+ 583 0054 03       		.uleb128 0x3
+ 584 0055 02       		.byte	0x2
+ 585 0056 05       		.byte	0x5
+ 586 0057 16020000 		.4byte	.LASF5
+ 587 005b 03       		.uleb128 0x3
+ 588 005c 02       		.byte	0x2
+ 589 005d 07       		.byte	0x7
+ 590 005e 50010000 		.4byte	.LASF6
+ 591 0062 02       		.uleb128 0x2
+ 592 0063 B4000000 		.4byte	.LASF7
+ 593 0067 02       		.byte	0x2
+ 594 0068 3F       		.byte	0x3f
+ 595 0069 6D000000 		.4byte	0x6d
+ 596 006d 03       		.uleb128 0x3
+ 597 006e 04       		.byte	0x4
+ 598 006f 05       		.byte	0x5
+ 599 0070 35020000 		.4byte	.LASF8
+ 600 0074 03       		.uleb128 0x3
+ 601 0075 04       		.byte	0x4
+ 602 0076 07       		.byte	0x7
+ 603 0077 3E010000 		.4byte	.LASF9
+ 604 007b 02       		.uleb128 0x2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 14
+
+
+ 605 007c 0C020000 		.4byte	.LASF10
+ 606 0080 02       		.byte	0x2
+ 607 0081 59       		.byte	0x59
+ 608 0082 86000000 		.4byte	0x86
+ 609 0086 03       		.uleb128 0x3
+ 610 0087 08       		.byte	0x8
+ 611 0088 05       		.byte	0x5
+ 612 0089 F2010000 		.4byte	.LASF11
+ 613 008d 03       		.uleb128 0x3
+ 614 008e 08       		.byte	0x8
+ 615 008f 07       		.byte	0x7
+ 616 0090 AB010000 		.4byte	.LASF12
+ 617 0094 04       		.uleb128 0x4
+ 618 0095 04       		.byte	0x4
+ 619 0096 05       		.byte	0x5
+ 620 0097 696E7400 		.ascii	"int\000"
+ 621 009b 03       		.uleb128 0x3
+ 622 009c 04       		.byte	0x4
+ 623 009d 07       		.byte	0x7
+ 624 009e 9E010000 		.4byte	.LASF13
+ 625 00a2 02       		.uleb128 0x2
+ 626 00a3 C4000000 		.4byte	.LASF14
+ 627 00a7 03       		.byte	0x3
+ 628 00a8 14       		.byte	0x14
+ 629 00a9 25000000 		.4byte	0x25
+ 630 00ad 02       		.uleb128 0x2
+ 631 00ae C2010000 		.4byte	.LASF15
+ 632 00b2 03       		.byte	0x3
+ 633 00b3 18       		.byte	0x18
+ 634 00b4 37000000 		.4byte	0x37
+ 635 00b8 02       		.uleb128 0x2
+ 636 00b9 D1010000 		.4byte	.LASF16
+ 637 00bd 03       		.byte	0x3
+ 638 00be 20       		.byte	0x20
+ 639 00bf 49000000 		.4byte	0x49
+ 640 00c3 02       		.uleb128 0x2
+ 641 00c4 D9010000 		.4byte	.LASF17
+ 642 00c8 03       		.byte	0x3
+ 643 00c9 2C       		.byte	0x2c
+ 644 00ca 62000000 		.4byte	0x62
+ 645 00ce 02       		.uleb128 0x2
+ 646 00cf EA010000 		.4byte	.LASF18
+ 647 00d3 03       		.byte	0x3
+ 648 00d4 38       		.byte	0x38
+ 649 00d5 7B000000 		.4byte	0x7b
+ 650 00d9 05       		.uleb128 0x5
+ 651 00da 27020000 		.4byte	.LASF19
+ 652 00de 04       		.byte	0x4
+ 653 00df E801     		.2byte	0x1e8
+ 654 00e1 42000000 		.4byte	0x42
+ 655 00e5 03       		.uleb128 0x3
+ 656 00e6 04       		.byte	0x4
+ 657 00e7 04       		.byte	0x4
+ 658 00e8 D2000000 		.4byte	.LASF20
+ 659 00ec 03       		.uleb128 0x3
+ 660 00ed 08       		.byte	0x8
+ 661 00ee 04       		.byte	0x4
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 15
+
+
+ 662 00ef 89010000 		.4byte	.LASF21
+ 663 00f3 03       		.uleb128 0x3
+ 664 00f4 01       		.byte	0x1
+ 665 00f5 08       		.byte	0x8
+ 666 00f6 07020000 		.4byte	.LASF22
+ 667 00fa 03       		.uleb128 0x3
+ 668 00fb 08       		.byte	0x8
+ 669 00fc 04       		.byte	0x4
+ 670 00fd 4B020000 		.4byte	.LASF23
+ 671 0101 03       		.uleb128 0x3
+ 672 0102 04       		.byte	0x4
+ 673 0103 07       		.byte	0x7
+ 674 0104 E1010000 		.4byte	.LASF24
+ 675 0108 06       		.uleb128 0x6
+ 676 0109 04       		.byte	0x4
+ 677 010a F3000000 		.4byte	0xf3
+ 678 010e 02       		.uleb128 0x2
+ 679 010f 75020000 		.4byte	.LASF25
+ 680 0113 05       		.byte	0x5
+ 681 0114 1C       		.byte	0x1c
+ 682 0115 37000000 		.4byte	0x37
+ 683 0119 02       		.uleb128 0x2
+ 684 011a 6F020000 		.4byte	.LASF26
+ 685 011e 05       		.byte	0x5
+ 686 011f 5F       		.byte	0x5f
+ 687 0120 9B000000 		.4byte	0x9b
+ 688 0124 07       		.uleb128 0x7
+ 689 0125 2D020000 		.4byte	.LASF43
+ 690 0129 01       		.byte	0x1
+ 691 012a 1B       		.byte	0x1b
+ 692 012b 00000000 		.4byte	.LFB64
+ 693 012f 66000000 		.4byte	.LFE64-.LFB64
+ 694 0133 01       		.uleb128 0x1
+ 695 0134 9C       		.byte	0x9c
+ 696 0135 8A010000 		.4byte	0x18a
+ 697 0139 08       		.uleb128 0x8
+ 698 013a 62756600 		.ascii	"buf\000"
+ 699 013e 01       		.byte	0x1
+ 700 013f 1B       		.byte	0x1b
+ 701 0140 08010000 		.4byte	0x108
+ 702 0144 02       		.uleb128 0x2
+ 703 0145 91       		.byte	0x91
+ 704 0146 6C       		.sleb128 -20
+ 705 0147 09       		.uleb128 0x9
+ 706 0148 82010000 		.4byte	.LASF27
+ 707 014c 01       		.byte	0x1
+ 708 014d 1B       		.byte	0x1b
+ 709 014e 94000000 		.4byte	0x94
+ 710 0152 02       		.uleb128 0x2
+ 711 0153 91       		.byte	0x91
+ 712 0154 68       		.sleb128 -24
+ 713 0155 09       		.uleb128 0x9
+ 714 0156 95010000 		.4byte	.LASF28
+ 715 015a 01       		.byte	0x1
+ 716 015b 1B       		.byte	0x1b
+ 717 015c 95010000 		.4byte	0x195
+ 718 0160 02       		.uleb128 0x2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 16
+
+
+ 719 0161 91       		.byte	0x91
+ 720 0162 64       		.sleb128 -28
+ 721 0163 09       		.uleb128 0x9
+ 722 0164 AB000000 		.4byte	.LASF29
+ 723 0168 01       		.byte	0x1
+ 724 0169 1B       		.byte	0x1b
+ 725 016a A6010000 		.4byte	0x1a6
+ 726 016e 02       		.uleb128 0x2
+ 727 016f 91       		.byte	0x91
+ 728 0170 60       		.sleb128 -32
+ 729 0171 0A       		.uleb128 0xa
+ 730 0172 6900     		.ascii	"i\000"
+ 731 0174 01       		.byte	0x1
+ 732 0175 1C       		.byte	0x1c
+ 733 0176 94000000 		.4byte	0x94
+ 734 017a 02       		.uleb128 0x2
+ 735 017b 91       		.byte	0x91
+ 736 017c 74       		.sleb128 -12
+ 737 017d 0A       		.uleb128 0xa
+ 738 017e 6300     		.ascii	"c\000"
+ 739 0180 01       		.byte	0x1
+ 740 0181 1D       		.byte	0x1d
+ 741 0182 D9000000 		.4byte	0xd9
+ 742 0186 02       		.uleb128 0x2
+ 743 0187 91       		.byte	0x91
+ 744 0188 73       		.sleb128 -13
+ 745 0189 00       		.byte	0
+ 746 018a 0B       		.uleb128 0xb
+ 747 018b AD000000 		.4byte	0xad
+ 748 018f 95010000 		.4byte	0x195
+ 749 0193 0C       		.uleb128 0xc
+ 750 0194 00       		.byte	0
+ 751 0195 06       		.uleb128 0x6
+ 752 0196 04       		.byte	0x4
+ 753 0197 8A010000 		.4byte	0x18a
+ 754 019b 0D       		.uleb128 0xd
+ 755 019c A6010000 		.4byte	0x1a6
+ 756 01a0 0E       		.uleb128 0xe
+ 757 01a1 AD000000 		.4byte	0xad
+ 758 01a5 00       		.byte	0
+ 759 01a6 06       		.uleb128 0x6
+ 760 01a7 04       		.byte	0x4
+ 761 01a8 9B010000 		.4byte	0x19b
+ 762 01ac 0F       		.uleb128 0xf
+ 763 01ad CB000000 		.4byte	.LASF44
+ 764 01b1 01       		.byte	0x1
+ 765 01b2 2A       		.byte	0x2a
+ 766 01b3 B8000000 		.4byte	0xb8
+ 767 01b7 00000000 		.4byte	.LFB65
+ 768 01bb 54000000 		.4byte	.LFE65-.LFB65
+ 769 01bf 01       		.uleb128 0x1
+ 770 01c0 9C       		.byte	0x9c
+ 771 01c1 FE010000 		.4byte	0x1fe
+ 772 01c5 08       		.uleb128 0x8
+ 773 01c6 62756600 		.ascii	"buf\000"
+ 774 01ca 01       		.byte	0x1
+ 775 01cb 2A       		.byte	0x2a
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 17
+
+
+ 776 01cc 08010000 		.4byte	0x108
+ 777 01d0 02       		.uleb128 0x2
+ 778 01d1 91       		.byte	0x91
+ 779 01d2 6C       		.sleb128 -20
+ 780 01d3 09       		.uleb128 0x9
+ 781 01d4 70010000 		.4byte	.LASF30
+ 782 01d8 01       		.byte	0x1
+ 783 01d9 2A       		.byte	0x2a
+ 784 01da 19010000 		.4byte	0x119
+ 785 01de 02       		.uleb128 0x2
+ 786 01df 91       		.byte	0x91
+ 787 01e0 68       		.sleb128 -24
+ 788 01e1 10       		.uleb128 0x10
+ 789 01e2 BE000000 		.4byte	.LASF31
+ 790 01e6 01       		.byte	0x1
+ 791 01e7 2C       		.byte	0x2c
+ 792 01e8 0E010000 		.4byte	0x10e
+ 793 01ec 02       		.uleb128 0x2
+ 794 01ed 91       		.byte	0x91
+ 795 01ee 77       		.sleb128 -9
+ 796 01ef 10       		.uleb128 0x10
+ 797 01f0 CA010000 		.4byte	.LASF32
+ 798 01f4 01       		.byte	0x1
+ 799 01f5 2D       		.byte	0x2d
+ 800 01f6 B8000000 		.4byte	0xb8
+ 801 01fa 02       		.uleb128 0x2
+ 802 01fb 91       		.byte	0x91
+ 803 01fc 74       		.sleb128 -12
+ 804 01fd 00       		.byte	0
+ 805 01fe 11       		.uleb128 0x11
+ 806 01ff 78010000 		.4byte	.LASF33
+ 807 0203 01       		.byte	0x1
+ 808 0204 3B       		.byte	0x3b
+ 809 0205 00000000 		.4byte	.LFB66
+ 810 0209 48000000 		.4byte	.LFE66-.LFB66
+ 811 020d 01       		.uleb128 0x1
+ 812 020e 9C       		.byte	0x9c
+ 813 020f 22020000 		.4byte	0x222
+ 814 0213 10       		.uleb128 0x10
+ 815 0214 BE000000 		.4byte	.LASF31
+ 816 0218 01       		.byte	0x1
+ 817 0219 3D       		.byte	0x3d
+ 818 021a 0E010000 		.4byte	0x10e
+ 819 021e 02       		.uleb128 0x2
+ 820 021f 91       		.byte	0x91
+ 821 0220 77       		.sleb128 -9
+ 822 0221 00       		.byte	0
+ 823 0222 11       		.uleb128 0x11
+ 824 0223 D8000000 		.4byte	.LASF34
+ 825 0227 01       		.byte	0x1
+ 826 0228 47       		.byte	0x47
+ 827 0229 00000000 		.4byte	.LFB67
+ 828 022d 60000000 		.4byte	.LFE67-.LFB67
+ 829 0231 01       		.uleb128 0x1
+ 830 0232 9C       		.byte	0x9c
+ 831 0233 5C020000 		.4byte	0x25c
+ 832 0237 0A       		.uleb128 0xa
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 18
+
+
+ 833 0238 61757800 		.ascii	"aux\000"
+ 834 023c 01       		.byte	0x1
+ 835 023d 49       		.byte	0x49
+ 836 023e 0E010000 		.4byte	0x10e
+ 837 0242 02       		.uleb128 0x2
+ 838 0243 91       		.byte	0x91
+ 839 0244 76       		.sleb128 -10
+ 840 0245 12       		.uleb128 0x12
+ 841 0246 0A000000 		.4byte	.LBB2
+ 842 024a 3E000000 		.4byte	.LBE2-.LBB2
+ 843 024e 0A       		.uleb128 0xa
+ 844 024f 6900     		.ascii	"i\000"
+ 845 0251 01       		.byte	0x1
+ 846 0252 4A       		.byte	0x4a
+ 847 0253 0E010000 		.4byte	0x10e
+ 848 0257 02       		.uleb128 0x2
+ 849 0258 91       		.byte	0x91
+ 850 0259 77       		.sleb128 -9
+ 851 025a 00       		.byte	0
+ 852 025b 00       		.byte	0
+ 853 025c 11       		.uleb128 0x11
+ 854 025d 3E020000 		.4byte	.LASF35
+ 855 0261 01       		.byte	0x1
+ 856 0262 57       		.byte	0x57
+ 857 0263 00000000 		.4byte	.LFB68
+ 858 0267 F8000000 		.4byte	.LFE68-.LFB68
+ 859 026b 01       		.uleb128 0x1
+ 860 026c 9C       		.byte	0x9c
+ 861 026d 88020000 		.4byte	0x288
+ 862 0271 12       		.uleb128 0x12
+ 863 0272 38000000 		.4byte	.LBB3
+ 864 0276 88000000 		.4byte	.LBE3-.LBB3
+ 865 027a 0A       		.uleb128 0xa
+ 866 027b 6900     		.ascii	"i\000"
+ 867 027d 01       		.byte	0x1
+ 868 027e 60       		.byte	0x60
+ 869 027f 0E010000 		.4byte	0x10e
+ 870 0283 02       		.uleb128 0x2
+ 871 0284 91       		.byte	0x91
+ 872 0285 5F       		.sleb128 -33
+ 873 0286 00       		.byte	0
+ 874 0287 00       		.byte	0
+ 875 0288 13       		.uleb128 0x13
+ 876 0289 90010000 		.4byte	.LASF45
+ 877 028d 01       		.byte	0x1
+ 878 028e 6A       		.byte	0x6a
+ 879 028f 94000000 		.4byte	0x94
+ 880 0293 00000000 		.4byte	.LFB69
+ 881 0297 18000000 		.4byte	.LFE69-.LFB69
+ 882 029b 01       		.uleb128 0x1
+ 883 029c 9C       		.byte	0x9c
+ 884 029d 14       		.uleb128 0x14
+ 885 029e 63010000 		.4byte	.LASF36
+ 886 02a2 06       		.byte	0x6
+ 887 02a3 1207     		.2byte	0x712
+ 888 02a5 A9020000 		.4byte	0x2a9
+ 889 02a9 15       		.uleb128 0x15
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 19
+
+
+ 890 02aa C3000000 		.4byte	0xc3
+ 891 02ae 16       		.uleb128 0x16
+ 892 02af F3000000 		.4byte	0xf3
+ 893 02b3 BE020000 		.4byte	0x2be
+ 894 02b7 17       		.uleb128 0x17
+ 895 02b8 01010000 		.4byte	0x101
+ 896 02bc 63       		.byte	0x63
+ 897 02bd 00       		.byte	0
+ 898 02be 18       		.uleb128 0x18
+ 899 02bf 20020000 		.4byte	.LASF37
+ 900 02c3 01       		.byte	0x1
+ 901 02c4 09       		.byte	0x9
+ 902 02c5 AE020000 		.4byte	0x2ae
+ 903 02c9 05       		.uleb128 0x5
+ 904 02ca 03       		.byte	0x3
+ 905 02cb 00000000 		.4byte	buffer
+ 906 02cf 18       		.uleb128 0x18
+ 907 02d0 44020000 		.4byte	.LASF38
+ 908 02d4 01       		.byte	0x1
+ 909 02d5 0A       		.byte	0xa
+ 910 02d6 0E010000 		.4byte	0x10e
+ 911 02da 05       		.uleb128 0x5
+ 912 02db 03       		.byte	0x3
+ 913 02dc 00000000 		.4byte	degree
+ 914 02e0 16       		.uleb128 0x16
+ 915 02e1 A2000000 		.4byte	0xa2
+ 916 02e5 F0020000 		.4byte	0x2f0
+ 917 02e9 17       		.uleb128 0x17
+ 918 02ea 01010000 		.4byte	0x101
+ 919 02ee FE       		.byte	0xfe
+ 920 02ef 00       		.byte	0
+ 921 02f0 18       		.uleb128 0x18
+ 922 02f1 63020000 		.4byte	.LASF39
+ 923 02f5 01       		.byte	0x1
+ 924 02f6 0B       		.byte	0xb
+ 925 02f7 E0020000 		.4byte	0x2e0
+ 926 02fb 05       		.uleb128 0x5
+ 927 02fc 03       		.byte	0x3
+ 928 02fd 00000000 		.4byte	coeficiente
+ 929 0301 19       		.uleb128 0x19
+ 930 0302 7800     		.ascii	"x\000"
+ 931 0304 01       		.byte	0x1
+ 932 0305 0C       		.byte	0xc
+ 933 0306 B8000000 		.4byte	0xb8
+ 934 030a 05       		.uleb128 0x5
+ 935 030b 03       		.byte	0x3
+ 936 030c 00000000 		.4byte	x
+ 937 0310 18       		.uleb128 0x18
+ 938 0311 CA010000 		.4byte	.LASF32
+ 939 0315 01       		.byte	0x1
+ 940 0316 0D       		.byte	0xd
+ 941 0317 CE000000 		.4byte	0xce
+ 942 031b 05       		.uleb128 0x5
+ 943 031c 03       		.byte	0x3
+ 944 031d 00000000 		.4byte	result
+ 945 0321 00       		.byte	0
+ 946              		.section	.debug_abbrev,"",%progbits
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 20
+
+
+ 947              	.Ldebug_abbrev0:
+ 948 0000 01       		.uleb128 0x1
+ 949 0001 11       		.uleb128 0x11
+ 950 0002 01       		.byte	0x1
+ 951 0003 25       		.uleb128 0x25
+ 952 0004 0E       		.uleb128 0xe
+ 953 0005 13       		.uleb128 0x13
+ 954 0006 0B       		.uleb128 0xb
+ 955 0007 03       		.uleb128 0x3
+ 956 0008 0E       		.uleb128 0xe
+ 957 0009 1B       		.uleb128 0x1b
+ 958 000a 0E       		.uleb128 0xe
+ 959 000b 55       		.uleb128 0x55
+ 960 000c 17       		.uleb128 0x17
+ 961 000d 11       		.uleb128 0x11
+ 962 000e 01       		.uleb128 0x1
+ 963 000f 10       		.uleb128 0x10
+ 964 0010 17       		.uleb128 0x17
+ 965 0011 00       		.byte	0
+ 966 0012 00       		.byte	0
+ 967 0013 02       		.uleb128 0x2
+ 968 0014 16       		.uleb128 0x16
+ 969 0015 00       		.byte	0
+ 970 0016 03       		.uleb128 0x3
+ 971 0017 0E       		.uleb128 0xe
+ 972 0018 3A       		.uleb128 0x3a
+ 973 0019 0B       		.uleb128 0xb
+ 974 001a 3B       		.uleb128 0x3b
+ 975 001b 0B       		.uleb128 0xb
+ 976 001c 49       		.uleb128 0x49
+ 977 001d 13       		.uleb128 0x13
+ 978 001e 00       		.byte	0
+ 979 001f 00       		.byte	0
+ 980 0020 03       		.uleb128 0x3
+ 981 0021 24       		.uleb128 0x24
+ 982 0022 00       		.byte	0
+ 983 0023 0B       		.uleb128 0xb
+ 984 0024 0B       		.uleb128 0xb
+ 985 0025 3E       		.uleb128 0x3e
+ 986 0026 0B       		.uleb128 0xb
+ 987 0027 03       		.uleb128 0x3
+ 988 0028 0E       		.uleb128 0xe
+ 989 0029 00       		.byte	0
+ 990 002a 00       		.byte	0
+ 991 002b 04       		.uleb128 0x4
+ 992 002c 24       		.uleb128 0x24
+ 993 002d 00       		.byte	0
+ 994 002e 0B       		.uleb128 0xb
+ 995 002f 0B       		.uleb128 0xb
+ 996 0030 3E       		.uleb128 0x3e
+ 997 0031 0B       		.uleb128 0xb
+ 998 0032 03       		.uleb128 0x3
+ 999 0033 08       		.uleb128 0x8
+ 1000 0034 00       		.byte	0
+ 1001 0035 00       		.byte	0
+ 1002 0036 05       		.uleb128 0x5
+ 1003 0037 16       		.uleb128 0x16
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 21
+
+
+ 1004 0038 00       		.byte	0
+ 1005 0039 03       		.uleb128 0x3
+ 1006 003a 0E       		.uleb128 0xe
+ 1007 003b 3A       		.uleb128 0x3a
+ 1008 003c 0B       		.uleb128 0xb
+ 1009 003d 3B       		.uleb128 0x3b
+ 1010 003e 05       		.uleb128 0x5
+ 1011 003f 49       		.uleb128 0x49
+ 1012 0040 13       		.uleb128 0x13
+ 1013 0041 00       		.byte	0
+ 1014 0042 00       		.byte	0
+ 1015 0043 06       		.uleb128 0x6
+ 1016 0044 0F       		.uleb128 0xf
+ 1017 0045 00       		.byte	0
+ 1018 0046 0B       		.uleb128 0xb
+ 1019 0047 0B       		.uleb128 0xb
+ 1020 0048 49       		.uleb128 0x49
+ 1021 0049 13       		.uleb128 0x13
+ 1022 004a 00       		.byte	0
+ 1023 004b 00       		.byte	0
+ 1024 004c 07       		.uleb128 0x7
+ 1025 004d 2E       		.uleb128 0x2e
+ 1026 004e 01       		.byte	0x1
+ 1027 004f 3F       		.uleb128 0x3f
+ 1028 0050 19       		.uleb128 0x19
+ 1029 0051 03       		.uleb128 0x3
+ 1030 0052 0E       		.uleb128 0xe
+ 1031 0053 3A       		.uleb128 0x3a
+ 1032 0054 0B       		.uleb128 0xb
+ 1033 0055 3B       		.uleb128 0x3b
+ 1034 0056 0B       		.uleb128 0xb
+ 1035 0057 27       		.uleb128 0x27
+ 1036 0058 19       		.uleb128 0x19
+ 1037 0059 11       		.uleb128 0x11
+ 1038 005a 01       		.uleb128 0x1
+ 1039 005b 12       		.uleb128 0x12
+ 1040 005c 06       		.uleb128 0x6
+ 1041 005d 40       		.uleb128 0x40
+ 1042 005e 18       		.uleb128 0x18
+ 1043 005f 9642     		.uleb128 0x2116
+ 1044 0061 19       		.uleb128 0x19
+ 1045 0062 01       		.uleb128 0x1
+ 1046 0063 13       		.uleb128 0x13
+ 1047 0064 00       		.byte	0
+ 1048 0065 00       		.byte	0
+ 1049 0066 08       		.uleb128 0x8
+ 1050 0067 05       		.uleb128 0x5
+ 1051 0068 00       		.byte	0
+ 1052 0069 03       		.uleb128 0x3
+ 1053 006a 08       		.uleb128 0x8
+ 1054 006b 3A       		.uleb128 0x3a
+ 1055 006c 0B       		.uleb128 0xb
+ 1056 006d 3B       		.uleb128 0x3b
+ 1057 006e 0B       		.uleb128 0xb
+ 1058 006f 49       		.uleb128 0x49
+ 1059 0070 13       		.uleb128 0x13
+ 1060 0071 02       		.uleb128 0x2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 22
+
+
+ 1061 0072 18       		.uleb128 0x18
+ 1062 0073 00       		.byte	0
+ 1063 0074 00       		.byte	0
+ 1064 0075 09       		.uleb128 0x9
+ 1065 0076 05       		.uleb128 0x5
+ 1066 0077 00       		.byte	0
+ 1067 0078 03       		.uleb128 0x3
+ 1068 0079 0E       		.uleb128 0xe
+ 1069 007a 3A       		.uleb128 0x3a
+ 1070 007b 0B       		.uleb128 0xb
+ 1071 007c 3B       		.uleb128 0x3b
+ 1072 007d 0B       		.uleb128 0xb
+ 1073 007e 49       		.uleb128 0x49
+ 1074 007f 13       		.uleb128 0x13
+ 1075 0080 02       		.uleb128 0x2
+ 1076 0081 18       		.uleb128 0x18
+ 1077 0082 00       		.byte	0
+ 1078 0083 00       		.byte	0
+ 1079 0084 0A       		.uleb128 0xa
+ 1080 0085 34       		.uleb128 0x34
+ 1081 0086 00       		.byte	0
+ 1082 0087 03       		.uleb128 0x3
+ 1083 0088 08       		.uleb128 0x8
+ 1084 0089 3A       		.uleb128 0x3a
+ 1085 008a 0B       		.uleb128 0xb
+ 1086 008b 3B       		.uleb128 0x3b
+ 1087 008c 0B       		.uleb128 0xb
+ 1088 008d 49       		.uleb128 0x49
+ 1089 008e 13       		.uleb128 0x13
+ 1090 008f 02       		.uleb128 0x2
+ 1091 0090 18       		.uleb128 0x18
+ 1092 0091 00       		.byte	0
+ 1093 0092 00       		.byte	0
+ 1094 0093 0B       		.uleb128 0xb
+ 1095 0094 15       		.uleb128 0x15
+ 1096 0095 01       		.byte	0x1
+ 1097 0096 49       		.uleb128 0x49
+ 1098 0097 13       		.uleb128 0x13
+ 1099 0098 01       		.uleb128 0x1
+ 1100 0099 13       		.uleb128 0x13
+ 1101 009a 00       		.byte	0
+ 1102 009b 00       		.byte	0
+ 1103 009c 0C       		.uleb128 0xc
+ 1104 009d 18       		.uleb128 0x18
+ 1105 009e 00       		.byte	0
+ 1106 009f 00       		.byte	0
+ 1107 00a0 00       		.byte	0
+ 1108 00a1 0D       		.uleb128 0xd
+ 1109 00a2 15       		.uleb128 0x15
+ 1110 00a3 01       		.byte	0x1
+ 1111 00a4 27       		.uleb128 0x27
+ 1112 00a5 19       		.uleb128 0x19
+ 1113 00a6 01       		.uleb128 0x1
+ 1114 00a7 13       		.uleb128 0x13
+ 1115 00a8 00       		.byte	0
+ 1116 00a9 00       		.byte	0
+ 1117 00aa 0E       		.uleb128 0xe
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 23
+
+
+ 1118 00ab 05       		.uleb128 0x5
+ 1119 00ac 00       		.byte	0
+ 1120 00ad 49       		.uleb128 0x49
+ 1121 00ae 13       		.uleb128 0x13
+ 1122 00af 00       		.byte	0
+ 1123 00b0 00       		.byte	0
+ 1124 00b1 0F       		.uleb128 0xf
+ 1125 00b2 2E       		.uleb128 0x2e
+ 1126 00b3 01       		.byte	0x1
+ 1127 00b4 3F       		.uleb128 0x3f
+ 1128 00b5 19       		.uleb128 0x19
+ 1129 00b6 03       		.uleb128 0x3
+ 1130 00b7 0E       		.uleb128 0xe
+ 1131 00b8 3A       		.uleb128 0x3a
+ 1132 00b9 0B       		.uleb128 0xb
+ 1133 00ba 3B       		.uleb128 0x3b
+ 1134 00bb 0B       		.uleb128 0xb
+ 1135 00bc 27       		.uleb128 0x27
+ 1136 00bd 19       		.uleb128 0x19
+ 1137 00be 49       		.uleb128 0x49
+ 1138 00bf 13       		.uleb128 0x13
+ 1139 00c0 11       		.uleb128 0x11
+ 1140 00c1 01       		.uleb128 0x1
+ 1141 00c2 12       		.uleb128 0x12
+ 1142 00c3 06       		.uleb128 0x6
+ 1143 00c4 40       		.uleb128 0x40
+ 1144 00c5 18       		.uleb128 0x18
+ 1145 00c6 9642     		.uleb128 0x2116
+ 1146 00c8 19       		.uleb128 0x19
+ 1147 00c9 01       		.uleb128 0x1
+ 1148 00ca 13       		.uleb128 0x13
+ 1149 00cb 00       		.byte	0
+ 1150 00cc 00       		.byte	0
+ 1151 00cd 10       		.uleb128 0x10
+ 1152 00ce 34       		.uleb128 0x34
+ 1153 00cf 00       		.byte	0
+ 1154 00d0 03       		.uleb128 0x3
+ 1155 00d1 0E       		.uleb128 0xe
+ 1156 00d2 3A       		.uleb128 0x3a
+ 1157 00d3 0B       		.uleb128 0xb
+ 1158 00d4 3B       		.uleb128 0x3b
+ 1159 00d5 0B       		.uleb128 0xb
+ 1160 00d6 49       		.uleb128 0x49
+ 1161 00d7 13       		.uleb128 0x13
+ 1162 00d8 02       		.uleb128 0x2
+ 1163 00d9 18       		.uleb128 0x18
+ 1164 00da 00       		.byte	0
+ 1165 00db 00       		.byte	0
+ 1166 00dc 11       		.uleb128 0x11
+ 1167 00dd 2E       		.uleb128 0x2e
+ 1168 00de 01       		.byte	0x1
+ 1169 00df 3F       		.uleb128 0x3f
+ 1170 00e0 19       		.uleb128 0x19
+ 1171 00e1 03       		.uleb128 0x3
+ 1172 00e2 0E       		.uleb128 0xe
+ 1173 00e3 3A       		.uleb128 0x3a
+ 1174 00e4 0B       		.uleb128 0xb
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 24
+
+
+ 1175 00e5 3B       		.uleb128 0x3b
+ 1176 00e6 0B       		.uleb128 0xb
+ 1177 00e7 11       		.uleb128 0x11
+ 1178 00e8 01       		.uleb128 0x1
+ 1179 00e9 12       		.uleb128 0x12
+ 1180 00ea 06       		.uleb128 0x6
+ 1181 00eb 40       		.uleb128 0x40
+ 1182 00ec 18       		.uleb128 0x18
+ 1183 00ed 9642     		.uleb128 0x2116
+ 1184 00ef 19       		.uleb128 0x19
+ 1185 00f0 01       		.uleb128 0x1
+ 1186 00f1 13       		.uleb128 0x13
+ 1187 00f2 00       		.byte	0
+ 1188 00f3 00       		.byte	0
+ 1189 00f4 12       		.uleb128 0x12
+ 1190 00f5 0B       		.uleb128 0xb
+ 1191 00f6 01       		.byte	0x1
+ 1192 00f7 11       		.uleb128 0x11
+ 1193 00f8 01       		.uleb128 0x1
+ 1194 00f9 12       		.uleb128 0x12
+ 1195 00fa 06       		.uleb128 0x6
+ 1196 00fb 00       		.byte	0
+ 1197 00fc 00       		.byte	0
+ 1198 00fd 13       		.uleb128 0x13
+ 1199 00fe 2E       		.uleb128 0x2e
+ 1200 00ff 00       		.byte	0
+ 1201 0100 3F       		.uleb128 0x3f
+ 1202 0101 19       		.uleb128 0x19
+ 1203 0102 03       		.uleb128 0x3
+ 1204 0103 0E       		.uleb128 0xe
+ 1205 0104 3A       		.uleb128 0x3a
+ 1206 0105 0B       		.uleb128 0xb
+ 1207 0106 3B       		.uleb128 0x3b
+ 1208 0107 0B       		.uleb128 0xb
+ 1209 0108 27       		.uleb128 0x27
+ 1210 0109 19       		.uleb128 0x19
+ 1211 010a 49       		.uleb128 0x49
+ 1212 010b 13       		.uleb128 0x13
+ 1213 010c 11       		.uleb128 0x11
+ 1214 010d 01       		.uleb128 0x1
+ 1215 010e 12       		.uleb128 0x12
+ 1216 010f 06       		.uleb128 0x6
+ 1217 0110 40       		.uleb128 0x40
+ 1218 0111 18       		.uleb128 0x18
+ 1219 0112 9642     		.uleb128 0x2116
+ 1220 0114 19       		.uleb128 0x19
+ 1221 0115 00       		.byte	0
+ 1222 0116 00       		.byte	0
+ 1223 0117 14       		.uleb128 0x14
+ 1224 0118 34       		.uleb128 0x34
+ 1225 0119 00       		.byte	0
+ 1226 011a 03       		.uleb128 0x3
+ 1227 011b 0E       		.uleb128 0xe
+ 1228 011c 3A       		.uleb128 0x3a
+ 1229 011d 0B       		.uleb128 0xb
+ 1230 011e 3B       		.uleb128 0x3b
+ 1231 011f 05       		.uleb128 0x5
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 25
+
+
+ 1232 0120 49       		.uleb128 0x49
+ 1233 0121 13       		.uleb128 0x13
+ 1234 0122 3F       		.uleb128 0x3f
+ 1235 0123 19       		.uleb128 0x19
+ 1236 0124 3C       		.uleb128 0x3c
+ 1237 0125 19       		.uleb128 0x19
+ 1238 0126 00       		.byte	0
+ 1239 0127 00       		.byte	0
+ 1240 0128 15       		.uleb128 0x15
+ 1241 0129 35       		.uleb128 0x35
+ 1242 012a 00       		.byte	0
+ 1243 012b 49       		.uleb128 0x49
+ 1244 012c 13       		.uleb128 0x13
+ 1245 012d 00       		.byte	0
+ 1246 012e 00       		.byte	0
+ 1247 012f 16       		.uleb128 0x16
+ 1248 0130 01       		.uleb128 0x1
+ 1249 0131 01       		.byte	0x1
+ 1250 0132 49       		.uleb128 0x49
+ 1251 0133 13       		.uleb128 0x13
+ 1252 0134 01       		.uleb128 0x1
+ 1253 0135 13       		.uleb128 0x13
+ 1254 0136 00       		.byte	0
+ 1255 0137 00       		.byte	0
+ 1256 0138 17       		.uleb128 0x17
+ 1257 0139 21       		.uleb128 0x21
+ 1258 013a 00       		.byte	0
+ 1259 013b 49       		.uleb128 0x49
+ 1260 013c 13       		.uleb128 0x13
+ 1261 013d 2F       		.uleb128 0x2f
+ 1262 013e 0B       		.uleb128 0xb
+ 1263 013f 00       		.byte	0
+ 1264 0140 00       		.byte	0
+ 1265 0141 18       		.uleb128 0x18
+ 1266 0142 34       		.uleb128 0x34
+ 1267 0143 00       		.byte	0
+ 1268 0144 03       		.uleb128 0x3
+ 1269 0145 0E       		.uleb128 0xe
+ 1270 0146 3A       		.uleb128 0x3a
+ 1271 0147 0B       		.uleb128 0xb
+ 1272 0148 3B       		.uleb128 0x3b
+ 1273 0149 0B       		.uleb128 0xb
+ 1274 014a 49       		.uleb128 0x49
+ 1275 014b 13       		.uleb128 0x13
+ 1276 014c 3F       		.uleb128 0x3f
+ 1277 014d 19       		.uleb128 0x19
+ 1278 014e 02       		.uleb128 0x2
+ 1279 014f 18       		.uleb128 0x18
+ 1280 0150 00       		.byte	0
+ 1281 0151 00       		.byte	0
+ 1282 0152 19       		.uleb128 0x19
+ 1283 0153 34       		.uleb128 0x34
+ 1284 0154 00       		.byte	0
+ 1285 0155 03       		.uleb128 0x3
+ 1286 0156 08       		.uleb128 0x8
+ 1287 0157 3A       		.uleb128 0x3a
+ 1288 0158 0B       		.uleb128 0xb
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 26
+
+
+ 1289 0159 3B       		.uleb128 0x3b
+ 1290 015a 0B       		.uleb128 0xb
+ 1291 015b 49       		.uleb128 0x49
+ 1292 015c 13       		.uleb128 0x13
+ 1293 015d 3F       		.uleb128 0x3f
+ 1294 015e 19       		.uleb128 0x19
+ 1295 015f 02       		.uleb128 0x2
+ 1296 0160 18       		.uleb128 0x18
+ 1297 0161 00       		.byte	0
+ 1298 0162 00       		.byte	0
+ 1299 0163 00       		.byte	0
+ 1300              		.section	.debug_aranges,"",%progbits
+ 1301 0000 44000000 		.4byte	0x44
+ 1302 0004 0200     		.2byte	0x2
+ 1303 0006 00000000 		.4byte	.Ldebug_info0
+ 1304 000a 04       		.byte	0x4
+ 1305 000b 00       		.byte	0
+ 1306 000c 0000     		.2byte	0
+ 1307 000e 0000     		.2byte	0
+ 1308 0010 00000000 		.4byte	.LFB64
+ 1309 0014 66000000 		.4byte	.LFE64-.LFB64
+ 1310 0018 00000000 		.4byte	.LFB65
+ 1311 001c 54000000 		.4byte	.LFE65-.LFB65
+ 1312 0020 00000000 		.4byte	.LFB66
+ 1313 0024 48000000 		.4byte	.LFE66-.LFB66
+ 1314 0028 00000000 		.4byte	.LFB67
+ 1315 002c 60000000 		.4byte	.LFE67-.LFB67
+ 1316 0030 00000000 		.4byte	.LFB68
+ 1317 0034 F8000000 		.4byte	.LFE68-.LFB68
+ 1318 0038 00000000 		.4byte	.LFB69
+ 1319 003c 18000000 		.4byte	.LFE69-.LFB69
+ 1320 0040 00000000 		.4byte	0
+ 1321 0044 00000000 		.4byte	0
+ 1322              		.section	.debug_ranges,"",%progbits
+ 1323              	.Ldebug_ranges0:
+ 1324 0000 00000000 		.4byte	.LFB64
+ 1325 0004 66000000 		.4byte	.LFE64
+ 1326 0008 00000000 		.4byte	.LFB65
+ 1327 000c 54000000 		.4byte	.LFE65
+ 1328 0010 00000000 		.4byte	.LFB66
+ 1329 0014 48000000 		.4byte	.LFE66
+ 1330 0018 00000000 		.4byte	.LFB67
+ 1331 001c 60000000 		.4byte	.LFE67
+ 1332 0020 00000000 		.4byte	.LFB68
+ 1333 0024 F8000000 		.4byte	.LFE68
+ 1334 0028 00000000 		.4byte	.LFB69
+ 1335 002c 18000000 		.4byte	.LFE69
+ 1336 0030 00000000 		.4byte	0
+ 1337 0034 00000000 		.4byte	0
+ 1338              		.section	.debug_line,"",%progbits
+ 1339              	.Ldebug_line0:
+ 1340 0000 18020000 		.section	.debug_str,"MS",%progbits,1
+ 1340      02005701 
+ 1340      00000201 
+ 1340      FB0E0D00 
+ 1340      01010101 
+ 1341              	.LASF0:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 27
+
+
+ 1342 0000 5F5F696E 		.ascii	"__int8_t\000"
+ 1342      74385F74 
+ 1342      00
+ 1343              	.LASF1:
+ 1344 0009 5F5F7569 		.ascii	"__uint8_t\000"
+ 1344      6E74385F 
+ 1344      7400
+ 1345              	.LASF40:
+ 1346 0013 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1346      43313120 
+ 1346      352E342E 
+ 1346      31203230 
+ 1346      31363036 
+ 1347 0046 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1347      20726576 
+ 1347      6973696F 
+ 1347      6E203233 
+ 1347      37373135 
+ 1348 0079 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1348      66756E63 
+ 1348      74696F6E 
+ 1348      2D736563 
+ 1348      74696F6E 
+ 1349              	.LASF4:
+ 1350 00a1 5F5F696E 		.ascii	"__int16_t\000"
+ 1350      7431365F 
+ 1350      7400
+ 1351              	.LASF29:
+ 1352 00ab 70757463 		.ascii	"putcharl\000"
+ 1352      6861726C 
+ 1352      00
+ 1353              	.LASF7:
+ 1354 00b4 5F5F696E 		.ascii	"__int32_t\000"
+ 1354      7433325F 
+ 1354      7400
+ 1355              	.LASF31:
+ 1356 00be 73616C69 		.ascii	"salir\000"
+ 1356      7200
+ 1357              	.LASF14:
+ 1358 00c4 696E7438 		.ascii	"int8_t\000"
+ 1358      5F7400
+ 1359              	.LASF44:
+ 1360 00cb 67657449 		.ascii	"getInt\000"
+ 1360      6E7400
+ 1361              	.LASF20:
+ 1362 00d2 666C6F61 		.ascii	"float\000"
+ 1362      7400
+ 1363              	.LASF34:
+ 1364 00d8 67657443 		.ascii	"getCoef\000"
+ 1364      6F656600 
+ 1365              	.LASF3:
+ 1366 00e0 756E7369 		.ascii	"unsigned char\000"
+ 1366      676E6564 
+ 1366      20636861 
+ 1366      7200
+ 1367              	.LASF42:
+ 1368 00ee 433A5C55 		.ascii	"C:\\Users\\elias\\OneDrive\\Documents\\Documentos\\"
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 28
+
+
+ 1368      73657273 
+ 1368      5C656C69 
+ 1368      61735C4F 
+ 1368      6E654472 
+ 1369 011b 50536F43 		.ascii	"PSoC Creator\\RepasoC\\RepasoC.cydsn\000"
+ 1369      20437265 
+ 1369      61746F72 
+ 1369      5C526570 
+ 1369      61736F43 
+ 1370              	.LASF9:
+ 1371 013e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1371      20756E73 
+ 1371      69676E65 
+ 1371      6420696E 
+ 1371      7400
+ 1372              	.LASF6:
+ 1373 0150 73686F72 		.ascii	"short unsigned int\000"
+ 1373      7420756E 
+ 1373      7369676E 
+ 1373      65642069 
+ 1373      6E7400
+ 1374              	.LASF36:
+ 1375 0163 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1375      52784275 
+ 1375      66666572 
+ 1375      00
+ 1376              	.LASF30:
+ 1377 0170 6D61785F 		.ascii	"max_buf\000"
+ 1377      62756600 
+ 1378              	.LASF33:
+ 1379 0178 67657444 		.ascii	"getDegree\000"
+ 1379      65677265 
+ 1379      6500
+ 1380              	.LASF27:
+ 1381 0182 74616D42 		.ascii	"tamBuf\000"
+ 1381      756600
+ 1382              	.LASF21:
+ 1383 0189 646F7562 		.ascii	"double\000"
+ 1383      6C6500
+ 1384              	.LASF45:
+ 1385 0190 6D61696E 		.ascii	"main\000"
+ 1385      00
+ 1386              	.LASF28:
+ 1387 0195 67657463 		.ascii	"getcharl\000"
+ 1387      6861726C 
+ 1387      00
+ 1388              	.LASF13:
+ 1389 019e 756E7369 		.ascii	"unsigned int\000"
+ 1389      676E6564 
+ 1389      20696E74 
+ 1389      00
+ 1390              	.LASF12:
+ 1391 01ab 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1391      206C6F6E 
+ 1391      6720756E 
+ 1391      7369676E 
+ 1391      65642069 
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 29
+
+
+ 1392              	.LASF15:
+ 1393 01c2 75696E74 		.ascii	"uint8_t\000"
+ 1393      385F7400 
+ 1394              	.LASF32:
+ 1395 01ca 72657375 		.ascii	"result\000"
+ 1395      6C7400
+ 1396              	.LASF16:
+ 1397 01d1 696E7431 		.ascii	"int16_t\000"
+ 1397      365F7400 
+ 1398              	.LASF17:
+ 1399 01d9 696E7433 		.ascii	"int32_t\000"
+ 1399      325F7400 
+ 1400              	.LASF24:
+ 1401 01e1 73697A65 		.ascii	"sizetype\000"
+ 1401      74797065 
+ 1401      00
+ 1402              	.LASF18:
+ 1403 01ea 696E7436 		.ascii	"int64_t\000"
+ 1403      345F7400 
+ 1404              	.LASF11:
+ 1405 01f2 6C6F6E67 		.ascii	"long long int\000"
+ 1405      206C6F6E 
+ 1405      6720696E 
+ 1405      7400
+ 1406              	.LASF41:
+ 1407 0200 6D61696E 		.ascii	"main.c\000"
+ 1407      2E6300
+ 1408              	.LASF22:
+ 1409 0207 63686172 		.ascii	"char\000"
+ 1409      00
+ 1410              	.LASF10:
+ 1411 020c 5F5F696E 		.ascii	"__int64_t\000"
+ 1411      7436345F 
+ 1411      7400
+ 1412              	.LASF5:
+ 1413 0216 73686F72 		.ascii	"short int\000"
+ 1413      7420696E 
+ 1413      7400
+ 1414              	.LASF37:
+ 1415 0220 62756666 		.ascii	"buffer\000"
+ 1415      657200
+ 1416              	.LASF19:
+ 1417 0227 75696E74 		.ascii	"uint8\000"
+ 1417      3800
+ 1418              	.LASF43:
+ 1419 022d 6765744C 		.ascii	"getLine\000"
+ 1419      696E6500 
+ 1420              	.LASF8:
+ 1421 0235 6C6F6E67 		.ascii	"long int\000"
+ 1421      20696E74 
+ 1421      00
+ 1422              	.LASF35:
+ 1423 023e 6576616C 		.ascii	"evalX\000"
+ 1423      5800
+ 1424              	.LASF38:
+ 1425 0244 64656772 		.ascii	"degree\000"
+ 1425      656500
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccoh8jMR.s 			page 30
+
+
+ 1426              	.LASF23:
+ 1427 024b 6C6F6E67 		.ascii	"long double\000"
+ 1427      20646F75 
+ 1427      626C6500 
+ 1428              	.LASF2:
+ 1429 0257 7369676E 		.ascii	"signed char\000"
+ 1429      65642063 
+ 1429      68617200 
+ 1430              	.LASF39:
+ 1431 0263 636F6566 		.ascii	"coeficiente\000"
+ 1431      69636965 
+ 1431      6E746500 
+ 1432              	.LASF26:
+ 1433 026f 755F696E 		.ascii	"u_int\000"
+ 1433      7400
+ 1434              	.LASF25:
+ 1435 0275 755F696E 		.ascii	"u_int8_t\000"
+ 1435      74385F74 
+ 1435      00
+ 1436              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

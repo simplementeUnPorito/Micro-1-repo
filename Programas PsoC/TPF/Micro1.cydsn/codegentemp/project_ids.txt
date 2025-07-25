@@ -1,0 +1,10 @@
+C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\TPF\Micro1.cydsn\Micro1.cyprj|a15482f5-8784-4ce9-89a0-7c5257df8222
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|c9bb8e3c-0502-4d59-b127-50cad90e79bb
+C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|4fbb618f-f50c-4e2c-a6f5-26c3403ae224
+C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|a2558e48-fdd1-4b2a-b8d5-0a19d6e763ec
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|2e9ec523-5250-4e6c-b3f2-4b7c800f0c2c
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|57d8a45b-c934-44fd-84c0-293a7f73c8d7
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|072f3114-20e1-45b5-8cf1-8a773c739e9f
+C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\TPF\LCD(No funciona).cydsn\LCD(No funciona).cyprj|cd12e9bd-ab22-4780-b238-cdd16258168c
+C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\TPF\LCD.cydsn\LCD.cyprj|a5dbc13d-7bf9-4b23-810c-2c938f89cceb
+C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\TPF\Micro1v2.cydsn\Micro1v2.cyprj|1bffcc6f-4d45-476e-86da-c3bd26bc4deb

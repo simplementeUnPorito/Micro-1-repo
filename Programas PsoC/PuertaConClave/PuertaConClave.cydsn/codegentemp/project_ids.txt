@@ -1,0 +1,7 @@
+C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\PuertaConClave\PuertaConClave.cydsn\PuertaConClave.cyprj|09759ef0-99d9-431b-9338-c15ba933238d
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|1b8a209b-9013-4e50-8185-56664bea0cb0
+C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|0b3f95a7-09c8-4967-a468-c0b39d358cd8
+C:\Users\elias\OneDrive\Documents\Documentos\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|c3531a77-a126-4af0-bd4b-ff4dfa6ce090
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|6de11bfe-e561-4014-ae08-b4b13e0c4d71
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|3f5e7e4d-801c-4579-a945-c8f2e264cbcf
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|54dd6c2b-7516-40b9-981a-f11df93339fb

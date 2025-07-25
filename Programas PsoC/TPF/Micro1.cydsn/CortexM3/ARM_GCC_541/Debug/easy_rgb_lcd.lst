@@ -1,0 +1,3088 @@
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"easy_rgb_lcd.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	_displayfunction,1,1
+  20              		.comm	_displaycontrol,1,1
+  21              		.comm	_displaymode,1,1
+  22              		.comm	_initialized,1,1
+  23              		.comm	_numlines,1,1
+  24              		.comm	_currline,1,1
+  25              		.section	.text.LCD_setReg,"ax",%progbits
+  26              		.align	2
+  27              		.thumb
+  28              		.thumb_func
+  29              		.type	LCD_setReg, %function
+  30              	LCD_setReg:
+  31              	.LFB63:
+  32              		.file 1 "..\\..\\..\\..\\..\\UCA\\8_Semestre\\Micro 1\\Community\\Grove_LCD_RGB_Backlight-master\\
+   1:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** #include "easy_rgb_lcd.h"
+   2:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+   3:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** // Variables globales
+   4:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** uint8_t _displayfunction;
+   5:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** uint8_t _displaycontrol;
+   6:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** uint8_t _displaymode;
+   7:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** uint8_t _initialized;
+   8:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** uint8_t _numlines, _currline;
+   9:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  10:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** #define I2C_RGB_ADDR  0xC4
+  11:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** #define I2C_LCD_ADDR  0x7C
+  12:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  13:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** // Función para enviar un registro al backlight RGB
+  14:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** // Función para enviar un registro al backlight RGB
+  15:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** static void LCD_setReg(unsigned char reg, unsigned char val) {
+  33              		.loc 1 15 0
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 16
+  36              		@ frame_needed = 1, uses_anonymous_args = 0
+  37 0000 80B5     		push	{r7, lr}
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 7, -8
+  40              		.cfi_offset 14, -4
+  41 0002 84B0     		sub	sp, sp, #16
+  42              		.cfi_def_cfa_offset 24
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 2
+
+
+  43 0004 00AF     		add	r7, sp, #0
+  44              		.cfi_def_cfa_register 7
+  45 0006 0346     		mov	r3, r0
+  46 0008 0A46     		mov	r2, r1
+  47 000a FB71     		strb	r3, [r7, #7]
+  48 000c 1346     		mov	r3, r2
+  49 000e BB71     		strb	r3, [r7, #6]
+  16:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     uint8_t data[2] = {reg, val};
+  50              		.loc 1 16 0
+  51 0010 FB79     		ldrb	r3, [r7, #7]
+  52 0012 3B73     		strb	r3, [r7, #12]
+  53 0014 BB79     		ldrb	r3, [r7, #6]
+  54 0016 7B73     		strb	r3, [r7, #13]
+  17:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  18:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     I2C_LCD_MasterWriteBuf(I2C_RGB_ADDR >> 1, data, 2, I2C_LCD_MODE_COMPLETE_XFER);
+  55              		.loc 1 18 0
+  56 0018 07F10C01 		add	r1, r7, #12
+  57 001c 0023     		movs	r3, #0
+  58 001e 0222     		movs	r2, #2
+  59 0020 6220     		movs	r0, #98
+  60 0022 FFF7FEFF 		bl	I2C_LCD_MasterWriteBuf
+  19:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     while (I2C_LCD_MasterStatus() & I2C_LCD_MSTAT_XFER_INP);  // Esperar a que termine la transfere
+  61              		.loc 1 19 0
+  62 0026 00BF     		nop
+  63              	.L2:
+  64              		.loc 1 19 0 is_stmt 0 discriminator 1
+  65 0028 FFF7FEFF 		bl	I2C_LCD_MasterStatus
+  66 002c 0346     		mov	r3, r0
+  67 002e 03F00403 		and	r3, r3, #4
+  68 0032 002B     		cmp	r3, #0
+  69 0034 F8D1     		bne	.L2
+  20:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+  70              		.loc 1 20 0 is_stmt 1
+  71 0036 00BF     		nop
+  72 0038 1037     		adds	r7, r7, #16
+  73              		.cfi_def_cfa_offset 8
+  74 003a BD46     		mov	sp, r7
+  75              		.cfi_def_cfa_register 13
+  76              		@ sp needed
+  77 003c 80BD     		pop	{r7, pc}
+  78              		.cfi_endproc
+  79              	.LFE63:
+  80              		.size	LCD_setReg, .-LCD_setReg
+  81 003e 00BF     		.section	.text.i2c_send_byteS,"ax",%progbits
+  82              		.align	2
+  83              		.thumb
+  84              		.thumb_func
+  85              		.type	i2c_send_byteS, %function
+  86              	i2c_send_byteS:
+  87              	.LFB64:
+  21:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  22:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** // Función para enviar datos al LCD
+  23:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** static void i2c_send_byteS(uint8_t *data, uint32_t len) {
+  88              		.loc 1 23 0
+  89              		.cfi_startproc
+  90              		@ args = 0, pretend = 0, frame = 8
+  91              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 3
+
+
+  92 0000 80B5     		push	{r7, lr}
+  93              		.cfi_def_cfa_offset 8
+  94              		.cfi_offset 7, -8
+  95              		.cfi_offset 14, -4
+  96 0002 82B0     		sub	sp, sp, #8
+  97              		.cfi_def_cfa_offset 16
+  98 0004 00AF     		add	r7, sp, #0
+  99              		.cfi_def_cfa_register 7
+ 100 0006 7860     		str	r0, [r7, #4]
+ 101 0008 3960     		str	r1, [r7]
+  24:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     I2C_LCD_MasterWriteBuf(I2C_LCD_ADDR >> 1, data, len, I2C_LCD_MODE_COMPLETE_XFER);
+ 102              		.loc 1 24 0
+ 103 000a 3B68     		ldr	r3, [r7]
+ 104 000c DAB2     		uxtb	r2, r3
+ 105 000e 0023     		movs	r3, #0
+ 106 0010 7968     		ldr	r1, [r7, #4]
+ 107 0012 3E20     		movs	r0, #62
+ 108 0014 FFF7FEFF 		bl	I2C_LCD_MasterWriteBuf
+  25:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     while (I2C_LCD_MasterStatus() & I2C_LCD_MSTAT_XFER_INP);  // Esperar a que termine la transfere
+ 109              		.loc 1 25 0
+ 110 0018 00BF     		nop
+ 111              	.L4:
+ 112              		.loc 1 25 0 is_stmt 0 discriminator 1
+ 113 001a FFF7FEFF 		bl	I2C_LCD_MasterStatus
+ 114 001e 0346     		mov	r3, r0
+ 115 0020 03F00403 		and	r3, r3, #4
+ 116 0024 002B     		cmp	r3, #0
+ 117 0026 F8D1     		bne	.L4
+  26:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 118              		.loc 1 26 0 is_stmt 1
+ 119 0028 00BF     		nop
+ 120 002a 0837     		adds	r7, r7, #8
+ 121              		.cfi_def_cfa_offset 8
+ 122 002c BD46     		mov	sp, r7
+ 123              		.cfi_def_cfa_register 13
+ 124              		@ sp needed
+ 125 002e 80BD     		pop	{r7, pc}
+ 126              		.cfi_endproc
+ 127              	.LFE64:
+ 128              		.size	i2c_send_byteS, .-i2c_send_byteS
+ 129              		.section	.text.LCD_begin,"ax",%progbits
+ 130              		.align	2
+ 131              		.global	LCD_begin
+ 132              		.thumb
+ 133              		.thumb_func
+ 134              		.type	LCD_begin, %function
+ 135              	LCD_begin:
+ 136              	.LFB65:
+  27:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  28:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  29:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_begin(uint8_t cols, uint8_t lines, uint8_t dotsize) {
+ 137              		.loc 1 29 0
+ 138              		.cfi_startproc
+ 139              		@ args = 0, pretend = 0, frame = 8
+ 140              		@ frame_needed = 1, uses_anonymous_args = 0
+ 141 0000 80B5     		push	{r7, lr}
+ 142              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 4
+
+
+ 143              		.cfi_offset 7, -8
+ 144              		.cfi_offset 14, -4
+ 145 0002 82B0     		sub	sp, sp, #8
+ 146              		.cfi_def_cfa_offset 16
+ 147 0004 00AF     		add	r7, sp, #0
+ 148              		.cfi_def_cfa_register 7
+ 149 0006 0346     		mov	r3, r0
+ 150 0008 FB71     		strb	r3, [r7, #7]
+ 151 000a 0B46     		mov	r3, r1
+ 152 000c BB71     		strb	r3, [r7, #6]
+ 153 000e 1346     		mov	r3, r2
+ 154 0010 7B71     		strb	r3, [r7, #5]
+  30:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     if (lines > 1) {
+ 155              		.loc 1 30 0
+ 156 0012 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 157 0014 012B     		cmp	r3, #1
+ 158 0016 06D9     		bls	.L6
+  31:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****         _displayfunction |= LCD_2LINE;
+ 159              		.loc 1 31 0
+ 160 0018 2F4B     		ldr	r3, .L8
+ 161 001a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 162 001c 43F00803 		orr	r3, r3, #8
+ 163 0020 DAB2     		uxtb	r2, r3
+ 164 0022 2D4B     		ldr	r3, .L8
+ 165 0024 1A70     		strb	r2, [r3]
+ 166              	.L6:
+  32:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     }
+  33:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _numlines = lines;
+ 167              		.loc 1 33 0
+ 168 0026 2D4A     		ldr	r2, .L8+4
+ 169 0028 BB79     		ldrb	r3, [r7, #6]
+ 170 002a 1370     		strb	r3, [r2]
+  34:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _currline = 0;
+ 171              		.loc 1 34 0
+ 172 002c 2C4B     		ldr	r3, .L8+8
+ 173 002e 0022     		movs	r2, #0
+ 174 0030 1A70     		strb	r2, [r3]
+  35:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  36:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     if ((dotsize != 0) && (lines == 1)) {
+ 175              		.loc 1 36 0
+ 176 0032 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
+ 177 0034 002B     		cmp	r3, #0
+ 178 0036 09D0     		beq	.L7
+ 179              		.loc 1 36 0 is_stmt 0 discriminator 1
+ 180 0038 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 181 003a 012B     		cmp	r3, #1
+ 182 003c 06D1     		bne	.L7
+  37:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****         _displayfunction |= LCD_5x10DOTS;
+ 183              		.loc 1 37 0 is_stmt 1
+ 184 003e 264B     		ldr	r3, .L8
+ 185 0040 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 186 0042 43F00403 		orr	r3, r3, #4
+ 187 0046 DAB2     		uxtb	r2, r3
+ 188 0048 234B     		ldr	r3, .L8
+ 189 004a 1A70     		strb	r2, [r3]
+ 190              	.L7:
+  38:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     }
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 5
+
+
+  39:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  40:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     CyDelay(50);  // Esperar 50 ms antes de iniciar las comunicaciones
+ 191              		.loc 1 40 0
+ 192 004c 3220     		movs	r0, #50
+ 193 004e FFF7FEFF 		bl	CyDelay
+  41:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  42:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     // Enviar secuencia de comandos de inicialización
+  43:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_FUNCTIONSET | _displayfunction);
+ 194              		.loc 1 43 0
+ 195 0052 214B     		ldr	r3, .L8
+ 196 0054 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 197 0056 43F02003 		orr	r3, r3, #32
+ 198 005a DBB2     		uxtb	r3, r3
+ 199 005c 1846     		mov	r0, r3
+ 200 005e FFF7FEFF 		bl	LCD_command
+  44:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     CyDelay(5);  // Esperar más de 4.1ms
+ 201              		.loc 1 44 0
+ 202 0062 0520     		movs	r0, #5
+ 203 0064 FFF7FEFF 		bl	CyDelay
+  45:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  46:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_FUNCTIONSET | _displayfunction);
+ 204              		.loc 1 46 0
+ 205 0068 1B4B     		ldr	r3, .L8
+ 206 006a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 207 006c 43F02003 		orr	r3, r3, #32
+ 208 0070 DBB2     		uxtb	r3, r3
+ 209 0072 1846     		mov	r0, r3
+ 210 0074 FFF7FEFF 		bl	LCD_command
+  47:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     CyDelay(1);
+ 211              		.loc 1 47 0
+ 212 0078 0120     		movs	r0, #1
+ 213 007a FFF7FEFF 		bl	CyDelay
+  48:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  49:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_FUNCTIONSET | _displayfunction);
+ 214              		.loc 1 49 0
+ 215 007e 164B     		ldr	r3, .L8
+ 216 0080 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 217 0082 43F02003 		orr	r3, r3, #32
+ 218 0086 DBB2     		uxtb	r3, r3
+ 219 0088 1846     		mov	r0, r3
+ 220 008a FFF7FEFF 		bl	LCD_command
+  50:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  51:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaycontrol = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
+ 221              		.loc 1 51 0
+ 222 008e 154B     		ldr	r3, .L8+12
+ 223 0090 0422     		movs	r2, #4
+ 224 0092 1A70     		strb	r2, [r3]
+  52:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_display();
+ 225              		.loc 1 52 0
+ 226 0094 FFF7FEFF 		bl	LCD_display
+  53:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  54:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_clear();
+ 227              		.loc 1 54 0
+ 228 0098 FFF7FEFF 		bl	LCD_clear
+  55:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  56:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaymode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
+ 229              		.loc 1 56 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 6
+
+
+ 230 009c 124B     		ldr	r3, .L8+16
+ 231 009e 0222     		movs	r2, #2
+ 232 00a0 1A70     		strb	r2, [r3]
+  57:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_ENTRYMODESET | _displaymode);
+ 233              		.loc 1 57 0
+ 234 00a2 114B     		ldr	r3, .L8+16
+ 235 00a4 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 236 00a6 43F00403 		orr	r3, r3, #4
+ 237 00aa DBB2     		uxtb	r3, r3
+ 238 00ac 1846     		mov	r0, r3
+ 239 00ae FFF7FEFF 		bl	LCD_command
+  58:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  59:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     // Inicializar backlight
+  60:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_setReg(0, 0);
+ 240              		.loc 1 60 0
+ 241 00b2 0021     		movs	r1, #0
+ 242 00b4 0020     		movs	r0, #0
+ 243 00b6 FFF7FEFF 		bl	LCD_setReg
+  61:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_setReg(1, 0);
+ 244              		.loc 1 61 0
+ 245 00ba 0021     		movs	r1, #0
+ 246 00bc 0120     		movs	r0, #1
+ 247 00be FFF7FEFF 		bl	LCD_setReg
+  62:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_setReg(0x08, 0xAA);  // Controlar todos los LEDs con PWM
+ 248              		.loc 1 62 0
+ 249 00c2 AA21     		movs	r1, #170
+ 250 00c4 0820     		movs	r0, #8
+ 251 00c6 FFF7FEFF 		bl	LCD_setReg
+  63:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  64:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_setColorWhite();  // Establecer el color blanco por defecto
+ 252              		.loc 1 64 0
+ 253 00ca FFF7FEFF 		bl	LCD_setColorWhite
+  65:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 254              		.loc 1 65 0
+ 255 00ce 00BF     		nop
+ 256 00d0 0837     		adds	r7, r7, #8
+ 257              		.cfi_def_cfa_offset 8
+ 258 00d2 BD46     		mov	sp, r7
+ 259              		.cfi_def_cfa_register 13
+ 260              		@ sp needed
+ 261 00d4 80BD     		pop	{r7, pc}
+ 262              	.L9:
+ 263 00d6 00BF     		.align	2
+ 264              	.L8:
+ 265 00d8 00000000 		.word	_displayfunction
+ 266 00dc 00000000 		.word	_numlines
+ 267 00e0 00000000 		.word	_currline
+ 268 00e4 00000000 		.word	_displaycontrol
+ 269 00e8 00000000 		.word	_displaymode
+ 270              		.cfi_endproc
+ 271              	.LFE65:
+ 272              		.size	LCD_begin, .-LCD_begin
+ 273              		.section	.text.LCD_clear,"ax",%progbits
+ 274              		.align	2
+ 275              		.global	LCD_clear
+ 276              		.thumb
+ 277              		.thumb_func
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 7
+
+
+ 278              		.type	LCD_clear, %function
+ 279              	LCD_clear:
+ 280              	.LFB66:
+  66:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  67:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_clear(void) {
+ 281              		.loc 1 67 0
+ 282              		.cfi_startproc
+ 283              		@ args = 0, pretend = 0, frame = 0
+ 284              		@ frame_needed = 1, uses_anonymous_args = 0
+ 285 0000 80B5     		push	{r7, lr}
+ 286              		.cfi_def_cfa_offset 8
+ 287              		.cfi_offset 7, -8
+ 288              		.cfi_offset 14, -4
+ 289 0002 00AF     		add	r7, sp, #0
+ 290              		.cfi_def_cfa_register 7
+  68:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_CLEARDISPLAY);
+ 291              		.loc 1 68 0
+ 292 0004 0120     		movs	r0, #1
+ 293 0006 FFF7FEFF 		bl	LCD_command
+  69:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     CyDelay(2);  // Este comando toma tiempo
+ 294              		.loc 1 69 0
+ 295 000a 0220     		movs	r0, #2
+ 296 000c FFF7FEFF 		bl	CyDelay
+  70:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 297              		.loc 1 70 0
+ 298 0010 00BF     		nop
+ 299 0012 80BD     		pop	{r7, pc}
+ 300              		.cfi_endproc
+ 301              	.LFE66:
+ 302              		.size	LCD_clear, .-LCD_clear
+ 303              		.section	.text.LCD_home,"ax",%progbits
+ 304              		.align	2
+ 305              		.global	LCD_home
+ 306              		.thumb
+ 307              		.thumb_func
+ 308              		.type	LCD_home, %function
+ 309              	LCD_home:
+ 310              	.LFB67:
+  71:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  72:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_home(void) {
+ 311              		.loc 1 72 0
+ 312              		.cfi_startproc
+ 313              		@ args = 0, pretend = 0, frame = 0
+ 314              		@ frame_needed = 1, uses_anonymous_args = 0
+ 315 0000 80B5     		push	{r7, lr}
+ 316              		.cfi_def_cfa_offset 8
+ 317              		.cfi_offset 7, -8
+ 318              		.cfi_offset 14, -4
+ 319 0002 00AF     		add	r7, sp, #0
+ 320              		.cfi_def_cfa_register 7
+  73:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_RETURNHOME);
+ 321              		.loc 1 73 0
+ 322 0004 0220     		movs	r0, #2
+ 323 0006 FFF7FEFF 		bl	LCD_command
+  74:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     CyDelay(2);  // Este comando toma tiempo
+ 324              		.loc 1 74 0
+ 325 000a 0220     		movs	r0, #2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 8
+
+
+ 326 000c FFF7FEFF 		bl	CyDelay
+  75:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 327              		.loc 1 75 0
+ 328 0010 00BF     		nop
+ 329 0012 80BD     		pop	{r7, pc}
+ 330              		.cfi_endproc
+ 331              	.LFE67:
+ 332              		.size	LCD_home, .-LCD_home
+ 333              		.section	.text.LCD_noDisplay,"ax",%progbits
+ 334              		.align	2
+ 335              		.global	LCD_noDisplay
+ 336              		.thumb
+ 337              		.thumb_func
+ 338              		.type	LCD_noDisplay, %function
+ 339              	LCD_noDisplay:
+ 340              	.LFB68:
+  76:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  77:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_noDisplay(void) {
+ 341              		.loc 1 77 0
+ 342              		.cfi_startproc
+ 343              		@ args = 0, pretend = 0, frame = 0
+ 344              		@ frame_needed = 1, uses_anonymous_args = 0
+ 345 0000 80B5     		push	{r7, lr}
+ 346              		.cfi_def_cfa_offset 8
+ 347              		.cfi_offset 7, -8
+ 348              		.cfi_offset 14, -4
+ 349 0002 00AF     		add	r7, sp, #0
+ 350              		.cfi_def_cfa_register 7
+  78:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaycontrol &= ~LCD_DISPLAYON;
+ 351              		.loc 1 78 0
+ 352 0004 084B     		ldr	r3, .L13
+ 353 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 354 0008 23F00403 		bic	r3, r3, #4
+ 355 000c DAB2     		uxtb	r2, r3
+ 356 000e 064B     		ldr	r3, .L13
+ 357 0010 1A70     		strb	r2, [r3]
+  79:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ 358              		.loc 1 79 0
+ 359 0012 054B     		ldr	r3, .L13
+ 360 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 361 0016 43F00803 		orr	r3, r3, #8
+ 362 001a DBB2     		uxtb	r3, r3
+ 363 001c 1846     		mov	r0, r3
+ 364 001e FFF7FEFF 		bl	LCD_command
+  80:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 365              		.loc 1 80 0
+ 366 0022 00BF     		nop
+ 367 0024 80BD     		pop	{r7, pc}
+ 368              	.L14:
+ 369 0026 00BF     		.align	2
+ 370              	.L13:
+ 371 0028 00000000 		.word	_displaycontrol
+ 372              		.cfi_endproc
+ 373              	.LFE68:
+ 374              		.size	LCD_noDisplay, .-LCD_noDisplay
+ 375              		.section	.text.LCD_display,"ax",%progbits
+ 376              		.align	2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 9
+
+
+ 377              		.global	LCD_display
+ 378              		.thumb
+ 379              		.thumb_func
+ 380              		.type	LCD_display, %function
+ 381              	LCD_display:
+ 382              	.LFB69:
+  81:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  82:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_display(void) {
+ 383              		.loc 1 82 0
+ 384              		.cfi_startproc
+ 385              		@ args = 0, pretend = 0, frame = 0
+ 386              		@ frame_needed = 1, uses_anonymous_args = 0
+ 387 0000 80B5     		push	{r7, lr}
+ 388              		.cfi_def_cfa_offset 8
+ 389              		.cfi_offset 7, -8
+ 390              		.cfi_offset 14, -4
+ 391 0002 00AF     		add	r7, sp, #0
+ 392              		.cfi_def_cfa_register 7
+  83:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaycontrol |= LCD_DISPLAYON;
+ 393              		.loc 1 83 0
+ 394 0004 084B     		ldr	r3, .L16
+ 395 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 396 0008 43F00403 		orr	r3, r3, #4
+ 397 000c DAB2     		uxtb	r2, r3
+ 398 000e 064B     		ldr	r3, .L16
+ 399 0010 1A70     		strb	r2, [r3]
+  84:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ 400              		.loc 1 84 0
+ 401 0012 054B     		ldr	r3, .L16
+ 402 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 403 0016 43F00803 		orr	r3, r3, #8
+ 404 001a DBB2     		uxtb	r3, r3
+ 405 001c 1846     		mov	r0, r3
+ 406 001e FFF7FEFF 		bl	LCD_command
+  85:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 407              		.loc 1 85 0
+ 408 0022 00BF     		nop
+ 409 0024 80BD     		pop	{r7, pc}
+ 410              	.L17:
+ 411 0026 00BF     		.align	2
+ 412              	.L16:
+ 413 0028 00000000 		.word	_displaycontrol
+ 414              		.cfi_endproc
+ 415              	.LFE69:
+ 416              		.size	LCD_display, .-LCD_display
+ 417              		.section	.text.LCD_noBlink,"ax",%progbits
+ 418              		.align	2
+ 419              		.global	LCD_noBlink
+ 420              		.thumb
+ 421              		.thumb_func
+ 422              		.type	LCD_noBlink, %function
+ 423              	LCD_noBlink:
+ 424              	.LFB70:
+  86:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  87:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_noBlink(void) {
+ 425              		.loc 1 87 0
+ 426              		.cfi_startproc
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 10
+
+
+ 427              		@ args = 0, pretend = 0, frame = 0
+ 428              		@ frame_needed = 1, uses_anonymous_args = 0
+ 429 0000 80B5     		push	{r7, lr}
+ 430              		.cfi_def_cfa_offset 8
+ 431              		.cfi_offset 7, -8
+ 432              		.cfi_offset 14, -4
+ 433 0002 00AF     		add	r7, sp, #0
+ 434              		.cfi_def_cfa_register 7
+  88:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaycontrol &= ~LCD_BLINKON;
+ 435              		.loc 1 88 0
+ 436 0004 084B     		ldr	r3, .L19
+ 437 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 438 0008 23F00103 		bic	r3, r3, #1
+ 439 000c DAB2     		uxtb	r2, r3
+ 440 000e 064B     		ldr	r3, .L19
+ 441 0010 1A70     		strb	r2, [r3]
+  89:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ 442              		.loc 1 89 0
+ 443 0012 054B     		ldr	r3, .L19
+ 444 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 445 0016 43F00803 		orr	r3, r3, #8
+ 446 001a DBB2     		uxtb	r3, r3
+ 447 001c 1846     		mov	r0, r3
+ 448 001e FFF7FEFF 		bl	LCD_command
+  90:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 449              		.loc 1 90 0
+ 450 0022 00BF     		nop
+ 451 0024 80BD     		pop	{r7, pc}
+ 452              	.L20:
+ 453 0026 00BF     		.align	2
+ 454              	.L19:
+ 455 0028 00000000 		.word	_displaycontrol
+ 456              		.cfi_endproc
+ 457              	.LFE70:
+ 458              		.size	LCD_noBlink, .-LCD_noBlink
+ 459              		.section	.text.LCD_blink,"ax",%progbits
+ 460              		.align	2
+ 461              		.global	LCD_blink
+ 462              		.thumb
+ 463              		.thumb_func
+ 464              		.type	LCD_blink, %function
+ 465              	LCD_blink:
+ 466              	.LFB71:
+  91:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  92:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_blink(void) {
+ 467              		.loc 1 92 0
+ 468              		.cfi_startproc
+ 469              		@ args = 0, pretend = 0, frame = 0
+ 470              		@ frame_needed = 1, uses_anonymous_args = 0
+ 471 0000 80B5     		push	{r7, lr}
+ 472              		.cfi_def_cfa_offset 8
+ 473              		.cfi_offset 7, -8
+ 474              		.cfi_offset 14, -4
+ 475 0002 00AF     		add	r7, sp, #0
+ 476              		.cfi_def_cfa_register 7
+  93:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaycontrol |= LCD_BLINKON;
+ 477              		.loc 1 93 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 11
+
+
+ 478 0004 084B     		ldr	r3, .L22
+ 479 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 480 0008 43F00103 		orr	r3, r3, #1
+ 481 000c DAB2     		uxtb	r2, r3
+ 482 000e 064B     		ldr	r3, .L22
+ 483 0010 1A70     		strb	r2, [r3]
+  94:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ 484              		.loc 1 94 0
+ 485 0012 054B     		ldr	r3, .L22
+ 486 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 487 0016 43F00803 		orr	r3, r3, #8
+ 488 001a DBB2     		uxtb	r3, r3
+ 489 001c 1846     		mov	r0, r3
+ 490 001e FFF7FEFF 		bl	LCD_command
+  95:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 491              		.loc 1 95 0
+ 492 0022 00BF     		nop
+ 493 0024 80BD     		pop	{r7, pc}
+ 494              	.L23:
+ 495 0026 00BF     		.align	2
+ 496              	.L22:
+ 497 0028 00000000 		.word	_displaycontrol
+ 498              		.cfi_endproc
+ 499              	.LFE71:
+ 500              		.size	LCD_blink, .-LCD_blink
+ 501              		.section	.text.LCD_noCursor,"ax",%progbits
+ 502              		.align	2
+ 503              		.global	LCD_noCursor
+ 504              		.thumb
+ 505              		.thumb_func
+ 506              		.type	LCD_noCursor, %function
+ 507              	LCD_noCursor:
+ 508              	.LFB72:
+  96:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+  97:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_noCursor(void) {
+ 509              		.loc 1 97 0
+ 510              		.cfi_startproc
+ 511              		@ args = 0, pretend = 0, frame = 0
+ 512              		@ frame_needed = 1, uses_anonymous_args = 0
+ 513 0000 80B5     		push	{r7, lr}
+ 514              		.cfi_def_cfa_offset 8
+ 515              		.cfi_offset 7, -8
+ 516              		.cfi_offset 14, -4
+ 517 0002 00AF     		add	r7, sp, #0
+ 518              		.cfi_def_cfa_register 7
+  98:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaycontrol &= ~LCD_CURSORON;
+ 519              		.loc 1 98 0
+ 520 0004 084B     		ldr	r3, .L25
+ 521 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 522 0008 23F00203 		bic	r3, r3, #2
+ 523 000c DAB2     		uxtb	r2, r3
+ 524 000e 064B     		ldr	r3, .L25
+ 525 0010 1A70     		strb	r2, [r3]
+  99:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ 526              		.loc 1 99 0
+ 527 0012 054B     		ldr	r3, .L25
+ 528 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 12
+
+
+ 529 0016 43F00803 		orr	r3, r3, #8
+ 530 001a DBB2     		uxtb	r3, r3
+ 531 001c 1846     		mov	r0, r3
+ 532 001e FFF7FEFF 		bl	LCD_command
+ 100:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 533              		.loc 1 100 0
+ 534 0022 00BF     		nop
+ 535 0024 80BD     		pop	{r7, pc}
+ 536              	.L26:
+ 537 0026 00BF     		.align	2
+ 538              	.L25:
+ 539 0028 00000000 		.word	_displaycontrol
+ 540              		.cfi_endproc
+ 541              	.LFE72:
+ 542              		.size	LCD_noCursor, .-LCD_noCursor
+ 543              		.section	.text.LCD_cursor,"ax",%progbits
+ 544              		.align	2
+ 545              		.global	LCD_cursor
+ 546              		.thumb
+ 547              		.thumb_func
+ 548              		.type	LCD_cursor, %function
+ 549              	LCD_cursor:
+ 550              	.LFB73:
+ 101:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 102:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_cursor(void) {
+ 551              		.loc 1 102 0
+ 552              		.cfi_startproc
+ 553              		@ args = 0, pretend = 0, frame = 0
+ 554              		@ frame_needed = 1, uses_anonymous_args = 0
+ 555 0000 80B5     		push	{r7, lr}
+ 556              		.cfi_def_cfa_offset 8
+ 557              		.cfi_offset 7, -8
+ 558              		.cfi_offset 14, -4
+ 559 0002 00AF     		add	r7, sp, #0
+ 560              		.cfi_def_cfa_register 7
+ 103:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaycontrol |= LCD_CURSORON;
+ 561              		.loc 1 103 0
+ 562 0004 084B     		ldr	r3, .L28
+ 563 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 564 0008 43F00203 		orr	r3, r3, #2
+ 565 000c DAB2     		uxtb	r2, r3
+ 566 000e 064B     		ldr	r3, .L28
+ 567 0010 1A70     		strb	r2, [r3]
+ 104:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_DISPLAYCONTROL | _displaycontrol);
+ 568              		.loc 1 104 0
+ 569 0012 054B     		ldr	r3, .L28
+ 570 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 571 0016 43F00803 		orr	r3, r3, #8
+ 572 001a DBB2     		uxtb	r3, r3
+ 573 001c 1846     		mov	r0, r3
+ 574 001e FFF7FEFF 		bl	LCD_command
+ 105:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 575              		.loc 1 105 0
+ 576 0022 00BF     		nop
+ 577 0024 80BD     		pop	{r7, pc}
+ 578              	.L29:
+ 579 0026 00BF     		.align	2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 13
+
+
+ 580              	.L28:
+ 581 0028 00000000 		.word	_displaycontrol
+ 582              		.cfi_endproc
+ 583              	.LFE73:
+ 584              		.size	LCD_cursor, .-LCD_cursor
+ 585              		.section	.text.LCD_scrollDisplayLeft,"ax",%progbits
+ 586              		.align	2
+ 587              		.global	LCD_scrollDisplayLeft
+ 588              		.thumb
+ 589              		.thumb_func
+ 590              		.type	LCD_scrollDisplayLeft, %function
+ 591              	LCD_scrollDisplayLeft:
+ 592              	.LFB74:
+ 106:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 107:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_scrollDisplayLeft(void) {
+ 593              		.loc 1 107 0
+ 594              		.cfi_startproc
+ 595              		@ args = 0, pretend = 0, frame = 0
+ 596              		@ frame_needed = 1, uses_anonymous_args = 0
+ 597 0000 80B5     		push	{r7, lr}
+ 598              		.cfi_def_cfa_offset 8
+ 599              		.cfi_offset 7, -8
+ 600              		.cfi_offset 14, -4
+ 601 0002 00AF     		add	r7, sp, #0
+ 602              		.cfi_def_cfa_register 7
+ 108:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVELEFT);
+ 603              		.loc 1 108 0
+ 604 0004 1820     		movs	r0, #24
+ 605 0006 FFF7FEFF 		bl	LCD_command
+ 109:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 606              		.loc 1 109 0
+ 607 000a 00BF     		nop
+ 608 000c 80BD     		pop	{r7, pc}
+ 609              		.cfi_endproc
+ 610              	.LFE74:
+ 611              		.size	LCD_scrollDisplayLeft, .-LCD_scrollDisplayLeft
+ 612 000e 00BF     		.section	.text.LCD_scrollDisplayRight,"ax",%progbits
+ 613              		.align	2
+ 614              		.global	LCD_scrollDisplayRight
+ 615              		.thumb
+ 616              		.thumb_func
+ 617              		.type	LCD_scrollDisplayRight, %function
+ 618              	LCD_scrollDisplayRight:
+ 619              	.LFB75:
+ 110:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 111:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_scrollDisplayRight(void) {
+ 620              		.loc 1 111 0
+ 621              		.cfi_startproc
+ 622              		@ args = 0, pretend = 0, frame = 0
+ 623              		@ frame_needed = 1, uses_anonymous_args = 0
+ 624 0000 80B5     		push	{r7, lr}
+ 625              		.cfi_def_cfa_offset 8
+ 626              		.cfi_offset 7, -8
+ 627              		.cfi_offset 14, -4
+ 628 0002 00AF     		add	r7, sp, #0
+ 629              		.cfi_def_cfa_register 7
+ 112:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVERIGHT);
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 14
+
+
+ 630              		.loc 1 112 0
+ 631 0004 1C20     		movs	r0, #28
+ 632 0006 FFF7FEFF 		bl	LCD_command
+ 113:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 633              		.loc 1 113 0
+ 634 000a 00BF     		nop
+ 635 000c 80BD     		pop	{r7, pc}
+ 636              		.cfi_endproc
+ 637              	.LFE75:
+ 638              		.size	LCD_scrollDisplayRight, .-LCD_scrollDisplayRight
+ 639 000e 00BF     		.section	.text.LCD_leftToRight,"ax",%progbits
+ 640              		.align	2
+ 641              		.global	LCD_leftToRight
+ 642              		.thumb
+ 643              		.thumb_func
+ 644              		.type	LCD_leftToRight, %function
+ 645              	LCD_leftToRight:
+ 646              	.LFB76:
+ 114:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 115:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_leftToRight(void) {
+ 647              		.loc 1 115 0
+ 648              		.cfi_startproc
+ 649              		@ args = 0, pretend = 0, frame = 0
+ 650              		@ frame_needed = 1, uses_anonymous_args = 0
+ 651 0000 80B5     		push	{r7, lr}
+ 652              		.cfi_def_cfa_offset 8
+ 653              		.cfi_offset 7, -8
+ 654              		.cfi_offset 14, -4
+ 655 0002 00AF     		add	r7, sp, #0
+ 656              		.cfi_def_cfa_register 7
+ 116:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaymode |= LCD_ENTRYLEFT;
+ 657              		.loc 1 116 0
+ 658 0004 084B     		ldr	r3, .L33
+ 659 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 660 0008 43F00203 		orr	r3, r3, #2
+ 661 000c DAB2     		uxtb	r2, r3
+ 662 000e 064B     		ldr	r3, .L33
+ 663 0010 1A70     		strb	r2, [r3]
+ 117:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_ENTRYMODESET | _displaymode);
+ 664              		.loc 1 117 0
+ 665 0012 054B     		ldr	r3, .L33
+ 666 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 667 0016 43F00403 		orr	r3, r3, #4
+ 668 001a DBB2     		uxtb	r3, r3
+ 669 001c 1846     		mov	r0, r3
+ 670 001e FFF7FEFF 		bl	LCD_command
+ 118:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 671              		.loc 1 118 0
+ 672 0022 00BF     		nop
+ 673 0024 80BD     		pop	{r7, pc}
+ 674              	.L34:
+ 675 0026 00BF     		.align	2
+ 676              	.L33:
+ 677 0028 00000000 		.word	_displaymode
+ 678              		.cfi_endproc
+ 679              	.LFE76:
+ 680              		.size	LCD_leftToRight, .-LCD_leftToRight
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 15
+
+
+ 681              		.section	.text.LCD_rightToLeft,"ax",%progbits
+ 682              		.align	2
+ 683              		.global	LCD_rightToLeft
+ 684              		.thumb
+ 685              		.thumb_func
+ 686              		.type	LCD_rightToLeft, %function
+ 687              	LCD_rightToLeft:
+ 688              	.LFB77:
+ 119:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 120:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_rightToLeft(void) {
+ 689              		.loc 1 120 0
+ 690              		.cfi_startproc
+ 691              		@ args = 0, pretend = 0, frame = 0
+ 692              		@ frame_needed = 1, uses_anonymous_args = 0
+ 693 0000 80B5     		push	{r7, lr}
+ 694              		.cfi_def_cfa_offset 8
+ 695              		.cfi_offset 7, -8
+ 696              		.cfi_offset 14, -4
+ 697 0002 00AF     		add	r7, sp, #0
+ 698              		.cfi_def_cfa_register 7
+ 121:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaymode &= ~LCD_ENTRYLEFT;
+ 699              		.loc 1 121 0
+ 700 0004 084B     		ldr	r3, .L36
+ 701 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 702 0008 23F00203 		bic	r3, r3, #2
+ 703 000c DAB2     		uxtb	r2, r3
+ 704 000e 064B     		ldr	r3, .L36
+ 705 0010 1A70     		strb	r2, [r3]
+ 122:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_ENTRYMODESET | _displaymode);
+ 706              		.loc 1 122 0
+ 707 0012 054B     		ldr	r3, .L36
+ 708 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 709 0016 43F00403 		orr	r3, r3, #4
+ 710 001a DBB2     		uxtb	r3, r3
+ 711 001c 1846     		mov	r0, r3
+ 712 001e FFF7FEFF 		bl	LCD_command
+ 123:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 713              		.loc 1 123 0
+ 714 0022 00BF     		nop
+ 715 0024 80BD     		pop	{r7, pc}
+ 716              	.L37:
+ 717 0026 00BF     		.align	2
+ 718              	.L36:
+ 719 0028 00000000 		.word	_displaymode
+ 720              		.cfi_endproc
+ 721              	.LFE77:
+ 722              		.size	LCD_rightToLeft, .-LCD_rightToLeft
+ 723              		.section	.text.LCD_autoscroll,"ax",%progbits
+ 724              		.align	2
+ 725              		.global	LCD_autoscroll
+ 726              		.thumb
+ 727              		.thumb_func
+ 728              		.type	LCD_autoscroll, %function
+ 729              	LCD_autoscroll:
+ 730              	.LFB78:
+ 124:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 125:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_autoscroll(void) {
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 16
+
+
+ 731              		.loc 1 125 0
+ 732              		.cfi_startproc
+ 733              		@ args = 0, pretend = 0, frame = 0
+ 734              		@ frame_needed = 1, uses_anonymous_args = 0
+ 735 0000 80B5     		push	{r7, lr}
+ 736              		.cfi_def_cfa_offset 8
+ 737              		.cfi_offset 7, -8
+ 738              		.cfi_offset 14, -4
+ 739 0002 00AF     		add	r7, sp, #0
+ 740              		.cfi_def_cfa_register 7
+ 126:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaymode |= LCD_ENTRYSHIFTINCREMENT;
+ 741              		.loc 1 126 0
+ 742 0004 084B     		ldr	r3, .L39
+ 743 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 744 0008 43F00103 		orr	r3, r3, #1
+ 745 000c DAB2     		uxtb	r2, r3
+ 746 000e 064B     		ldr	r3, .L39
+ 747 0010 1A70     		strb	r2, [r3]
+ 127:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_ENTRYMODESET | _displaymode);
+ 748              		.loc 1 127 0
+ 749 0012 054B     		ldr	r3, .L39
+ 750 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 751 0016 43F00403 		orr	r3, r3, #4
+ 752 001a DBB2     		uxtb	r3, r3
+ 753 001c 1846     		mov	r0, r3
+ 754 001e FFF7FEFF 		bl	LCD_command
+ 128:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 755              		.loc 1 128 0
+ 756 0022 00BF     		nop
+ 757 0024 80BD     		pop	{r7, pc}
+ 758              	.L40:
+ 759 0026 00BF     		.align	2
+ 760              	.L39:
+ 761 0028 00000000 		.word	_displaymode
+ 762              		.cfi_endproc
+ 763              	.LFE78:
+ 764              		.size	LCD_autoscroll, .-LCD_autoscroll
+ 765              		.section	.text.LCD_noAutoscroll,"ax",%progbits
+ 766              		.align	2
+ 767              		.global	LCD_noAutoscroll
+ 768              		.thumb
+ 769              		.thumb_func
+ 770              		.type	LCD_noAutoscroll, %function
+ 771              	LCD_noAutoscroll:
+ 772              	.LFB79:
+ 129:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 130:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_noAutoscroll(void) {
+ 773              		.loc 1 130 0
+ 774              		.cfi_startproc
+ 775              		@ args = 0, pretend = 0, frame = 0
+ 776              		@ frame_needed = 1, uses_anonymous_args = 0
+ 777 0000 80B5     		push	{r7, lr}
+ 778              		.cfi_def_cfa_offset 8
+ 779              		.cfi_offset 7, -8
+ 780              		.cfi_offset 14, -4
+ 781 0002 00AF     		add	r7, sp, #0
+ 782              		.cfi_def_cfa_register 7
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 17
+
+
+ 131:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     _displaymode &= ~LCD_ENTRYSHIFTINCREMENT;
+ 783              		.loc 1 131 0
+ 784 0004 084B     		ldr	r3, .L42
+ 785 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 786 0008 23F00103 		bic	r3, r3, #1
+ 787 000c DAB2     		uxtb	r2, r3
+ 788 000e 064B     		ldr	r3, .L42
+ 789 0010 1A70     		strb	r2, [r3]
+ 132:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_ENTRYMODESET | _displaymode);
+ 790              		.loc 1 132 0
+ 791 0012 054B     		ldr	r3, .L42
+ 792 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 793 0016 43F00403 		orr	r3, r3, #4
+ 794 001a DBB2     		uxtb	r3, r3
+ 795 001c 1846     		mov	r0, r3
+ 796 001e FFF7FEFF 		bl	LCD_command
+ 133:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 797              		.loc 1 133 0
+ 798 0022 00BF     		nop
+ 799 0024 80BD     		pop	{r7, pc}
+ 800              	.L43:
+ 801 0026 00BF     		.align	2
+ 802              	.L42:
+ 803 0028 00000000 		.word	_displaymode
+ 804              		.cfi_endproc
+ 805              	.LFE79:
+ 806              		.size	LCD_noAutoscroll, .-LCD_noAutoscroll
+ 807              		.section	.text.LCD_createChar,"ax",%progbits
+ 808              		.align	2
+ 809              		.global	LCD_createChar
+ 810              		.thumb
+ 811              		.thumb_func
+ 812              		.type	LCD_createChar, %function
+ 813              	LCD_createChar:
+ 814              	.LFB80:
+ 134:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 135:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_createChar(uint8_t location, uint8_t charmap[]) {
+ 815              		.loc 1 135 0
+ 816              		.cfi_startproc
+ 817              		@ args = 0, pretend = 0, frame = 24
+ 818              		@ frame_needed = 1, uses_anonymous_args = 0
+ 819 0000 80B5     		push	{r7, lr}
+ 820              		.cfi_def_cfa_offset 8
+ 821              		.cfi_offset 7, -8
+ 822              		.cfi_offset 14, -4
+ 823 0002 86B0     		sub	sp, sp, #24
+ 824              		.cfi_def_cfa_offset 32
+ 825 0004 00AF     		add	r7, sp, #0
+ 826              		.cfi_def_cfa_register 7
+ 827 0006 0346     		mov	r3, r0
+ 828 0008 3960     		str	r1, [r7]
+ 829 000a FB71     		strb	r3, [r7, #7]
+ 136:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     location &= 0x7;  // Solo hay 8 ubicaciones (0-7)
+ 830              		.loc 1 136 0
+ 831 000c FB79     		ldrb	r3, [r7, #7]
+ 832 000e 03F00703 		and	r3, r3, #7
+ 833 0012 FB71     		strb	r3, [r7, #7]
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 18
+
+
+ 137:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_command(LCD_SETCGRAMADDR | (location << 3));
+ 834              		.loc 1 137 0
+ 835 0014 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 836 0016 DB00     		lsls	r3, r3, #3
+ 837 0018 5BB2     		sxtb	r3, r3
+ 838 001a 43F04003 		orr	r3, r3, #64
+ 839 001e 5BB2     		sxtb	r3, r3
+ 840 0020 DBB2     		uxtb	r3, r3
+ 841 0022 1846     		mov	r0, r3
+ 842 0024 FFF7FEFF 		bl	LCD_command
+ 138:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 139:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     unsigned char dta[9];
+ 140:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     dta[0] = 0x40;
+ 843              		.loc 1 140 0
+ 844 0028 4023     		movs	r3, #64
+ 845 002a 3B72     		strb	r3, [r7, #8]
+ 846              	.LBB2:
+ 141:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     for (int i = 0; i < 8; i++) {
+ 847              		.loc 1 141 0
+ 848 002c 0023     		movs	r3, #0
+ 849 002e 7B61     		str	r3, [r7, #20]
+ 850 0030 0DE0     		b	.L45
+ 851              	.L46:
+ 142:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****         dta[i + 1] = charmap[i];
+ 852              		.loc 1 142 0 discriminator 3
+ 853 0032 7B69     		ldr	r3, [r7, #20]
+ 854 0034 0133     		adds	r3, r3, #1
+ 855 0036 7A69     		ldr	r2, [r7, #20]
+ 856 0038 3968     		ldr	r1, [r7]
+ 857 003a 0A44     		add	r2, r2, r1
+ 858 003c 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 859 003e 07F11801 		add	r1, r7, #24
+ 860 0042 0B44     		add	r3, r3, r1
+ 861 0044 03F8102C 		strb	r2, [r3, #-16]
+ 141:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     for (int i = 0; i < 8; i++) {
+ 862              		.loc 1 141 0 discriminator 3
+ 863 0048 7B69     		ldr	r3, [r7, #20]
+ 864 004a 0133     		adds	r3, r3, #1
+ 865 004c 7B61     		str	r3, [r7, #20]
+ 866              	.L45:
+ 141:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     for (int i = 0; i < 8; i++) {
+ 867              		.loc 1 141 0 is_stmt 0 discriminator 1
+ 868 004e 7B69     		ldr	r3, [r7, #20]
+ 869 0050 072B     		cmp	r3, #7
+ 870 0052 EEDD     		ble	.L46
+ 871              	.LBE2:
+ 143:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     }
+ 144:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     i2c_send_byteS(dta, 9);
+ 872              		.loc 1 144 0 is_stmt 1
+ 873 0054 07F10803 		add	r3, r7, #8
+ 874 0058 0921     		movs	r1, #9
+ 875 005a 1846     		mov	r0, r3
+ 876 005c FFF7FEFF 		bl	i2c_send_byteS
+ 145:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 877              		.loc 1 145 0
+ 878 0060 00BF     		nop
+ 879 0062 1837     		adds	r7, r7, #24
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 19
+
+
+ 880              		.cfi_def_cfa_offset 8
+ 881 0064 BD46     		mov	sp, r7
+ 882              		.cfi_def_cfa_register 13
+ 883              		@ sp needed
+ 884 0066 80BD     		pop	{r7, pc}
+ 885              		.cfi_endproc
+ 886              	.LFE80:
+ 887              		.size	LCD_createChar, .-LCD_createChar
+ 888              		.section	.text.LCD_setCursor,"ax",%progbits
+ 889              		.align	2
+ 890              		.global	LCD_setCursor
+ 891              		.thumb
+ 892              		.thumb_func
+ 893              		.type	LCD_setCursor, %function
+ 894              	LCD_setCursor:
+ 895              	.LFB81:
+ 146:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 147:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_setCursor(uint8_t col, uint8_t row) {
+ 896              		.loc 1 147 0
+ 897              		.cfi_startproc
+ 898              		@ args = 0, pretend = 0, frame = 16
+ 899              		@ frame_needed = 1, uses_anonymous_args = 0
+ 900 0000 80B5     		push	{r7, lr}
+ 901              		.cfi_def_cfa_offset 8
+ 902              		.cfi_offset 7, -8
+ 903              		.cfi_offset 14, -4
+ 904 0002 84B0     		sub	sp, sp, #16
+ 905              		.cfi_def_cfa_offset 24
+ 906 0004 00AF     		add	r7, sp, #0
+ 907              		.cfi_def_cfa_register 7
+ 908 0006 0346     		mov	r3, r0
+ 909 0008 0A46     		mov	r2, r1
+ 910 000a FB71     		strb	r3, [r7, #7]
+ 911 000c 1346     		mov	r3, r2
+ 912 000e BB71     		strb	r3, [r7, #6]
+ 148:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     col = (row == 0 ? col | 0x80 : col | 0xc0);
+ 913              		.loc 1 148 0
+ 914 0010 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 915 0012 002B     		cmp	r3, #0
+ 916 0014 04D1     		bne	.L48
+ 917              		.loc 1 148 0 is_stmt 0 discriminator 1
+ 918 0016 FB79     		ldrb	r3, [r7, #7]
+ 919 0018 63F07F03 		orn	r3, r3, #127
+ 920 001c DBB2     		uxtb	r3, r3
+ 921 001e 03E0     		b	.L49
+ 922              	.L48:
+ 923              		.loc 1 148 0 discriminator 2
+ 924 0020 FB79     		ldrb	r3, [r7, #7]
+ 925 0022 63F03F03 		orn	r3, r3, #63
+ 926 0026 DBB2     		uxtb	r3, r3
+ 927              	.L49:
+ 928              		.loc 1 148 0 discriminator 4
+ 929 0028 FB71     		strb	r3, [r7, #7]
+ 149:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     unsigned char dta[2] = {0x80, col};
+ 930              		.loc 1 149 0 is_stmt 1 discriminator 4
+ 931 002a 8023     		movs	r3, #128
+ 932 002c 3B73     		strb	r3, [r7, #12]
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 20
+
+
+ 933 002e FB79     		ldrb	r3, [r7, #7]
+ 934 0030 7B73     		strb	r3, [r7, #13]
+ 150:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     i2c_send_byteS(dta, 2);
+ 935              		.loc 1 150 0 discriminator 4
+ 936 0032 07F10C03 		add	r3, r7, #12
+ 937 0036 0221     		movs	r1, #2
+ 938 0038 1846     		mov	r0, r3
+ 939 003a FFF7FEFF 		bl	i2c_send_byteS
+ 151:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 940              		.loc 1 151 0 discriminator 4
+ 941 003e 00BF     		nop
+ 942 0040 1037     		adds	r7, r7, #16
+ 943              		.cfi_def_cfa_offset 8
+ 944 0042 BD46     		mov	sp, r7
+ 945              		.cfi_def_cfa_register 13
+ 946              		@ sp needed
+ 947 0044 80BD     		pop	{r7, pc}
+ 948              		.cfi_endproc
+ 949              	.LFE81:
+ 950              		.size	LCD_setCursor, .-LCD_setCursor
+ 951 0046 00BF     		.section	.text.LCD_write,"ax",%progbits
+ 952              		.align	2
+ 953              		.global	LCD_write
+ 954              		.thumb
+ 955              		.thumb_func
+ 956              		.type	LCD_write, %function
+ 957              	LCD_write:
+ 958              	.LFB82:
+ 152:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 153:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_write(uint8_t value) {
+ 959              		.loc 1 153 0
+ 960              		.cfi_startproc
+ 961              		@ args = 0, pretend = 0, frame = 16
+ 962              		@ frame_needed = 1, uses_anonymous_args = 0
+ 963 0000 80B5     		push	{r7, lr}
+ 964              		.cfi_def_cfa_offset 8
+ 965              		.cfi_offset 7, -8
+ 966              		.cfi_offset 14, -4
+ 967 0002 84B0     		sub	sp, sp, #16
+ 968              		.cfi_def_cfa_offset 24
+ 969 0004 00AF     		add	r7, sp, #0
+ 970              		.cfi_def_cfa_register 7
+ 971 0006 0346     		mov	r3, r0
+ 972 0008 FB71     		strb	r3, [r7, #7]
+ 154:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     unsigned char dta[2] = {0x40, value};
+ 973              		.loc 1 154 0
+ 974 000a 4023     		movs	r3, #64
+ 975 000c 3B73     		strb	r3, [r7, #12]
+ 976 000e FB79     		ldrb	r3, [r7, #7]
+ 977 0010 7B73     		strb	r3, [r7, #13]
+ 155:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     i2c_send_byteS(dta, 2);
+ 978              		.loc 1 155 0
+ 979 0012 07F10C03 		add	r3, r7, #12
+ 980 0016 0221     		movs	r1, #2
+ 981 0018 1846     		mov	r0, r3
+ 982 001a FFF7FEFF 		bl	i2c_send_byteS
+ 156:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 21
+
+
+ 983              		.loc 1 156 0
+ 984 001e 00BF     		nop
+ 985 0020 1037     		adds	r7, r7, #16
+ 986              		.cfi_def_cfa_offset 8
+ 987 0022 BD46     		mov	sp, r7
+ 988              		.cfi_def_cfa_register 13
+ 989              		@ sp needed
+ 990 0024 80BD     		pop	{r7, pc}
+ 991              		.cfi_endproc
+ 992              	.LFE82:
+ 993              		.size	LCD_write, .-LCD_write
+ 994 0026 00BF     		.section	.text.LCD_print,"ax",%progbits
+ 995              		.align	2
+ 996              		.global	LCD_print
+ 997              		.thumb
+ 998              		.thumb_func
+ 999              		.type	LCD_print, %function
+ 1000              	LCD_print:
+ 1001              	.LFB83:
+ 157:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 158:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_print(char* data, uint8_t size) {
+ 1002              		.loc 1 158 0
+ 1003              		.cfi_startproc
+ 1004              		@ args = 0, pretend = 0, frame = 8
+ 1005              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1006 0000 80B5     		push	{r7, lr}
+ 1007              		.cfi_def_cfa_offset 8
+ 1008              		.cfi_offset 7, -8
+ 1009              		.cfi_offset 14, -4
+ 1010 0002 82B0     		sub	sp, sp, #8
+ 1011              		.cfi_def_cfa_offset 16
+ 1012 0004 00AF     		add	r7, sp, #0
+ 1013              		.cfi_def_cfa_register 7
+ 1014 0006 7860     		str	r0, [r7, #4]
+ 1015 0008 0B46     		mov	r3, r1
+ 1016 000a FB70     		strb	r3, [r7, #3]
+ 159:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     while (size > 0) {
+ 1017              		.loc 1 159 0
+ 1018 000c 0AE0     		b	.L52
+ 1019              	.L53:
+ 160:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****         LCD_write(data[0]);
+ 1020              		.loc 1 160 0
+ 1021 000e 7B68     		ldr	r3, [r7, #4]
+ 1022 0010 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1023 0012 1846     		mov	r0, r3
+ 1024 0014 FFF7FEFF 		bl	LCD_write
+ 161:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****         data++;
+ 1025              		.loc 1 161 0
+ 1026 0018 7B68     		ldr	r3, [r7, #4]
+ 1027 001a 0133     		adds	r3, r3, #1
+ 1028 001c 7B60     		str	r3, [r7, #4]
+ 162:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****         size--;
+ 1029              		.loc 1 162 0
+ 1030 001e FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 1031 0020 013B     		subs	r3, r3, #1
+ 1032 0022 FB70     		strb	r3, [r7, #3]
+ 1033              	.L52:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 22
+
+
+ 159:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****         LCD_write(data[0]);
+ 1034              		.loc 1 159 0
+ 1035 0024 FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 1036 0026 002B     		cmp	r3, #0
+ 1037 0028 F1D1     		bne	.L53
+ 163:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     }
+ 164:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 1038              		.loc 1 164 0
+ 1039 002a 00BF     		nop
+ 1040 002c 0837     		adds	r7, r7, #8
+ 1041              		.cfi_def_cfa_offset 8
+ 1042 002e BD46     		mov	sp, r7
+ 1043              		.cfi_def_cfa_register 13
+ 1044              		@ sp needed
+ 1045 0030 80BD     		pop	{r7, pc}
+ 1046              		.cfi_endproc
+ 1047              	.LFE83:
+ 1048              		.size	LCD_print, .-LCD_print
+ 1049 0032 00BF     		.section	.text.LCD_command,"ax",%progbits
+ 1050              		.align	2
+ 1051              		.global	LCD_command
+ 1052              		.thumb
+ 1053              		.thumb_func
+ 1054              		.type	LCD_command, %function
+ 1055              	LCD_command:
+ 1056              	.LFB84:
+ 165:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 166:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_command(uint8_t value) {
+ 1057              		.loc 1 166 0
+ 1058              		.cfi_startproc
+ 1059              		@ args = 0, pretend = 0, frame = 16
+ 1060              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1061 0000 80B5     		push	{r7, lr}
+ 1062              		.cfi_def_cfa_offset 8
+ 1063              		.cfi_offset 7, -8
+ 1064              		.cfi_offset 14, -4
+ 1065 0002 84B0     		sub	sp, sp, #16
+ 1066              		.cfi_def_cfa_offset 24
+ 1067 0004 00AF     		add	r7, sp, #0
+ 1068              		.cfi_def_cfa_register 7
+ 1069 0006 0346     		mov	r3, r0
+ 1070 0008 FB71     		strb	r3, [r7, #7]
+ 167:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     unsigned char dta[2] = {0x80, value};
+ 1071              		.loc 1 167 0
+ 1072 000a 8023     		movs	r3, #128
+ 1073 000c 3B73     		strb	r3, [r7, #12]
+ 1074 000e FB79     		ldrb	r3, [r7, #7]
+ 1075 0010 7B73     		strb	r3, [r7, #13]
+ 168:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     i2c_send_byteS(dta, 2);
+ 1076              		.loc 1 168 0
+ 1077 0012 07F10C03 		add	r3, r7, #12
+ 1078 0016 0221     		movs	r1, #2
+ 1079 0018 1846     		mov	r0, r3
+ 1080 001a FFF7FEFF 		bl	i2c_send_byteS
+ 169:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 1081              		.loc 1 169 0
+ 1082 001e 00BF     		nop
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 23
+
+
+ 1083 0020 1037     		adds	r7, r7, #16
+ 1084              		.cfi_def_cfa_offset 8
+ 1085 0022 BD46     		mov	sp, r7
+ 1086              		.cfi_def_cfa_register 13
+ 1087              		@ sp needed
+ 1088 0024 80BD     		pop	{r7, pc}
+ 1089              		.cfi_endproc
+ 1090              	.LFE84:
+ 1091              		.size	LCD_command, .-LCD_command
+ 1092 0026 00BF     		.section	.text.LCD_setRGB,"ax",%progbits
+ 1093              		.align	2
+ 1094              		.global	LCD_setRGB
+ 1095              		.thumb
+ 1096              		.thumb_func
+ 1097              		.type	LCD_setRGB, %function
+ 1098              	LCD_setRGB:
+ 1099              	.LFB85:
+ 170:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 171:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** // Control del color
+ 172:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_setRGB(unsigned char r, unsigned char g, unsigned char b) {
+ 1100              		.loc 1 172 0
+ 1101              		.cfi_startproc
+ 1102              		@ args = 0, pretend = 0, frame = 8
+ 1103              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1104 0000 80B5     		push	{r7, lr}
+ 1105              		.cfi_def_cfa_offset 8
+ 1106              		.cfi_offset 7, -8
+ 1107              		.cfi_offset 14, -4
+ 1108 0002 82B0     		sub	sp, sp, #8
+ 1109              		.cfi_def_cfa_offset 16
+ 1110 0004 00AF     		add	r7, sp, #0
+ 1111              		.cfi_def_cfa_register 7
+ 1112 0006 0346     		mov	r3, r0
+ 1113 0008 FB71     		strb	r3, [r7, #7]
+ 1114 000a 0B46     		mov	r3, r1
+ 1115 000c BB71     		strb	r3, [r7, #6]
+ 1116 000e 1346     		mov	r3, r2
+ 1117 0010 7B71     		strb	r3, [r7, #5]
+ 173:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_setReg(REG_RED, r);
+ 1118              		.loc 1 173 0
+ 1119 0012 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 1120 0014 1946     		mov	r1, r3
+ 1121 0016 0420     		movs	r0, #4
+ 1122 0018 FFF7FEFF 		bl	LCD_setReg
+ 174:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_setReg(REG_GREEN, g);
+ 1123              		.loc 1 174 0
+ 1124 001c BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 1125 001e 1946     		mov	r1, r3
+ 1126 0020 0320     		movs	r0, #3
+ 1127 0022 FFF7FEFF 		bl	LCD_setReg
+ 175:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_setReg(REG_BLUE, b);
+ 1128              		.loc 1 175 0
+ 1129 0026 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
+ 1130 0028 1946     		mov	r1, r3
+ 1131 002a 0220     		movs	r0, #2
+ 1132 002c FFF7FEFF 		bl	LCD_setReg
+ 176:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 24
+
+
+ 1133              		.loc 1 176 0
+ 1134 0030 00BF     		nop
+ 1135 0032 0837     		adds	r7, r7, #8
+ 1136              		.cfi_def_cfa_offset 8
+ 1137 0034 BD46     		mov	sp, r7
+ 1138              		.cfi_def_cfa_register 13
+ 1139              		@ sp needed
+ 1140 0036 80BD     		pop	{r7, pc}
+ 1141              		.cfi_endproc
+ 1142              	.LFE85:
+ 1143              		.size	LCD_setRGB, .-LCD_setRGB
+ 1144              		.section	.text.LCD_setPWM,"ax",%progbits
+ 1145              		.align	2
+ 1146              		.global	LCD_setPWM
+ 1147              		.thumb
+ 1148              		.thumb_func
+ 1149              		.type	LCD_setPWM, %function
+ 1150              	LCD_setPWM:
+ 1151              	.LFB86:
+ 177:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 178:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_setPWM(unsigned char color, unsigned char pwm) {
+ 1152              		.loc 1 178 0
+ 1153              		.cfi_startproc
+ 1154              		@ args = 0, pretend = 0, frame = 8
+ 1155              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1156 0000 80B5     		push	{r7, lr}
+ 1157              		.cfi_def_cfa_offset 8
+ 1158              		.cfi_offset 7, -8
+ 1159              		.cfi_offset 14, -4
+ 1160 0002 82B0     		sub	sp, sp, #8
+ 1161              		.cfi_def_cfa_offset 16
+ 1162 0004 00AF     		add	r7, sp, #0
+ 1163              		.cfi_def_cfa_register 7
+ 1164 0006 0346     		mov	r3, r0
+ 1165 0008 0A46     		mov	r2, r1
+ 1166 000a FB71     		strb	r3, [r7, #7]
+ 1167 000c 1346     		mov	r3, r2
+ 1168 000e BB71     		strb	r3, [r7, #6]
+ 179:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_setReg(color, pwm);
+ 1169              		.loc 1 179 0
+ 1170 0010 BA79     		ldrb	r2, [r7, #6]	@ zero_extendqisi2
+ 1171 0012 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 1172 0014 1146     		mov	r1, r2
+ 1173 0016 1846     		mov	r0, r3
+ 1174 0018 FFF7FEFF 		bl	LCD_setReg
+ 180:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 1175              		.loc 1 180 0
+ 1176 001c 00BF     		nop
+ 1177 001e 0837     		adds	r7, r7, #8
+ 1178              		.cfi_def_cfa_offset 8
+ 1179 0020 BD46     		mov	sp, r7
+ 1180              		.cfi_def_cfa_register 13
+ 1181              		@ sp needed
+ 1182 0022 80BD     		pop	{r7, pc}
+ 1183              		.cfi_endproc
+ 1184              	.LFE86:
+ 1185              		.size	LCD_setPWM, .-LCD_setPWM
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 25
+
+
+ 1186              		.global	color_define
+ 1187              		.section	.rodata
+ 1188              		.align	2
+ 1189              		.type	color_define, %object
+ 1190              		.size	color_define, 12
+ 1191              	color_define:
+ 1192 0000 FF       		.byte	-1
+ 1193 0001 FF       		.byte	-1
+ 1194 0002 FF       		.byte	-1
+ 1195 0003 FF       		.byte	-1
+ 1196 0004 00       		.byte	0
+ 1197 0005 00       		.byte	0
+ 1198 0006 00       		.byte	0
+ 1199 0007 FF       		.byte	-1
+ 1200 0008 00       		.byte	0
+ 1201 0009 00       		.byte	0
+ 1202 000a 00       		.byte	0
+ 1203 000b FF       		.byte	-1
+ 1204              		.section	.text.LCD_setColor,"ax",%progbits
+ 1205              		.align	2
+ 1206              		.global	LCD_setColor
+ 1207              		.thumb
+ 1208              		.thumb_func
+ 1209              		.type	LCD_setColor, %function
+ 1210              	LCD_setColor:
+ 1211              	.LFB87:
+ 181:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 182:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** const unsigned char color_define[4][3] = {
+ 183:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     {255, 255, 255},  // Blanco
+ 184:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     {255, 0, 0},      // Rojo
+ 185:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     {0, 255, 0},      // Verde
+ 186:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     {0, 0, 255},      // Azul
+ 187:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** };
+ 188:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 189:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_setColor(unsigned char color) {
+ 1212              		.loc 1 189 0
+ 1213              		.cfi_startproc
+ 1214              		@ args = 0, pretend = 0, frame = 8
+ 1215              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1216 0000 90B5     		push	{r4, r7, lr}
+ 1217              		.cfi_def_cfa_offset 12
+ 1218              		.cfi_offset 4, -12
+ 1219              		.cfi_offset 7, -8
+ 1220              		.cfi_offset 14, -4
+ 1221 0002 83B0     		sub	sp, sp, #12
+ 1222              		.cfi_def_cfa_offset 24
+ 1223 0004 00AF     		add	r7, sp, #0
+ 1224              		.cfi_def_cfa_register 7
+ 1225 0006 0346     		mov	r3, r0
+ 1226 0008 FB71     		strb	r3, [r7, #7]
+ 190:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     if (color > 3) return;
+ 1227              		.loc 1 190 0
+ 1228 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 1229 000c 032B     		cmp	r3, #3
+ 1230 000e 1BD8     		bhi	.L60
+ 191:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_setRGB(color_define[color][0], color_define[color][1], color_define[color][2]);
+ 1231              		.loc 1 191 0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 26
+
+
+ 1232 0010 FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 1233 0012 0F49     		ldr	r1, .L61
+ 1234 0014 1346     		mov	r3, r2
+ 1235 0016 5B00     		lsls	r3, r3, #1
+ 1236 0018 1344     		add	r3, r3, r2
+ 1237 001a 0B44     		add	r3, r3, r1
+ 1238 001c 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 1239 001e FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 1240 0020 0B49     		ldr	r1, .L61
+ 1241 0022 1346     		mov	r3, r2
+ 1242 0024 5B00     		lsls	r3, r3, #1
+ 1243 0026 1344     		add	r3, r3, r2
+ 1244 0028 0B44     		add	r3, r3, r1
+ 1245 002a 0133     		adds	r3, r3, #1
+ 1246 002c 1C78     		ldrb	r4, [r3]	@ zero_extendqisi2
+ 1247 002e FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 1248 0030 0749     		ldr	r1, .L61
+ 1249 0032 1346     		mov	r3, r2
+ 1250 0034 5B00     		lsls	r3, r3, #1
+ 1251 0036 1344     		add	r3, r3, r2
+ 1252 0038 0B44     		add	r3, r3, r1
+ 1253 003a 0233     		adds	r3, r3, #2
+ 1254 003c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1255 003e 1A46     		mov	r2, r3
+ 1256 0040 2146     		mov	r1, r4
+ 1257 0042 FFF7FEFF 		bl	LCD_setRGB
+ 1258 0046 00E0     		b	.L57
+ 1259              	.L60:
+ 190:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     if (color > 3) return;
+ 1260              		.loc 1 190 0
+ 1261 0048 00BF     		nop
+ 1262              	.L57:
+ 192:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 1263              		.loc 1 192 0
+ 1264 004a 0C37     		adds	r7, r7, #12
+ 1265              		.cfi_def_cfa_offset 12
+ 1266 004c BD46     		mov	sp, r7
+ 1267              		.cfi_def_cfa_register 13
+ 1268              		@ sp needed
+ 1269 004e 90BD     		pop	{r4, r7, pc}
+ 1270              	.L62:
+ 1271              		.align	2
+ 1272              	.L61:
+ 1273 0050 00000000 		.word	color_define
+ 1274              		.cfi_endproc
+ 1275              	.LFE87:
+ 1276              		.size	LCD_setColor, .-LCD_setColor
+ 1277              		.section	.text.LCD_setColorAll,"ax",%progbits
+ 1278              		.align	2
+ 1279              		.global	LCD_setColorAll
+ 1280              		.thumb
+ 1281              		.thumb_func
+ 1282              		.type	LCD_setColorAll, %function
+ 1283              	LCD_setColorAll:
+ 1284              	.LFB88:
+ 193:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 194:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_setColorAll(void) {
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 27
+
+
+ 1285              		.loc 1 194 0
+ 1286              		.cfi_startproc
+ 1287              		@ args = 0, pretend = 0, frame = 0
+ 1288              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1289 0000 80B5     		push	{r7, lr}
+ 1290              		.cfi_def_cfa_offset 8
+ 1291              		.cfi_offset 7, -8
+ 1292              		.cfi_offset 14, -4
+ 1293 0002 00AF     		add	r7, sp, #0
+ 1294              		.cfi_def_cfa_register 7
+ 195:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_setRGB(0, 0, 0);
+ 1295              		.loc 1 195 0
+ 1296 0004 0022     		movs	r2, #0
+ 1297 0006 0021     		movs	r1, #0
+ 1298 0008 0020     		movs	r0, #0
+ 1299 000a FFF7FEFF 		bl	LCD_setRGB
+ 196:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 1300              		.loc 1 196 0
+ 1301 000e 00BF     		nop
+ 1302 0010 80BD     		pop	{r7, pc}
+ 1303              		.cfi_endproc
+ 1304              	.LFE88:
+ 1305              		.size	LCD_setColorAll, .-LCD_setColorAll
+ 1306 0012 00BF     		.section	.text.LCD_setColorWhite,"ax",%progbits
+ 1307              		.align	2
+ 1308              		.global	LCD_setColorWhite
+ 1309              		.thumb
+ 1310              		.thumb_func
+ 1311              		.type	LCD_setColorWhite, %function
+ 1312              	LCD_setColorWhite:
+ 1313              	.LFB89:
+ 197:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** 
+ 198:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** void LCD_setColorWhite(void) {
+ 1314              		.loc 1 198 0
+ 1315              		.cfi_startproc
+ 1316              		@ args = 0, pretend = 0, frame = 0
+ 1317              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1318 0000 80B5     		push	{r7, lr}
+ 1319              		.cfi_def_cfa_offset 8
+ 1320              		.cfi_offset 7, -8
+ 1321              		.cfi_offset 14, -4
+ 1322 0002 00AF     		add	r7, sp, #0
+ 1323              		.cfi_def_cfa_register 7
+ 199:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c ****     LCD_setRGB(255, 255, 255);
+ 1324              		.loc 1 199 0
+ 1325 0004 FF22     		movs	r2, #255
+ 1326 0006 FF21     		movs	r1, #255
+ 1327 0008 FF20     		movs	r0, #255
+ 1328 000a FFF7FEFF 		bl	LCD_setRGB
+ 200:..\..\..\..\..\UCA\8_Semestre\Micro 1\Community\Grove_LCD_RGB_Backlight-master\Grove_LCD_RGB_Backlight-master/easy_rgb_lcd.c **** }
+ 1329              		.loc 1 200 0
+ 1330 000e 00BF     		nop
+ 1331 0010 80BD     		pop	{r7, pc}
+ 1332              		.cfi_endproc
+ 1333              	.LFE89:
+ 1334              		.size	LCD_setColorWhite, .-LCD_setColorWhite
+ 1335 0012 00BF     		.text
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 28
+
+
+ 1336              	.Letext0:
+ 1337              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1338              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1339              		.file 4 "Generated_Source\\PSoC5/core_cm3.h"
+ 1340              		.section	.debug_info,"",%progbits
+ 1341              	.Ldebug_info0:
+ 1342 0000 2F050000 		.4byte	0x52f
+ 1343 0004 0400     		.2byte	0x4
+ 1344 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1345 000a 04       		.byte	0x4
+ 1346 000b 01       		.uleb128 0x1
+ 1347 000c 87000000 		.4byte	.LASF64
+ 1348 0010 0C       		.byte	0xc
+ 1349 0011 C9020000 		.4byte	.LASF65
+ 1350 0015 65020000 		.4byte	.LASF66
+ 1351 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1352 001d 00000000 		.4byte	0
+ 1353 0021 00000000 		.4byte	.Ldebug_line0
+ 1354 0025 02       		.uleb128 0x2
+ 1355 0026 01       		.byte	0x1
+ 1356 0027 06       		.byte	0x6
+ 1357 0028 1C020000 		.4byte	.LASF0
+ 1358 002c 03       		.uleb128 0x3
+ 1359 002d C3010000 		.4byte	.LASF4
+ 1360 0031 02       		.byte	0x2
+ 1361 0032 1D       		.byte	0x1d
+ 1362 0033 37000000 		.4byte	0x37
+ 1363 0037 02       		.uleb128 0x2
+ 1364 0038 01       		.byte	0x1
+ 1365 0039 08       		.byte	0x8
+ 1366 003a CD010000 		.4byte	.LASF1
+ 1367 003e 02       		.uleb128 0x2
+ 1368 003f 02       		.byte	0x2
+ 1369 0040 05       		.byte	0x5
+ 1370 0041 5D000000 		.4byte	.LASF2
+ 1371 0045 02       		.uleb128 0x2
+ 1372 0046 02       		.byte	0x2
+ 1373 0047 07       		.byte	0x7
+ 1374 0048 72030000 		.4byte	.LASF3
+ 1375 004c 03       		.uleb128 0x3
+ 1376 004d F9030000 		.4byte	.LASF5
+ 1377 0051 02       		.byte	0x2
+ 1378 0052 3F       		.byte	0x3f
+ 1379 0053 57000000 		.4byte	0x57
+ 1380 0057 02       		.uleb128 0x2
+ 1381 0058 04       		.byte	0x4
+ 1382 0059 05       		.byte	0x5
+ 1383 005a AA010000 		.4byte	.LASF6
+ 1384 005e 03       		.uleb128 0x3
+ 1385 005f 15010000 		.4byte	.LASF7
+ 1386 0063 02       		.byte	0x2
+ 1387 0064 41       		.byte	0x41
+ 1388 0065 69000000 		.4byte	0x69
+ 1389 0069 02       		.uleb128 0x2
+ 1390 006a 04       		.byte	0x4
+ 1391 006b 07       		.byte	0x7
+ 1392 006c 99030000 		.4byte	.LASF8
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 29
+
+
+ 1393 0070 02       		.uleb128 0x2
+ 1394 0071 08       		.byte	0x8
+ 1395 0072 05       		.byte	0x5
+ 1396 0073 8F010000 		.4byte	.LASF9
+ 1397 0077 02       		.uleb128 0x2
+ 1398 0078 08       		.byte	0x8
+ 1399 0079 07       		.byte	0x7
+ 1400 007a 28020000 		.4byte	.LASF10
+ 1401 007e 04       		.uleb128 0x4
+ 1402 007f 04       		.byte	0x4
+ 1403 0080 05       		.byte	0x5
+ 1404 0081 696E7400 		.ascii	"int\000"
+ 1405 0085 02       		.uleb128 0x2
+ 1406 0086 04       		.byte	0x4
+ 1407 0087 07       		.byte	0x7
+ 1408 0088 48020000 		.4byte	.LASF11
+ 1409 008c 03       		.uleb128 0x3
+ 1410 008d 4A010000 		.4byte	.LASF12
+ 1411 0091 03       		.byte	0x3
+ 1412 0092 18       		.byte	0x18
+ 1413 0093 2C000000 		.4byte	0x2c
+ 1414 0097 03       		.uleb128 0x3
+ 1415 0098 6A030000 		.4byte	.LASF13
+ 1416 009c 03       		.byte	0x3
+ 1417 009d 2C       		.byte	0x2c
+ 1418 009e 4C000000 		.4byte	0x4c
+ 1419 00a2 03       		.uleb128 0x3
+ 1420 00a3 3F020000 		.4byte	.LASF14
+ 1421 00a7 03       		.byte	0x3
+ 1422 00a8 30       		.byte	0x30
+ 1423 00a9 5E000000 		.4byte	0x5e
+ 1424 00ad 02       		.uleb128 0x2
+ 1425 00ae 04       		.byte	0x4
+ 1426 00af 04       		.byte	0x4
+ 1427 00b0 72010000 		.4byte	.LASF15
+ 1428 00b4 02       		.uleb128 0x2
+ 1429 00b5 08       		.byte	0x8
+ 1430 00b6 04       		.byte	0x4
+ 1431 00b7 AB030000 		.4byte	.LASF16
+ 1432 00bb 02       		.uleb128 0x2
+ 1433 00bc 01       		.byte	0x1
+ 1434 00bd 08       		.byte	0x8
+ 1435 00be 5A030000 		.4byte	.LASF17
+ 1436 00c2 02       		.uleb128 0x2
+ 1437 00c3 08       		.byte	0x8
+ 1438 00c4 04       		.byte	0x4
+ 1439 00c5 DB010000 		.4byte	.LASF18
+ 1440 00c9 02       		.uleb128 0x2
+ 1441 00ca 04       		.byte	0x4
+ 1442 00cb 07       		.byte	0x7
+ 1443 00cc 24040000 		.4byte	.LASF19
+ 1444 00d0 05       		.uleb128 0x5
+ 1445 00d1 04       		.byte	0x4
+ 1446 00d2 BB000000 		.4byte	0xbb
+ 1447 00d6 06       		.uleb128 0x6
+ 1448 00d7 5F030000 		.4byte	.LASF20
+ 1449 00db 01       		.byte	0x1
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 30
+
+
+ 1450 00dc 0F       		.byte	0xf
+ 1451 00dd 00000000 		.4byte	.LFB63
+ 1452 00e1 3E000000 		.4byte	.LFE63-.LFB63
+ 1453 00e5 01       		.uleb128 0x1
+ 1454 00e6 9C       		.byte	0x9c
+ 1455 00e7 16010000 		.4byte	0x116
+ 1456 00eb 07       		.uleb128 0x7
+ 1457 00ec 72656700 		.ascii	"reg\000"
+ 1458 00f0 01       		.byte	0x1
+ 1459 00f1 0F       		.byte	0xf
+ 1460 00f2 37000000 		.4byte	0x37
+ 1461 00f6 02       		.uleb128 0x2
+ 1462 00f7 91       		.byte	0x91
+ 1463 00f8 6F       		.sleb128 -17
+ 1464 00f9 07       		.uleb128 0x7
+ 1465 00fa 76616C00 		.ascii	"val\000"
+ 1466 00fe 01       		.byte	0x1
+ 1467 00ff 0F       		.byte	0xf
+ 1468 0100 37000000 		.4byte	0x37
+ 1469 0104 02       		.uleb128 0x2
+ 1470 0105 91       		.byte	0x91
+ 1471 0106 6E       		.sleb128 -18
+ 1472 0107 08       		.uleb128 0x8
+ 1473 0108 94030000 		.4byte	.LASF22
+ 1474 010c 01       		.byte	0x1
+ 1475 010d 10       		.byte	0x10
+ 1476 010e 16010000 		.4byte	0x116
+ 1477 0112 02       		.uleb128 0x2
+ 1478 0113 91       		.byte	0x91
+ 1479 0114 74       		.sleb128 -12
+ 1480 0115 00       		.byte	0
+ 1481 0116 09       		.uleb128 0x9
+ 1482 0117 8C000000 		.4byte	0x8c
+ 1483 011b 26010000 		.4byte	0x126
+ 1484 011f 0A       		.uleb128 0xa
+ 1485 0120 C9000000 		.4byte	0xc9
+ 1486 0124 01       		.byte	0x1
+ 1487 0125 00       		.byte	0
+ 1488 0126 06       		.uleb128 0x6
+ 1489 0127 85030000 		.4byte	.LASF21
+ 1490 012b 01       		.byte	0x1
+ 1491 012c 17       		.byte	0x17
+ 1492 012d 00000000 		.4byte	.LFB64
+ 1493 0131 30000000 		.4byte	.LFE64-.LFB64
+ 1494 0135 01       		.uleb128 0x1
+ 1495 0136 9C       		.byte	0x9c
+ 1496 0137 58010000 		.4byte	0x158
+ 1497 013b 0B       		.uleb128 0xb
+ 1498 013c 94030000 		.4byte	.LASF22
+ 1499 0140 01       		.byte	0x1
+ 1500 0141 17       		.byte	0x17
+ 1501 0142 58010000 		.4byte	0x158
+ 1502 0146 02       		.uleb128 0x2
+ 1503 0147 91       		.byte	0x91
+ 1504 0148 74       		.sleb128 -12
+ 1505 0149 07       		.uleb128 0x7
+ 1506 014a 6C656E00 		.ascii	"len\000"
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 31
+
+
+ 1507 014e 01       		.byte	0x1
+ 1508 014f 17       		.byte	0x17
+ 1509 0150 A2000000 		.4byte	0xa2
+ 1510 0154 02       		.uleb128 0x2
+ 1511 0155 91       		.byte	0x91
+ 1512 0156 70       		.sleb128 -16
+ 1513 0157 00       		.byte	0
+ 1514 0158 05       		.uleb128 0x5
+ 1515 0159 04       		.byte	0x4
+ 1516 015a 8C000000 		.4byte	0x8c
+ 1517 015e 0C       		.uleb128 0xc
+ 1518 015f 2F010000 		.4byte	.LASF40
+ 1519 0163 01       		.byte	0x1
+ 1520 0164 1D       		.byte	0x1d
+ 1521 0165 00000000 		.4byte	.LFB65
+ 1522 0169 EC000000 		.4byte	.LFE65-.LFB65
+ 1523 016d 01       		.uleb128 0x1
+ 1524 016e 9C       		.byte	0x9c
+ 1525 016f 9E010000 		.4byte	0x19e
+ 1526 0173 0B       		.uleb128 0xb
+ 1527 0174 B2030000 		.4byte	.LASF23
+ 1528 0178 01       		.byte	0x1
+ 1529 0179 1D       		.byte	0x1d
+ 1530 017a 8C000000 		.4byte	0x8c
+ 1531 017e 02       		.uleb128 0x2
+ 1532 017f 91       		.byte	0x91
+ 1533 0180 77       		.sleb128 -9
+ 1534 0181 0B       		.uleb128 0xb
+ 1535 0182 F3030000 		.4byte	.LASF24
+ 1536 0186 01       		.byte	0x1
+ 1537 0187 1D       		.byte	0x1d
+ 1538 0188 8C000000 		.4byte	0x8c
+ 1539 018c 02       		.uleb128 0x2
+ 1540 018d 91       		.byte	0x91
+ 1541 018e 76       		.sleb128 -10
+ 1542 018f 0B       		.uleb128 0xb
+ 1543 0190 EB030000 		.4byte	.LASF25
+ 1544 0194 01       		.byte	0x1
+ 1545 0195 1D       		.byte	0x1d
+ 1546 0196 8C000000 		.4byte	0x8c
+ 1547 019a 02       		.uleb128 0x2
+ 1548 019b 91       		.byte	0x91
+ 1549 019c 75       		.sleb128 -11
+ 1550 019d 00       		.byte	0
+ 1551 019e 0D       		.uleb128 0xd
+ 1552 019f 40040000 		.4byte	.LASF26
+ 1553 01a3 01       		.byte	0x1
+ 1554 01a4 43       		.byte	0x43
+ 1555 01a5 00000000 		.4byte	.LFB66
+ 1556 01a9 14000000 		.4byte	.LFE66-.LFB66
+ 1557 01ad 01       		.uleb128 0x1
+ 1558 01ae 9C       		.byte	0x9c
+ 1559 01af 0D       		.uleb128 0xd
+ 1560 01b0 5D010000 		.4byte	.LASF27
+ 1561 01b4 01       		.byte	0x1
+ 1562 01b5 48       		.byte	0x48
+ 1563 01b6 00000000 		.4byte	.LFB67
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 32
+
+
+ 1564 01ba 14000000 		.4byte	.LFE67-.LFB67
+ 1565 01be 01       		.uleb128 0x1
+ 1566 01bf 9C       		.byte	0x9c
+ 1567 01c0 0D       		.uleb128 0xd
+ 1568 01c1 16040000 		.4byte	.LASF28
+ 1569 01c5 01       		.byte	0x1
+ 1570 01c6 4D       		.byte	0x4d
+ 1571 01c7 00000000 		.4byte	.LFB68
+ 1572 01cb 2C000000 		.4byte	.LFE68-.LFB68
+ 1573 01cf 01       		.uleb128 0x1
+ 1574 01d0 9C       		.byte	0x9c
+ 1575 01d1 0D       		.uleb128 0xd
+ 1576 01d2 BD020000 		.4byte	.LASF29
+ 1577 01d6 01       		.byte	0x1
+ 1578 01d7 52       		.byte	0x52
+ 1579 01d8 00000000 		.4byte	.LFB69
+ 1580 01dc 2C000000 		.4byte	.LFE69-.LFB69
+ 1581 01e0 01       		.uleb128 0x1
+ 1582 01e1 9C       		.byte	0x9c
+ 1583 01e2 0D       		.uleb128 0xd
+ 1584 01e3 10020000 		.4byte	.LASF30
+ 1585 01e7 01       		.byte	0x1
+ 1586 01e8 57       		.byte	0x57
+ 1587 01e9 00000000 		.4byte	.LFB70
+ 1588 01ed 2C000000 		.4byte	.LFE70-.LFB70
+ 1589 01f1 01       		.uleb128 0x1
+ 1590 01f2 9C       		.byte	0x9c
+ 1591 01f3 0D       		.uleb128 0xd
+ 1592 01f4 6D000000 		.4byte	.LASF31
+ 1593 01f8 01       		.byte	0x1
+ 1594 01f9 5C       		.byte	0x5c
+ 1595 01fa 00000000 		.4byte	.LFB71
+ 1596 01fe 2C000000 		.4byte	.LFE71-.LFB71
+ 1597 0202 01       		.uleb128 0x1
+ 1598 0203 9C       		.byte	0x9c
+ 1599 0204 0D       		.uleb128 0xd
+ 1600 0205 B0020000 		.4byte	.LASF32
+ 1601 0209 01       		.byte	0x1
+ 1602 020a 61       		.byte	0x61
+ 1603 020b 00000000 		.4byte	.LFB72
+ 1604 020f 2C000000 		.4byte	.LFE72-.LFB72
+ 1605 0213 01       		.uleb128 0x1
+ 1606 0214 9C       		.byte	0x9c
+ 1607 0215 0D       		.uleb128 0xd
+ 1608 0216 52010000 		.4byte	.LASF33
+ 1609 021a 01       		.byte	0x1
+ 1610 021b 66       		.byte	0x66
+ 1611 021c 00000000 		.4byte	.LFB73
+ 1612 0220 2C000000 		.4byte	.LFE73-.LFB73
+ 1613 0224 01       		.uleb128 0x1
+ 1614 0225 9C       		.byte	0x9c
+ 1615 0226 0D       		.uleb128 0xd
+ 1616 0227 C8030000 		.4byte	.LASF34
+ 1617 022b 01       		.byte	0x1
+ 1618 022c 6B       		.byte	0x6b
+ 1619 022d 00000000 		.4byte	.LFB74
+ 1620 0231 0E000000 		.4byte	.LFE74-.LFB74
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 33
+
+
+ 1621 0235 01       		.uleb128 0x1
+ 1622 0236 9C       		.byte	0x9c
+ 1623 0237 0D       		.uleb128 0xd
+ 1624 0238 46000000 		.4byte	.LASF35
+ 1625 023c 01       		.byte	0x1
+ 1626 023d 6F       		.byte	0x6f
+ 1627 023e 00000000 		.4byte	.LFB75
+ 1628 0242 0E000000 		.4byte	.LFE75-.LFB75
+ 1629 0246 01       		.uleb128 0x1
+ 1630 0247 9C       		.byte	0x9c
+ 1631 0248 0D       		.uleb128 0xd
+ 1632 0249 55020000 		.4byte	.LASF36
+ 1633 024d 01       		.byte	0x1
+ 1634 024e 73       		.byte	0x73
+ 1635 024f 00000000 		.4byte	.LFB76
+ 1636 0253 2C000000 		.4byte	.LFE76-.LFB76
+ 1637 0257 01       		.uleb128 0x1
+ 1638 0258 9C       		.byte	0x9c
+ 1639 0259 0D       		.uleb128 0xd
+ 1640 025a B3010000 		.4byte	.LASF37
+ 1641 025e 01       		.byte	0x1
+ 1642 025f 78       		.byte	0x78
+ 1643 0260 00000000 		.4byte	.LFB77
+ 1644 0264 2C000000 		.4byte	.LFE77-.LFB77
+ 1645 0268 01       		.uleb128 0x1
+ 1646 0269 9C       		.byte	0x9c
+ 1647 026a 0D       		.uleb128 0xd
+ 1648 026b 20010000 		.4byte	.LASF38
+ 1649 026f 01       		.byte	0x1
+ 1650 0270 7D       		.byte	0x7d
+ 1651 0271 00000000 		.4byte	.LFB78
+ 1652 0275 2C000000 		.4byte	.LFE78-.LFB78
+ 1653 0279 01       		.uleb128 0x1
+ 1654 027a 9C       		.byte	0x9c
+ 1655 027b 0D       		.uleb128 0xd
+ 1656 027c B7030000 		.4byte	.LASF39
+ 1657 0280 01       		.byte	0x1
+ 1658 0281 82       		.byte	0x82
+ 1659 0282 00000000 		.4byte	.LFB79
+ 1660 0286 2C000000 		.4byte	.LFE79-.LFB79
+ 1661 028a 01       		.uleb128 0x1
+ 1662 028b 9C       		.byte	0x9c
+ 1663 028c 0C       		.uleb128 0xc
+ 1664 028d 37000000 		.4byte	.LASF41
+ 1665 0291 01       		.byte	0x1
+ 1666 0292 87       		.byte	0x87
+ 1667 0293 00000000 		.4byte	.LFB80
+ 1668 0297 68000000 		.4byte	.LFE80-.LFB80
+ 1669 029b 01       		.uleb128 0x1
+ 1670 029c 9C       		.byte	0x9c
+ 1671 029d E2020000 		.4byte	0x2e2
+ 1672 02a1 0B       		.uleb128 0xb
+ 1673 02a2 03040000 		.4byte	.LASF42
+ 1674 02a6 01       		.byte	0x1
+ 1675 02a7 87       		.byte	0x87
+ 1676 02a8 8C000000 		.4byte	0x8c
+ 1677 02ac 02       		.uleb128 0x2
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 34
+
+
+ 1678 02ad 91       		.byte	0x91
+ 1679 02ae 67       		.sleb128 -25
+ 1680 02af 0B       		.uleb128 0xb
+ 1681 02b0 E3030000 		.4byte	.LASF43
+ 1682 02b4 01       		.byte	0x1
+ 1683 02b5 87       		.byte	0x87
+ 1684 02b6 58010000 		.4byte	0x158
+ 1685 02ba 02       		.uleb128 0x2
+ 1686 02bb 91       		.byte	0x91
+ 1687 02bc 60       		.sleb128 -32
+ 1688 02bd 0E       		.uleb128 0xe
+ 1689 02be 64746100 		.ascii	"dta\000"
+ 1690 02c2 01       		.byte	0x1
+ 1691 02c3 8B       		.byte	0x8b
+ 1692 02c4 E2020000 		.4byte	0x2e2
+ 1693 02c8 02       		.uleb128 0x2
+ 1694 02c9 91       		.byte	0x91
+ 1695 02ca 68       		.sleb128 -24
+ 1696 02cb 0F       		.uleb128 0xf
+ 1697 02cc 2C000000 		.4byte	.LBB2
+ 1698 02d0 28000000 		.4byte	.LBE2-.LBB2
+ 1699 02d4 0E       		.uleb128 0xe
+ 1700 02d5 6900     		.ascii	"i\000"
+ 1701 02d7 01       		.byte	0x1
+ 1702 02d8 8D       		.byte	0x8d
+ 1703 02d9 7E000000 		.4byte	0x7e
+ 1704 02dd 02       		.uleb128 0x2
+ 1705 02de 91       		.byte	0x91
+ 1706 02df 74       		.sleb128 -12
+ 1707 02e0 00       		.byte	0
+ 1708 02e1 00       		.byte	0
+ 1709 02e2 09       		.uleb128 0x9
+ 1710 02e3 37000000 		.4byte	0x37
+ 1711 02e7 F2020000 		.4byte	0x2f2
+ 1712 02eb 0A       		.uleb128 0xa
+ 1713 02ec C9000000 		.4byte	0xc9
+ 1714 02f0 08       		.byte	0x8
+ 1715 02f1 00       		.byte	0
+ 1716 02f2 0C       		.uleb128 0xc
+ 1717 02f3 F7010000 		.4byte	.LASF44
+ 1718 02f7 01       		.byte	0x1
+ 1719 02f8 93       		.byte	0x93
+ 1720 02f9 00000000 		.4byte	.LFB81
+ 1721 02fd 46000000 		.4byte	.LFE81-.LFB81
+ 1722 0301 01       		.uleb128 0x1
+ 1723 0302 9C       		.byte	0x9c
+ 1724 0303 32030000 		.4byte	0x332
+ 1725 0307 07       		.uleb128 0x7
+ 1726 0308 636F6C00 		.ascii	"col\000"
+ 1727 030c 01       		.byte	0x1
+ 1728 030d 93       		.byte	0x93
+ 1729 030e 8C000000 		.4byte	0x8c
+ 1730 0312 02       		.uleb128 0x2
+ 1731 0313 91       		.byte	0x91
+ 1732 0314 6F       		.sleb128 -17
+ 1733 0315 07       		.uleb128 0x7
+ 1734 0316 726F7700 		.ascii	"row\000"
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 35
+
+
+ 1735 031a 01       		.byte	0x1
+ 1736 031b 93       		.byte	0x93
+ 1737 031c 8C000000 		.4byte	0x8c
+ 1738 0320 02       		.uleb128 0x2
+ 1739 0321 91       		.byte	0x91
+ 1740 0322 6E       		.sleb128 -18
+ 1741 0323 0E       		.uleb128 0xe
+ 1742 0324 64746100 		.ascii	"dta\000"
+ 1743 0328 01       		.byte	0x1
+ 1744 0329 95       		.byte	0x95
+ 1745 032a 32030000 		.4byte	0x332
+ 1746 032e 02       		.uleb128 0x2
+ 1747 032f 91       		.byte	0x91
+ 1748 0330 74       		.sleb128 -12
+ 1749 0331 00       		.byte	0
+ 1750 0332 09       		.uleb128 0x9
+ 1751 0333 37000000 		.4byte	0x37
+ 1752 0337 42030000 		.4byte	0x342
+ 1753 033b 0A       		.uleb128 0xa
+ 1754 033c C9000000 		.4byte	0xc9
+ 1755 0340 01       		.byte	0x1
+ 1756 0341 00       		.byte	0
+ 1757 0342 0C       		.uleb128 0xc
+ 1758 0343 46030000 		.4byte	.LASF45
+ 1759 0347 01       		.byte	0x1
+ 1760 0348 99       		.byte	0x99
+ 1761 0349 00000000 		.4byte	.LFB82
+ 1762 034d 26000000 		.4byte	.LFE82-.LFB82
+ 1763 0351 01       		.uleb128 0x1
+ 1764 0352 9C       		.byte	0x9c
+ 1765 0353 74030000 		.4byte	0x374
+ 1766 0357 0B       		.uleb128 0xb
+ 1767 0358 3A040000 		.4byte	.LASF46
+ 1768 035c 01       		.byte	0x1
+ 1769 035d 99       		.byte	0x99
+ 1770 035e 8C000000 		.4byte	0x8c
+ 1771 0362 02       		.uleb128 0x2
+ 1772 0363 91       		.byte	0x91
+ 1773 0364 6F       		.sleb128 -17
+ 1774 0365 0E       		.uleb128 0xe
+ 1775 0366 64746100 		.ascii	"dta\000"
+ 1776 036a 01       		.byte	0x1
+ 1777 036b 9A       		.byte	0x9a
+ 1778 036c 32030000 		.4byte	0x332
+ 1779 0370 02       		.uleb128 0x2
+ 1780 0371 91       		.byte	0x91
+ 1781 0372 74       		.sleb128 -12
+ 1782 0373 00       		.byte	0
+ 1783 0374 0C       		.uleb128 0xc
+ 1784 0375 50030000 		.4byte	.LASF47
+ 1785 0379 01       		.byte	0x1
+ 1786 037a 9E       		.byte	0x9e
+ 1787 037b 00000000 		.4byte	.LFB83
+ 1788 037f 32000000 		.4byte	.LFE83-.LFB83
+ 1789 0383 01       		.uleb128 0x1
+ 1790 0384 9C       		.byte	0x9c
+ 1791 0385 A6030000 		.4byte	0x3a6
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 36
+
+
+ 1792 0389 0B       		.uleb128 0xb
+ 1793 038a 94030000 		.4byte	.LASF22
+ 1794 038e 01       		.byte	0x1
+ 1795 038f 9E       		.byte	0x9e
+ 1796 0390 D0000000 		.4byte	0xd0
+ 1797 0394 02       		.uleb128 0x2
+ 1798 0395 91       		.byte	0x91
+ 1799 0396 74       		.sleb128 -12
+ 1800 0397 0B       		.uleb128 0xb
+ 1801 0398 DE030000 		.4byte	.LASF48
+ 1802 039c 01       		.byte	0x1
+ 1803 039d 9E       		.byte	0x9e
+ 1804 039e 8C000000 		.4byte	0x8c
+ 1805 03a2 02       		.uleb128 0x2
+ 1806 03a3 91       		.byte	0x91
+ 1807 03a4 73       		.sleb128 -13
+ 1808 03a5 00       		.byte	0
+ 1809 03a6 0C       		.uleb128 0xc
+ 1810 03a7 66010000 		.4byte	.LASF49
+ 1811 03ab 01       		.byte	0x1
+ 1812 03ac A6       		.byte	0xa6
+ 1813 03ad 00000000 		.4byte	.LFB84
+ 1814 03b1 26000000 		.4byte	.LFE84-.LFB84
+ 1815 03b5 01       		.uleb128 0x1
+ 1816 03b6 9C       		.byte	0x9c
+ 1817 03b7 D8030000 		.4byte	0x3d8
+ 1818 03bb 0B       		.uleb128 0xb
+ 1819 03bc 3A040000 		.4byte	.LASF46
+ 1820 03c0 01       		.byte	0x1
+ 1821 03c1 A6       		.byte	0xa6
+ 1822 03c2 8C000000 		.4byte	0x8c
+ 1823 03c6 02       		.uleb128 0x2
+ 1824 03c7 91       		.byte	0x91
+ 1825 03c8 6F       		.sleb128 -17
+ 1826 03c9 0E       		.uleb128 0xe
+ 1827 03ca 64746100 		.ascii	"dta\000"
+ 1828 03ce 01       		.byte	0x1
+ 1829 03cf A7       		.byte	0xa7
+ 1830 03d0 32030000 		.4byte	0x332
+ 1831 03d4 02       		.uleb128 0x2
+ 1832 03d5 91       		.byte	0x91
+ 1833 03d6 74       		.sleb128 -12
+ 1834 03d7 00       		.byte	0
+ 1835 03d8 0C       		.uleb128 0xc
+ 1836 03d9 05020000 		.4byte	.LASF50
+ 1837 03dd 01       		.byte	0x1
+ 1838 03de AC       		.byte	0xac
+ 1839 03df 00000000 		.4byte	.LFB85
+ 1840 03e3 38000000 		.4byte	.LFE85-.LFB85
+ 1841 03e7 01       		.uleb128 0x1
+ 1842 03e8 9C       		.byte	0x9c
+ 1843 03e9 12040000 		.4byte	0x412
+ 1844 03ed 07       		.uleb128 0x7
+ 1845 03ee 7200     		.ascii	"r\000"
+ 1846 03f0 01       		.byte	0x1
+ 1847 03f1 AC       		.byte	0xac
+ 1848 03f2 37000000 		.4byte	0x37
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 37
+
+
+ 1849 03f6 02       		.uleb128 0x2
+ 1850 03f7 91       		.byte	0x91
+ 1851 03f8 77       		.sleb128 -9
+ 1852 03f9 07       		.uleb128 0x7
+ 1853 03fa 6700     		.ascii	"g\000"
+ 1854 03fc 01       		.byte	0x1
+ 1855 03fd AC       		.byte	0xac
+ 1856 03fe 37000000 		.4byte	0x37
+ 1857 0402 02       		.uleb128 0x2
+ 1858 0403 91       		.byte	0x91
+ 1859 0404 76       		.sleb128 -10
+ 1860 0405 07       		.uleb128 0x7
+ 1861 0406 6200     		.ascii	"b\000"
+ 1862 0408 01       		.byte	0x1
+ 1863 0409 AC       		.byte	0xac
+ 1864 040a 37000000 		.4byte	0x37
+ 1865 040e 02       		.uleb128 0x2
+ 1866 040f 91       		.byte	0x91
+ 1867 0410 75       		.sleb128 -11
+ 1868 0411 00       		.byte	0
+ 1869 0412 0C       		.uleb128 0xc
+ 1870 0413 1A000000 		.4byte	.LASF51
+ 1871 0417 01       		.byte	0x1
+ 1872 0418 B2       		.byte	0xb2
+ 1873 0419 00000000 		.4byte	.LFB86
+ 1874 041d 24000000 		.4byte	.LFE86-.LFB86
+ 1875 0421 01       		.uleb128 0x1
+ 1876 0422 9C       		.byte	0x9c
+ 1877 0423 44040000 		.4byte	0x444
+ 1878 0427 0B       		.uleb128 0xb
+ 1879 0428 67000000 		.4byte	.LASF52
+ 1880 042c 01       		.byte	0x1
+ 1881 042d B2       		.byte	0xb2
+ 1882 042e 37000000 		.4byte	0x37
+ 1883 0432 02       		.uleb128 0x2
+ 1884 0433 91       		.byte	0x91
+ 1885 0434 77       		.sleb128 -9
+ 1886 0435 07       		.uleb128 0x7
+ 1887 0436 70776D00 		.ascii	"pwm\000"
+ 1888 043a 01       		.byte	0x1
+ 1889 043b B2       		.byte	0xb2
+ 1890 043c 37000000 		.4byte	0x37
+ 1891 0440 02       		.uleb128 0x2
+ 1892 0441 91       		.byte	0x91
+ 1893 0442 76       		.sleb128 -10
+ 1894 0443 00       		.byte	0
+ 1895 0444 0C       		.uleb128 0xc
+ 1896 0445 00000000 		.4byte	.LASF53
+ 1897 0449 01       		.byte	0x1
+ 1898 044a BD       		.byte	0xbd
+ 1899 044b 00000000 		.4byte	.LFB87
+ 1900 044f 54000000 		.4byte	.LFE87-.LFB87
+ 1901 0453 01       		.uleb128 0x1
+ 1902 0454 9C       		.byte	0x9c
+ 1903 0455 68040000 		.4byte	0x468
+ 1904 0459 0B       		.uleb128 0xb
+ 1905 045a 67000000 		.4byte	.LASF52
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 38
+
+
+ 1906 045e 01       		.byte	0x1
+ 1907 045f BD       		.byte	0xbd
+ 1908 0460 37000000 		.4byte	0x37
+ 1909 0464 02       		.uleb128 0x2
+ 1910 0465 91       		.byte	0x91
+ 1911 0466 6F       		.sleb128 -17
+ 1912 0467 00       		.byte	0
+ 1913 0468 0D       		.uleb128 0xd
+ 1914 0469 77000000 		.4byte	.LASF54
+ 1915 046d 01       		.byte	0x1
+ 1916 046e C2       		.byte	0xc2
+ 1917 046f 00000000 		.4byte	.LFB88
+ 1918 0473 12000000 		.4byte	.LFE88-.LFB88
+ 1919 0477 01       		.uleb128 0x1
+ 1920 0478 9C       		.byte	0x9c
+ 1921 0479 0D       		.uleb128 0xd
+ 1922 047a 25000000 		.4byte	.LASF55
+ 1923 047e 01       		.byte	0x1
+ 1924 047f C6       		.byte	0xc6
+ 1925 0480 00000000 		.4byte	.LFB89
+ 1926 0484 12000000 		.4byte	.LFE89-.LFB89
+ 1927 0488 01       		.uleb128 0x1
+ 1928 0489 9C       		.byte	0x9c
+ 1929 048a 10       		.uleb128 0x10
+ 1930 048b 2D040000 		.4byte	.LASF56
+ 1931 048f 04       		.byte	0x4
+ 1932 0490 1207     		.2byte	0x712
+ 1933 0492 96040000 		.4byte	0x496
+ 1934 0496 11       		.uleb128 0x11
+ 1935 0497 97000000 		.4byte	0x97
+ 1936 049b 12       		.uleb128 0x12
+ 1937 049c 39010000 		.4byte	.LASF57
+ 1938 04a0 01       		.byte	0x1
+ 1939 04a1 04       		.byte	0x4
+ 1940 04a2 8C000000 		.4byte	0x8c
+ 1941 04a6 05       		.uleb128 0x5
+ 1942 04a7 03       		.byte	0x3
+ 1943 04a8 00000000 		.4byte	_displayfunction
+ 1944 04ac 12       		.uleb128 0x12
+ 1945 04ad E7010000 		.4byte	.LASF58
+ 1946 04b1 01       		.byte	0x1
+ 1947 04b2 05       		.byte	0x5
+ 1948 04b3 8C000000 		.4byte	0x8c
+ 1949 04b7 05       		.uleb128 0x5
+ 1950 04b8 03       		.byte	0x3
+ 1951 04b9 00000000 		.4byte	_displaycontrol
+ 1952 04bd 12       		.uleb128 0x12
+ 1953 04be 0D000000 		.4byte	.LASF59
+ 1954 04c2 01       		.byte	0x1
+ 1955 04c3 06       		.byte	0x6
+ 1956 04c4 8C000000 		.4byte	0x8c
+ 1957 04c8 05       		.uleb128 0x5
+ 1958 04c9 03       		.byte	0x3
+ 1959 04ca 00000000 		.4byte	_displaymode
+ 1960 04ce 12       		.uleb128 0x12
+ 1961 04cf 9D010000 		.4byte	.LASF60
+ 1962 04d3 01       		.byte	0x1
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 39
+
+
+ 1963 04d4 07       		.byte	0x7
+ 1964 04d5 8C000000 		.4byte	0x8c
+ 1965 04d9 05       		.uleb128 0x5
+ 1966 04da 03       		.byte	0x3
+ 1967 04db 00000000 		.4byte	_initialized
+ 1968 04df 12       		.uleb128 0x12
+ 1969 04e0 0C040000 		.4byte	.LASF61
+ 1970 04e4 01       		.byte	0x1
+ 1971 04e5 08       		.byte	0x8
+ 1972 04e6 8C000000 		.4byte	0x8c
+ 1973 04ea 05       		.uleb128 0x5
+ 1974 04eb 03       		.byte	0x3
+ 1975 04ec 00000000 		.4byte	_numlines
+ 1976 04f0 12       		.uleb128 0x12
+ 1977 04f1 85010000 		.4byte	.LASF62
+ 1978 04f5 01       		.byte	0x1
+ 1979 04f6 08       		.byte	0x8
+ 1980 04f7 8C000000 		.4byte	0x8c
+ 1981 04fb 05       		.uleb128 0x5
+ 1982 04fc 03       		.byte	0x3
+ 1983 04fd 00000000 		.4byte	_currline
+ 1984 0501 09       		.uleb128 0x9
+ 1985 0502 17050000 		.4byte	0x517
+ 1986 0506 17050000 		.4byte	0x517
+ 1987 050a 0A       		.uleb128 0xa
+ 1988 050b C9000000 		.4byte	0xc9
+ 1989 050f 03       		.byte	0x3
+ 1990 0510 0A       		.uleb128 0xa
+ 1991 0511 C9000000 		.4byte	0xc9
+ 1992 0515 02       		.byte	0x2
+ 1993 0516 00       		.byte	0
+ 1994 0517 13       		.uleb128 0x13
+ 1995 0518 37000000 		.4byte	0x37
+ 1996 051c 12       		.uleb128 0x12
+ 1997 051d 78010000 		.4byte	.LASF63
+ 1998 0521 01       		.byte	0x1
+ 1999 0522 B6       		.byte	0xb6
+ 2000 0523 2D050000 		.4byte	0x52d
+ 2001 0527 05       		.uleb128 0x5
+ 2002 0528 03       		.byte	0x3
+ 2003 0529 00000000 		.4byte	color_define
+ 2004 052d 13       		.uleb128 0x13
+ 2005 052e 01050000 		.4byte	0x501
+ 2006 0532 00       		.byte	0
+ 2007              		.section	.debug_abbrev,"",%progbits
+ 2008              	.Ldebug_abbrev0:
+ 2009 0000 01       		.uleb128 0x1
+ 2010 0001 11       		.uleb128 0x11
+ 2011 0002 01       		.byte	0x1
+ 2012 0003 25       		.uleb128 0x25
+ 2013 0004 0E       		.uleb128 0xe
+ 2014 0005 13       		.uleb128 0x13
+ 2015 0006 0B       		.uleb128 0xb
+ 2016 0007 03       		.uleb128 0x3
+ 2017 0008 0E       		.uleb128 0xe
+ 2018 0009 1B       		.uleb128 0x1b
+ 2019 000a 0E       		.uleb128 0xe
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 40
+
+
+ 2020 000b 55       		.uleb128 0x55
+ 2021 000c 17       		.uleb128 0x17
+ 2022 000d 11       		.uleb128 0x11
+ 2023 000e 01       		.uleb128 0x1
+ 2024 000f 10       		.uleb128 0x10
+ 2025 0010 17       		.uleb128 0x17
+ 2026 0011 00       		.byte	0
+ 2027 0012 00       		.byte	0
+ 2028 0013 02       		.uleb128 0x2
+ 2029 0014 24       		.uleb128 0x24
+ 2030 0015 00       		.byte	0
+ 2031 0016 0B       		.uleb128 0xb
+ 2032 0017 0B       		.uleb128 0xb
+ 2033 0018 3E       		.uleb128 0x3e
+ 2034 0019 0B       		.uleb128 0xb
+ 2035 001a 03       		.uleb128 0x3
+ 2036 001b 0E       		.uleb128 0xe
+ 2037 001c 00       		.byte	0
+ 2038 001d 00       		.byte	0
+ 2039 001e 03       		.uleb128 0x3
+ 2040 001f 16       		.uleb128 0x16
+ 2041 0020 00       		.byte	0
+ 2042 0021 03       		.uleb128 0x3
+ 2043 0022 0E       		.uleb128 0xe
+ 2044 0023 3A       		.uleb128 0x3a
+ 2045 0024 0B       		.uleb128 0xb
+ 2046 0025 3B       		.uleb128 0x3b
+ 2047 0026 0B       		.uleb128 0xb
+ 2048 0027 49       		.uleb128 0x49
+ 2049 0028 13       		.uleb128 0x13
+ 2050 0029 00       		.byte	0
+ 2051 002a 00       		.byte	0
+ 2052 002b 04       		.uleb128 0x4
+ 2053 002c 24       		.uleb128 0x24
+ 2054 002d 00       		.byte	0
+ 2055 002e 0B       		.uleb128 0xb
+ 2056 002f 0B       		.uleb128 0xb
+ 2057 0030 3E       		.uleb128 0x3e
+ 2058 0031 0B       		.uleb128 0xb
+ 2059 0032 03       		.uleb128 0x3
+ 2060 0033 08       		.uleb128 0x8
+ 2061 0034 00       		.byte	0
+ 2062 0035 00       		.byte	0
+ 2063 0036 05       		.uleb128 0x5
+ 2064 0037 0F       		.uleb128 0xf
+ 2065 0038 00       		.byte	0
+ 2066 0039 0B       		.uleb128 0xb
+ 2067 003a 0B       		.uleb128 0xb
+ 2068 003b 49       		.uleb128 0x49
+ 2069 003c 13       		.uleb128 0x13
+ 2070 003d 00       		.byte	0
+ 2071 003e 00       		.byte	0
+ 2072 003f 06       		.uleb128 0x6
+ 2073 0040 2E       		.uleb128 0x2e
+ 2074 0041 01       		.byte	0x1
+ 2075 0042 03       		.uleb128 0x3
+ 2076 0043 0E       		.uleb128 0xe
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 41
+
+
+ 2077 0044 3A       		.uleb128 0x3a
+ 2078 0045 0B       		.uleb128 0xb
+ 2079 0046 3B       		.uleb128 0x3b
+ 2080 0047 0B       		.uleb128 0xb
+ 2081 0048 27       		.uleb128 0x27
+ 2082 0049 19       		.uleb128 0x19
+ 2083 004a 11       		.uleb128 0x11
+ 2084 004b 01       		.uleb128 0x1
+ 2085 004c 12       		.uleb128 0x12
+ 2086 004d 06       		.uleb128 0x6
+ 2087 004e 40       		.uleb128 0x40
+ 2088 004f 18       		.uleb128 0x18
+ 2089 0050 9642     		.uleb128 0x2116
+ 2090 0052 19       		.uleb128 0x19
+ 2091 0053 01       		.uleb128 0x1
+ 2092 0054 13       		.uleb128 0x13
+ 2093 0055 00       		.byte	0
+ 2094 0056 00       		.byte	0
+ 2095 0057 07       		.uleb128 0x7
+ 2096 0058 05       		.uleb128 0x5
+ 2097 0059 00       		.byte	0
+ 2098 005a 03       		.uleb128 0x3
+ 2099 005b 08       		.uleb128 0x8
+ 2100 005c 3A       		.uleb128 0x3a
+ 2101 005d 0B       		.uleb128 0xb
+ 2102 005e 3B       		.uleb128 0x3b
+ 2103 005f 0B       		.uleb128 0xb
+ 2104 0060 49       		.uleb128 0x49
+ 2105 0061 13       		.uleb128 0x13
+ 2106 0062 02       		.uleb128 0x2
+ 2107 0063 18       		.uleb128 0x18
+ 2108 0064 00       		.byte	0
+ 2109 0065 00       		.byte	0
+ 2110 0066 08       		.uleb128 0x8
+ 2111 0067 34       		.uleb128 0x34
+ 2112 0068 00       		.byte	0
+ 2113 0069 03       		.uleb128 0x3
+ 2114 006a 0E       		.uleb128 0xe
+ 2115 006b 3A       		.uleb128 0x3a
+ 2116 006c 0B       		.uleb128 0xb
+ 2117 006d 3B       		.uleb128 0x3b
+ 2118 006e 0B       		.uleb128 0xb
+ 2119 006f 49       		.uleb128 0x49
+ 2120 0070 13       		.uleb128 0x13
+ 2121 0071 02       		.uleb128 0x2
+ 2122 0072 18       		.uleb128 0x18
+ 2123 0073 00       		.byte	0
+ 2124 0074 00       		.byte	0
+ 2125 0075 09       		.uleb128 0x9
+ 2126 0076 01       		.uleb128 0x1
+ 2127 0077 01       		.byte	0x1
+ 2128 0078 49       		.uleb128 0x49
+ 2129 0079 13       		.uleb128 0x13
+ 2130 007a 01       		.uleb128 0x1
+ 2131 007b 13       		.uleb128 0x13
+ 2132 007c 00       		.byte	0
+ 2133 007d 00       		.byte	0
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 42
+
+
+ 2134 007e 0A       		.uleb128 0xa
+ 2135 007f 21       		.uleb128 0x21
+ 2136 0080 00       		.byte	0
+ 2137 0081 49       		.uleb128 0x49
+ 2138 0082 13       		.uleb128 0x13
+ 2139 0083 2F       		.uleb128 0x2f
+ 2140 0084 0B       		.uleb128 0xb
+ 2141 0085 00       		.byte	0
+ 2142 0086 00       		.byte	0
+ 2143 0087 0B       		.uleb128 0xb
+ 2144 0088 05       		.uleb128 0x5
+ 2145 0089 00       		.byte	0
+ 2146 008a 03       		.uleb128 0x3
+ 2147 008b 0E       		.uleb128 0xe
+ 2148 008c 3A       		.uleb128 0x3a
+ 2149 008d 0B       		.uleb128 0xb
+ 2150 008e 3B       		.uleb128 0x3b
+ 2151 008f 0B       		.uleb128 0xb
+ 2152 0090 49       		.uleb128 0x49
+ 2153 0091 13       		.uleb128 0x13
+ 2154 0092 02       		.uleb128 0x2
+ 2155 0093 18       		.uleb128 0x18
+ 2156 0094 00       		.byte	0
+ 2157 0095 00       		.byte	0
+ 2158 0096 0C       		.uleb128 0xc
+ 2159 0097 2E       		.uleb128 0x2e
+ 2160 0098 01       		.byte	0x1
+ 2161 0099 3F       		.uleb128 0x3f
+ 2162 009a 19       		.uleb128 0x19
+ 2163 009b 03       		.uleb128 0x3
+ 2164 009c 0E       		.uleb128 0xe
+ 2165 009d 3A       		.uleb128 0x3a
+ 2166 009e 0B       		.uleb128 0xb
+ 2167 009f 3B       		.uleb128 0x3b
+ 2168 00a0 0B       		.uleb128 0xb
+ 2169 00a1 27       		.uleb128 0x27
+ 2170 00a2 19       		.uleb128 0x19
+ 2171 00a3 11       		.uleb128 0x11
+ 2172 00a4 01       		.uleb128 0x1
+ 2173 00a5 12       		.uleb128 0x12
+ 2174 00a6 06       		.uleb128 0x6
+ 2175 00a7 40       		.uleb128 0x40
+ 2176 00a8 18       		.uleb128 0x18
+ 2177 00a9 9642     		.uleb128 0x2116
+ 2178 00ab 19       		.uleb128 0x19
+ 2179 00ac 01       		.uleb128 0x1
+ 2180 00ad 13       		.uleb128 0x13
+ 2181 00ae 00       		.byte	0
+ 2182 00af 00       		.byte	0
+ 2183 00b0 0D       		.uleb128 0xd
+ 2184 00b1 2E       		.uleb128 0x2e
+ 2185 00b2 00       		.byte	0
+ 2186 00b3 3F       		.uleb128 0x3f
+ 2187 00b4 19       		.uleb128 0x19
+ 2188 00b5 03       		.uleb128 0x3
+ 2189 00b6 0E       		.uleb128 0xe
+ 2190 00b7 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 43
+
+
+ 2191 00b8 0B       		.uleb128 0xb
+ 2192 00b9 3B       		.uleb128 0x3b
+ 2193 00ba 0B       		.uleb128 0xb
+ 2194 00bb 27       		.uleb128 0x27
+ 2195 00bc 19       		.uleb128 0x19
+ 2196 00bd 11       		.uleb128 0x11
+ 2197 00be 01       		.uleb128 0x1
+ 2198 00bf 12       		.uleb128 0x12
+ 2199 00c0 06       		.uleb128 0x6
+ 2200 00c1 40       		.uleb128 0x40
+ 2201 00c2 18       		.uleb128 0x18
+ 2202 00c3 9642     		.uleb128 0x2116
+ 2203 00c5 19       		.uleb128 0x19
+ 2204 00c6 00       		.byte	0
+ 2205 00c7 00       		.byte	0
+ 2206 00c8 0E       		.uleb128 0xe
+ 2207 00c9 34       		.uleb128 0x34
+ 2208 00ca 00       		.byte	0
+ 2209 00cb 03       		.uleb128 0x3
+ 2210 00cc 08       		.uleb128 0x8
+ 2211 00cd 3A       		.uleb128 0x3a
+ 2212 00ce 0B       		.uleb128 0xb
+ 2213 00cf 3B       		.uleb128 0x3b
+ 2214 00d0 0B       		.uleb128 0xb
+ 2215 00d1 49       		.uleb128 0x49
+ 2216 00d2 13       		.uleb128 0x13
+ 2217 00d3 02       		.uleb128 0x2
+ 2218 00d4 18       		.uleb128 0x18
+ 2219 00d5 00       		.byte	0
+ 2220 00d6 00       		.byte	0
+ 2221 00d7 0F       		.uleb128 0xf
+ 2222 00d8 0B       		.uleb128 0xb
+ 2223 00d9 01       		.byte	0x1
+ 2224 00da 11       		.uleb128 0x11
+ 2225 00db 01       		.uleb128 0x1
+ 2226 00dc 12       		.uleb128 0x12
+ 2227 00dd 06       		.uleb128 0x6
+ 2228 00de 00       		.byte	0
+ 2229 00df 00       		.byte	0
+ 2230 00e0 10       		.uleb128 0x10
+ 2231 00e1 34       		.uleb128 0x34
+ 2232 00e2 00       		.byte	0
+ 2233 00e3 03       		.uleb128 0x3
+ 2234 00e4 0E       		.uleb128 0xe
+ 2235 00e5 3A       		.uleb128 0x3a
+ 2236 00e6 0B       		.uleb128 0xb
+ 2237 00e7 3B       		.uleb128 0x3b
+ 2238 00e8 05       		.uleb128 0x5
+ 2239 00e9 49       		.uleb128 0x49
+ 2240 00ea 13       		.uleb128 0x13
+ 2241 00eb 3F       		.uleb128 0x3f
+ 2242 00ec 19       		.uleb128 0x19
+ 2243 00ed 3C       		.uleb128 0x3c
+ 2244 00ee 19       		.uleb128 0x19
+ 2245 00ef 00       		.byte	0
+ 2246 00f0 00       		.byte	0
+ 2247 00f1 11       		.uleb128 0x11
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 44
+
+
+ 2248 00f2 35       		.uleb128 0x35
+ 2249 00f3 00       		.byte	0
+ 2250 00f4 49       		.uleb128 0x49
+ 2251 00f5 13       		.uleb128 0x13
+ 2252 00f6 00       		.byte	0
+ 2253 00f7 00       		.byte	0
+ 2254 00f8 12       		.uleb128 0x12
+ 2255 00f9 34       		.uleb128 0x34
+ 2256 00fa 00       		.byte	0
+ 2257 00fb 03       		.uleb128 0x3
+ 2258 00fc 0E       		.uleb128 0xe
+ 2259 00fd 3A       		.uleb128 0x3a
+ 2260 00fe 0B       		.uleb128 0xb
+ 2261 00ff 3B       		.uleb128 0x3b
+ 2262 0100 0B       		.uleb128 0xb
+ 2263 0101 49       		.uleb128 0x49
+ 2264 0102 13       		.uleb128 0x13
+ 2265 0103 3F       		.uleb128 0x3f
+ 2266 0104 19       		.uleb128 0x19
+ 2267 0105 02       		.uleb128 0x2
+ 2268 0106 18       		.uleb128 0x18
+ 2269 0107 00       		.byte	0
+ 2270 0108 00       		.byte	0
+ 2271 0109 13       		.uleb128 0x13
+ 2272 010a 26       		.uleb128 0x26
+ 2273 010b 00       		.byte	0
+ 2274 010c 49       		.uleb128 0x49
+ 2275 010d 13       		.uleb128 0x13
+ 2276 010e 00       		.byte	0
+ 2277 010f 00       		.byte	0
+ 2278 0110 00       		.byte	0
+ 2279              		.section	.debug_aranges,"",%progbits
+ 2280 0000 EC000000 		.4byte	0xec
+ 2281 0004 0200     		.2byte	0x2
+ 2282 0006 00000000 		.4byte	.Ldebug_info0
+ 2283 000a 04       		.byte	0x4
+ 2284 000b 00       		.byte	0
+ 2285 000c 0000     		.2byte	0
+ 2286 000e 0000     		.2byte	0
+ 2287 0010 00000000 		.4byte	.LFB63
+ 2288 0014 3E000000 		.4byte	.LFE63-.LFB63
+ 2289 0018 00000000 		.4byte	.LFB64
+ 2290 001c 30000000 		.4byte	.LFE64-.LFB64
+ 2291 0020 00000000 		.4byte	.LFB65
+ 2292 0024 EC000000 		.4byte	.LFE65-.LFB65
+ 2293 0028 00000000 		.4byte	.LFB66
+ 2294 002c 14000000 		.4byte	.LFE66-.LFB66
+ 2295 0030 00000000 		.4byte	.LFB67
+ 2296 0034 14000000 		.4byte	.LFE67-.LFB67
+ 2297 0038 00000000 		.4byte	.LFB68
+ 2298 003c 2C000000 		.4byte	.LFE68-.LFB68
+ 2299 0040 00000000 		.4byte	.LFB69
+ 2300 0044 2C000000 		.4byte	.LFE69-.LFB69
+ 2301 0048 00000000 		.4byte	.LFB70
+ 2302 004c 2C000000 		.4byte	.LFE70-.LFB70
+ 2303 0050 00000000 		.4byte	.LFB71
+ 2304 0054 2C000000 		.4byte	.LFE71-.LFB71
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 45
+
+
+ 2305 0058 00000000 		.4byte	.LFB72
+ 2306 005c 2C000000 		.4byte	.LFE72-.LFB72
+ 2307 0060 00000000 		.4byte	.LFB73
+ 2308 0064 2C000000 		.4byte	.LFE73-.LFB73
+ 2309 0068 00000000 		.4byte	.LFB74
+ 2310 006c 0E000000 		.4byte	.LFE74-.LFB74
+ 2311 0070 00000000 		.4byte	.LFB75
+ 2312 0074 0E000000 		.4byte	.LFE75-.LFB75
+ 2313 0078 00000000 		.4byte	.LFB76
+ 2314 007c 2C000000 		.4byte	.LFE76-.LFB76
+ 2315 0080 00000000 		.4byte	.LFB77
+ 2316 0084 2C000000 		.4byte	.LFE77-.LFB77
+ 2317 0088 00000000 		.4byte	.LFB78
+ 2318 008c 2C000000 		.4byte	.LFE78-.LFB78
+ 2319 0090 00000000 		.4byte	.LFB79
+ 2320 0094 2C000000 		.4byte	.LFE79-.LFB79
+ 2321 0098 00000000 		.4byte	.LFB80
+ 2322 009c 68000000 		.4byte	.LFE80-.LFB80
+ 2323 00a0 00000000 		.4byte	.LFB81
+ 2324 00a4 46000000 		.4byte	.LFE81-.LFB81
+ 2325 00a8 00000000 		.4byte	.LFB82
+ 2326 00ac 26000000 		.4byte	.LFE82-.LFB82
+ 2327 00b0 00000000 		.4byte	.LFB83
+ 2328 00b4 32000000 		.4byte	.LFE83-.LFB83
+ 2329 00b8 00000000 		.4byte	.LFB84
+ 2330 00bc 26000000 		.4byte	.LFE84-.LFB84
+ 2331 00c0 00000000 		.4byte	.LFB85
+ 2332 00c4 38000000 		.4byte	.LFE85-.LFB85
+ 2333 00c8 00000000 		.4byte	.LFB86
+ 2334 00cc 24000000 		.4byte	.LFE86-.LFB86
+ 2335 00d0 00000000 		.4byte	.LFB87
+ 2336 00d4 54000000 		.4byte	.LFE87-.LFB87
+ 2337 00d8 00000000 		.4byte	.LFB88
+ 2338 00dc 12000000 		.4byte	.LFE88-.LFB88
+ 2339 00e0 00000000 		.4byte	.LFB89
+ 2340 00e4 12000000 		.4byte	.LFE89-.LFB89
+ 2341 00e8 00000000 		.4byte	0
+ 2342 00ec 00000000 		.4byte	0
+ 2343              		.section	.debug_ranges,"",%progbits
+ 2344              	.Ldebug_ranges0:
+ 2345 0000 00000000 		.4byte	.LFB63
+ 2346 0004 3E000000 		.4byte	.LFE63
+ 2347 0008 00000000 		.4byte	.LFB64
+ 2348 000c 30000000 		.4byte	.LFE64
+ 2349 0010 00000000 		.4byte	.LFB65
+ 2350 0014 EC000000 		.4byte	.LFE65
+ 2351 0018 00000000 		.4byte	.LFB66
+ 2352 001c 14000000 		.4byte	.LFE66
+ 2353 0020 00000000 		.4byte	.LFB67
+ 2354 0024 14000000 		.4byte	.LFE67
+ 2355 0028 00000000 		.4byte	.LFB68
+ 2356 002c 2C000000 		.4byte	.LFE68
+ 2357 0030 00000000 		.4byte	.LFB69
+ 2358 0034 2C000000 		.4byte	.LFE69
+ 2359 0038 00000000 		.4byte	.LFB70
+ 2360 003c 2C000000 		.4byte	.LFE70
+ 2361 0040 00000000 		.4byte	.LFB71
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 46
+
+
+ 2362 0044 2C000000 		.4byte	.LFE71
+ 2363 0048 00000000 		.4byte	.LFB72
+ 2364 004c 2C000000 		.4byte	.LFE72
+ 2365 0050 00000000 		.4byte	.LFB73
+ 2366 0054 2C000000 		.4byte	.LFE73
+ 2367 0058 00000000 		.4byte	.LFB74
+ 2368 005c 0E000000 		.4byte	.LFE74
+ 2369 0060 00000000 		.4byte	.LFB75
+ 2370 0064 0E000000 		.4byte	.LFE75
+ 2371 0068 00000000 		.4byte	.LFB76
+ 2372 006c 2C000000 		.4byte	.LFE76
+ 2373 0070 00000000 		.4byte	.LFB77
+ 2374 0074 2C000000 		.4byte	.LFE77
+ 2375 0078 00000000 		.4byte	.LFB78
+ 2376 007c 2C000000 		.4byte	.LFE78
+ 2377 0080 00000000 		.4byte	.LFB79
+ 2378 0084 2C000000 		.4byte	.LFE79
+ 2379 0088 00000000 		.4byte	.LFB80
+ 2380 008c 68000000 		.4byte	.LFE80
+ 2381 0090 00000000 		.4byte	.LFB81
+ 2382 0094 46000000 		.4byte	.LFE81
+ 2383 0098 00000000 		.4byte	.LFB82
+ 2384 009c 26000000 		.4byte	.LFE82
+ 2385 00a0 00000000 		.4byte	.LFB83
+ 2386 00a4 32000000 		.4byte	.LFE83
+ 2387 00a8 00000000 		.4byte	.LFB84
+ 2388 00ac 26000000 		.4byte	.LFE84
+ 2389 00b0 00000000 		.4byte	.LFB85
+ 2390 00b4 38000000 		.4byte	.LFE85
+ 2391 00b8 00000000 		.4byte	.LFB86
+ 2392 00bc 24000000 		.4byte	.LFE86
+ 2393 00c0 00000000 		.4byte	.LFB87
+ 2394 00c4 54000000 		.4byte	.LFE87
+ 2395 00c8 00000000 		.4byte	.LFB88
+ 2396 00cc 12000000 		.4byte	.LFE88
+ 2397 00d0 00000000 		.4byte	.LFB89
+ 2398 00d4 12000000 		.4byte	.LFE89
+ 2399 00d8 00000000 		.4byte	0
+ 2400 00dc 00000000 		.4byte	0
+ 2401              		.section	.debug_line,"",%progbits
+ 2402              	.Ldebug_line0:
+ 2403 0000 15040000 		.section	.debug_str,"MS",%progbits,1
+ 2403      0200B501 
+ 2403      00000201 
+ 2403      FB0E0D00 
+ 2403      01010101 
+ 2404              	.LASF53:
+ 2405 0000 4C43445F 		.ascii	"LCD_setColor\000"
+ 2405      73657443 
+ 2405      6F6C6F72 
+ 2405      00
+ 2406              	.LASF59:
+ 2407 000d 5F646973 		.ascii	"_displaymode\000"
+ 2407      706C6179 
+ 2407      6D6F6465 
+ 2407      00
+ 2408              	.LASF51:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 47
+
+
+ 2409 001a 4C43445F 		.ascii	"LCD_setPWM\000"
+ 2409      73657450 
+ 2409      574D00
+ 2410              	.LASF55:
+ 2411 0025 4C43445F 		.ascii	"LCD_setColorWhite\000"
+ 2411      73657443 
+ 2411      6F6C6F72 
+ 2411      57686974 
+ 2411      6500
+ 2412              	.LASF41:
+ 2413 0037 4C43445F 		.ascii	"LCD_createChar\000"
+ 2413      63726561 
+ 2413      74654368 
+ 2413      617200
+ 2414              	.LASF35:
+ 2415 0046 4C43445F 		.ascii	"LCD_scrollDisplayRight\000"
+ 2415      7363726F 
+ 2415      6C6C4469 
+ 2415      73706C61 
+ 2415      79526967 
+ 2416              	.LASF2:
+ 2417 005d 73686F72 		.ascii	"short int\000"
+ 2417      7420696E 
+ 2417      7400
+ 2418              	.LASF52:
+ 2419 0067 636F6C6F 		.ascii	"color\000"
+ 2419      7200
+ 2420              	.LASF31:
+ 2421 006d 4C43445F 		.ascii	"LCD_blink\000"
+ 2421      626C696E 
+ 2421      6B00
+ 2422              	.LASF54:
+ 2423 0077 4C43445F 		.ascii	"LCD_setColorAll\000"
+ 2423      73657443 
+ 2423      6F6C6F72 
+ 2423      416C6C00 
+ 2424              	.LASF64:
+ 2425 0087 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2425      43313120 
+ 2425      352E342E 
+ 2425      31203230 
+ 2425      31363036 
+ 2426 00ba 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2426      20726576 
+ 2426      6973696F 
+ 2426      6E203233 
+ 2426      37373135 
+ 2427 00ed 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 2427      66756E63 
+ 2427      74696F6E 
+ 2427      2D736563 
+ 2427      74696F6E 
+ 2428              	.LASF7:
+ 2429 0115 5F5F7569 		.ascii	"__uint32_t\000"
+ 2429      6E743332 
+ 2429      5F7400
+ 2430              	.LASF38:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 48
+
+
+ 2431 0120 4C43445F 		.ascii	"LCD_autoscroll\000"
+ 2431      6175746F 
+ 2431      7363726F 
+ 2431      6C6C00
+ 2432              	.LASF40:
+ 2433 012f 4C43445F 		.ascii	"LCD_begin\000"
+ 2433      62656769 
+ 2433      6E00
+ 2434              	.LASF57:
+ 2435 0139 5F646973 		.ascii	"_displayfunction\000"
+ 2435      706C6179 
+ 2435      66756E63 
+ 2435      74696F6E 
+ 2435      00
+ 2436              	.LASF12:
+ 2437 014a 75696E74 		.ascii	"uint8_t\000"
+ 2437      385F7400 
+ 2438              	.LASF33:
+ 2439 0152 4C43445F 		.ascii	"LCD_cursor\000"
+ 2439      63757273 
+ 2439      6F7200
+ 2440              	.LASF27:
+ 2441 015d 4C43445F 		.ascii	"LCD_home\000"
+ 2441      686F6D65 
+ 2441      00
+ 2442              	.LASF49:
+ 2443 0166 4C43445F 		.ascii	"LCD_command\000"
+ 2443      636F6D6D 
+ 2443      616E6400 
+ 2444              	.LASF15:
+ 2445 0172 666C6F61 		.ascii	"float\000"
+ 2445      7400
+ 2446              	.LASF63:
+ 2447 0178 636F6C6F 		.ascii	"color_define\000"
+ 2447      725F6465 
+ 2447      66696E65 
+ 2447      00
+ 2448              	.LASF62:
+ 2449 0185 5F637572 		.ascii	"_currline\000"
+ 2449      726C696E 
+ 2449      6500
+ 2450              	.LASF9:
+ 2451 018f 6C6F6E67 		.ascii	"long long int\000"
+ 2451      206C6F6E 
+ 2451      6720696E 
+ 2451      7400
+ 2452              	.LASF60:
+ 2453 019d 5F696E69 		.ascii	"_initialized\000"
+ 2453      7469616C 
+ 2453      697A6564 
+ 2453      00
+ 2454              	.LASF6:
+ 2455 01aa 6C6F6E67 		.ascii	"long int\000"
+ 2455      20696E74 
+ 2455      00
+ 2456              	.LASF37:
+ 2457 01b3 4C43445F 		.ascii	"LCD_rightToLeft\000"
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 49
+
+
+ 2457      72696768 
+ 2457      74546F4C 
+ 2457      65667400 
+ 2458              	.LASF4:
+ 2459 01c3 5F5F7569 		.ascii	"__uint8_t\000"
+ 2459      6E74385F 
+ 2459      7400
+ 2460              	.LASF1:
+ 2461 01cd 756E7369 		.ascii	"unsigned char\000"
+ 2461      676E6564 
+ 2461      20636861 
+ 2461      7200
+ 2462              	.LASF18:
+ 2463 01db 6C6F6E67 		.ascii	"long double\000"
+ 2463      20646F75 
+ 2463      626C6500 
+ 2464              	.LASF58:
+ 2465 01e7 5F646973 		.ascii	"_displaycontrol\000"
+ 2465      706C6179 
+ 2465      636F6E74 
+ 2465      726F6C00 
+ 2466              	.LASF44:
+ 2467 01f7 4C43445F 		.ascii	"LCD_setCursor\000"
+ 2467      73657443 
+ 2467      7572736F 
+ 2467      7200
+ 2468              	.LASF50:
+ 2469 0205 4C43445F 		.ascii	"LCD_setRGB\000"
+ 2469      73657452 
+ 2469      474200
+ 2470              	.LASF30:
+ 2471 0210 4C43445F 		.ascii	"LCD_noBlink\000"
+ 2471      6E6F426C 
+ 2471      696E6B00 
+ 2472              	.LASF0:
+ 2473 021c 7369676E 		.ascii	"signed char\000"
+ 2473      65642063 
+ 2473      68617200 
+ 2474              	.LASF10:
+ 2475 0228 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2475      206C6F6E 
+ 2475      6720756E 
+ 2475      7369676E 
+ 2475      65642069 
+ 2476              	.LASF14:
+ 2477 023f 75696E74 		.ascii	"uint32_t\000"
+ 2477      33325F74 
+ 2477      00
+ 2478              	.LASF11:
+ 2479 0248 756E7369 		.ascii	"unsigned int\000"
+ 2479      676E6564 
+ 2479      20696E74 
+ 2479      00
+ 2480              	.LASF36:
+ 2481 0255 4C43445F 		.ascii	"LCD_leftToRight\000"
+ 2481      6C656674 
+ 2481      546F5269 
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 50
+
+
+ 2481      67687400 
+ 2482              	.LASF66:
+ 2483 0265 433A5C55 		.ascii	"C:\\Users\\elias\\OneDrive\\Documents\\Documentos\\"
+ 2483      73657273 
+ 2483      5C656C69 
+ 2483      61735C4F 
+ 2483      6E654472 
+ 2484 0292 50536F43 		.ascii	"PSoC Creator\\TPF\\Micro1.cydsn\000"
+ 2484      20437265 
+ 2484      61746F72 
+ 2484      5C545046 
+ 2484      5C4D6963 
+ 2485              	.LASF32:
+ 2486 02b0 4C43445F 		.ascii	"LCD_noCursor\000"
+ 2486      6E6F4375 
+ 2486      72736F72 
+ 2486      00
+ 2487              	.LASF29:
+ 2488 02bd 4C43445F 		.ascii	"LCD_display\000"
+ 2488      64697370 
+ 2488      6C617900 
+ 2489              	.LASF65:
+ 2490 02c9 2E2E5C2E 		.ascii	"..\\..\\..\\..\\..\\UCA\\8_Semestre\\Micro 1\\Commu"
+ 2490      2E5C2E2E 
+ 2490      5C2E2E5C 
+ 2490      2E2E5C55 
+ 2490      43415C38 
+ 2491 02f4 6E697479 		.ascii	"nity\\Grove_LCD_RGB_Backlight-master\\Grove_LCD_RGB"
+ 2491      5C47726F 
+ 2491      76655F4C 
+ 2491      43445F52 
+ 2491      47425F42 
+ 2492 0325 5F426163 		.ascii	"_Backlight-master\\easy_rgb_lcd.c\000"
+ 2492      6B6C6967 
+ 2492      68742D6D 
+ 2492      61737465 
+ 2492      725C6561 
+ 2493              	.LASF45:
+ 2494 0346 4C43445F 		.ascii	"LCD_write\000"
+ 2494      77726974 
+ 2494      6500
+ 2495              	.LASF47:
+ 2496 0350 4C43445F 		.ascii	"LCD_print\000"
+ 2496      7072696E 
+ 2496      7400
+ 2497              	.LASF17:
+ 2498 035a 63686172 		.ascii	"char\000"
+ 2498      00
+ 2499              	.LASF20:
+ 2500 035f 4C43445F 		.ascii	"LCD_setReg\000"
+ 2500      73657452 
+ 2500      656700
+ 2501              	.LASF13:
+ 2502 036a 696E7433 		.ascii	"int32_t\000"
+ 2502      325F7400 
+ 2503              	.LASF3:
+ 2504 0372 73686F72 		.ascii	"short unsigned int\000"
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 51
+
+
+ 2504      7420756E 
+ 2504      7369676E 
+ 2504      65642069 
+ 2504      6E7400
+ 2505              	.LASF21:
+ 2506 0385 6932635F 		.ascii	"i2c_send_byteS\000"
+ 2506      73656E64 
+ 2506      5F627974 
+ 2506      655300
+ 2507              	.LASF22:
+ 2508 0394 64617461 		.ascii	"data\000"
+ 2508      00
+ 2509              	.LASF8:
+ 2510 0399 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2510      20756E73 
+ 2510      69676E65 
+ 2510      6420696E 
+ 2510      7400
+ 2511              	.LASF16:
+ 2512 03ab 646F7562 		.ascii	"double\000"
+ 2512      6C6500
+ 2513              	.LASF23:
+ 2514 03b2 636F6C73 		.ascii	"cols\000"
+ 2514      00
+ 2515              	.LASF39:
+ 2516 03b7 4C43445F 		.ascii	"LCD_noAutoscroll\000"
+ 2516      6E6F4175 
+ 2516      746F7363 
+ 2516      726F6C6C 
+ 2516      00
+ 2517              	.LASF34:
+ 2518 03c8 4C43445F 		.ascii	"LCD_scrollDisplayLeft\000"
+ 2518      7363726F 
+ 2518      6C6C4469 
+ 2518      73706C61 
+ 2518      794C6566 
+ 2519              	.LASF48:
+ 2520 03de 73697A65 		.ascii	"size\000"
+ 2520      00
+ 2521              	.LASF43:
+ 2522 03e3 63686172 		.ascii	"charmap\000"
+ 2522      6D617000 
+ 2523              	.LASF25:
+ 2524 03eb 646F7473 		.ascii	"dotsize\000"
+ 2524      697A6500 
+ 2525              	.LASF24:
+ 2526 03f3 6C696E65 		.ascii	"lines\000"
+ 2526      7300
+ 2527              	.LASF5:
+ 2528 03f9 5F5F696E 		.ascii	"__int32_t\000"
+ 2528      7433325F 
+ 2528      7400
+ 2529              	.LASF42:
+ 2530 0403 6C6F6361 		.ascii	"location\000"
+ 2530      74696F6E 
+ 2530      00
+ 2531              	.LASF61:
+ARM GAS  C:\Users\elias\AppData\Local\Temp\ccDiWQJ6.s 			page 52
+
+
+ 2532 040c 5F6E756D 		.ascii	"_numlines\000"
+ 2532      6C696E65 
+ 2532      7300
+ 2533              	.LASF28:
+ 2534 0416 4C43445F 		.ascii	"LCD_noDisplay\000"
+ 2534      6E6F4469 
+ 2534      73706C61 
+ 2534      7900
+ 2535              	.LASF19:
+ 2536 0424 73697A65 		.ascii	"sizetype\000"
+ 2536      74797065 
+ 2536      00
+ 2537              	.LASF56:
+ 2538 042d 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2538      52784275 
+ 2538      66666572 
+ 2538      00
+ 2539              	.LASF46:
+ 2540 043a 76616C75 		.ascii	"value\000"
+ 2540      6500
+ 2541              	.LASF26:
+ 2542 0440 4C43445F 		.ascii	"LCD_clear\000"
+ 2542      636C6561 
+ 2542      7200
+ 2543              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

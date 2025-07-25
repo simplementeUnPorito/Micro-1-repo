@@ -1,0 +1,3 @@
+--------------- Rebuild Started: 08/23/2024 21:23:39 Project: fibonacciN_A.s, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+arm-none-eabi-as.exe -mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -alh=.\CortexM3\ARM_GCC_541\Debug/fibonacciN_A.lst -g -W -o .\CortexM3\ARM_GCC_541\Debug\fibonacciN_A.o fibonacciN_A.s
+--------------- Rebuild Succeeded: 08/23/2024 21:23:39 ---------------
